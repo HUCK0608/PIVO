@@ -1,0 +1,90 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum EWorldState { View2D, View3D, Changing }
+public class CWorldManager : MonoBehaviour
+{
+    private static CWorldManager _instance;
+    /// <summary>월드 매니저 싱글턴</summary>
+    public static CWorldManager Instance { get { return _instance; } }
+
+    private EWorldState _currentWorldState = EWorldState.View3D;
+    /// <summary>현재 월드 상태</summary>
+    public EWorldState CurrentWorldState { get { return _currentWorldState; } set { _currentWorldState = value; } }
+
+    /// <summary>월드의 오브젝트 모음</summary>
+    private List<CWorldObject> _worldObjects;
+    /// <summary>월드 오브젝트 개수</summary>
+    private int _worldObjectCount;
+
+    /// <summary>카메라 무빙워크가 끝날때까지 대기</summary>
+    private WaitUntil _endCameraMovingWorkWaitUntil = null;
+
+    private void Awake()
+    {
+        _instance = this;
+
+        _worldObjects = new List<CWorldObject>();
+        _worldObjectCount = 0;
+
+        _endCameraMovingWorkWaitUntil = new WaitUntil(() => !CCameraController.Instance.IsOnMovingWork);
+    }
+
+    /// <summary>월드 오브젝트 등록</summary>
+    public void AddWorldObject(CWorldObject worldObject)
+    {
+        _worldObjects.Add(worldObject);
+        _worldObjectCount++;
+    }
+
+    /// <summary>포함되었던 오브젝트 리셋</summary>
+    public void ResetIncludedWorldObjects()
+    {
+        for (int i = 0; i < _worldObjectCount; i++)
+            _worldObjects[i].IsCanChange2D = false;
+    }
+
+    /// <summary>월드 변경</summary>
+    public void ChangeWorld()
+    {
+        StartCoroutine(ChangeWorldLogic());
+    }
+
+    /// <summary>월드 변경 로직</summary>
+    private IEnumerator ChangeWorldLogic()
+    {
+        if(_currentWorldState.Equals(EWorldState.View2D))
+        {
+            _currentWorldState = EWorldState.Changing;
+
+            CCameraController.Instance.Change3D();
+
+            for (int i = 0; i < _worldObjectCount; i++)
+                _worldObjects[i].Change3D();
+
+            CLightController.Instance.SetShadows(true);
+            CPlayerManager.Instance.Change3D();
+
+            yield return _endCameraMovingWorkWaitUntil;
+
+            _currentWorldState = EWorldState.View3D;
+        }
+        else
+        {
+            _currentWorldState = EWorldState.Changing;
+
+            CCameraController.Instance.Change2D();
+
+            for (int i = 0; i < _worldObjectCount; i++)
+                _worldObjects[i].Change2D();
+
+            CLightController.Instance.SetShadows(false);
+            CPlayerManager.Instance.Change2D();
+
+            yield return _endCameraMovingWorkWaitUntil;
+
+            _currentWorldState = EWorldState.View2D;
+        }
+    }
+}
