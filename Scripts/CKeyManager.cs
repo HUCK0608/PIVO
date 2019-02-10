@@ -6,15 +6,33 @@ public static class CKeyManager
     /// <summary>시점전환 실행 키</summary>
     public static KeyCode ViewChangeExecutionKey { get { return _viewChangeExecutionKey; } }
 
+
+
     private static KeyCode _viewChangeCancelKey = KeyCode.Escape;
     /// <summary>시점전환 취소 키</summary>
     public static KeyCode ViewChangeCancelKey { get { return _viewChangeCancelKey; } }
+
+    private static KeyCode _anotherViewChangeCancelKey = KeyCode.Escape;
+    /// <summary>또 다른 시점전환 취소 키</summary>
+    public static KeyCode AnotherViewChangeCancelKey { get { return _anotherViewChangeCancelKey; } }
+
+
 
     private static KeyCode _viewRectScaleAdjustKey1 = KeyCode.LeftArrow;
     /// <summary>시점전환 크기 조절 1번 키</summary>
     public static KeyCode ViewRectScaleAdjustKey1 { get { return _viewRectScaleAdjustKey1; } }
 
+    private static KeyCode _anotherViewRectScaleAdjustKey1 = KeyCode.UpArrow;
+    /// <summary>또 다른 시점전환 크기 조절 1번 키</summary>
+    public static KeyCode AnotherViewRectScaleAdjustKey1 { get { return _anotherViewRectScaleAdjustKey1; } }
+
+
+
     private static KeyCode _viewRectScaleAdjustKey2 = KeyCode.RightArrow;
     /// <summary>시점전환 크기 조절 2번 키</summary>
     public static KeyCode ViewRectScaleAdjustKey2 { get { return _viewRectScaleAdjustKey2; } }
+
+    private static KeyCode _anotherViewRectScaleAdjustKey2 = KeyCode.DownArrow;
+    /// <summary>또 다른시점전환 크기 조절 2번 키</summary>
+    public static KeyCode AnotherViewRectScaleAdjustKey2 { get { return _anotherViewRectScaleAdjustKey2; } }
 }

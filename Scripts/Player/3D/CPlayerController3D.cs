@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EPlayerState3D { Idle, Move, Falling, Climb, ViewChangeInit, ViewChangeIdle }
+public enum EPlayerState3D { Idle, Move, Falling, ViewChangeInit, ViewChangeIdle, Climb }
 
 public class CPlayerController3D : MonoBehaviour
 {
@@ -98,7 +98,7 @@ public class CPlayerController3D : MonoBehaviour
 
         for (int i = 0; i < _gravityCheckPointCount; i++)
         {
-            if (!_isUseGravity || CRay.IsInObject(_gravityCheckPoints[i].position, Vector3.down, 0.3f, _gravityCheckIgnoreLayerMask))
+            if (!_isUseGravity || Physics.Raycast(_gravityCheckPoints[i].position, Vector3.down, 0.3f, _gravityCheckIgnoreLayerMask))
             {
                 isApplyGravity = false;
                 break;

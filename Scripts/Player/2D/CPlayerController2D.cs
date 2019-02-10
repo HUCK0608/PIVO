@@ -93,7 +93,7 @@ public class CPlayerController2D : MonoBehaviour
 
         for(int i = 0; i < _gravityCheckPointCount; i++)
         {
-            if(!_isUseGravity || CRay.IsInObject2D(_gravityCheckPoints[i].position, Vector2.down, 0.3f, _gravityCheckIgnoreLayerMask))
+            if(!_isUseGravity || Physics2D.Raycast(_gravityCheckPoints[i].position, Vector2.down, 0.3f, _gravityCheckIgnoreLayerMask))
             {
                 isApplyGravity = false;
                 break;
