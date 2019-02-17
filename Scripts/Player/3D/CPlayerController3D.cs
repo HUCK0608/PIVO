@@ -27,8 +27,25 @@ public class CPlayerController3D : MonoBehaviour
     private Transform[] _gravityCheckPoints = null;
     /// <summary>중력 확인 지점 개수</summary>
     private int _gravityCheckPointCount = 4;
-    /// <summary>중력 체크시 무시할 레이어</summary>
-    private int _gravityCheckIgnoreLayerMask;
+
+    /// <summary>기어오를 지점을 탐지하는 지점</summary>
+    [SerializeField]
+    private Transform[] _climbDetectionPoints = null;
+    /// <summary>기어오를 지점을 탐지하는 지점 개수</summary>
+    private int _climbDetectionPointCount = 3;
+
+    public struct SClimbInfo
+    {
+        public Vector3 origin;
+        public Vector3 destination;
+        public Vector3 direction;
+    };
+    /// <summary>기어오르기에 대한 시작점, 도착점, 방향을 담고 있는 구조체</summary>
+    private SClimbInfo _climbInfo;
+    public SClimbInfo ClimbInfo { get { return _climbInfo; } }
+
+    /// <summary>플레이어를 무시하는 레이어 마스크</summary>
+    private int _playerIgnoreLayerMask;
 
     private bool _isUseGravity = true;
     /// <summary>중력 적용 여부</summary>
@@ -38,7 +55,7 @@ public class CPlayerController3D : MonoBehaviour
     {
         _rigidBody = GetComponent<Rigidbody>();
 
-        _gravityCheckIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne());
+        _playerIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne());
 
         InitStates();
     }
@@ -98,7 +115,7 @@ public class CPlayerController3D : MonoBehaviour
 
         for (int i = 0; i < _gravityCheckPointCount; i++)
         {
-            if (!_isUseGravity || Physics.Raycast(_gravityCheckPoints[i].position, Vector3.down, 0.3f, _gravityCheckIgnoreLayerMask))
+            if (!_isUseGravity || Physics.Raycast(_gravityCheckPoints[i].position, Vector3.down, 0.3f, _playerIgnoreLayerMask))
             {
                 isApplyGravity = false;
                 break;
@@ -144,5 +161,45 @@ public class CPlayerController3D : MonoBehaviour
     public void LookDirection(Vector3 direction)
     {
         transform.rotation = Quaternion.LookRotation(direction);
+    }
+
+    /// <summary>기어오를 수 있으면 true를 반환</summary>
+    public bool IsCanClimb()
+    {
+        bool result = false;
+
+        RaycastHit hit;
+        RaycastHit hit2;
+
+        // 플레이어 전방 부채꼴 주위에 올라갈 수 있는 벽이 있는지 확인
+        for (int i = 0; i < _climbDetectionPointCount; i++)
+        {
+            if(Physics.Raycast(_climbDetectionPoints[i].position, _climbDetectionPoints[i].forward, out hit, 1f, _playerIgnoreLayerMask))
+            {
+                // 올라갈 수 있는 벽이 있으면 올라갈 위치에 장애물이 있는지 확인
+                if(Physics.Raycast(_climbDetectionPoints[i].position, -hit.normal, out hit, Mathf.Infinity, _playerIgnoreLayerMask))
+                {
+                    Vector3 center = hit.point + -hit.normal;
+
+                    if (!Physics.BoxCast(center, Vector3.one * 0.9f, Vector3.up, out hit2, Quaternion.LookRotation(Vector3.up), 3.8f))
+                    {
+                        result = true;
+
+                        _climbInfo.origin = hit.point + hit.normal;
+                        _climbInfo.origin.y = transform.position.y;
+                        _climbInfo.destination = hit.point + -hit.normal * 0.777f + Vector3.up;
+                        _climbInfo.direction = -hit.normal;
+                    }
+                    else
+                    {
+                        Debug.Log(hit2.transform.parent.name, hit2.transform.parent);
+                    }
+                }
+
+                break;
+            }
+        }
+
+        return result;
     }
 }

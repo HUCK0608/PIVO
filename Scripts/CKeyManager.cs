@@ -2,6 +2,12 @@
 
 public static class CKeyManager
 {
+    private static KeyCode _climbKey = KeyCode.Space;
+    /// <summary>기어오르기 키</summary>
+    public static KeyCode ClimbKey { get { return _climbKey; } }
+
+
+
     private static KeyCode _viewChangeExecutionKey = KeyCode.LeftShift;
     /// <summary>시점전환 실행 키</summary>
     public static KeyCode ViewChangeExecutionKey { get { return _viewChangeExecutionKey; } }

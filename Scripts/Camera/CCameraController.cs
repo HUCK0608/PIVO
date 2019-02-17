@@ -11,6 +11,9 @@ public class CCameraController : MonoBehaviour
 
     private Animator _animator;
 
+    private Transform _target;
+    public Transform Target { set { _target = value; } }
+
     private bool _isOnMovingWork = false;
     public bool IsOnMovingWork { get { return _isOnMovingWork; } }
 
@@ -21,10 +24,15 @@ public class CCameraController : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
+    private void Start()
+    {
+        _target = CPlayerManager.Instance.RootObject3D.transform;
+    }
+
     private void LateUpdate()
     {
         if(!CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View2D))
-            transform.position = CPlayerManager.Instance.RootObject3D.transform.position;
+            transform.position = _target.transform.position;
     }
 
     public void Change2D()
