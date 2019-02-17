@@ -1,4 +1,6 @@
-﻿g Mesh
+﻿group Tile_Mesh
+g Tile_Mesh
+
 v -1 1 -1
 v -1 1 1
 v 1 1 1

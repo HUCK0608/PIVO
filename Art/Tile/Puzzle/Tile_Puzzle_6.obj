@@ -1,4 +1,10 @@
-﻿g Mesh
+﻿# group
+g Tile_Puzzle_6
+
+#
+# object Tile_Puzzle_6
+#
+
 v -1 -0.4 -0.4
 v -1 -0.4 0.4
 v -0.8 -0.4 0.4
