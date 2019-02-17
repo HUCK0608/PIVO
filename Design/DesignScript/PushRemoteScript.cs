@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MoveVH { Vertical, Horizontal }
+
 public class PushRemoteScript : MonoBehaviour
 {
     public GameObject PushCube;
+    public MoveVH MoveDirection;
     List<GameObject> PushTile = new List<GameObject>();
 
     void Start()
@@ -23,39 +26,68 @@ public class PushRemoteScript : MonoBehaviour
 
 
 
-    public void CheckPushDir(bool MoveDir)
+    public void CheckPushDir(KeyCode MoveDir)
     {
         bool FirstCondition = false;
-        if (MoveDir)
+        RaycastHit hit;
+        Vector3 OriginRight = PushCube.transform.position + new Vector3(2, 0, 0);
+        Vector3 OriginBack = PushCube.transform.position + new Vector3(0, 0, -2);
+        Vector3 OriginLeft = PushCube.transform.position + new Vector3(-2, 0, 0);
+        Vector3 OriginForward = PushCube.transform.position + new Vector3(0, 0, 2);
+
+        if (MoveDirection == MoveVH.Horizontal)
         {
-            Vector3 OriginRight = PushCube.transform.position + new Vector3(2, 0, 0);
-            Vector3 OriginDown = PushCube.transform.position + new Vector3(0, 0, -2);
-            RaycastHit hit;
-
-            if (Physics.Raycast(OriginRight, Vector3.down, out hit, 2f))
+            if (MoveDir == KeyCode.LeftArrow || MoveDir == KeyCode.UpArrow)
             {
-                FirstCondition = CheckPushTile(hit.transform.parent.gameObject);
+                if (Physics.Raycast(OriginForward, Vector3.down, out hit, 2f))
+                {
+                    FirstCondition = CheckPushTile(hit.transform.parent.gameObject);
+                }
+
+                if (Physics.Raycast(OriginRight, Vector3.down, out hit, 2f) && FirstCondition == false)
+                {
+                    CheckPushTile(hit.transform.parent.gameObject);
+                }
             }
-
-            if (Physics.Raycast(OriginDown, Vector3.down, out hit, 2f) && FirstCondition == false)
+            else if (MoveDir == KeyCode.RightArrow || MoveDir == KeyCode.DownArrow)
             {
-                CheckPushTile(hit.transform.parent.gameObject);
+                if (Physics.Raycast(OriginBack, Vector3.down, out hit, 2f))
+                {
+                    FirstCondition = CheckPushTile(hit.transform.parent.gameObject);
+                }
+
+                if (Physics.Raycast(OriginLeft, Vector3.down, out hit, 2f) && FirstCondition == false)
+                {
+                    CheckPushTile(hit.transform.parent.gameObject);
+                }
             }
         }
-        else
+        else if (MoveDirection == MoveVH.Vertical)
         {
-            Vector3 OriginLeft = PushCube.transform.position + new Vector3(-2, 0, 0);
-            Vector3 OriginUp = PushCube.transform.position + new Vector3(0, 0, 2);
-            RaycastHit hit;
 
-            if (Physics.Raycast(OriginLeft, Vector3.down, out hit, 2f))
+            if (MoveDir == KeyCode.LeftArrow || MoveDir == KeyCode.DownArrow)
             {
-                FirstCondition = CheckPushTile(hit.transform.parent.gameObject);
+                if (Physics.Raycast(OriginLeft, Vector3.down, out hit, 2f))
+                {
+                    FirstCondition = CheckPushTile(hit.transform.parent.gameObject);
+                }
+
+                if (Physics.Raycast(OriginBack, Vector3.down, out hit, 2f) && FirstCondition == false)
+                {
+                    CheckPushTile(hit.transform.parent.gameObject);
+                }
             }
-
-            if (Physics.Raycast(OriginUp, Vector3.down, out hit, 2f) && FirstCondition == false)
+            else if (MoveDir == KeyCode.RightArrow || MoveDir == KeyCode.UpArrow)
             {
-                CheckPushTile(hit.transform.parent.gameObject);
+                if (Physics.Raycast(OriginRight, Vector3.down, out hit, 2f))
+                {
+                    FirstCondition = CheckPushTile(hit.transform.parent.gameObject);
+                }
+
+                if (Physics.Raycast(OriginForward, Vector3.down, out hit, 2f) && FirstCondition == false)
+                {
+                    CheckPushTile(hit.transform.parent.gameObject);
+                }
             }
         }
     }

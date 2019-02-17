@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PushCube: {fileID: 823811122}
+  MoveDirection: 1
 --- !u!1001 &34983287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2841,15 +2842,15 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 58d9ed46082c9f5459e07ae2a9decb99, type: 2}
-    - target: {fileID: 3060435865758684048, guid: d0b58ac3d7e1a8649a4ab8611a029c81,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 3060435863967619224, guid: d0b58ac3d7e1a8649a4ab8611a029c81,
         type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3060435865758684048, guid: d0b58ac3d7e1a8649a4ab8611a029c81,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3060435865758684055, guid: d0b58ac3d7e1a8649a4ab8611a029c81,
         type: 3}
@@ -9334,15 +9335,15 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 58d9ed46082c9f5459e07ae2a9decb99, type: 2}
-    - target: {fileID: 3060435865758684048, guid: d0b58ac3d7e1a8649a4ab8611a029c81,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 3060435863967619224, guid: d0b58ac3d7e1a8649a4ab8611a029c81,
         type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3060435865758684048, guid: d0b58ac3d7e1a8649a4ab8611a029c81,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3060435865758684055, guid: d0b58ac3d7e1a8649a4ab8611a029c81,
         type: 3}
@@ -9385,6 +9386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PushCube: {fileID: 368254198}
+  MoveDirection: 0
 --- !u!1 &2102691995
 GameObject:
   m_ObjectHideFlags: 0

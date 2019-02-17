@@ -68,13 +68,21 @@ public class CorgiDesignScript : MonoBehaviour
                 //코기이동 멈추기
                 transform.parent.transform.position = InteractionStopPos;
 
-                if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.UpArrow))
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    PushRemoteObject.GetComponent<PushRemoteScript>().CheckPushDir(false);
+                    PushRemoteObject.GetComponent<PushRemoteScript>().CheckPushDir(KeyCode.LeftArrow);
                 }
-                else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+                else if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    PushRemoteObject.GetComponent<PushRemoteScript>().CheckPushDir(true);
+                    PushRemoteObject.GetComponent<PushRemoteScript>().CheckPushDir(KeyCode.RightArrow);
+                }
+                else if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    PushRemoteObject.GetComponent<PushRemoteScript>().CheckPushDir(KeyCode.UpArrow);
+                }
+                else if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    PushRemoteObject.GetComponent<PushRemoteScript>().CheckPushDir(KeyCode.DownArrow);
                 }
             }
         }
