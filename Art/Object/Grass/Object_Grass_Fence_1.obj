@@ -1,4 +1,6 @@
-﻿g Mesh
+﻿group Object_Grass_Fence_1
+g Object_Grass_Fence_1
+
 v -1 0.4 -0.2
 v -1 0.4 0
 v 1 0.4 0

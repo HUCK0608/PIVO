@@ -5,15 +5,21 @@ ModelImporter:
   fileIDToRecycleName:
     100000: default
     100002: //RootNode
+    100004: Object_Grass_Flower_2
     400000: default
     400002: //RootNode
+    400004: Object_Grass_Flower_2
     2100000: defaultMat
+    2100002: Object_Grass_Flower_2Mat
     2300000: default
+    2300002: Object_Grass_Flower_2
     3300000: default
+    3300002: Object_Grass_Flower_2
     4300000: default
+    4300002: Object_Grass_Flower_2
   externalObjects: {}
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 0
     materialLocation: 1
