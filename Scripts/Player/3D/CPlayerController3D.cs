@@ -190,10 +190,6 @@ public class CPlayerController3D : MonoBehaviour
                         _climbInfo.destination = hit.point + -hit.normal * 0.777f + Vector3.up;
                         _climbInfo.direction = -hit.normal;
                     }
-                    else
-                    {
-                        Debug.Log(hit2.transform.parent.name, hit2.transform.parent);
-                    }
                 }
 
                 break;
