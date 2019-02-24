@@ -181,7 +181,7 @@ public class CPlayerController3D : MonoBehaviour
                 {
                     Vector3 center = hit.point + -hit.normal;
 
-                    if (!Physics.BoxCast(center, Vector3.one * 0.9f, Vector3.up, out hit2, Quaternion.LookRotation(Vector3.up), 3.8f))
+                    if (!Physics.BoxCast(center, Vector3.one * 0.75f, Vector3.up, out hit2, Quaternion.LookRotation(Vector3.up), 3f))
                     {
                         result = true;
 
