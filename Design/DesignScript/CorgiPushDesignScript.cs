@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CorgiDesignScript : MonoBehaviour
+public class CorgiPushDesignScript : MonoBehaviour
 {
     private bool bOnPushRemote = false;
     private bool bUsePushRemote = false;
