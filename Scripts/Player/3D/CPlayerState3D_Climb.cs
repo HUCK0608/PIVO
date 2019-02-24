@@ -4,7 +4,7 @@ using UnityEngine;
 public class CPlayerState3D_Climb : CPlayerState3D
 {
     [SerializeField]
-    private Transform _cameraTarget;
+    private Transform _cameraTarget = null;
 
     public override void InitState()
     {

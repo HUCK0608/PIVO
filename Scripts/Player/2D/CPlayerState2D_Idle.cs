@@ -15,6 +15,8 @@ public class CPlayerState2D_Idle : CPlayerState2D
             Controller2D.ChangeState(EPlayerState2D.Falling);
         else if (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey))
             CWorldManager.Instance.ChangeWorld();
+        else if (Input.GetKeyDown(CKeyManager.ClimbKey) && Controller2D.IsCanClimb())
+            Controller2D.ChangeState(EPlayerState2D.Climb);
         else if (!horizontal.Equals(0f))
             Controller2D.ChangeState(EPlayerState2D.Move);
     }
