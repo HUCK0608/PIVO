@@ -40,8 +40,8 @@ public class CPlayerController3D : MonoBehaviour
         public Vector3 destination;
         public Vector3 direction;
     };
-    /// <summary>기어오르기에 대한 시작점, 도착점, 방향을 담고 있는 구조체</summary>
     private SClimbInfo _climbInfo;
+    /// <summary>기어오르기에 대한 시작점, 도착점, 방향을 담고 있는 구조체</summary>
     public SClimbInfo ClimbInfo { get { return _climbInfo; } }
 
     /// <summary>플레이어를 무시하는 레이어 마스크</summary>
@@ -169,7 +169,6 @@ public class CPlayerController3D : MonoBehaviour
         bool result = false;
 
         RaycastHit hit;
-        RaycastHit hit2;
 
         // 플레이어 전방 부채꼴 주위에 올라갈 수 있는 벽이 있는지 확인
         for (int i = 0; i < _climbDetectionPointCount; i++)
@@ -181,7 +180,7 @@ public class CPlayerController3D : MonoBehaviour
                 {
                     Vector3 center = hit.point + -hit.normal;
 
-                    if (!Physics.BoxCast(center, Vector3.one * 0.75f, Vector3.up, out hit2, Quaternion.LookRotation(Vector3.up), 3f))
+                    if (!Physics.BoxCast(center, Vector3.one * 0.75f, Vector3.up, Quaternion.LookRotation(Vector3.up), 3f))
                     {
                         result = true;
 

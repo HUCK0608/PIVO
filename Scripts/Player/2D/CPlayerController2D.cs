@@ -22,8 +22,18 @@ public class CPlayerController2D : MonoBehaviour
     private Transform[] _gravityCheckPoints = null;
     /// <summary>중력 확인 지점 개수</summary>
     private int _gravityCheckPointCount = 2;
-    /// <summary>중력 체크시 무시할 레이어</summary>
-    private int _gravityCheckIgnoreLayerMask;
+
+    public struct SClimbInfo2D
+    {
+        public Vector2 origin;
+        public Vector2 destination;
+    };
+    private SClimbInfo2D _climbInfo;
+    /// <summary>기어오르기에 대한 시작점, 도착점, 방향을 담고 있는 구조체</summary>
+    public SClimbInfo2D ClimbInfo { get { return _climbInfo; } }
+
+    /// <summary>플레이어를 무시하는 레이어 마스크</summary>
+    private int _playerIgnoreLayerMask;
 
     private bool _isUseGravity = true;
     /// <summary>중력 적용 여부</summary>
@@ -33,7 +43,7 @@ public class CPlayerController2D : MonoBehaviour
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
 
-        _gravityCheckIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne());
+        _playerIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne());
 
         InitStates();
     }
@@ -93,7 +103,7 @@ public class CPlayerController2D : MonoBehaviour
 
         for(int i = 0; i < _gravityCheckPointCount; i++)
         {
-            if(!_isUseGravity || Physics2D.Raycast(_gravityCheckPoints[i].position, Vector2.down, 0.3f, _gravityCheckIgnoreLayerMask))
+            if(!_isUseGravity || Physics2D.Raycast(_gravityCheckPoints[i].position, Vector2.down, 0.3f, _playerIgnoreLayerMask))
             {
                 isApplyGravity = false;
                 break;
@@ -138,5 +148,33 @@ public class CPlayerController2D : MonoBehaviour
             newScale.x = direction.x;
             transform.localScale = newScale;
         }
+    }
+
+    public bool IsCanClimb()
+    {
+        bool result = false;
+
+        RaycastHit2D hit;
+
+        Vector2 origin = transform.position;
+        origin.y += 1f;
+        Vector2 direction = transform.localScale;
+        direction.y = 0f;
+
+        if(hit = Physics2D.Raycast(origin, direction, 1f, _playerIgnoreLayerMask))
+        {
+            Vector2 center = hit.point + -hit.normal + Vector2.up * 2f;
+
+            if(!Physics2D.BoxCast(center, Vector2.one * 1.5f, 0f, Vector2.up, 2f))
+            {
+                result = true;
+
+                _climbInfo.origin = hit.point + hit.normal;
+                _climbInfo.origin.y = transform.position.y;
+                _climbInfo.destination = hit.point + -hit.normal * 0.777f + Vector2.up;
+            }
+        }
+
+        return result;
     }
 }
