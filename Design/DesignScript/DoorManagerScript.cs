@@ -6,9 +6,10 @@ public class DoorManagerScript : MonoBehaviour
 {
     public int KeyNum;
     public GameObject DoorInDoor;
-    public GameObject KeyObject;
+    public GameObject KeyPrefab;
 
     private GameObject[] KeyPosArray = new GameObject[4];
+    private List<GameObject> KeyObject = new List<GameObject>();
 
     bool bDoorAnim;
 
@@ -63,9 +64,35 @@ public class DoorManagerScript : MonoBehaviour
         {
             for (int i = 0; i < KeyNum; i++)
             {
-                GameObject InstObject = Instantiate(KeyObject, KeyPosArray[i].transform, false);
+                GameObject InstObject = Instantiate(KeyPrefab, KeyPosArray[i].transform, false);
                 InstObject.transform.localPosition = Vector3.zero;
+                KeyObject.Add(InstObject);
             }
         }
+    }
+
+    public void RefreshDoor()
+    {
+        if (KeyNum == 4)
+        {
+            OpenDoor();
+        }
+        ClearKeyObject();
+        for (int i = 0; i < KeyNum; i++)
+        {
+            GameObject InstObject = Instantiate(KeyPrefab, KeyPosArray[i].transform, false);
+            InstObject.transform.localPosition = Vector3.zero;
+            KeyObject.Add(InstObject);
+        }
+    }
+
+    void ClearKeyObject()
+    {
+        foreach(var Value in KeyObject)
+        {
+            Destroy(Value);
+        }
+
+        KeyObject.Clear();
     }
 }

@@ -19,11 +19,13 @@ public class KeyScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (Corgi == null)
+        if (other.GetComponent<CorgiDoorDesignScript>() != null)
         {
-            Corgi = other.gameObject;
-            transform.parent = Corgi.transform;
-            transform.localPosition = Vector3.zero + new Vector3(0, 1, -2);
+            CorgiDoorDesignScript CorgiScript = other.GetComponent<CorgiDoorDesignScript>();
+            CorgiScript.KeyObject.Add(this.gameObject);
+            transform.parent = other.gameObject.transform;
+            CorgiScript.KeyNum++;
+            transform.localPosition = Vector3.zero + new Vector3(0, 1, -2 * CorgiScript.KeyNum);
         }
     }
 }

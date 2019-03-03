@@ -7,11 +7,16 @@ public class CorgiPushDesignScript : MonoBehaviour
     private bool bOnPushRemote = false;
     private bool bUsePushRemote = false;
     GameObject PushRemoteObject;
+    GameObject CenterDown1, CenterDown2;
     Vector3 InteractionStopPos;
 
     void Start()
     {
-        
+        CenterDown1 = GameObject.Find("CenterDown (2)");
+        CenterDown1.SetActive(false);
+
+        CenterDown2 = GameObject.Find("CenterDown (1)");
+        CenterDown2.SetActive(false);
     }
 
     void Update()
@@ -26,6 +31,7 @@ public class CorgiPushDesignScript : MonoBehaviour
         {
             bOnPushRemote = true;
             PushRemoteObject = other.gameObject;
+            CenterDown1.SetActive(true);
         }
     }
 
@@ -36,6 +42,7 @@ public class CorgiPushDesignScript : MonoBehaviour
             bOnPushRemote = false;
             bUsePushRemote = false;
             PushRemoteObject = null;
+            CenterDown1.SetActive(false);
         }
     }
 
@@ -51,11 +58,14 @@ public class CorgiPushDesignScript : MonoBehaviour
         {
             bUsePushRemote = true;
             InteractionStopPos = transform.parent.transform.position;
+            CenterDown2.SetActive(true);
+            CenterDown1.SetActive(false);
         }
         else if (bOnPushRemote && Input.GetKeyDown(KeyCode.A) && bUsePushRemote == true)
         {
             bUsePushRemote = false;
             InteractionStopPos = transform.parent.transform.position;
+            CenterDown2.SetActive(false);
         }
     }
 
