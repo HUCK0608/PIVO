@@ -20,33 +20,39 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 29fbc2ac8fdff344b8ec7010881dcaac, type: 3}
+      value: {fileID: 21300000, guid: 8c1dd43c8038fd444a10790360cd924f, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300000, guid: 993b5b5b76968134690dfde34a6d6c86, type: 3}
+      value: {fileID: 21300000, guid: 29795a8d683c5424ba2700d6c978c63e, type: 3}
     - time: 0.16666667
-      value: {fileID: 21300000, guid: 29644dd9950a18e47892087f5887e7b6, type: 3}
+      value: {fileID: 21300000, guid: 0617e26a4e5982c4f867593d0afe9ad1, type: 3}
     - time: 0.25
-      value: {fileID: 21300000, guid: a366784a558f3134dae443b5a1d1e417, type: 3}
+      value: {fileID: 21300000, guid: cdd07e6c31ce530459ef1972f25b7f95, type: 3}
     - time: 0.33333334
-      value: {fileID: 21300000, guid: 58ea3a5607d30274da99eca7aa5be8d2, type: 3}
+      value: {fileID: 21300000, guid: 306c6d5558d5ee94683dd036193d440c, type: 3}
     - time: 0.41666666
-      value: {fileID: 21300000, guid: 896dc57d3bc17bb4abc5036f80ba6765, type: 3}
+      value: {fileID: 21300000, guid: f4492c2baa3c8a6478eb5250bcbde511, type: 3}
     - time: 0.5
-      value: {fileID: 21300000, guid: 374fda48b07c59f498116db3564e2e0b, type: 3}
+      value: {fileID: 21300000, guid: c141ae2c92bb70a45a2dc74633d0bee6, type: 3}
     - time: 0.5833333
-      value: {fileID: 21300000, guid: 652aa0a67c10a1148ab067e009090d64, type: 3}
+      value: {fileID: 21300000, guid: dc28c6b7f1d47c24d9fe7e6ab57f36fe, type: 3}
     - time: 0.6666667
-      value: {fileID: 21300000, guid: 199326a97a80530429a4f7904202ac9d, type: 3}
+      value: {fileID: 21300000, guid: 7ccc28a3218227944b24bdac13ee5dcc, type: 3}
     - time: 0.75
-      value: {fileID: 21300000, guid: 076f16dc4ff9ed741a6549e7eb52fe9d, type: 3}
+      value: {fileID: 21300000, guid: a786e7e281d3cd74cb45d43a877c4a6a, type: 3}
     - time: 0.8333333
-      value: {fileID: 21300000, guid: b3c7292792ce672409b5382d5a750181, type: 3}
+      value: {fileID: 21300000, guid: 8bf7b1400bac4c948bd101eb56c348ea, type: 3}
     - time: 0.9166667
-      value: {fileID: 21300000, guid: 7ee66d7290ffe7f44889c5020526455c, type: 3}
+      value: {fileID: 21300000, guid: a1e5b7449bd399e49a5f02545aae18da, type: 3}
     - time: 1
-      value: {fileID: 21300000, guid: a5018fd2abe17914fa64496e9aee27af, type: 3}
+      value: {fileID: 21300000, guid: 64d661a98249ecb4795b3673e2c0d1cf, type: 3}
     - time: 1.0833334
-      value: {fileID: 21300000, guid: a5018fd2abe17914fa64496e9aee27af, type: 3}
+      value: {fileID: 21300000, guid: 341268fc293e1634cbf0187740ae9df0, type: 3}
+    - time: 1.1666666
+      value: {fileID: 21300000, guid: bfccd04032b9dd446b0aae2b0815f6e1, type: 3}
+    - time: 1.25
+      value: {fileID: 21300000, guid: 2c3aeeccd0a45de42bdb98c5133d6407, type: 3}
+    - time: 1.3333334
+      value: {fileID: 21300000, guid: 2c3aeeccd0a45de42bdb98c5133d6407, type: 3}
     attribute: m_Sprite
     path: Character_Corgi2D
     classID: 212
@@ -66,31 +72,34 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 29fbc2ac8fdff344b8ec7010881dcaac, type: 3}
-    - {fileID: 21300000, guid: 993b5b5b76968134690dfde34a6d6c86, type: 3}
-    - {fileID: 21300000, guid: 29644dd9950a18e47892087f5887e7b6, type: 3}
-    - {fileID: 21300000, guid: a366784a558f3134dae443b5a1d1e417, type: 3}
-    - {fileID: 21300000, guid: 58ea3a5607d30274da99eca7aa5be8d2, type: 3}
-    - {fileID: 21300000, guid: 896dc57d3bc17bb4abc5036f80ba6765, type: 3}
-    - {fileID: 21300000, guid: 374fda48b07c59f498116db3564e2e0b, type: 3}
-    - {fileID: 21300000, guid: 652aa0a67c10a1148ab067e009090d64, type: 3}
-    - {fileID: 21300000, guid: 199326a97a80530429a4f7904202ac9d, type: 3}
-    - {fileID: 21300000, guid: 076f16dc4ff9ed741a6549e7eb52fe9d, type: 3}
-    - {fileID: 21300000, guid: b3c7292792ce672409b5382d5a750181, type: 3}
-    - {fileID: 21300000, guid: 7ee66d7290ffe7f44889c5020526455c, type: 3}
-    - {fileID: 21300000, guid: a5018fd2abe17914fa64496e9aee27af, type: 3}
-    - {fileID: 21300000, guid: a5018fd2abe17914fa64496e9aee27af, type: 3}
+    - {fileID: 21300000, guid: 8c1dd43c8038fd444a10790360cd924f, type: 3}
+    - {fileID: 21300000, guid: 29795a8d683c5424ba2700d6c978c63e, type: 3}
+    - {fileID: 21300000, guid: 0617e26a4e5982c4f867593d0afe9ad1, type: 3}
+    - {fileID: 21300000, guid: cdd07e6c31ce530459ef1972f25b7f95, type: 3}
+    - {fileID: 21300000, guid: 306c6d5558d5ee94683dd036193d440c, type: 3}
+    - {fileID: 21300000, guid: f4492c2baa3c8a6478eb5250bcbde511, type: 3}
+    - {fileID: 21300000, guid: c141ae2c92bb70a45a2dc74633d0bee6, type: 3}
+    - {fileID: 21300000, guid: dc28c6b7f1d47c24d9fe7e6ab57f36fe, type: 3}
+    - {fileID: 21300000, guid: 7ccc28a3218227944b24bdac13ee5dcc, type: 3}
+    - {fileID: 21300000, guid: a786e7e281d3cd74cb45d43a877c4a6a, type: 3}
+    - {fileID: 21300000, guid: 8bf7b1400bac4c948bd101eb56c348ea, type: 3}
+    - {fileID: 21300000, guid: a1e5b7449bd399e49a5f02545aae18da, type: 3}
+    - {fileID: 21300000, guid: 64d661a98249ecb4795b3673e2c0d1cf, type: 3}
+    - {fileID: 21300000, guid: 341268fc293e1634cbf0187740ae9df0, type: 3}
+    - {fileID: 21300000, guid: bfccd04032b9dd446b0aae2b0815f6e1, type: 3}
+    - {fileID: 21300000, guid: 2c3aeeccd0a45de42bdb98c5133d6407, type: 3}
+    - {fileID: 21300000, guid: 2c3aeeccd0a45de42bdb98c5133d6407, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.1
+    m_StopTime: 1.35
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 1
+    m_LoopTime: 0
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
@@ -104,4 +113,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 1.3166667
+    functionName: CompleteClimbAnimation
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

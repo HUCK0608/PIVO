@@ -8,11 +8,6 @@ public class CPlayerStat : MonoBehaviour
     public float MoveSpeed { get { return _moveSpeed; } }
 
     [SerializeField]
-    private float _climbSpeed = 0f;
-    /// <summary>기어오르기 속도</summary>
-    public float ClimbSpeed { get { return _climbSpeed; } }
-
-    [SerializeField]
     private float _gravity = 0f;
     /// <summary>중력</summary>
     public float Gravity { get { return _gravity; } }

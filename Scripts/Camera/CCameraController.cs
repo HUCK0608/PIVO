@@ -15,6 +15,7 @@ public class CCameraController : MonoBehaviour
     public Transform Target { set { _target = value; } }
 
     private bool _isOnMovingWork = false;
+    /// <summary>무빙워크 중일시 true를 반환</summary>
     public bool IsOnMovingWork { get { return _isOnMovingWork; } }
 
     private void Awake()
@@ -31,7 +32,7 @@ public class CCameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(!CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View2D))
+        if (!CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View2D))
             transform.position = _target.transform.position;
     }
 
