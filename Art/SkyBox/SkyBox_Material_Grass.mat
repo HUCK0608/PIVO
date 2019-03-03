@@ -64,11 +64,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex3:
-        m_Texture: {fileID: 2800000, guid: bc25efd7ef998154c84b0a0846fa0065, type: 3}
+        m_Texture: {fileID: 2800000, guid: 108eb4a40f6b9a948a47ba1286635a8f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex4:
-        m_Texture: {fileID: 2800000, guid: 265ee9e55bf59bb4bb49ba870292c342, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6fa00a016851535499729411253b1a12, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
