@@ -816,6 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a36e117078ea842bb6085941e5e55b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _blockMaterial: {fileID: 2100000, guid: 80f2bcbe166298c47a5d9d7ff43d37af, type: 2}
   _blockCheckPoints:
   - {fileID: 3399121110071313096}
   - {fileID: 7624006678476547357}
