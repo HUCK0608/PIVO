@@ -2,13 +2,13 @@
 
 public static class CKeyManager
 {
-    private static KeyCode _climbKey = KeyCode.Space;
+    private static KeyCode _climbKey = KeyCode.X;
     /// <summary>기어오르기 키</summary>
     public static KeyCode ClimbKey { get { return _climbKey; } }
 
 
 
-    private static KeyCode _viewChangeExecutionKey = KeyCode.LeftShift;
+    private static KeyCode _viewChangeExecutionKey = KeyCode.Z;
     /// <summary>시점전환 실행 키</summary>
     public static KeyCode ViewChangeExecutionKey { get { return _viewChangeExecutionKey; } }
 
@@ -18,7 +18,7 @@ public static class CKeyManager
     /// <summary>시점전환 취소 키</summary>
     public static KeyCode ViewChangeCancelKey { get { return _viewChangeCancelKey; } }
 
-    private static KeyCode _anotherViewChangeCancelKey = KeyCode.Escape;
+    private static KeyCode _anotherViewChangeCancelKey = KeyCode.X;
     /// <summary>또 다른 시점전환 취소 키</summary>
     public static KeyCode AnotherViewChangeCancelKey { get { return _anotherViewChangeCancelKey; } }
 
