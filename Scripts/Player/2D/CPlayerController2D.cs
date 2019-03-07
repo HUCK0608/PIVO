@@ -25,8 +25,8 @@ public class CPlayerController2D : MonoBehaviour
 
     public struct SClimbInfo2D
     {
-        public Vector2 origin;
-        public Vector2 destination;
+        public Vector3 origin;
+        public Vector3 destination;
     };
     private SClimbInfo2D _climbInfo;
     /// <summary>기어오르기에 대한 시작점, 도착점, 방향을 담고 있는 구조체</summary>
@@ -169,9 +169,11 @@ public class CPlayerController2D : MonoBehaviour
             {
                 result = true;
 
-                _climbInfo.origin = hit.point + hit.normal;
-                _climbInfo.origin.y = transform.position.y;
-                _climbInfo.destination = hit.point + -hit.normal * 0.777f + Vector2.up;
+                _climbInfo.origin = transform.position;
+                _climbInfo.origin.x = hit.point.x + hit.normal.x;
+
+                _climbInfo.destination = hit.point + -hit.normal * 0.5f + Vector2.up;
+                _climbInfo.destination.z = transform.position.z;
             }
         }
 

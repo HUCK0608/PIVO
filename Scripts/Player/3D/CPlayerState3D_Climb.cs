@@ -21,7 +21,6 @@ public class CPlayerState3D_Climb : CPlayerState3D
     public void CompleteClimbAnimation()
     {
         Controller3D.ChangeState(EPlayerState3D.Idle);
-
         StartCoroutine(EndClimbLogic());
     }
 
