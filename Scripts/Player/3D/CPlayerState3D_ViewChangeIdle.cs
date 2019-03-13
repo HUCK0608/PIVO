@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
 {
@@ -13,17 +14,26 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
     /// <summary>현재 시점전환 상자의 z 크기</summary>
     private float _currentViewRectScaleZ;
 
+    /// <summary>블락된 오브젝트들</summary>
+    private List<CWorldObject> _blockObjects;
+    /// <summary>블락된 오브젝트들의 개수</summary>
+    private int _blockObjetCount = 0;
+
+
     protected override void Awake()
     {
         base.Awake();
 
         _blockCheckIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.ViewChangeRect.LeftShiftToOne());
+
+        _blockObjects = new List<CWorldObject>();
     }
 
     public override void InitState()
     {
         base.InitState();
 
+        _blockCheckPoints[0].transform.parent.eulerAngles = Vector3.zero;
         _currentViewRectScaleZ = 0f;
     }
 
@@ -38,6 +48,8 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
 
         Controller3D.ViewChangeRect.SetScaleZ(_currentViewRectScaleZ);
 
+        bool isCanChange = IsCanChange();
+
         if (Input.GetKeyDown(CKeyManager.ViewChangeCancelKey) || Input.GetKeyDown(CKeyManager.AnotherViewChangeCancelKey))
         {
             CWorldManager.Instance.ResetIncludedWorldObjects();
@@ -45,10 +57,14 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
         }
         else if (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey))
         {
-            if (IsCanChange())
+            if (isCanChange)
             {
                 CWorldManager.Instance.ChangeWorld();
                 Controller3D.ChangeState(EPlayerState3D.Idle);
+            }
+            else
+            {
+                CCameraController.Instance.OnCamerShaking();
             }
         }
     }
@@ -69,8 +85,26 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
             if(Physics.Raycast(_blockCheckPoints[i].position, direction, out hit, distance, _blockCheckIgnoreLayerMask))
             {
                 result = false;
-                Debug.Log(hit.transform.name, hit.transform.gameObject);
-                break;
+
+                bool isShowBlock = false;
+
+                for(int j = 0; j < _blockObjetCount; j++)
+                {
+                    if (_blockObjects[j].gameObject.Equals(hit.transform.gameObject))
+                    {
+                        _blockObjects[j].ShowOnBlock();
+                        isShowBlock = true;
+                        break;
+                    }
+                }
+
+                if(!isShowBlock)
+                {
+                    CWorldObject newBlockObject = hit.transform.GetComponent<CWorldObject>();
+                    newBlockObject.ShowOnBlock();
+                    _blockObjects.Add(newBlockObject);
+                    _blockObjetCount++;
+                }
             }
         }
 
@@ -82,5 +116,11 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
         base.EndState();
 
         Controller3D.ViewChangeRect.gameObject.SetActive(false);
+
+        for (int i = 0; i < _blockObjetCount; i++)
+            _blockObjects[i].ShowOffBlock();
+
+        _blockObjects.Clear();
+        _blockObjetCount = 0;
     }
 }

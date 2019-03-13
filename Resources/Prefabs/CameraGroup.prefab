@@ -64,6 +64,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55321728d81813a438e7313c30259ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cameraShakingStrength: 0.1
+  _cameraShakingTime: 0.5
+  _globalFog: {fileID: 951106676}
 --- !u!1 &1037968614874877863
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,6 +192,8 @@ GameObject:
   - component: {fileID: 1037968616127367328}
   - component: {fileID: 1037968616127367335}
   - component: {fileID: 1037968616127367334}
+  - component: {fileID: 4396086435082146401}
+  - component: {fileID: 951106676}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -260,3 +265,36 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1037968616127367333}
   m_Enabled: 1
+--- !u!114 &4396086435082146401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037968616127367333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 09771c8a199c49a49b3ba3cc3846e72c, type: 2}
+--- !u!114 &951106676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037968616127367333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76b5ec6153a1d55438228df10fe66844, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distanceFog: 1
+  excludeFarPixels: 1
+  useRadialDistance: 0
+  heightFog: 1
+  height: 0
+  heightDensity: 5
+  startDistance: 0
+  fogShader: {fileID: 4800000, guid: 70d8568987ac0499f952b54c7c13e265, type: 3}
