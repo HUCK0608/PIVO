@@ -3,6 +3,7 @@
 		_Color ("Color", Color) = (1,1,1,1)
 		_MainTex ("MainTexture", 2D) = "white" {}
 		_Spectrum("SpectrumTexture", 2D) = "white" {}
+		_Intensity ("Intensity", Range(0,1)) = 0
 	}
 	SubShader {
 		Tags { "RenderType"="Transparent" }
@@ -24,12 +25,13 @@
 		};
 
 		fixed4 _Color;
+		float _Intensity;
 
 		UNITY_INSTANCING_BUFFER_START(Props)
 		UNITY_INSTANCING_BUFFER_END(Props)
 
 		void surf (Input IN, inout SurfaceOutput o) {
-			float4 MainTex = tex2D (_MainTex, IN.uv_MainTex) * _Color;
+			float4 MainTex = tex2D (_MainTex, IN.uv_MainTex) * _Color * _Intensity;
 			float4 Spectrum = tex2D(_Spectrum, float2(_Time.y * 0.7, 0.5));
 			o.Albedo = MainTex.rgb * Spectrum;
 			//o.Emission = MainTex.rgb * Spectrum;
