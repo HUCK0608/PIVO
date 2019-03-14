@@ -19,6 +19,14 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
     /// <summary>블락된 오브젝트들의 개수</summary>
     private int _blockObjetCount = 0;
 
+    /// <summary>지팡이 시점전환 이펙트</summary>
+    [SerializeField]
+    private GameObject _viewChangeWandEffect;
+
+    /// <summary>캡슐 시점전환 이펙트</summary>
+    [SerializeField]
+    private GameObject _viewChangeCapsuleEffect;
+
 
     protected override void Awake()
     {
@@ -35,6 +43,8 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
 
         _blockCheckPoints[0].transform.parent.eulerAngles = Vector3.zero;
         _currentViewRectScaleZ = 0f;
+
+        _viewChangeWandEffect.SetActive(true);
     }
 
     private void Update()
@@ -60,6 +70,9 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
             if (isCanChange)
             {
                 CWorldManager.Instance.ChangeWorld();
+                _viewChangeCapsuleEffect.transform.position = transform.position;
+                _viewChangeCapsuleEffect.SetActive(false);
+                _viewChangeCapsuleEffect.SetActive(true);
                 Controller3D.ChangeState(EPlayerState3D.Idle);
             }
             else
@@ -122,5 +135,8 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
 
         _blockObjects.Clear();
         _blockObjetCount = 0;
+
+        _viewChangeWandEffect.SetActive(false);
+        Controller3D.ViewChangeRect.SetEffectEnable(false);
     }
 }

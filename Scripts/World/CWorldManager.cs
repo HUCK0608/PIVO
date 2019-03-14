@@ -20,6 +20,8 @@ public class CWorldManager : MonoBehaviour
 
     /// <summary>카메라 무빙워크가 끝날때까지 대기</summary>
     private WaitUntil _endCameraMovingWorkWaitUntil = null;
+    /// <summary>플레이어가 2D로 변하기까지 기다리는 시간</summary>
+    private WaitForSeconds _changePlayer2DWaitForSeconds = null;
 
     private void Awake()
     {
@@ -29,6 +31,7 @@ public class CWorldManager : MonoBehaviour
         _worldObjectCount = 0;
 
         _endCameraMovingWorkWaitUntil = new WaitUntil(() => !CCameraController.Instance.IsOnMovingWork);
+        _changePlayer2DWaitForSeconds = new WaitForSeconds(0.3f);
     }
 
     /// <summary>월드 오브젝트 등록</summary>
@@ -80,6 +83,8 @@ public class CWorldManager : MonoBehaviour
                 _worldObjects[i].Change2D();
 
             CLightController.Instance.SetShadows(false);
+
+            yield return _changePlayer2DWaitForSeconds;
             CPlayerManager.Instance.Change2D();
 
             yield return _endCameraMovingWorkWaitUntil;

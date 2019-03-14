@@ -9,6 +9,10 @@ public class CViewChangeRect : MonoBehaviour
     /// <summary>XY 스케일이 증가하고 있으면 true를 반환</summary>
     public bool IsOnIncreaseScaleXY { get { return _isOnIncreaseScaleXY; } }
 
+    /// <summary>시점전환 상자 이펙트</summary>
+    [SerializeField]
+    private Transform _viewChangeRectEffect;
+
     private void Awake()
     {
         _projector = GetComponent<Projector>();
@@ -29,6 +33,11 @@ public class CViewChangeRect : MonoBehaviour
         _projector.farClipPlane = 0.01f;
         _projector.aspectRatio = 0f;
         _projector.orthographicSize = 0f;
+
+        // 이펙트 초기화
+        _viewChangeRectEffect.position = transform.position;
+        _viewChangeRectEffect.localScale = Vector3.one * 0.1f;
+        _viewChangeRectEffect.gameObject.SetActive(true);
 
         gameObject.SetActive(true);
     }
@@ -58,6 +67,12 @@ public class CViewChangeRect : MonoBehaviour
             // 프로젝터 조절
             _projector.orthographicSize = transform.localScale.y * 0.5f;
             _projector.aspectRatio = transform.localScale.x / (2f * _projector.orthographicSize);
+
+            // 이펙트 조절
+            Vector3 effectScale = transform.localScale * 0.1f;
+            effectScale.z = effectScale.y;
+            effectScale.y = 0.1f;
+            _viewChangeRectEffect.localScale = effectScale;
 
             yield return null;
         }
@@ -100,5 +115,14 @@ public class CViewChangeRect : MonoBehaviour
         // 프로젝터 조절
         _projector.nearClipPlane = transform.localScale.z * -0.5f;
         _projector.farClipPlane = transform.localScale.z * 0.5f;
+
+        // 이펙트 조절
+        _viewChangeRectEffect.transform.position = transform.position + Vector3.forward * transform.localScale.z * valueSign * 0.5f;
+    }
+
+    /// <summary>이펙트 활성화 설정</summary>
+    public void SetEffectEnable(bool value)
+    {
+        _viewChangeRectEffect.gameObject.SetActive(value);
     }
 }

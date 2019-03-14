@@ -115,7 +115,7 @@ public class CPlayerController3D : MonoBehaviour
 
         for (int i = 0; i < _gravityCheckPointCount; i++)
         {
-            if (!_isUseGravity || Physics.Raycast(_gravityCheckPoints[i].position, Vector3.down, 0.3f, _playerIgnoreLayerMask))
+            if (!_isUseGravity || Physics.Raycast(_gravityCheckPoints[i].position, Vector3.down, 0.15f, _playerIgnoreLayerMask))
             {
                 isApplyGravity = false;
                 break;
