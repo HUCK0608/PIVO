@@ -8,7 +8,7 @@ public class CPlayerState3D_ViewChangeInit : CPlayerState3D
 
         Controller3D.Move(Vector3.zero);
 
-        StartCoroutine(Controller3D.ViewChangeRect.IncreaseScaleXY());
+        StartCoroutine(Controller3D.ViewChangeRect.IncreaseScaleXYLogic());
     }
 
     private void Update()

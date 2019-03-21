@@ -5,13 +5,24 @@ public class CViewChangeRect : MonoBehaviour
 {
     private Projector _projector;
 
-    private bool _isOnIncreaseScaleXY;
+    private float _currentScaleZ = 0f;
+    /// <summary>현재 상자의 Z 크기</summary>
+    public float CurrentScaleZ { get { return _currentScaleZ; } }
+
+    private bool _isOnIncreaseScaleXY = false;
     /// <summary>XY 스케일이 증가하고 있으면 true를 반환</summary>
     public bool IsOnIncreaseScaleXY { get { return _isOnIncreaseScaleXY; } }
 
+    /// <summary>Z 스케일이 조정중인지 여부</summary>
+    private bool _isOnSetScaleZ = false;
+
     /// <summary>시점전환 상자 이펙트</summary>
     [SerializeField]
-    private Transform _viewChangeRectEffect;
+    private Transform _viewChangeRectEffect = null;
+
+    /// <summary>상자의 Z크기 조절 딜레이</summary>
+    [SerializeField]
+    private float _setScaleZControllerDelay = 0f;
 
     private void Awake()
     {
@@ -43,7 +54,7 @@ public class CViewChangeRect : MonoBehaviour
     }
 
     /// <summary>상자의 XY 크기를 증가시키는 코루틴</summary>
-    public IEnumerator IncreaseScaleXY()
+    public IEnumerator IncreaseScaleXYLogic()
     {
         _isOnIncreaseScaleXY = true;
 
@@ -77,11 +88,114 @@ public class CViewChangeRect : MonoBehaviour
             yield return null;
         }
 
+        float newScaleZ = Mathf.Ceil(transform.position.z);
+
+        if (!(newScaleZ % 2).Equals(1f))
+            newScaleZ += 1f;
+
+        newScaleZ -= transform.position.z;
+
+        while (transform.localScale.z <= newScaleZ - 0.1f)
+        {
+            SetScaleZ(newScaleZ);
+            yield return null;
+        }
+
+        _currentScaleZ = newScaleZ;
+
         _isOnIncreaseScaleXY = false;
     }
 
     /// <summary>상자의 Z 크기를 증가시킴</summary>
-    public void SetScaleZ(float value)
+    public void IncreaseScaleZ()
+    {
+        if(!_isOnSetScaleZ)
+            StartCoroutine(IncreaseScaleZLogic());
+    }
+
+    /// <summary>상자의 Z 크기를 증가시키는 코루틴</summary>
+    private IEnumerator IncreaseScaleZLogic()
+    {
+        _isOnSetScaleZ = true;
+
+        if (Mathf.Abs(_currentScaleZ + 2f) <= CPlayerManager.Instance.Stat.MaxViewRectScaleZ)
+        {
+            _currentScaleZ += 2f;
+
+            float currentScaleSign = Mathf.Sign(_currentScaleZ);
+
+            float destinationScale = _currentScaleZ;
+            if (currentScaleSign.Equals(-1f))
+                destinationScale = _currentScaleZ + 0.2f;
+
+            float hopeScaleZ = _currentScaleZ - 0.1f * currentScaleSign;
+
+            float addTime = 0f;
+
+            while (true)
+            {
+                SetScaleZ(destinationScale);
+                addTime += Time.deltaTime;
+
+                if (transform.localScale.z * currentScaleSign >= hopeScaleZ)
+                    break;
+
+                yield return null;
+            }
+
+            if (addTime <= _setScaleZControllerDelay)
+                yield return new WaitForSeconds(_setScaleZControllerDelay - addTime);
+        }
+
+        _isOnSetScaleZ = false;
+    }
+
+    /// <summary>상자의 Z 크기를 감소시킴</summary>
+    public void DecreaseScaleZ()
+    {
+        if (!_isOnSetScaleZ)
+            StartCoroutine(DecreaseScaleZLogic());
+    }
+
+    /// <summary>상자의 Z 크기를 감소시키는 코루틴</summary>
+    private IEnumerator DecreaseScaleZLogic()
+    {
+        _isOnSetScaleZ = true;
+
+        if (Mathf.Abs(_currentScaleZ - 2f) <= CPlayerManager.Instance.Stat.MaxViewRectScaleZ)
+        {
+            _currentScaleZ -= 2f;
+
+            float currentScaleSign = Mathf.Sign(_currentScaleZ);
+
+            float destinationScale = _currentScaleZ;
+            if (currentScaleSign.Equals(1f))
+                destinationScale = _currentScaleZ - 0.2f;
+
+            float hopeScaleZ = _currentScaleZ + 0.1f * -currentScaleSign;
+
+            float addTime = 0f;
+
+            while (true)
+            {
+                SetScaleZ(destinationScale);
+                addTime += Time.deltaTime;
+
+                if (transform.localScale.z * currentScaleSign <= hopeScaleZ)
+                    break;
+
+                yield return null;
+            }
+
+            if (addTime <= _setScaleZControllerDelay)
+                yield return new WaitForSeconds(_setScaleZControllerDelay - addTime);
+        }
+
+        _isOnSetScaleZ = false;
+    }
+
+    /// <summary>상자의 Z 크기를 증가시킴</summary>
+    private void SetScaleZ(float value)
     {
         float valueAbs = Mathf.Abs(value);
         float valueSign = Mathf.Sign(value);
@@ -92,7 +206,7 @@ public class CViewChangeRect : MonoBehaviour
         // 스케일 조절
         Vector3 newScale = transform.localScale;
 
-        if (!valueSign.Equals(currentPositionZSign) && transform.localScale.z >= 1f)
+        if (!valueSign.Equals(currentPositionZSign) && transform.localScale.z >= 0.3f)
         {
             newScale.z = 0f;
             isReverse = true;
@@ -117,7 +231,7 @@ public class CViewChangeRect : MonoBehaviour
         _projector.farClipPlane = transform.localScale.z * 0.5f;
 
         // 이펙트 조절
-        _viewChangeRectEffect.transform.position = transform.position + Vector3.forward * transform.localScale.z * valueSign * 0.5f;
+        _viewChangeRectEffect.transform.position = transform.position + Vector3.forward * transform.localScale.z * currentPositionZSign * 0.5f;
     }
 
     /// <summary>이펙트 활성화 설정</summary>
