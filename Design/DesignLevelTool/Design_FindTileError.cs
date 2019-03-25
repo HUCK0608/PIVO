@@ -8,16 +8,39 @@ public class Design_FindTileError : MonoBehaviour
     public bool bCheckOverlap = false;
     public bool bCheckRot = false;
     public bool bCheckPos = false;
+    public bool bRoundPos = false;
 
     void Update()
     {
         CheckTilePos();
         CheckTileRot();
         CheckOverlap();
+        SetRoudPos();
     }
 
 
+    void SetRoudPos()
+    {
+        if (bRoundPos)
+        {
+            int ChildNum = transform.childCount;
 
+            for (int i = 0; i < ChildNum; i++)
+            {
+                float X = transform.GetChild(i).transform.position.x;
+                float Y = transform.GetChild(i).transform.position.y;
+                float Z = transform.GetChild(i).transform.position.z;
+
+                X = Mathf.Round(X);
+                Y = Mathf.Round(Y);
+                Z = Mathf.Round(Z);
+
+                transform.GetChild(i).transform.position = new Vector3(X, Y, Z);
+            }
+            bRoundPos = false;
+            Debug.Log("Finish");
+        }
+    }
 
 
     void CheckOverlap()
