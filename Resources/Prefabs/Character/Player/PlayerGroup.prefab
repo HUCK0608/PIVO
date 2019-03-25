@@ -373,6 +373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewChangeRectEffect: {fileID: 2078772563659762950}
+  _setScaleZControllerDelay: 0.2
 --- !u!1 &1461577678373407371
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,7 +570,7 @@ MonoBehaviour:
   _maxViewRectScaleY: 10
   _maxViewRectScaleZ: 10
   _viewRectIncreaseXYRatePerSec: 5
-  _viewRectIncreaseZRatePerSec: 0.2
+  _viewRectIncreaseZRatePerSec: 0.1
 --- !u!114 &1461577678640211779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1439,7 +1440,19 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 100078, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 100012, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 511cbf620fd0b0b4a805228c376daaff, type: 2}
+    - target: {fileID: 100056, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
@@ -1471,6 +1484,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 100042, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 100046, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
       propertyPath: m_Layer
       value: 10
@@ -1496,6 +1513,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 100048, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 100040, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
@@ -1527,10 +1548,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 100040, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 100018, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
       propertyPath: m_Layer
       value: 10
@@ -1543,26 +1560,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 100042, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 100020, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 100056, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 100078, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 511cbf620fd0b0b4a805228c376daaff, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
 --- !u!4 &1461577678493538919 stripped

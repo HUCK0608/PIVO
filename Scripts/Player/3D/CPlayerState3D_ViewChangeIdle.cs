@@ -11,9 +11,6 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
     /// <summary>블락 체크시 무시할 레이어 마스크</summary>
     private int _blockCheckIgnoreLayerMask;
 
-    /// <summary>현재 시점전환 상자의 z 크기</summary>
-    private float _currentViewRectScaleZ;
-
     /// <summary>블락된 오브젝트들</summary>
     private List<CWorldObject> _blockObjects;
     /// <summary>블락된 오브젝트들의 개수</summary>
@@ -21,12 +18,11 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
 
     /// <summary>지팡이 시점전환 이펙트</summary>
     [SerializeField]
-    private GameObject _viewChangeWandEffect;
+    private GameObject _viewChangeWandEffect = null;
 
     /// <summary>캡슐 시점전환 이펙트</summary>
     [SerializeField]
-    private GameObject _viewChangeCapsuleEffect;
-
+    private GameObject _viewChangeCapsuleEffect = null;
 
     protected override void Awake()
     {
@@ -42,7 +38,6 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
         base.InitState();
 
         _blockCheckPoints[0].transform.parent.eulerAngles = Vector3.zero;
-        _currentViewRectScaleZ = 0f;
 
         _viewChangeWandEffect.SetActive(true);
     }
@@ -50,13 +45,9 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
     private void Update()
     {
         if (Input.GetKey(CKeyManager.ViewRectScaleAdjustKey1) || Input.GetKey(CKeyManager.AnotherViewRectScaleAdjustKey1))
-            _currentViewRectScaleZ += CPlayerManager.Instance.Stat.ViewRectAdjustSpeed * Time.deltaTime;
+            Controller3D.ViewChangeRect.IncreaseScaleZ();
         else if (Input.GetKey(CKeyManager.ViewRectScaleAdjustKey2) || Input.GetKey(CKeyManager.AnotherViewRectScaleAdjustKey2))
-            _currentViewRectScaleZ -= CPlayerManager.Instance.Stat.ViewRectAdjustSpeed * Time.deltaTime;
-
-        _currentViewRectScaleZ = Mathf.Clamp(_currentViewRectScaleZ, -CPlayerManager.Instance.Stat.MaxViewRectScaleZ, CPlayerManager.Instance.Stat.MaxViewRectScaleZ);
-
-        Controller3D.ViewChangeRect.SetScaleZ(_currentViewRectScaleZ);
+            Controller3D.ViewChangeRect.DecreaseScaleZ();
 
         bool isCanChange = IsCanChange();
 
@@ -88,13 +79,14 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
         bool result = true;
 
         Vector3 direction = Vector3.zero;
-        direction.z = Mathf.Sign(_currentViewRectScaleZ);
+        direction.z = Mathf.Sign(Controller3D.ViewChangeRect.CurrentScaleZ);
 
-        float distance = Mathf.Abs(_currentViewRectScaleZ);
+        float distance = Mathf.Abs(Controller3D.ViewChangeRect.CurrentScaleZ) - 0.1f;
 
         RaycastHit hit;
         for(int i = 0; i < _blockCheckPointCount; i++)
         {
+            Debug.DrawRay(_blockCheckPoints[i].position, direction * distance, Color.red);
             if(Physics.Raycast(_blockCheckPoints[i].position, direction, out hit, distance, _blockCheckIgnoreLayerMask))
             {
                 result = false;
@@ -128,6 +120,7 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
     {
         base.EndState();
 
+        Controller3D.ViewChangeRect.StopAllCoroutines();
         Controller3D.ViewChangeRect.gameObject.SetActive(false);
 
         for (int i = 0; i < _blockObjetCount; i++)
