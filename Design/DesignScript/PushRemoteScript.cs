@@ -71,7 +71,6 @@ public class PushRemoteScript : MonoBehaviour
         {
             if (Corgi)
             {
-                Debug.Log(Corgi);
                 //코기이동 멈추기
                 Corgi.transform.position = InteractionStopPos;
                 Corgi.transform.rotation = InteractionStopRot;
