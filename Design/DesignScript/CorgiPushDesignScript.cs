@@ -12,38 +12,12 @@ public class CorgiPushDesignScript : MonoBehaviour
 
     void Start()
     {
-        CenterDown1 = GameObject.Find("CenterDown (2)");
-        CenterDown1.SetActive(false);
-
-        CenterDown2 = GameObject.Find("CenterDown (1)");
-        CenterDown2.SetActive(false);
     }
 
     void Update()
     {
-        UsePushRemote();
-        MovePushCube();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.GetComponentInParent<PushRemoteScript>() != null)
-        {
-            bOnPushRemote = true;
-            PushRemoteObject = other.gameObject;
-            CenterDown1.SetActive(true);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.GetComponentInParent<PushRemoteScript>() != null)
-        {
-            bOnPushRemote = false;
-            bUsePushRemote = false;
-            PushRemoteObject = null;
-            CenterDown1.SetActive(false);
-        }
+        //UsePushRemote();
+        //MovePushCube();
     }
 
 

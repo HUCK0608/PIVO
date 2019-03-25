@@ -8,16 +8,34 @@ public class PushRemoteScript : MonoBehaviour
 {
     public GameObject PushCube;
     public MoveVH MoveDirection;
+
+    private bool bOnPushRemote = false;
+    private bool bUsePushRemote = false;
+    GameObject CenterDown1, CenterDown2, Corgi;
+    Vector3 InteractionStopPos;
+    Quaternion InteractionStopRot;
     List<GameObject> PushTile = new List<GameObject>();
 
     void Start()
     {
         FindPushTile();
+        InitializeWidget();
     }
 
     void Update()
     {
-        
+        UsePushRemote();
+        MovePushCube();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        TriggerEnterEvent(other);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        TriggerExitEvent(other);
     }
 
 
@@ -25,6 +43,88 @@ public class PushRemoteScript : MonoBehaviour
     //EventFunction//
 
 
+
+
+
+    void UsePushRemote()
+    {
+        if (bOnPushRemote && Input.GetKeyDown(KeyCode.X) && bUsePushRemote == false)
+        {
+            bUsePushRemote = true;
+            InteractionStopPos = Corgi.transform.position;
+            InteractionStopRot = Corgi.transform.rotation;
+            CenterDown2.SetActive(true);
+            CenterDown1.SetActive(false);
+        }
+        else if (bOnPushRemote && Input.GetKeyDown(KeyCode.X) && bUsePushRemote == true)
+        {
+            bUsePushRemote = false;
+            InteractionStopPos = Corgi.transform.position;
+            InteractionStopRot = Corgi.transform.rotation;
+            CenterDown2.SetActive(false);
+        }
+    }
+
+    void MovePushCube()
+    {
+        if (bUsePushRemote)
+        {
+            if (Corgi)
+            {
+                Debug.Log(Corgi);
+                //코기이동 멈추기
+                Corgi.transform.position = InteractionStopPos;
+                Corgi.transform.rotation = InteractionStopRot;
+
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    CheckPushDir(KeyCode.LeftArrow);
+                }
+                else if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    CheckPushDir(KeyCode.RightArrow);
+                }
+                else if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    CheckPushDir(KeyCode.UpArrow);
+                }
+                else if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    CheckPushDir(KeyCode.DownArrow);
+                }
+            }
+        }
+    }
+
+
+    void TriggerEnterEvent(Collider other)
+    {
+        if (other.gameObject.GetComponentInParent<CPlayerController3D>() != null)
+        {
+            bOnPushRemote = true;
+            Corgi = other.gameObject;
+            CenterDown1.SetActive(true);
+            CenterDown2.SetActive(false);
+        }
+    }
+
+    void TriggerExitEvent(Collider other)
+    {
+        if (other.gameObject.GetComponentInParent<CPlayerController3D>() != null)
+        {
+            bOnPushRemote = false;
+            bUsePushRemote = false;
+            Corgi = null;
+            CenterDown1.SetActive(false);
+        }
+    }
+
+    void InitializeWidget()
+    {
+        CenterDown1 = GameObject.Find("CenterDown (2)");
+
+        CenterDown2 = GameObject.Find("CenterDown (1)");
+    }
 
     public void CheckPushDir(KeyCode MoveDir)
     {
