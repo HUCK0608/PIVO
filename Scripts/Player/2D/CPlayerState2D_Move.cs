@@ -4,6 +4,9 @@ public class CPlayerState2D_Move : CPlayerState2D
 {
     private void Update()
     {
+        if (Controller2D.IsOnAutoMove)
+            return;
+
         float horizontal = Input.GetAxis(CString.Horizontal);
 
         Controller2D.Move(horizontal);

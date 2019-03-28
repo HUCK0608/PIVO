@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,11 @@ public class CPlayerController2D : MonoBehaviour
     private Rigidbody2D _rigidBody2D;
     /// <summary>리지드바디2D</summary>
     public Rigidbody2D RigidBody2D { get { return _rigidBody2D; } }
+
+    /// <summary>애니메이터</summary>
+    private Animator _animator;
+    /// <summary>애니메이터 파라미터 이름</summary>
+    private static string _animParameterPath = "CurrentState";
 
     /// <summary>중력 확인 지점들</summary>
     [SerializeField]
@@ -39,9 +45,14 @@ public class CPlayerController2D : MonoBehaviour
     /// <summary>중력 적용 여부</summary>
     public bool IsUseGravity { get { return _isUseGravity; } set { _isUseGravity = value; } }
 
+    private bool _isOnAutoMove = false;
+    /// <summary>현재 자동 이동중인지</summary>
+    public bool IsOnAutoMove { get { return _isOnAutoMove; } }
+
     private void Awake()
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
 
         _playerIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne());
 
@@ -96,6 +107,9 @@ public class CPlayerController2D : MonoBehaviour
         _states[_currentState].enabled = true;
     }
 
+    /// <summary>애니메이션을 변경</summary>
+    public void ChangeAnimation() { _animator.SetInteger(_animParameterPath, (int)_currentState); }
+
     /// <summary>중력 계산</summary>
     private void CalcGravity(ref Vector2 velocity)
     {
@@ -137,6 +151,37 @@ public class CPlayerController2D : MonoBehaviour
         Vector2 direction = Vector2.right * horizontal;
 
         Move(direction.normalized);
+    }
+
+    /// <summary>자동 이동 시작</summary>
+    public void StartAutoMove(Vector3 target) { StartCoroutine(AutoMoveLogic(target)); }
+    /// <summary>자동 이동 로직</summary>
+    private IEnumerator AutoMoveLogic(Vector3 target)
+    {
+        _isOnAutoMove = true;
+
+        Vector2 directionToTarget = target - transform.position;
+        directionToTarget.y = 0f;
+        directionToTarget.Normalize();
+
+        ChangeState(EPlayerState2D.Idle);
+        _animator.SetInteger(_animParameterPath, (int)EPlayerState2D.Move);
+
+        while (true)
+        {
+            Move(directionToTarget);
+
+            target.y = transform.position.y;
+
+            if (Vector2.Distance(transform.position, target) <= 0.5f)
+                break;
+
+            yield return null;
+        }
+
+        _animator.SetInteger(_animParameterPath, (int)EPlayerState2D.Idle);
+
+        _isOnAutoMove = false;
     }
 
     /// <summary>해당 방향을 바라보게 함</summary>

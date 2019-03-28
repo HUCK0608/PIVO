@@ -4,7 +4,8 @@ public class CPlayerState2D_Idle : CPlayerState2D
 {
     private void Update()
     {
-        if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.Changing))
+        if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.Changing) ||
+            Controller2D.IsOnAutoMove)
             return;
 
         float horizontal = Input.GetAxis(CString.Horizontal);

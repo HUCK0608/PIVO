@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,11 @@ public class CPlayerController3D : MonoBehaviour
     private Rigidbody _rigidBody;
     /// <summary>리지드바디</summary>
     public Rigidbody RigidBody { get { return _rigidBody; } }
+
+    /// <summary>애니메이터</summary>
+    private Animator _animator;
+    /// <summary>애니메이터 파라미터 이름</summary>
+    private static string _animParameterPath = "CurrentState";
 
     [SerializeField]
     private CViewChangeRect _viewChangeRect = null;
@@ -51,9 +57,14 @@ public class CPlayerController3D : MonoBehaviour
     /// <summary>중력 적용 여부</summary>
     public bool IsUseGravity { get { return _isUseGravity; } set { _isUseGravity = value; } }
 
+    private bool _isOnAutoMove = false;
+    /// <summary>현재 자동 이동중인지</summary>
+    public bool IsOnAutoMove { get { return _isOnAutoMove; } }
+
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
 
         _playerIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne());
 
@@ -108,6 +119,9 @@ public class CPlayerController3D : MonoBehaviour
         _states[_currentState].enabled = true;
     }
 
+    /// <summary>애니메이션을 변경</summary>
+    public void ChangeAnimation() { _animator.SetInteger(_animParameterPath, (int)_currentState); }
+
     /// <summary>중력 계산</summary>
     private void CalcGravity(ref Vector3 velocity)
     {
@@ -149,6 +163,37 @@ public class CPlayerController3D : MonoBehaviour
         Vector3 direction = (Vector3.right + Vector3.forward) * vertical + (Vector3.right + Vector3.back) * horizontal;
 
         Move(direction.normalized);
+    }
+
+    /// <summary>자동 이동 실행</summary>
+    public void StartAutoMove(Vector3 target) { StartCoroutine(AutoMoveLogic(target)); }
+    /// <summary>자동 이동 로직</summary>
+    private IEnumerator AutoMoveLogic(Vector3 target)
+    {
+        _isOnAutoMove = true;
+
+        Vector3 directionToTarget = target - transform.position;
+        directionToTarget.y = 0f;
+        directionToTarget.Normalize();
+
+        ChangeState(EPlayerState3D.Idle);
+        _animator.SetInteger(_animParameterPath, (int)EPlayerState3D.Move);
+
+        while(true)
+        {
+            Move(directionToTarget);
+
+            target.y = transform.position.y;
+
+            if (Vector3.Distance(transform.position, target) <= 0.5f)
+                break;
+
+            yield return null;
+        }
+
+        _animator.SetInteger(_animParameterPath, (int)EPlayerState3D.Idle);
+
+        _isOnAutoMove = false;
     }
 
     /// <summary>Slerp 회전</summary>
