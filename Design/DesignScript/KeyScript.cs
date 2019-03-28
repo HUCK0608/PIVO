@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class KeyScript : MonoBehaviour
 {
-    GameObject Corgi;
-
     void Start()
     {
         
@@ -15,17 +13,5 @@ public class KeyScript : MonoBehaviour
     {
         transform.Rotate(Vector3.up);
         transform.Rotate(Vector3.right);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<CorgiDoorDesignScript>() != null)
-        {
-            CorgiDoorDesignScript CorgiScript = other.GetComponent<CorgiDoorDesignScript>();
-            CorgiScript.KeyObject.Add(this.gameObject);
-            transform.parent = other.gameObject.transform;
-            CorgiScript.KeyNum++;
-            transform.localPosition = Vector3.zero + new Vector3(0, 1, -2 * CorgiScript.KeyNum);
-        }
     }
 }
