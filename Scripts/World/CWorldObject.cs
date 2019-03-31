@@ -35,7 +35,8 @@ public abstract class CWorldObject : MonoBehaviour
 
     protected virtual void Start()
     {
-        CWorldManager.Instance.AddWorldObject(this);
+        if(CWorldManager.Instance != null)
+            CWorldManager.Instance.AddWorldObject(this);
     }
 
     /// <summary>2D로 시점전환</summary>
