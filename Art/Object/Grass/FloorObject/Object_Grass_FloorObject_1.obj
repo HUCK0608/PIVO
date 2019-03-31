@@ -1,4 +1,5 @@
-﻿g Mesh
+﻿group Object_Grass_FloorObject_1
+g Object_Grass_FloorObject_1
 v -1 -0.8 -1
 v -1 -0.8 -0.8
 v -0.4 -0.8 -0.8

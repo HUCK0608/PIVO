@@ -9,6 +9,7 @@ public class Design_FindTileError : MonoBehaviour
     public bool bCheckRot = false;
     public bool bCheckPos = false;
     public bool bRoundPos = false;
+    public bool bCheckBool = false;
 
     void Update()
     {
@@ -16,6 +17,7 @@ public class Design_FindTileError : MonoBehaviour
         CheckTileRot();
         CheckOverlap();
         SetRoudPos();
+        CheckBoolean();
     }
 
 
@@ -124,4 +126,36 @@ public class Design_FindTileError : MonoBehaviour
             Debug.Log("Finish");
         }
     }
+
+    void CheckBoolean()
+    {
+        if(bCheckBool)
+        {
+            int ChildNum = transform.childCount;
+
+            for (int i = 0; i < ChildNum; i++)
+            {
+                bool IsError = false;
+                List<bool> CheckBoolean = new List<bool>();
+                CheckBoolean.Add(transform.GetChild(i).GetComponent<Design_MaterialChange>().RotPlus);
+                CheckBoolean.Add(transform.GetChild(i).GetComponent<Design_MaterialChange>().RotMinus);
+                CheckBoolean.Add(transform.GetChild(i).GetComponent<Design_MaterialChange>().RotZero);
+                
+
+                foreach (var BoolValue in CheckBoolean)
+                {
+                    if (BoolValue)
+                        IsError = true;
+                }
+
+                if (IsError)
+                {
+                    Debug.Log(transform.GetChild(i).name);
+                }
+            }
+            bCheckBool = false;
+            Debug.Log("Finish");
+        }
+    }
+
 }

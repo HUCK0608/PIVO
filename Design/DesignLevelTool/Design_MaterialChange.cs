@@ -8,19 +8,11 @@ public class Design_MaterialChange : MonoBehaviour
     public Material ChangeMaterial;
     private Material BeforeMaterial;
 
-    public bool RotPlus = false;
-    public bool RotMinus = false;
-    public bool RotZero = false;
-    private bool ChangeRot = false;
-
-    void Start()
-    {
-        RotPlus = false;
-        RotMinus = false;
-        RotZero = false;
-        ChangeRot = false;
-    }
-
+    public bool RotPlus;
+    public bool RotMinus;
+    public bool RotZero;
+    private bool ChangeRot;
+    
 
     void Update()
     {
@@ -58,8 +50,7 @@ public class Design_MaterialChange : MonoBehaviour
             transform.Find("Root3D").transform.Rotate(new Vector3(0, RotValue, 0));
             
             ChangeRot = false;
-            RotMinus = false;
-            RotPlus = false;
+           
         }
     }
 
@@ -69,9 +60,7 @@ public class Design_MaterialChange : MonoBehaviour
 
         if (RotZero)
         {
-
             transform.Find("Root3D").transform.rotation = Quaternion.Euler (0, 0, 0);
-            RotZero = false;
         }
     }
 
