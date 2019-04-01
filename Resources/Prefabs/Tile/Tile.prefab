@@ -105,6 +105,7 @@ MonoBehaviour:
   ChangeMaterial: {fileID: 0}
   RotPlus: 0
   RotMinus: 0
+  RotZero: 0
 --- !u!1 &3060435865758684051
 GameObject:
   m_ObjectHideFlags: 0
