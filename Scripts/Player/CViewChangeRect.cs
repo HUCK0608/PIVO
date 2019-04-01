@@ -122,22 +122,24 @@ public class CViewChangeRect : MonoBehaviour
         {
             _currentScaleZ += 2f;
 
-            float currentScaleSign = Mathf.Sign(_currentScaleZ);
+            float currentScaleZSign = Mathf.Sign(_currentScaleZ);
 
-            float destinationScale = _currentScaleZ;
-            if (currentScaleSign.Equals(-1f))
-                destinationScale = _currentScaleZ + 0.2f;
+            float destinationScaleZ = _currentScaleZ;
+            if (currentScaleZSign.Equals(-1f))
+                destinationScaleZ = _currentScaleZ + 0.2f;
 
-            float hopeScaleZ = _currentScaleZ - 0.1f * currentScaleSign;
+            float hopeScaleZ = _currentScaleZ - 0.1f * currentScaleZSign;
 
             float addTime = 0f;
 
             while (true)
             {
-                SetScaleZ(destinationScale);
+                SetScaleZ(destinationScaleZ);
                 addTime += Time.deltaTime;
 
-                if (transform.localScale.z * currentScaleSign >= hopeScaleZ)
+                float currentDirectionZ = Mathf.Sign(transform.position.z - CPlayerManager.Instance.RootObject3D.transform.position.z);
+
+                if (transform.localScale.z * currentDirectionZ >= hopeScaleZ)
                     break;
 
                 yield return null;
@@ -166,22 +168,24 @@ public class CViewChangeRect : MonoBehaviour
         {
             _currentScaleZ -= 2f;
 
-            float currentScaleSign = Mathf.Sign(_currentScaleZ);
+            float currentScaleZSign = Mathf.Sign(_currentScaleZ);
 
-            float destinationScale = _currentScaleZ;
-            if (currentScaleSign.Equals(1f))
-                destinationScale = _currentScaleZ - 0.2f;
+            float destinationScaleZ = _currentScaleZ;
+            if (currentScaleZSign.Equals(1f))
+                destinationScaleZ = _currentScaleZ - 0.2f;
 
-            float hopeScaleZ = _currentScaleZ + 0.1f * -currentScaleSign;
+            float hopeScaleZ = _currentScaleZ + 0.1f * -currentScaleZSign;
 
             float addTime = 0f;
 
             while (true)
             {
-                SetScaleZ(destinationScale);
+                SetScaleZ(destinationScaleZ);
                 addTime += Time.deltaTime;
 
-                if (transform.localScale.z * currentScaleSign <= hopeScaleZ)
+                float currentDirectionZ = Mathf.Sign(transform.position.z - CPlayerManager.Instance.RootObject3D.transform.position.z);
+
+                if (transform.localScale.z * currentDirectionZ <= hopeScaleZ)
                     break;
 
                 yield return null;
@@ -206,7 +210,7 @@ public class CViewChangeRect : MonoBehaviour
         // 스케일 조절
         Vector3 newScale = transform.localScale;
 
-        if (!valueSign.Equals(currentPositionZSign) && transform.localScale.z >= 0.3f)
+        if (!valueSign.Equals(currentPositionZSign) && transform.localScale.z >= 0.05f)
         {
             newScale.z = 0f;
             isReverse = true;
@@ -214,7 +218,10 @@ public class CViewChangeRect : MonoBehaviour
         else
             newScale.z = valueAbs;
 
-        transform.localScale = Vector3.Lerp(transform.localScale, newScale, CPlayerManager.Instance.Stat.ViewRectIncreaseZRatePerSec);
+        if(isReverse)
+            transform.localScale = Vector3.Lerp(transform.localScale, newScale, 0.4f);
+        else
+            transform.localScale = Vector3.Lerp(transform.localScale, newScale, CPlayerManager.Instance.Stat.ViewRectIncreaseZRatePerSec);
 
         // 위치 조절
         Vector3 newPosition = CPlayerManager.Instance.RootObject3D.transform.position;
@@ -231,7 +238,14 @@ public class CViewChangeRect : MonoBehaviour
         _projector.farClipPlane = transform.localScale.z * 0.5f;
 
         // 이펙트 조절
-        _viewChangeRectEffect.transform.position = transform.position + Vector3.forward * transform.localScale.z * currentPositionZSign * 0.5f;
+        _viewChangeRectEffect.transform.position = (transform.position + Vector3.forward * transform.localScale.z * currentPositionZSign * 0.5f) + Vector3.forward * -currentPositionZSign * 0.3f;
+    }
+
+    /// <summary>상자의 Z 크기를 증가시키는 것을 멈춤</summary>
+    public void StopSetScaleZ()
+    {
+        StopAllCoroutines();
+        _isOnSetScaleZ = false;
     }
 
     /// <summary>이펙트 활성화 설정</summary>

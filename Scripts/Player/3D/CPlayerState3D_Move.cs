@@ -4,6 +4,9 @@ public class CPlayerState3D_Move : CPlayerState3D
 {
     private void Update()
     {
+        if (Controller3D.IsOnAutoMove)
+            return;
+
         float vertical = Input.GetAxis(CString.Vertical);
         float horizontal = Input.GetAxis(CString.Horizontal);
 
@@ -15,7 +18,7 @@ public class CPlayerState3D_Move : CPlayerState3D
             Controller3D.ChangeState(EPlayerState3D.ViewChangeInit);
         else if (Input.GetKeyDown(CKeyManager.ClimbKey) && Controller3D.IsCanClimb())
             Controller3D.ChangeState(EPlayerState3D.Climb);
-        else if (vertical.Equals(0f) && horizontal.Equals(0f))
+        else if (Controller3D.RigidBody.velocity.x.Equals(0f) && Controller3D.RigidBody.velocity.z.Equals(0f))
             Controller3D.ChangeState(EPlayerState3D.Idle);
     }
 }

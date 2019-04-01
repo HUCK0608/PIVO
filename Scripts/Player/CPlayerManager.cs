@@ -48,4 +48,13 @@ public class CPlayerManager : CCharacter
         RootObject2D.transform.parent = RootObject3D.transform;
         RootObject3D.SetActive(true);
     }
+
+    /// <summary>자동 이동 시작</summary>
+    public void StartAutoMove(Vector3 target)
+    {
+        if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View2D))
+            _controller2D.StartAutoMove(target);
+        else
+            _controller3D.StartAutoMove(target);
+    }
 }

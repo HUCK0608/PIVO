@@ -28,7 +28,7 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
     {
         base.Awake();
 
-        _blockCheckIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.ViewChangeRect.LeftShiftToOne());
+        _blockCheckIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.ViewChangeRect.LeftShiftToOne() | CLayer.BackgroundObject.LeftShiftToOne());
 
         _blockObjects = new List<CWorldObject>();
     }
@@ -120,7 +120,7 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
     {
         base.EndState();
 
-        Controller3D.ViewChangeRect.StopAllCoroutines();
+        Controller3D.ViewChangeRect.StopSetScaleZ();
         Controller3D.ViewChangeRect.gameObject.SetActive(false);
 
         for (int i = 0; i < _blockObjetCount; i++)

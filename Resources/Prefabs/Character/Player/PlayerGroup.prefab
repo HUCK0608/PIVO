@@ -567,7 +567,7 @@ MonoBehaviour:
   _rotationSpeed: 15
   _viewRectAdjustScaleZSpeed: 30
   _maxViewRectScaleX: 44
-  _maxViewRectScaleY: 10
+  _maxViewRectScaleY: 12
   _maxViewRectScaleZ: 10
   _viewRectIncreaseXYRatePerSec: 5
   _viewRectIncreaseZRatePerSec: 0.1

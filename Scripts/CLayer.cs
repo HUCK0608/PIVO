@@ -8,6 +8,9 @@ public static class CLayer
     private static int _player = LayerMask.NameToLayer("Player");
     public static int Player { get { return _player; } }
 
+    private static int _backgroundObject = LayerMask.NameToLayer("BackgroundObject");
+    public static int BackgroundObject { get { return _backgroundObject; } }
+
     /// <summary>1로 현재 값만큼 좌측 시프트 연산을 시행</summary>
     public static int LeftShiftToOne (this int value)
     {
