@@ -11,9 +11,9 @@ public class CStage : MonoBehaviour
     [SerializeField]
     private CStageInfo[] _connectedStages = null;
 
-    private bool _isLock = false;
-    /// <summary>스테이지가 잠겨있는지 여부</summary>
-    public bool IsLock { get { return _isLock; } }
+    /// <summary>스테이지 데이터(저장 & 로드)</summary>
+    [SerializeField]
+    private CStageData _data;
 
     /// <summary>스테이지 시작</summary>
     public void StartStage()
