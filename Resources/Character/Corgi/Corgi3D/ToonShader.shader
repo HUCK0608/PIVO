@@ -5,6 +5,8 @@
 		_Ramp("RampColor", Color) = (1,1,1,1)
 		_Brightness("Brightness", Range(0,1)) = 0.7
 		_ShadowColor("Shadow_Color", Range(0,1)) = 0
+
+		_TexColor("TextureColor", Color) = (1,1,1,1)
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -21,6 +23,8 @@
 		float _Brightness;
 		float _ShadowColor;
 
+		float4 _TexColor;
+
 		struct Input 
 		{
 			float2 uv_MainTex;
@@ -29,7 +33,7 @@
 		void surf (Input IN, inout SurfaceOutput o) 
 		{
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
-			o.Albedo = c.rgb;
+			o.Albedo = c.rgb * _TexColor.rgb;
 			o.Alpha = c.a;
 		}
 
