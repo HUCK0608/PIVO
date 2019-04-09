@@ -1,22 +1,27 @@
 fileFormatVersion: 2
-guid: 0dba600cdcdf40945afe54e1c18e9feb
+guid: 8bf1c026f31e9b844ae352ab4017ae7f
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: default
     100002: //RootNode
-    100004: Object_Grass_Flower_1
+    100004: Object_Grass_Flower_4
+    100006: Object_Grass_Flower_1
     400000: default
     400002: //RootNode
-    400004: Object_Grass_Flower_1
+    400004: Object_Grass_Flower_4
+    400006: Object_Grass_Flower_1
     2100000: defaultMat
-    2100002: Object_Grass_Flower_1Mat
+    2100002: Object_Grass_Flower_4Mat
     2300000: default
-    2300002: Object_Grass_Flower_1
+    2300002: Object_Grass_Flower_4
+    2300004: Object_Grass_Flower_1
     3300000: default
-    3300002: Object_Grass_Flower_1
+    3300002: Object_Grass_Flower_4
+    3300004: Object_Grass_Flower_1
     4300000: default
-    4300002: Object_Grass_Flower_1
+    4300002: Object_Grass_Flower_4
+    4300004: Object_Grass_Flower_1
   externalObjects: {}
   materials:
     importMaterials: 0
@@ -54,8 +59,8 @@ ModelImporter:
     useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 0
-    importCameras: 1
-    importLights: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 1
     useFileUnits: 1

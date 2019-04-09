@@ -1,27 +1,27 @@
 fileFormatVersion: 2
-guid: 9271070798a09684dbda7135d3aa558e
+guid: ace3a51657c9d6c4798b67f7c530c250
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: default
     100002: //RootNode
-    100004: Object_Grass_Flower_3
+    100004: Object_Grass_Flower_5
     400000: default
     400002: //RootNode
-    400004: Object_Grass_Flower_3
+    400004: Object_Grass_Flower_5
     2100000: defaultMat
-    2100002: Object_Grass_Flower_3Mat
+    2100002: Object_Grass_Flower_5Mat
     2300000: default
-    2300002: Object_Grass_Flower_3
+    2300002: Object_Grass_Flower_5
     3300000: default
-    3300002: Object_Grass_Flower_3
+    3300002: Object_Grass_Flower_5
     4300000: default
-    4300002: Object_Grass_Flower_3
+    4300002: Object_Grass_Flower_5
   externalObjects: {}
   materials:
     importMaterials: 0
     materialName: 0
-    materialSearch: 0
+    materialSearch: 1
     materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
@@ -53,11 +53,11 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     importVisibility: 1
-    importBlendShapes: 0
-    importCameras: 1
-    importLights: 1
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
@@ -75,7 +75,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
-    normalCalculationMode: 0
+    normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
