@@ -1,4 +1,4 @@
-﻿Shader "Custom/WindGrass"
+﻿Shader "BlueCube/WindGrass"
 {
     Properties
     {
