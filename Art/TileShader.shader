@@ -14,7 +14,7 @@
         LOD 200
 
         CGPROGRAM
-        #pragma surface surf Standard fullforwardshadows
+        #pragma surface surf Lambert
 
         #pragma target 3.0
 
@@ -33,7 +33,7 @@
         UNITY_INSTANCING_BUFFER_START(Props)
         UNITY_INSTANCING_BUFFER_END(Props)
 
-        void surf (Input IN, inout SurfaceOutputStandard o)
+        void surf (Input IN, inout SurfaceOutput o)
         {
             float4 c = tex2D (_MainTex, IN.uv_MainTex);
 

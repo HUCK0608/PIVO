@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Tile_Grass_21
-  m_Shader: {fileID: 7, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 9207be726dd04a343a99a0b5d35f5e43, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -26,3 +26,7 @@ Material:
     m_Floats: []
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color1: {r: 0.54901963, g: 0.41960785, b: 0.3529412, a: 1}
+    - _Color2: {r: 0.4745098, g: 0.33333334, b: 0.27058825, a: 1}
+    - _Color3: {r: 0.9150943, g: 0.8107852, b: 0.7381185, a: 1}
+    - _Color4: {r: 0.6091377, g: 0.7830189, b: 0.380429, a: 1}
