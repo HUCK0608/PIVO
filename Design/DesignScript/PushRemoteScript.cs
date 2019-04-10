@@ -53,15 +53,15 @@ public class PushRemoteScript : MonoBehaviour
             bUsePushRemote = true;
             InteractionStopPos = Corgi.transform.position;
             InteractionStopRot = Corgi.transform.rotation;
-            CenterDown2.SetActive(true);
-            CenterDown1.SetActive(false);
+            //CenterDown2.SetActive(true);
+            //CenterDown1.SetActive(false);
         }
         else if (bOnPushRemote && Input.GetKeyDown(KeyCode.X) && bUsePushRemote == true)
         {
             bUsePushRemote = false;
             InteractionStopPos = Corgi.transform.position;
             InteractionStopRot = Corgi.transform.rotation;
-            CenterDown2.SetActive(false);
+            //CenterDown2.SetActive(false);
         }
     }
 
@@ -102,8 +102,8 @@ public class PushRemoteScript : MonoBehaviour
         {
             bOnPushRemote = true;
             Corgi = other.gameObject;
-            CenterDown1.SetActive(true);
-            CenterDown2.SetActive(false);
+            //CenterDown1.SetActive(true);
+            //CenterDown2.SetActive(false);
         }
     }
 
@@ -114,15 +114,15 @@ public class PushRemoteScript : MonoBehaviour
             bOnPushRemote = false;
             bUsePushRemote = false;
             Corgi = null;
-            CenterDown1.SetActive(false);
+            //CenterDown1.SetActive(false);
         }
     }
 
     void InitializeWidget()
     {
-        CenterDown1 = GameObject.Find("CenterDown (2)");
+        //CenterDown1 = GameObject.Find("CenterDown (2)");
 
-        CenterDown2 = GameObject.Find("CenterDown (1)");
+        //CenterDown2 = GameObject.Find("CenterDown (1)");
     }
 
     public void CheckPushDir(KeyCode MoveDir)
@@ -134,7 +134,7 @@ public class PushRemoteScript : MonoBehaviour
         Vector3 OriginLeft = PushCube.transform.position + new Vector3(-2, 0, 0);
         Vector3 OriginForward = PushCube.transform.position + new Vector3(0, 0, 2);
 
-        if (MoveDirection == MoveVH.Horizontal)
+        if (MoveDirection == MoveVH.Vertical)
         {
             if (MoveDir == KeyCode.LeftArrow || MoveDir == KeyCode.UpArrow)
             {
@@ -161,7 +161,7 @@ public class PushRemoteScript : MonoBehaviour
                 }
             }
         }
-        else if (MoveDirection == MoveVH.Vertical)
+        else if (MoveDirection == MoveVH.Horizontal)
         {
 
             if (MoveDir == KeyCode.LeftArrow || MoveDir == KeyCode.DownArrow)
