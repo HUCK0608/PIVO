@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2382904879346438865}
   - component: {fileID: 4836280476706583489}
   m_Layer: 0
-  m_Name: Object_Grass_Flower_5
+  m_Name: Object_Grass_Flower_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 45d071862cc992e408db2e74abb8843d, type: 2}
+  - {fileID: 2100000, guid: 4de6c455deea88643b77864fd166ae4f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

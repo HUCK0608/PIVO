@@ -525,7 +525,7 @@ GameObject:
   - component: {fileID: 1461577678640211778}
   - component: {fileID: 1461577678640211779}
   m_Layer: 0
-  m_Name: PlayerGroup
+  m_Name: PlayerGroup_InGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -562,15 +562,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8365ff968b3351a4f9aed684d8ba0cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 300
+  _moveSpeed: 450
   _gravity: -35
   _rotationSpeed: 15
-  _viewRectAdjustScaleZSpeed: 30
-  _maxViewRectScaleX: 44
-  _maxViewRectScaleY: 12
-  _maxViewRectScaleZ: 10
+  _viewRectAdjustScaleZSpeed: 500
+  _maxViewRectScaleX: 50
+  _maxViewRectScaleY: 20
+  _maxViewRectScaleZ: 15
   _viewRectIncreaseXYRatePerSec: 5
-  _viewRectIncreaseZRatePerSec: 0.1
+  _viewRectIncreaseZRatePerSec: 0.3
 --- !u!114 &1461577678640211779
 MonoBehaviour:
   m_ObjectHideFlags: 0
