@@ -3,19 +3,27 @@ using System.Collections.Generic;
 
 public class CStageManager : MonoBehaviour
 {
-    private Dictionary<string, CStageData> _stageDatas;
-    public CStageData StageData(string sceneName) { return _stageDatas[sceneName]; }
+    /// <summary>속성들의 이름</summary>
+    private static string[] _elementsName = new string[] { "MaxBiscuitCount", "HaveBiscuitCount", "IsUnlock" };
 
+    /// <summary>스테이지들</summary>
     private List<CStage> _stages;
 
+    /// <summary>데이터 파일 이름</summary>
     [SerializeField]
     private string _dataFileName = null;
 
     private void Awake()
     {
-        DataManager.SaveData("Data", "AAAA/GGGG", "DataName123", "12341234");
-        string data = DataManager.LoadData("aaaa", "AAAA/C", "DataName");
-        //InitStages();
+        InitStages();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F5))
+            SaveStageDatas();
+        else if (Input.GetKeyDown(KeyCode.F6))
+            LoadStageDatas();
     }
 
     /// <summary>스테이지 초기화</summary>
@@ -27,28 +35,40 @@ public class CStageManager : MonoBehaviour
             _stages.Add(transform.GetChild(i).GetComponent<CStage>());
     }
 
-    /// <summary>스테이지 데이터를 불러옴</summary>
+    /// <summary>스테이지 데이터들을 저장함</summary>
+    private void SaveStageDatas()
+    {
+        int stageAmount = _stages.Count;
+
+        // Xml 초기화
+        CDataManager.InitXmlDocument(_dataFileName, System.IO.FileMode.OpenOrCreate);
+
+        // 데이터 쓰기
+        for (int i = 0; i < stageAmount; i++)
+        {
+            string[] datas = new string[] { _stages[i].MaxBiscuitCount.ToString(), _stages[i].HaveBiscuitCount.ToString(), _stages[i].IsUnlock.ToString() };
+            CDataManager.WritingData( "StageDatas/" + _stages[i].GameSceneName, _elementsName, datas);
+        }
+
+        // 파일 저장
+        CDataManager.SaveFile(_dataFileName);
+    }
+
+    /// <summary>스테이지 데이터들을 불러옴</summary>
     private void LoadStageDatas()
     {
-        _stageDatas = new Dictionary<string, CStageData>();
+        int stageAmount = _stages.Count;
 
-        int childCount = transform.childCount;
+        // Xml 초기화
+        CDataManager.InitXmlDocument(_dataFileName);
 
-        for(int i = 0; i < childCount; i++)
+        // 데이터 불러오기
+        for(int i = 0; i < stageAmount; i++)
         {
-            CStageData data = DataManager.LoadData<CStageData>(_stages[i].GameSceneName);
-
-            // 게임을 처음 시작한 경우
-            if(i == 0 && data == null)
-            {
-                for(int j = 0; j < childCount; j++)
-                {
-                    CStageData newData = new CStageData();
-                    newData.MaxBiscuitCount = _stages[i].MaxBiscuitCount;
-                }
-
-                break;
-            }
+            string[] datas = CDataManager.LoadData(_dataFileName, "StageDatas/" + _stages[i].GameSceneName, _elementsName);
+            _stages[i].MaxBiscuitCount = int.Parse(datas[0]);
+            _stages[i].HaveBiscuitCount = int.Parse(datas[1]);
+            _stages[i].IsUnlock = datas[2].ToBoolean();
         }
     }
 }

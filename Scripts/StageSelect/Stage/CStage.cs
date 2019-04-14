@@ -8,17 +8,25 @@ public class CStage : MonoBehaviour
     /// <summary>씬 이름</summary>
     public string GameSceneName { get { return _gameSceneName; } }
 
-    [SerializeField]
-    private int _maxBiscuitCount = 0;
-    /// <summary>최대 비스킷 개수</summary>
-    public int MaxBiscuitCount { get { return _maxBiscuitCount; } }
-
     [Space(20f)]
     /// <summary>주위에 연결된 스테이지들</summary>
     [SerializeField]
     private CStageInfo[] _connectedStages = null;
 
-    
+    [SerializeField]
+    private int _maxBiscuitCount = 0;
+    /// <summary>최대 비스킷 개수</summary>
+    public int MaxBiscuitCount { get { return _maxBiscuitCount; } set { _maxBiscuitCount = value; } }
+
+    [SerializeField]
+    private int _haveBiscuitCount = 0;
+    /// <summary>먹은 비스킷 개수</summary>
+    public int HaveBiscuitCount { get { return _haveBiscuitCount; } set { _haveBiscuitCount = value; } }
+
+    [SerializeField]
+    private bool _isUnlock = false;
+    /// <summary>스테이지 잠김 여부</summary>
+    public bool IsUnlock { get { return _isUnlock; } set { _isUnlock = value; } }
 
     /// <summary>스테이지 시작</summary>
     public void StartStage()
