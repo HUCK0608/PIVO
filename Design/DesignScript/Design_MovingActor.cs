@@ -11,9 +11,7 @@ public class Design_MovingActor : MonoBehaviour
     int TargetNum;
     int MoveDir;
     bool bWait;
-
-    [HideInInspector]
-    public bool IsEnabled;
+    bool IsEnabled;
 
     public bool SetEnabled;
     public float MoveSpeed;
@@ -110,6 +108,12 @@ public class Design_MovingActor : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, MovePosArray[TargetNum], MoveSpeed);
         }
+    }
+
+    public void OnMovingActor()
+    {
+        IsEnabled = true;
+        TargetNum++;
     }
 
 
