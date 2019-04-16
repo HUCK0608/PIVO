@@ -7,6 +7,7 @@ public class Design_MoveSwitch : MonoBehaviour
     bool SwitchBool = false;
 
     public GameObject[] MovingActor = new GameObject[] { };
+    public bool RepeatSwitch = false;
 
     void OnTriggerEnter(Collider other)
     {
@@ -16,7 +17,9 @@ public class Design_MoveSwitch : MonoBehaviour
             {
                 V.GetComponent<Design_MovingActor>().OnMovingActor();
             }
-            SwitchBool = true;
+
+            if (!RepeatSwitch)
+                SwitchBool = true;
         }
     }
 }

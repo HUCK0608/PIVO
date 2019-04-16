@@ -12,6 +12,7 @@ public class Design_MovingActor : MonoBehaviour
     int MoveDir;
     bool bWait;
     bool IsEnabled;
+    bool FirstPlay;
 
     public bool SetEnabled;
     public float MoveSpeed;
@@ -62,6 +63,7 @@ public class Design_MovingActor : MonoBehaviour
         bWait = false;
         IsEnabled = SetEnabled;
         MoveSpeed = MoveSpeed * 0.1f;
+        FirstPlay = false;
     }
 
 
@@ -112,8 +114,15 @@ public class Design_MovingActor : MonoBehaviour
 
     public void OnMovingActor()
     {
-        IsEnabled = true;
-        TargetNum++;
+        if (!IsEnabled)
+        {
+            IsEnabled = true;
+            if (!FirstPlay)
+            {
+                FirstPlay = true;
+                TargetNum++;
+            }
+        }
     }
 
 
