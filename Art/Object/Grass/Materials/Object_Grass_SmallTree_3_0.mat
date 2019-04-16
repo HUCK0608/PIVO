@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Object_Grass_SmallTree_3_0
-  m_Shader: {fileID: 10703, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: c857039ca85bcb840a05b2beaef67097, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -23,5 +23,7 @@ Material:
         m_Texture: {fileID: 2800000, guid: e894fa4290e7dbb4e8de940c121ec5a2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Floats: []
+    m_Floats:
+    - _Amount: 0.1
+    - _Range: 0.5
     m_Colors: []
