@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 4452662395059171037}
   - component: {fileID: 9114618278891366181}
   - component: {fileID: 7922512608131558232}
-  m_Layer: 0
-  m_Name: Object_Grass_FloorObject_1
+  - component: {fileID: 8048406645153934311}
+  m_Layer: 11
+  m_Name: 3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,6 +78,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &8048406645153934311
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576319811826370682}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 0.6, z: 2}
+  m_Center: {x: 0, y: -0.7, z: 0}
 --- !u!1 &2652184175095601149
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,7 +100,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5827996738163746927}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Object_Grass_FloorObject_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
