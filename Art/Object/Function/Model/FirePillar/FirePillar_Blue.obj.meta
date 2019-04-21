@@ -1,34 +1,16 @@
 fileFormatVersion: 2
-guid: cfda9563d00acb341b1c7b15ebb05fba
+guid: ee384c8a06c4e9a4ca18a0481e5ec5f8
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Special_FirePillar_Blue_Frame
-    100004: Special_FirePillar_Blue_Water
-    100006: FirePillar_Blue_Frame
-    100008: FirePillar_Blue_Water
-    400000: //RootNode
-    400002: Special_FirePillar_Blue_Frame
-    400004: Special_FirePillar_Blue_Water
-    400006: FirePillar_Blue_Frame
-    400008: FirePillar_Blue_Water
-    2100000: Special_FirePillar_Blue_FrameMat
-    2100002: Special_FirePillar_Blue_WaterMat
-    2100004: FirePillar_Blue_FrameMat
-    2100006: FirePillar_Blue_WaterMat
-    2300000: Special_FirePillar_Blue_Frame
-    2300002: Special_FirePillar_Blue_Water
-    2300004: FirePillar_Blue_Frame
-    2300006: FirePillar_Blue_Water
-    3300000: Special_FirePillar_Blue_Frame
-    3300002: Special_FirePillar_Blue_Water
-    3300004: FirePillar_Blue_Frame
-    3300006: FirePillar_Blue_Water
-    4300000: Special_FirePillar_Blue_Frame
-    4300002: Special_FirePillar_Blue_Water
-    4300004: FirePillar_Blue_Frame
-    4300006: FirePillar_Blue_Water
+    100000: FirePillar_Blue
+    100002: //RootNode
+    400000: FirePillar_Blue
+    400002: //RootNode
+    2100000: FirePillar_BlueMat
+    2300000: FirePillar_Blue
+    3300000: FirePillar_Blue
+    4300000: FirePillar_Blue
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -60,7 +42,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.2
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -88,10 +70,10 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
-  importAnimation: 0
+  importAnimation: 1
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2
