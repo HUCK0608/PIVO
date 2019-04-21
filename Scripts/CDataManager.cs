@@ -77,14 +77,12 @@ public static class CDataManager
     /// <summary>
     /// 데이터 불러오기
     /// </summary>
-    /// <param name="fileName">파일 이름</param>
     /// <param name="nodePath">노드 경로</param>
     /// <param name="elementsName">속성들의 이름</param>
     /// <returns></returns>
-    public static string[] LoadData(string fileName, string nodePath, string[] elementsName)
+    public static string[] LoadData(string nodePath, string[] elementsName)
     {
-        // 데이터의 크기를 초기화
-        string[] datas = new string[elementsName.Length];
+        string[] datas = null;
 
         if(_xmlDocument != null)
         {
@@ -100,6 +98,9 @@ public static class CDataManager
             // 최종 노드가 존재할 경우에 진행
             if (node != null)
             {
+                // 데이터 배열 크기 초기화
+                datas = new string[elementsName.Length];
+
                 for (int i = 0; i < elementsName.Length; i++)
                 {
                     // 속성 노드를 가져옴
