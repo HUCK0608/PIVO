@@ -6,14 +6,20 @@ public class Design_MoveSwitch : MonoBehaviour
 {
     bool SwitchBool = false;
 
-    public GameObject MovingActor;
+    public GameObject[] MovingActor = new GameObject[] { };
+    public bool RepeatSwitch = false;
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 10 && MovingActor && !SwitchBool)
+        if (other.gameObject.layer == 10 && MovingActor[0] && !SwitchBool)
         {
-            MovingActor.GetComponent<Design_MovingActor>().IsEnabled = true;
-            SwitchBool = true;
+            foreach (var V in MovingActor)
+            {
+                V.GetComponent<Design_MovingActor>().OnMovingActor();
+            }
+
+            if (!RepeatSwitch)
+                SwitchBool = true;
         }
     }
 }

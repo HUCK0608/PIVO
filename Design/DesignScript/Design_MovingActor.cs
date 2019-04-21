@@ -11,9 +11,8 @@ public class Design_MovingActor : MonoBehaviour
     int TargetNum;
     int MoveDir;
     bool bWait;
-
-    [HideInInspector]
-    public bool IsEnabled;
+    bool IsEnabled;
+    bool FirstPlay;
 
     public bool SetEnabled;
     public float MoveSpeed;
@@ -64,6 +63,7 @@ public class Design_MovingActor : MonoBehaviour
         bWait = false;
         IsEnabled = SetEnabled;
         MoveSpeed = MoveSpeed * 0.1f;
+        FirstPlay = false;
     }
 
 
@@ -109,6 +109,19 @@ public class Design_MovingActor : MonoBehaviour
         if (!bWait)
         {
             transform.position = Vector3.MoveTowards(transform.position, MovePosArray[TargetNum], MoveSpeed);
+        }
+    }
+
+    public void OnMovingActor()
+    {
+        if (!IsEnabled)
+        {
+            IsEnabled = true;
+            if (!FirstPlay)
+            {
+                FirstPlay = true;
+                TargetNum++;
+            }
         }
     }
 
