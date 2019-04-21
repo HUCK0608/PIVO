@@ -4,12 +4,9 @@ public abstract class CWorldObject : MonoBehaviour
 {
     private GameObject _rootObject;
     private GameObject _rootObject3D;
-    private GameObject _rootObject2D;
 
     /// <summary>최상위 오브젝트</summary>
     public GameObject RootObject { get { return _rootObject; } }
-    /// <summary>최상위 2D 오브젝트</summary>
-    public GameObject RootObject2D { get { return _rootObject2D; } }
     /// <summary>최상위 3D 오브젝트</summary>
     public GameObject RootObject3D { get { return _rootObject3D; } }
 
@@ -26,7 +23,6 @@ public abstract class CWorldObject : MonoBehaviour
     {
         _rootObject = transform.parent.gameObject;
         _rootObject3D = gameObject;
-        _rootObject2D = _rootObject.transform.Find("Root2D").gameObject;
 
         _blockMateiral = Resources.Load("BlockMaterialDumy") as Material;
 

@@ -9,9 +9,9 @@
         _MainTex0 ("Default Texture", 2D) = "white" {}			// 기본 텍스처
 		_MainTex1 ("Clear Texture", 2D) = "white" {}			// 클리어 텍스처
 
-		[Toggle]_isPerfectClear("IsPerfectClear", Float) = 0
-		[Toggle]_isClear("IsClear", Float) = 0
-		[Toggle]_isUnlock("IsUnlock", Float) = 0
+		[Toggle]_IsPerfectClear("IsPerfectClear", Float) = 0
+		[Toggle]_IsClear("IsClear", Float) = 0
+		[Toggle]_IsUnlock("IsUnlock", Float) = 0
 	}
     SubShader
     {
@@ -30,9 +30,9 @@
 		float4 _Color1;
 		float4 _Color2;
 
-		float _isPerfectClear;
-		float _isClear;
-		float _isUnlock;
+		float _IsPerfectClear;
+		float _IsClear;
+		float _IsUnlock;
 
         struct Input
         {
@@ -49,8 +49,8 @@
 			float4 defaultTexColor = tex2D(_MainTex0, IN.uv_MainTex0);
 			float4 perfectClearTexColor = tex2D(_MainTex1, IN.uv_MainTex1);
 
-			float3 finalColor = saturate(clamp(_isPerfectClear, defaultTexColor, perfectClearTexColor).rgb +
-								lerp(lerp(_Color2, _Color1, _isUnlock), _Color0, saturate(_isPerfectClear + _isClear)));
+			float3 finalColor = saturate(clamp(_IsPerfectClear, defaultTexColor, perfectClearTexColor).rgb +
+								lerp(lerp(_Color2, _Color1, _IsUnlock), _Color0, saturate(_IsPerfectClear + _IsClear)));
 
 			o.Albedo = finalColor;
 			o.Alpha = 1;
