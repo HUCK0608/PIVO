@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 278124990838246803}
   - component: {fileID: 7650643022731317763}
   - component: {fileID: 2107165827944781563}
+  - component: {fileID: 8422296747895336840}
   m_Layer: 11
   m_Name: Object_Grass_SmallTree_3
   m_TagString: Untagged
@@ -122,3 +123,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.6, z: 1.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8422296747895336840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6292160674067043255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7dce117e5c1a764da47f059f5954cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
