@@ -14,13 +14,14 @@ public class Design_Monster : MonoBehaviour
     string CorgiState;
 
     Text ProtoDesc;
-    GameObject Corgi;
+    GameObject Corgi, Monster2D;
     Animator MonsterAnimator;
 
     Vector3 MonsterPos, MonsterRot, PlayerPos, ThrowPos, LookTargetPos;
     void Start()
     {
         InitializeValue();
+        SetMonster2D(false);
     }
 
     void Update()
@@ -61,6 +62,7 @@ public class Design_Monster : MonoBehaviour
         MonsterRot = new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z);
         MonsterAnimator = GetComponentInChildren<Animator>();
         ProtoDesc = GameObject.Find("ProtoDesc").GetComponent<Text>();
+        Monster2D = transform.parent.transform.Find("2D").gameObject;
 
         Vector3 ThrowPosXZ = transform.Find("ThrowPos").transform.position;
         ThrowPos = new Vector3(ThrowPosXZ.x, transform.position.y, ThrowPosXZ.z);
@@ -69,6 +71,11 @@ public class Design_Monster : MonoBehaviour
     void SetProtoDesc(string DescContent)
     {
         ProtoDesc.text = DescContent;
+    }
+
+    void SetMonster2D(bool Active)
+    {
+        Monster2D.SetActive(Active);
     }
 
 
