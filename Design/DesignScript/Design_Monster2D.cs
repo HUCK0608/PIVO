@@ -8,7 +8,6 @@ public class Design_Monster2D : MonoBehaviour
     void Start()
     {
         InitializeValue();
-        //Monster3D.SetActive(false);
     }
 
     void Update()
@@ -18,6 +17,6 @@ public class Design_Monster2D : MonoBehaviour
 
     void InitializeValue()
     {
-        Monster3D = transform.parent.transform.Find("3D").gameObject;
+        Debug.Log("InitializeValue2D");
     }
 }

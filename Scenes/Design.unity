@@ -9312,6 +9312,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 497691182}
+  - component: {fileID: 497691183}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -9335,6 +9336,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &497691183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497691181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11a07e93eb84e8544b1baac1c78ae413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WorldManager: {fileID: 1060977279}
 --- !u!1001 &505393869
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15993,6 +16007,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0443692180af014fbc2cd921ff4f1c1, type: 3}
+--- !u!114 &1060977279 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 527874105038699572, guid: b0443692180af014fbc2cd921ff4f1c1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1060977278}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e6f7de37e3e95640a731639ed13932a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1062947274
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28332,6 +28358,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: dba7dc9381bc9174cb7c5c34d2321ddb, type: 2}
     - target: {fileID: 400000, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0.49999967
@@ -28352,10 +28382,6 @@ PrefabInstance:
       propertyPath: m_LocalRotation.w
       value: 0.50000066
       objectReference: {fileID: 0}
-    - target: {fileID: 9500000, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: dba7dc9381bc9174cb7c5c34d2321ddb, type: 2}
     - target: {fileID: 100032, guid: 95c63971ebb4c144884cad051dd7f090, type: 3}
       propertyPath: m_Layer
       value: 10

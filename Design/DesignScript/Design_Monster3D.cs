@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Design_Monster : MonoBehaviour
+public class Design_Monster3D : MonoBehaviour
 {
     public float MoveSpeed;
 
@@ -21,7 +21,7 @@ public class Design_Monster : MonoBehaviour
     void Start()
     {
         InitializeValue();
-        SetMonster2D(false);
+        Monster2D.SetActive(false);
     }
 
     void Update()
@@ -71,11 +71,6 @@ public class Design_Monster : MonoBehaviour
     void SetProtoDesc(string DescContent)
     {
         ProtoDesc.text = DescContent;
-    }
-
-    void SetMonster2D(bool Active)
-    {
-        Monster2D.SetActive(Active);
     }
 
 

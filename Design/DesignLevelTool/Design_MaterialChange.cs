@@ -14,8 +14,10 @@ public class Design_MaterialChange : MonoBehaviour
     public bool RotPlus;
     public bool RotMinus;
     public bool RotZero;
+    public bool RotZ;
     public ThemeType Theme;
     public bool UseSideRandom;
+
     private bool ChangeRot;
     
 
@@ -25,6 +27,7 @@ public class Design_MaterialChange : MonoBehaviour
         ChangeRot3D();
         ChangeRot3DZero();
         SideRandom();
+        RotateZ();
 
     }
 
@@ -114,6 +117,14 @@ public class Design_MaterialChange : MonoBehaviour
 
             ChangeMaterial = (Material)AssetDatabase.LoadAssetAtPath(AssetPath + ThemeString + RandomTile + TileFormat, typeof(Material));
             ChangeMaterialFunc();
+        }
+    }
+
+    void RotateZ()
+    {
+        if (RotZ)
+        {
+            transform.Find("Root3D").transform.Rotate(new Vector3(0, 0, 180));
         }
     }
 
