@@ -5,12 +5,17 @@ ModelImporter:
   fileIDToRecycleName:
     100000: default
     100002: //RootNode
+    100004: Object_Grass_Tree_0
     400000: default
     400002: //RootNode
+    400004: Object_Grass_Tree_0
     2100000: defaultMat
     2300000: default
+    2300002: Object_Grass_Tree_0
     3300000: default
+    3300002: Object_Grass_Tree_0
     4300000: default
+    4300002: Object_Grass_Tree_0
   externalObjects: {}
   materials:
     importMaterials: 0
@@ -47,11 +52,11 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     importVisibility: 1
-    importBlendShapes: 0
+    importBlendShapes: 1
     importCameras: 0
     importLights: 0
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
@@ -70,7 +75,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 0
-    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   importAnimation: 0
