@@ -16,17 +16,17 @@ public class CSingleObject2D3D : CSingleObject3D
 
     public override void Change2D()
     {
-        base.Change2D();
-
         if (IsCanChange2D)
             _collider2D.enabled = true;
+
+        base.Change2D();
     }
 
     public override void Change3D()
     {
-        base.Change3D();
-
         if (IsCanChange2D)
             _collider2D.enabled = false;
+
+        base.Change3D();
     }
 }
