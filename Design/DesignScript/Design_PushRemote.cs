@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum MoveVH { Vertical, Horizontal }
 
-public class PushRemoteScript : MonoBehaviour
+public class Design_PushRemote : MonoBehaviour
 {
     public GameObject PushCube;
     public MoveVH MoveDirection;
