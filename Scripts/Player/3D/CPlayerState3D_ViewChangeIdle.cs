@@ -45,9 +45,9 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
     private void Update()
     {
         if (Input.GetKey(CKeyManager.ViewRectScaleAdjustKey1) || Input.GetKey(CKeyManager.AnotherViewRectScaleAdjustKey1))
-            Controller3D.ViewChangeRect.IncreaseScaleZ();
+            ;//Controller3D.ViewChangeRect.IncreaseScaleZ();
         else if (Input.GetKey(CKeyManager.ViewRectScaleAdjustKey2) || Input.GetKey(CKeyManager.AnotherViewRectScaleAdjustKey2))
-            Controller3D.ViewChangeRect.DecreaseScaleZ();
+            ;//Controller3D.ViewChangeRect.DecreaseScaleZ();
 
         bool isCanChange = IsCanChange();
 
@@ -76,60 +76,62 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
     /// <summary>변환을 할 수 있으면 true를 반환</summary>
     private bool IsCanChange()
     {
-        bool result = true;
+        //bool result = true;
 
-        Vector3 direction = Vector3.zero;
-        direction.z = Mathf.Sign(Controller3D.ViewChangeRect.CurrentScaleZ);
+        //Vector3 direction = Vector3.zero;
+        //direction.z = Mathf.Sign(Controller3D.ViewChangeRect.CurrentScaleZ);
 
-        float distance = Mathf.Abs(Controller3D.ViewChangeRect.CurrentScaleZ) - 0.1f;
+        //float distance = Mathf.Abs(Controller3D.ViewChangeRect.CurrentScaleZ) - 0.1f;
 
-        RaycastHit hit;
-        for(int i = 0; i < _blockCheckPointCount; i++)
-        {
-            Debug.DrawRay(_blockCheckPoints[i].position, direction * distance, Color.red);
-            if(Physics.Raycast(_blockCheckPoints[i].position, direction, out hit, distance, _blockCheckIgnoreLayerMask))
-            {
-                result = false;
+        //RaycastHit hit;
+        //for(int i = 0; i < _blockCheckPointCount; i++)
+        //{
+        //    Debug.DrawRay(_blockCheckPoints[i].position, direction * distance, Color.red);
+        //    if(Physics.Raycast(_blockCheckPoints[i].position, direction, out hit, distance, _blockCheckIgnoreLayerMask))
+        //    {
+        //        result = false;
 
-                bool isShowBlock = false;
+        //        bool isShowBlock = false;
 
-                for(int j = 0; j < _blockObjetCount; j++)
-                {
-                    if (_blockObjects[j].gameObject.Equals(hit.transform.gameObject))
-                    {
-                        _blockObjects[j].ShowOnBlock();
-                        isShowBlock = true;
-                        break;
-                    }
-                }
+        //        for(int j = 0; j < _blockObjetCount; j++)
+        //        {
+        //            if (_blockObjects[j].gameObject.Equals(hit.transform.gameObject))
+        //            {
+        //                _blockObjects[j].ShowOnBlock();
+        //                isShowBlock = true;
+        //                break;
+        //            }
+        //        }
 
-                if(!isShowBlock)
-                {
-                    CWorldObject newBlockObject = hit.transform.GetComponent<CWorldObject>();
-                    newBlockObject.ShowOnBlock();
-                    _blockObjects.Add(newBlockObject);
-                    _blockObjetCount++;
-                }
-            }
-        }
+        //        if(!isShowBlock)
+        //        {
+        //            CWorldObject newBlockObject = hit.transform.GetComponent<CWorldObject>();
+        //            newBlockObject.ShowOnBlock();
+        //            _blockObjects.Add(newBlockObject);
+        //            _blockObjetCount++;
+        //        }
+        //    }
+        //}
 
-        return result;
+        //return result;
+
+        return true;
     }
 
     public override void EndState()
     {
         base.EndState();
 
-        Controller3D.ViewChangeRect.StopSetScaleZ();
-        Controller3D.ViewChangeRect.gameObject.SetActive(false);
+        //Controller3D.ViewChangeRect.StopSetScaleZ();
+        //Controller3D.ViewChangeRect.gameObject.SetActive(false);
 
-        for (int i = 0; i < _blockObjetCount; i++)
-            _blockObjects[i].ShowOffBlock();
+        //for (int i = 0; i < _blockObjetCount; i++)
+        //    _blockObjects[i].ShowOffBlock();
 
-        _blockObjects.Clear();
-        _blockObjetCount = 0;
+        //_blockObjects.Clear();
+        //_blockObjetCount = 0;
 
-        _viewChangeWandEffect.SetActive(false);
-        Controller3D.ViewChangeRect.SetEffectEnable(false);
+        //_viewChangeWandEffect.SetActive(false);
+        //Controller3D.ViewChangeRect.SetEffectEnable(false);
     }
 }

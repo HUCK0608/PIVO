@@ -28,14 +28,17 @@ public class CCameraController : MonoBehaviour
     /// <summary>카메라 흔들림 중일경우 true를 반환</summary>
     private bool _isOnCameraShaking = false;
 
-    [SerializeField]
-    private GlobalFog _globalFog;
+    /// <summary>글로벌 포그</summary>
+    private GlobalFog _globalFog = null;
 
     private void Awake()
     {
         _instance = this;
 
         _animator = GetComponent<Animator>();
+
+        _globalFog = GetComponentInChildren<GlobalFog>();
+        _globalFog.heightDensity = 2.63f;
     }
 
     private void Start()
@@ -48,7 +51,7 @@ public class CCameraController : MonoBehaviour
         if (!CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View2D) && !_isOnCameraShaking)
             transform.position = _target.transform.position;
 
-        //_globalFog.height = transform.position.y + 2f;
+        _globalFog.height = transform.position.y + 2f;
     }
 
     /// <summary>2D 무빙워크 실행</summary>
