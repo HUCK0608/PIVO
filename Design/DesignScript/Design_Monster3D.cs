@@ -158,6 +158,13 @@ public class Design_Monster3D : MonoBehaviour
         
     }
 
+    public void SetCollisionSize(Vector3 CollisionSize)
+    {
+        BoxCollider BoxCollision = GetComponent<BoxCollider>();
+        BoxCollision.size = CollisionSize;
+        BoxCollision.center = new Vector3(-CollisionSize.x/2 + 0.5f, 1, 0);
+    }
+
 
 
 

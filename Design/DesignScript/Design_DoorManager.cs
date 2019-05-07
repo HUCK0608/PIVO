@@ -4,143 +4,119 @@ using UnityEngine;
 
 public class Design_DoorManager : MonoBehaviour
 {
-    public GameObject DoorInDoor, DoorInDoor2;
     public GameObject KeyPrefab;
+    public float AttachKeySpeed;
+
+    [Header("RegistKeyObject")]
+    public GameObject[] KeyObject = new GameObject[] { };
     
-    [Header("ForOpenDoor")]
-    public GameObject[] ChildKey = new GameObject[] { };
-
-    private bool IsOpen;
-    private int KeyNum;
-    private int AttachCount;
     private GameObject[] KeyPosArray = new GameObject[4];
-    private List<GameObject> KeyObject = new List<GameObject>();    
+    private GameObject DoorInDoor, DoorInDoor2;
+    private int KeyNum;
+    private bool IsOpen;
 
-    bool bDoorAnim;
 
-    void Start()
+    //InitializeValue
+
+
+
+
+
+
+
+
+    private void Start()
     {
-        SetKey();
         SetKeyPos();
-        SetDoor();
+        SetKeyScript();
+        SetDoorState();
     }
 
-    void Update()
+    private void Update()
     {
         OpenDoorAnim();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
 
-        if (other.gameObject.layer == 10 && !IsOpen)
-        {
-            foreach (var Value in ChildKey)
-            {
-                Design_Key Script = Value.GetComponent<Design_Key>();
-                if (Script.AttachCorgi && !Script.AttachDoor)
-                {
-                    KeyNum++;
-                    AttachCount--;
-                    Value.SetActive(false);
-                    Script.AttachDoor = true;
-                }
-            }
-            RefreshDoor();
-        }
-    }
+    //EventFunction
 
 
 
-    //EventFunction//
 
 
 
-    void SetKey()
-    {
-        foreach (var Value in ChildKey)
-        {
-            Value.GetComponent<Design_Key>().DoorManager = gameObject;
-        }
 
-        KeyNum = 4 - ChildKey.Length;
-    }
 
     void SetKeyPos()
     {
+        int KeyObjectNum = 0;
+        KeyNum = 4 - KeyObject.Length;
+
         for (int i = 0; i < 4; i++)
         {
-            KeyPosArray[i] = GameObject.Find("KeyPos " + "(" + i + ")");
+            KeyPosArray[i] = transform.Find("KeyPos " + "(" + i + ")").gameObject;
+
+            if (i < KeyNum)
+            {
+                InitializeKeyPrefab(i);
+            }
+            else
+            {
+                Design_Key KeyScript = KeyObject[KeyObjectNum].GetComponent<Design_Key>();
+                KeyScript.TargetPos = KeyPosArray[i].transform.position;
+                KeyScript.AttachSpeed = AttachKeySpeed;
+                KeyObjectNum++;
+            }
         }
+    }
+
+    void SetGameObject()
+    {
+        DoorInDoor = transform.Find("Activate_Door_Door").gameObject;
+        DoorInDoor2 = transform.Find("Activate_Door_Pattern").gameObject;
+    }
+
+    void SetKeyScript()
+    {
+        foreach (var Value in KeyObject)
+        {
+            Value.GetComponent<Design_Key>().DoorManager = gameObject;
+        }
+    }
+
+    void InitializeKeyPrefab(int LocationNum)
+    {        
+        GameObject InstObject = Instantiate(KeyPrefab, KeyPosArray[LocationNum].transform, false);
+        InstObject.transform.localPosition = Vector3.zero;
+    }
+
+    void SetDoorState()
+    {
+        if (KeyNum == 4)
+            OpenDoor();
     }
 
     void OpenDoorAnim()
     {
-        if (bDoorAnim)
+        if (IsOpen)
         {
             DoorInDoor.transform.position += new Vector3(0, -0.05f, 0);
             DoorInDoor2.transform.position += new Vector3(0, -0.05f, 0);
         }
 
         if (DoorInDoor.transform.localPosition.y < -9f)
-            bDoorAnim = false;
+            IsOpen = false;
     }
 
     void OpenDoor()
     {
         GetComponentInChildren<BoxCollider>().isTrigger = true;
-        bDoorAnim = true;
         IsOpen = true;
     }
 
-    void SetDoor()
+    public void AddKeyNum()
     {
-        if (KeyNum == 4)
-        {
-            OpenDoor();
-        }
-        else
-        {
-            for (int i = 0; i < KeyNum; i++)
-            {
-                GameObject InstObject = Instantiate(KeyPrefab, KeyPosArray[i].transform, false);
-                InstObject.transform.localPosition = Vector3.zero;
-                KeyObject.Add(InstObject);
-            }
-        }
-    }
-
-    void RefreshDoor()
-    {
-        if (KeyNum == 4)
-        {
-            OpenDoor();
-        }
-        ClearKeyObject();
-        Debug.Log(KeyNum);
-        for (int i = 0; i < KeyNum; i++)
-        {
-            GameObject InstObject = Instantiate(KeyPrefab, KeyPosArray[i].transform, false);
-            InstObject.transform.localPosition = Vector3.zero;
-            KeyObject.Add(InstObject);
-        }
-    }
-
-    void ClearKeyObject()
-    {
-        foreach(var Value in KeyObject)
-        {
-            Value.SetActive(false);
-        }
-
-        KeyObject.Clear();
-    }
-
-    public void AttachCube(GameObject Key, GameObject Corgi)
-    {
-        AttachCount++;
-        Key.GetComponent<Design_Key>().AttachCorgi = true;
-        Key.transform.parent = Corgi.transform;
-        Key.transform.localPosition = new Vector3(0, 0.75f, -1.2f * AttachCount);
+        KeyNum++;
+        SetDoorState();
     }
 }

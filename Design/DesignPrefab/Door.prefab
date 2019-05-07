@@ -206,7 +206,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2051503210}
-  - component: {fileID: 2051503211}
   - component: {fileID: 2051503209}
   m_Layer: 0
   m_Name: Door
@@ -236,19 +235,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &2051503211
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2051503208}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 5.8444996
-  m_Center: {x: -4, y: -4, z: 0}
 --- !u!114 &2051503209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,7 +251,8 @@ MonoBehaviour:
   DoorInDoor2: {fileID: 1898522971}
   KeyPrefab: {fileID: 910141154710690400, guid: d04a81f854acf8046a88ab56721eb970,
     type: 3}
-  ChildKey: []
+  AttachKeySpeed: 0.2
+  KeyObject: []
 --- !u!1 &348133949617953012
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,6 +379,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Activate_Door
       objectReference: {fileID: 0}
+    - target: {fileID: 2300012, guid: 7d6154f4e1e3e2346a2ac532ebcae99d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e9aa5aa9674ddad4a8548073bcc7c79b, type: 2}
     - target: {fileID: 400000, guid: 7d6154f4e1e3e2346a2ac532ebcae99d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
@@ -436,14 +427,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: 7d6154f4e1e3e2346a2ac532ebcae99d, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 9315f89faed2a374595dc18d99e33608, type: 2}
-    - target: {fileID: 2300012, guid: 7d6154f4e1e3e2346a2ac532ebcae99d, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: e9aa5aa9674ddad4a8548073bcc7c79b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d6154f4e1e3e2346a2ac532ebcae99d, type: 3}
 --- !u!4 &1898886517 stripped

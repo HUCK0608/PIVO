@@ -8,25 +8,45 @@ public class Design_Key : MonoBehaviour
     public GameObject DoorManager;
 
     [HideInInspector]
-    public bool AttachCorgi;
+    public Vector3 TargetPos;
 
     [HideInInspector]
-    public bool AttachDoor;
+    public float AttachSpeed;
     void Start()
     {
     }
 
     void Update()
     {
-        transform.Rotate(Vector3.up);
-        transform.Rotate(Vector3.right);
+        RotateKey();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 10)
         {
-            DoorManager.GetComponent<Design_DoorManager>().AttachCube(gameObject, other.gameObject);
+            StartCoroutine("AttachDoor");
+        }
+    }
+
+    void RotateKey()
+    {
+        transform.Rotate(Vector3.up);
+        transform.Rotate(Vector3.right);
+    }
+    
+    IEnumerator AttachDoor()
+    {
+        while (true)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, TargetPos, 0.2f);
+            if (transform.position == TargetPos)
+            {
+                DoorManager.GetComponent<Design_DoorManager>().AddKeyNum();           
+                break;
+            }
+
+            yield return null;
         }
     }
 }
