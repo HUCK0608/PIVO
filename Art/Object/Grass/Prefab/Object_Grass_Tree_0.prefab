@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 1040769371891957196}
   - component: {fileID: 9031239888474411386}
   - component: {fileID: 4312557442815853839}
-  - component: {fileID: 7116910633021719904}
+  - component: {fileID: 4701293338136117127}
   m_Layer: 11
   m_Name: Object_Grass_Tree_0
   m_TagString: Untagged
@@ -72,7 +72,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6906782733022790876}
-  m_Mesh: {fileID: 4300002, guid: 67814a55875e28f46a5007d22e00c8d4, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 7c52ff255badc4f4a866851e6dec443d, type: 3}
 --- !u!23 &9031239888474411386
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -90,7 +90,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 99fbe136a5ec46d4c86d46253133c36a, type: 2}
+  - {fileID: 2100000, guid: a66f11b61dea8c94285ba62281e2dafb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7dce117e5c1a764da47f059f5954cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &7116910633021719904
+--- !u!65 &4701293338136117127
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,5 +133,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.112586, y: 10, z: 1.263752}
-  m_Center: {x: -0.6268258, y: -1.0999999, z: 0.33410454}
+  m_Size: {x: 0.7268894, y: 10.4, z: 0.68289757}
+  m_Center: {x: 0.72150505, y: -0.8000002, z: -0.31550884}
