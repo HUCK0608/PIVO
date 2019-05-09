@@ -13,6 +13,10 @@ public class Design_MonsterController : MonoBehaviour
     {
         Monster3D = transform.Find("3D").gameObject;
         Monster2D = transform.Find("2D").gameObject;
+
+        Monster3D.GetComponent<Design_Monster3D>().InitializeValue();
+        Monster2D.GetComponent<Design_Monster2D>().InitializeValue();
+
         bState3D = true;
         bState2D = false;
         OutViewRect = true;

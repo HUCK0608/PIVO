@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class Design_DoorManager : MonoBehaviour
 {
-    public GameObject KeyPrefab;
+    public GameObject DoorInDoor, DoorInDoor2, KeyPrefab;
     public float AttachKeySpeed;
 
     [Header("RegistKeyObject")]
     public GameObject[] KeyObject = new GameObject[] { };
     
     private GameObject[] KeyPosArray = new GameObject[4];
-    private GameObject DoorInDoor, DoorInDoor2;
     private int KeyNum;
     private bool IsOpen;
 
@@ -68,12 +67,6 @@ public class Design_DoorManager : MonoBehaviour
                 KeyObjectNum++;
             }
         }
-    }
-
-    void SetGameObject()
-    {
-        DoorInDoor = transform.Find("Activate_Door_Door").gameObject;
-        DoorInDoor2 = transform.Find("Activate_Door_Pattern").gameObject;
     }
 
     void SetKeyScript()
