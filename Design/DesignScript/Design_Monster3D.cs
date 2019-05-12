@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Design_Monster3D : MonoBehaviour
 {
@@ -14,7 +13,6 @@ public class Design_Monster3D : MonoBehaviour
     int PhaseNum;
     string CorgiState;
 
-    Text ProtoDesc;
     GameObject Corgi, Monster2D;
     Animator MonsterAnimator;
 
@@ -60,7 +58,6 @@ public class Design_Monster3D : MonoBehaviour
         MonsterPos = transform.position;
         MonsterRot = new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z);
         MonsterAnimator = GetComponentInChildren<Animator>();
-        ProtoDesc = GameObject.Find("ProtoDesc").GetComponent<Text>();
         Monster2D = transform.parent.transform.Find("2D").gameObject;
 
 
@@ -75,10 +72,6 @@ public class Design_Monster3D : MonoBehaviour
         ThrowMonsterPos = ThrowCorgiPos + new Vector3(0, 0, ZAxisValue*1.5f);
     }
 
-    void SetProtoDesc(string DescContent)
-    {
-        ProtoDesc.text = DescContent;
-    }
 
 
 
@@ -154,7 +147,6 @@ public class Design_Monster3D : MonoBehaviour
                 bWaitAnimation = false;
                 bCheckPlayer = false;
                 bThrowCheck = false;
-                SetProtoDesc("끝");
             }
             else
             {
@@ -169,7 +161,7 @@ public class Design_Monster3D : MonoBehaviour
     {
         BoxCollider BoxCollision = GetComponent<BoxCollider>();
         BoxCollision.size = CollisionSize;
-        BoxCollision.center = new Vector3(-CollisionSize.x/2 + 0.5f, 1, 0);
+        BoxCollision.center = new Vector3(-CollisionSize.x/2 + 1, 1, 0);
     }
 
 
@@ -177,17 +169,14 @@ public class Design_Monster3D : MonoBehaviour
 
     IEnumerator WaitAnimation()
     {
-        SetProtoDesc("숲숲이의 놀라는 애니메이션을 기다립니다.");
         yield return new WaitForSeconds(1.5f);
 
-        SetProtoDesc("코기는 못움직이며, 숲숲이가 코기에게 달려갑니다.");
         bWaitAnimation = true;
     }
 
     IEnumerator WaitMoment()
     {
         yield return new WaitForSeconds(1f);
-        SetProtoDesc("코기를 들고 지정해놓은 던질 위치로 데리고 갑니다.");
         PhaseNum = 2;
         bWaitAnimation = true;
         LookTargetPos = new Vector3(ThrowMonsterPos.x, transform.position.y, ThrowMonsterPos.z);
@@ -197,11 +186,9 @@ public class Design_Monster3D : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         CorgiState = "Throw";
-        SetProtoDesc("코기를 내동댕이 칩니다.");
 
         yield return new WaitForSeconds(0.5f);
         LookTargetPos = MonsterPos;
         PhaseNum = 3;
-        SetProtoDesc("다시 원래 자리로 돌아갑니다.");
     }
 }

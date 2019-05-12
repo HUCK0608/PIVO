@@ -24,8 +24,8 @@ public class Design_Monster2D : MonoBehaviour
 
     void Update()
     {
-        CheckRaycast();
-        CheckZAxis();
+        if (CheckZAxis())
+            CheckRaycast();
 
         if (bUseAction)
             ControlCorgi();
@@ -63,7 +63,7 @@ public class Design_Monster2D : MonoBehaviour
     public void InitializeValue()
     {
         LookValue = transform.parent.forward.z;
-        RayLength = transform.parent.Find("3D").GetComponent<BoxCollider>().size.x - 3.5f;
+        RayLength = transform.parent.Find("3D").GetComponent<BoxCollider>().size.x - 3f;
         MonsterPos = transform.position;
 
         ThrowCorgiPosX = transform.Find("ThrowPos").transform.position.x;
@@ -71,9 +71,28 @@ public class Design_Monster2D : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void CheckZAxis()
+    bool CheckZAxis()
     {
-        Debug.Log("Z축에 뭐가 있는지 확인합니다.");
+        RaycastHit hit;
+        bool ReturnValue = true;
+
+        if (Physics.Raycast(transform.position, Vector3.forward, out hit, 100))
+        {
+            if (hit.collider.gameObject.GetComponent<MeshRenderer>().enabled)
+            {
+                ReturnValue = false;
+            }
+        }
+
+        if (Physics.Raycast(transform.position, Vector3.back, out hit, 100))
+        {
+            if (hit.collider.gameObject.GetComponent<MeshRenderer>().enabled)
+            {
+                ReturnValue = false;
+            }
+        }
+
+        return ReturnValue;
     }
 
     void ControlCorgi()
