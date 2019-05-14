@@ -44,11 +44,6 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
 
     private void Update()
     {
-        if (Input.GetKey(CKeyManager.ViewRectScaleAdjustKey1) || Input.GetKey(CKeyManager.AnotherViewRectScaleAdjustKey1))
-            Controller3D.ViewChangeRect.IncreaseScaleZ();
-        else if (Input.GetKey(CKeyManager.ViewRectScaleAdjustKey2) || Input.GetKey(CKeyManager.AnotherViewRectScaleAdjustKey2))
-            Controller3D.ViewChangeRect.DecreaseScaleZ();
-
         bool isCanChange = IsCanChange();
 
         if (Input.GetKeyDown(CKeyManager.ViewChangeCancelKey) || Input.GetKeyDown(CKeyManager.AnotherViewChangeCancelKey))
@@ -84,16 +79,16 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
         float distance = Mathf.Abs(Controller3D.ViewChangeRect.CurrentScaleZ) - 0.1f;
 
         RaycastHit hit;
-        for(int i = 0; i < _blockCheckPointCount; i++)
+        for (int i = 0; i < _blockCheckPointCount; i++)
         {
             Debug.DrawRay(_blockCheckPoints[i].position, direction * distance, Color.red);
-            if(Physics.Raycast(_blockCheckPoints[i].position, direction, out hit, distance, _blockCheckIgnoreLayerMask))
+            if (Physics.Raycast(_blockCheckPoints[i].position, direction, out hit, distance, _blockCheckIgnoreLayerMask))
             {
                 result = false;
 
                 bool isShowBlock = false;
 
-                for(int j = 0; j < _blockObjetCount; j++)
+                for (int j = 0; j < _blockObjetCount; j++)
                 {
                     if (_blockObjects[j].gameObject.Equals(hit.transform.gameObject))
                     {
@@ -103,7 +98,7 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
                     }
                 }
 
-                if(!isShowBlock)
+                if (!isShowBlock)
                 {
                     CWorldObject newBlockObject = hit.transform.GetComponent<CWorldObject>();
                     newBlockObject.ShowOnBlock();
@@ -120,7 +115,7 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
     {
         base.EndState();
 
-        Controller3D.ViewChangeRect.StopSetScaleZ();
+        Controller3D.ViewChangeRect.StopViewChangeRectLogic();
         Controller3D.ViewChangeRect.gameObject.SetActive(false);
 
         for (int i = 0; i < _blockObjetCount; i++)
@@ -130,6 +125,5 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
         _blockObjetCount = 0;
 
         _viewChangeWandEffect.SetActive(false);
-        Controller3D.ViewChangeRect.SetEffectEnable(false);
     }
 }
