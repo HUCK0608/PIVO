@@ -33,7 +33,7 @@ public class Design_Monster2D : MonoBehaviour
 
     void CheckRaycast()
     {
-        Vector2 LookVector = new Vector2(-LookValue, 0);
+        Vector2 LookVector = new Vector2(-LookValue*1.5f, 0);
         Vector3 OriginPos = transform.position + Vector3.up + (Vector3)LookVector;
         RaycastHit2D hit = Physics2D.Raycast(OriginPos, LookVector, RayLength);
 
@@ -74,9 +74,10 @@ public class Design_Monster2D : MonoBehaviour
     bool CheckZAxis()
     {
         RaycastHit hit;
+        Vector3 RayOrigin = transform.position + Vector3.up;
         bool ReturnValue = true;
 
-        if (Physics.Raycast(transform.position, Vector3.forward, out hit, 100))
+        if (Physics.Raycast(RayOrigin, Vector3.forward, out hit, 100))
         {
             if (hit.collider.gameObject.GetComponent<MeshRenderer>().enabled)
             {
@@ -84,14 +85,14 @@ public class Design_Monster2D : MonoBehaviour
             }
         }
 
-        if (Physics.Raycast(transform.position, Vector3.back, out hit, 100))
+        if (Physics.Raycast(RayOrigin, Vector3.back, out hit, 100))
         {
             if (hit.collider.gameObject.GetComponent<MeshRenderer>().enabled)
             {
                 ReturnValue = false;
             }
         }
-
+        
         return ReturnValue;
     }
 
