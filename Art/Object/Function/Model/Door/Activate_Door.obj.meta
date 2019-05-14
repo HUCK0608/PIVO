@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 7d6154f4e1e3e2346a2ac532ebcae99d
-timeCreated: 1529046879
-licenseType: Free
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     100002: Activate_Door_Door
@@ -49,7 +47,42 @@ ModelImporter:
     4300008: Activate_Door_Key_3
     4300010: Activate_Door_Key_4
     4300012: Activate_Door_Pattern
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Activate_Door_DoorMat
+    second: {fileID: 2100000, guid: 9315f89faed2a374595dc18d99e33608, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Activate_Door_FrameMat
+    second: {fileID: 2100000, guid: 9315f89faed2a374595dc18d99e33608, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Activate_Door_Key_1Mat
+    second: {fileID: 2100000, guid: 9315f89faed2a374595dc18d99e33608, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Activate_Door_Key_2Mat
+    second: {fileID: 2100000, guid: 9315f89faed2a374595dc18d99e33608, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Activate_Door_Key_3Mat
+    second: {fileID: 2100000, guid: 9315f89faed2a374595dc18d99e33608, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Activate_Door_Key_4Mat
+    second: {fileID: 2100000, guid: 9315f89faed2a374595dc18d99e33608, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Activate_Door_PatternMat
+    second: {fileID: 2100000, guid: 9315f89faed2a374595dc18d99e33608, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -68,6 +101,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -82,6 +116,7 @@ ModelImporter:
     globalScale: 0.2
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -99,11 +134,16 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 0
   copyAvatar: 0
   humanDescription:
@@ -118,7 +158,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1

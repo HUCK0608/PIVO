@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Design_Monster3D : MonoBehaviour
 {
@@ -10,18 +9,16 @@ public class Design_Monster3D : MonoBehaviour
     bool bCheckPlayer;
     bool bWaitAnimation;
     bool bThrowCheck;
+    float ZAxisValue;
     int PhaseNum;
     string CorgiState;
 
-    Text ProtoDesc;
     GameObject Corgi, Monster2D;
     Animator MonsterAnimator;
 
-    Vector3 MonsterPos, MonsterRot, PlayerPos, ThrowPos, LookTargetPos;
+    Vector3 MonsterPos, MonsterRot, PlayerPos, ThrowMonsterPos, LookTargetPos, ThrowCorgiPos;
     void Start()
     {
-        InitializeValue();
-        Monster2D.SetActive(false);
     }
 
     void Update()
@@ -53,7 +50,7 @@ public class Design_Monster3D : MonoBehaviour
 
 
 
-    void InitializeValue()
+    public void InitializeValue()
     {
         bCheckPlayer = false;
         bThrowCheck = false;
@@ -61,17 +58,20 @@ public class Design_Monster3D : MonoBehaviour
         MonsterPos = transform.position;
         MonsterRot = new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z);
         MonsterAnimator = GetComponentInChildren<Animator>();
-        ProtoDesc = GameObject.Find("ProtoDesc").GetComponent<Text>();
         Monster2D = transform.parent.transform.Find("2D").gameObject;
 
+
         Vector3 ThrowPosXZ = transform.Find("ThrowPos").transform.position;
-        ThrowPos = new Vector3(ThrowPosXZ.x, transform.position.y, ThrowPosXZ.z);
+        ThrowCorgiPos = new Vector3(ThrowPosXZ.x, transform.position.y, ThrowPosXZ.z);
+
+        if (transform.position.z < ThrowCorgiPos.z)
+            ZAxisValue = -1;
+        else
+            ZAxisValue = 1;
+
+        ThrowMonsterPos = ThrowCorgiPos + new Vector3(0, 0, ZAxisValue*1.5f);
     }
 
-    void SetProtoDesc(string DescContent)
-    {
-        ProtoDesc.text = DescContent;
-    }
 
 
 
@@ -88,13 +88,13 @@ public class Design_Monster3D : MonoBehaviour
         }
         else if (CorgiState == "RaiseUp")
         {
-            Corgi.transform.position = transform.position + new Vector3(0f, 2f, 1.5f);
-            Corgi.transform.rotation = Quaternion.Euler(-90, 0, 0);
+            Corgi.transform.position = transform.position + new Vector3(0f, 2f, -ZAxisValue*1.5f);
+            Corgi.transform.rotation = Quaternion.Euler(ZAxisValue*90, 0, 0);
         }
         else if (CorgiState == "Throw")
         {
-            Corgi.transform.position = ThrowPos + new Vector3(0, 0, 1.5f);
-            Corgi.transform.rotation = Quaternion.Euler(90, 0, 0);
+            Corgi.transform.position = ThrowCorgiPos;
+            Corgi.transform.rotation = Quaternion.Euler(-ZAxisValue*90, 0, 0);
         }
     }
 
@@ -124,7 +124,7 @@ public class Design_Monster3D : MonoBehaviour
         }
         else if (PhaseNum == 2)
         {
-            if (transform.position == ThrowPos)
+            if (transform.position == ThrowMonsterPos)
             {
                 MonsterAnimator.SetBool("IsRun", false);
                 if (!bThrowCheck)
@@ -133,7 +133,7 @@ public class Design_Monster3D : MonoBehaviour
             }
             else
             {
-                transform.position = Vector3.MoveTowards(transform.position, ThrowPos, MoveSpeed * 0.1f);
+                transform.position = Vector3.MoveTowards(transform.position, ThrowMonsterPos, MoveSpeed * 0.1f);
                 MonsterAnimator.SetBool("IsRun", true);
             }
         }
@@ -147,7 +147,6 @@ public class Design_Monster3D : MonoBehaviour
                 bWaitAnimation = false;
                 bCheckPlayer = false;
                 bThrowCheck = false;
-                SetProtoDesc("끝");
             }
             else
             {
@@ -158,36 +157,38 @@ public class Design_Monster3D : MonoBehaviour
         
     }
 
+    public void SetCollisionSize(Vector3 CollisionSize)
+    {
+        BoxCollider BoxCollision = GetComponent<BoxCollider>();
+        BoxCollision.size = CollisionSize;
+        BoxCollision.center = new Vector3(-CollisionSize.x/2 + 1, 1, 0);
+    }
+
 
 
 
     IEnumerator WaitAnimation()
     {
-        SetProtoDesc("숲숲이의 놀라는 애니메이션을 기다립니다.");
         yield return new WaitForSeconds(1.5f);
 
-        SetProtoDesc("코기는 못움직이며, 숲숲이가 코기에게 달려갑니다.");
         bWaitAnimation = true;
     }
 
     IEnumerator WaitMoment()
     {
         yield return new WaitForSeconds(1f);
-        SetProtoDesc("코기를 들고 지정해놓은 던질 위치로 데리고 갑니다.");
         PhaseNum = 2;
         bWaitAnimation = true;
-        LookTargetPos = new Vector3(ThrowPos.x, transform.position.y, ThrowPos.z);
+        LookTargetPos = new Vector3(ThrowMonsterPos.x, transform.position.y, ThrowMonsterPos.z);
     }
 
     IEnumerator WaitThrow()
     {
         yield return new WaitForSeconds(1f);
         CorgiState = "Throw";
-        SetProtoDesc("코기를 내동댕이 칩니다.");
 
         yield return new WaitForSeconds(0.5f);
         LookTargetPos = MonsterPos;
         PhaseNum = 3;
-        SetProtoDesc("다시 원래 자리로 돌아갑니다.");
     }
 }
