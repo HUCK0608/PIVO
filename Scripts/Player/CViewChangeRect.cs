@@ -152,7 +152,7 @@ public class CViewChangeRect : MonoBehaviour
         // 시작 Z 크기를 결정
         float originZ = transform.position.z;
         float ceilOriginZ = Mathf.Ceil(originZ);
-        _destinationScaleZ = Mathf.Approximately(ceilOriginZ % 2f, 1f) ? ceilOriginZ - originZ - 0.4f : ceilOriginZ - originZ + 0.6f;
+        _destinationScaleZ = Mathf.Approximately(ceilOriginZ % 2f, 1f) || Mathf.Approximately(ceilOriginZ % 2f, -1f) ? ceilOriginZ - originZ - 0.4f : ceilOriginZ - originZ + 0.6f;
 
         _currentScaleZ = 0f;
         Vector3 originPosition = transform.position;
