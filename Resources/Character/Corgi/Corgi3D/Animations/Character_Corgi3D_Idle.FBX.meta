@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8687c59c917ab4a478eb9102ee2bf2de
+guid: 22eb42ae8cd1e534fbae3abcda8fe4c6
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -79,7 +79,7 @@ ModelImporter:
     400070: scarf_bone2
     400072: scarf_bone3
     400074: scarf_bone4
-    7400000: Take 001
+    7400000: Character_Corgi3D_Idle
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -110,7 +110,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: Character_Corgi3D_Idle
       takeName: Take 001
       firstFrame: 0
       lastFrame: 105
@@ -188,7 +188,7 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 95c63971ebb4c144884cad051dd7f090,
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 826edf537fa7f8b47bd0d348676bbb64,
     type: 3}
   animationType: 2
   humanoidOversampling: 1
