@@ -79,7 +79,7 @@ ModelImporter:
     400070: scarf_bone2
     400072: scarf_bone3
     400074: scarf_bone4
-    7400000: Take 001
+    7400000: Character_Corgi3D_Climb_1
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -110,7 +110,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: Character_Corgi3D_Climb_1
       takeName: Take 001
       firstFrame: 0
       lastFrame: 131
@@ -179,7 +179,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   importAnimation: 1
-  copyAvatar: 0
+  copyAvatar: 1
   humanDescription:
     serializedVersion: 2
     human: []
@@ -195,7 +195,8 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 826edf537fa7f8b47bd0d348676bbb64,
+    type: 3}
   animationType: 2
   humanoidOversampling: 1
   additionalBone: 0

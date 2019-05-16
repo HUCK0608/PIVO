@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4d76c27fd4a7ada41aa593d8d4aa3b6c
+guid: 5c0aabae16366d941916666cc9e2d3fe
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -36,10 +36,11 @@ ModelImporter:
     100060: eye_bone_L1
     100062: eye_bone_L2
     100064: eye_bone_R1
-    100066: scarf_bone1
-    100068: scarf_bone2
-    100070: scarf_bone3
-    100072: scarf_bone4
+    100066: eye_bone_R2
+    100068: scarf_bone1
+    100070: scarf_bone2
+    100072: scarf_bone3
+    100074: scarf_bone4
     400000: Bip001
     400002: Bip001 ear_L
     400004: Bip001 ear_L02
@@ -73,11 +74,12 @@ ModelImporter:
     400060: eye_bone_L1
     400062: eye_bone_L2
     400064: eye_bone_R1
-    400066: scarf_bone1
-    400068: scarf_bone2
-    400070: scarf_bone3
-    400072: scarf_bone4
-    7400000: Take 001
+    400066: eye_bone_R2
+    400068: scarf_bone1
+    400070: scarf_bone2
+    400072: scarf_bone3
+    400074: scarf_bone4
+    7400000: Character_Corgi3D_Falling
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -106,7 +108,35 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Character_Corgi3D_Falling
+      takeName: Take 001
+      firstFrame: 8.3
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -158,7 +188,7 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 95c63971ebb4c144884cad051dd7f090,
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 826edf537fa7f8b47bd0d348676bbb64,
     type: 3}
   animationType: 2
   humanoidOversampling: 1

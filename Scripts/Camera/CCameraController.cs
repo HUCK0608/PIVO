@@ -49,7 +49,7 @@ public class CCameraController : MonoBehaviour
     private void LateUpdate()
     {
         if (!CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View2D) && !_isOnCameraShaking)
-            transform.position = _target.transform.position;
+            transform.position = _target.position;
 
         _globalFog.height = transform.position.y + 2f;
     }
@@ -58,7 +58,10 @@ public class CCameraController : MonoBehaviour
     public void Change2D()
     {
         if (_isOnCameraShaking)
+        {
             StopAllCoroutines();
+            _isOnCameraShaking = false;
+        }
 
         _isOnMovingWork = true;
         _animator.SetBool(_animParameter, false);
@@ -88,20 +91,18 @@ public class CCameraController : MonoBehaviour
     {
         _isOnCameraShaking = true;
 
-        Vector3 defaultPosition = transform.position;
         float addTime = 0f;
 
         while(addTime <= _cameraShakingTime)
         {
             Vector3 randomPosition = Random.insideUnitCircle * _cameraShakingStrength;
-            transform.position = randomPosition + defaultPosition;
+            transform.position = randomPosition + _target.position;
 
             addTime += Time.deltaTime;
 
             yield return null;
         }
 
-        transform.position = defaultPosition;
         _isOnCameraShaking = false;
     }
 }

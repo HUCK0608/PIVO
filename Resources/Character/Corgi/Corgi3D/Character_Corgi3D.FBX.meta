@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 95c63971ebb4c144884cad051dd7f090
+guid: 826edf537fa7f8b47bd0d348676bbb64
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -83,7 +83,7 @@ ModelImporter:
     400074: scarf_bone3
     400076: scarf_bone4
     400078: wand
-    2100000: 'Material #77'
+    2100000: 'Material #78'
     2100002: 03 - Default
     2300000: wand
     3300000: wand
@@ -153,7 +153,7 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
-  importAnimation: 0
+  importAnimation: 1
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2
