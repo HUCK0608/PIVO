@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class CPlayerController_StageSelect : MonoBehaviour
 {
+    /// <summary>중력 체크 지점들</summary>
+    [SerializeField]
+    private List<Transform> _gravityCheckPoints = null;
+
     /// <summary>카메라</summary>
     [SerializeField]
     private Transform _camera = null;
@@ -15,6 +19,8 @@ public class CPlayerController_StageSelect : MonoBehaviour
     /// <summary>스텟</summary>
     private CPlayerStat_StageSelect _stat = null;
 
+    /// <summary>리지드바디</summary>
+    private Rigidbody _rigidbody;
     /// <summary>애니메이터</summary>
     private Animator _animator;
 
@@ -29,12 +35,16 @@ public class CPlayerController_StageSelect : MonoBehaviour
     private void Start()
     {
         _stat = GetComponent<CPlayerStat_StageSelect>();
+        _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
 
         LoadPlayerDatas();
 
         transform.position = _currentStage.transform.position;
         _camera.position = _currentStage.transform.position;
+
+        // UI 변경
+        CUIManager_StageSelect.Instance.SetStageStatUI(_currentStage);
 
         StartCoroutine(IdleLogic());
     }
@@ -97,6 +107,11 @@ public class CPlayerController_StageSelect : MonoBehaviour
 
         while(true)
         {
+            if (ApplyGravity())
+                _animator.SetBool("IsFalling", true);
+            else
+                _animator.SetBool("IsFalling", false);
+
             if (Input.GetKeyDown(CKeyManager.StartStageKey))
             {
                 SavePlayerData();
@@ -122,6 +137,9 @@ public class CPlayerController_StageSelect : MonoBehaviour
 
         _currentStage = nextStage;
 
+        // UI 변경
+        CUIManager_StageSelect.Instance.SetStageStatUI(_currentStage);
+
         StartCoroutine(MoveLogic());
     }
 
@@ -130,7 +148,6 @@ public class CPlayerController_StageSelect : MonoBehaviour
     {
         // 목적지
         Vector3 destination = _currentStage.transform.position;
-        destination.y = transform.position.y;
 
         // 회전
         Vector3 direction = destination - transform.position;
@@ -140,8 +157,14 @@ public class CPlayerController_StageSelect : MonoBehaviour
         
         while(true)
         {
+            destination.y = transform.position.y;
             transform.position = Vector3.MoveTowards(transform.position, destination, _stat.MoveSpeed * Time.deltaTime);
             _camera.position = transform.position;
+
+            if (ApplyGravity())
+                _animator.SetBool("IsFalling", true);
+            else
+                _animator.SetBool("IsFalling", false);
 
             if (transform.position.Equals(destination))
                 break;
@@ -152,5 +175,32 @@ public class CPlayerController_StageSelect : MonoBehaviour
         _animator.SetBool("IsMove", false);
 
         StartCoroutine(IdleLogic());
+    }
+
+    /// <summary>중력 적용</summary>
+    private bool ApplyGravity()
+    {
+        bool isApplyGravity = true;
+
+        for(int i = 0; i < 4; i++)
+        {
+            if(Physics.Raycast(_gravityCheckPoints[i].position, Vector3.down, 0.3f))
+            {
+                isApplyGravity = false;
+                break;
+            }
+        }
+
+        // 땅이 아닐경우 중력 적용
+        if (isApplyGravity)
+        {
+            Vector3 newVelocity = Vector3.zero;
+            newVelocity.y = _rigidbody.velocity.y + _stat.Gravity * Time.deltaTime;
+            _rigidbody.velocity = newVelocity;
+        }
+        else
+            _rigidbody.velocity = Vector3.zero;
+
+        return isApplyGravity;
     }
 }

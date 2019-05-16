@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public static class CUtility
+﻿public static class CUtility
 {
     /// <summary>string to bool</summary>
     public static bool ToBoolean(this string str)
