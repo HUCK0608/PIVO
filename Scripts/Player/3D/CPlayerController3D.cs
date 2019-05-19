@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EPlayerState3D { Idle, Move, Falling, ViewChangeInit, ViewChangeIdle, Climb }
+public enum EPlayerState3D { Idle, Move, Falling, ViewChangeInit, ViewChangeIdle, Climb, Holding }
 
 public class CPlayerController3D : MonoBehaviour
 {
@@ -18,8 +18,9 @@ public class CPlayerController3D : MonoBehaviour
     /// <summary>리지드바디</summary>
     public Rigidbody RigidBody { get { return _rigidBody; } }
 
-    /// <summary>애니메이터</summary>
     private Animator _animator;
+    /// <summary>애니메이터</summary>
+    public Animator Animator { get { return _animator; } }
     /// <summary>애니메이터 파라미터 이름</summary>
     private static string _animParameterPath = "CurrentState";
 
@@ -28,11 +29,11 @@ public class CPlayerController3D : MonoBehaviour
     /// <summary>시점전환 상자</summary>
     public CViewChangeRect ViewChangeRect { get { return _viewChangeRect; } }
 
-    /// <summary>중력 확인 지점들</summary>
+    /// <summary>지면 확인 지점들</summary>
     [SerializeField]
-    private Transform[] _gravityCheckPoints = null;
-    /// <summary>중력 확인 지점 개수</summary>
-    private int _gravityCheckPointCount = 4;
+    private Transform[] _groundCheckPoints = null;
+    /// <summary>지면 확인 지점 개수</summary>
+    private int _groundCheckPointCount = 4;
 
     /// <summary>기어오를 지점을 탐지하는 지점</summary>
     [SerializeField]
@@ -42,6 +43,7 @@ public class CPlayerController3D : MonoBehaviour
 
     public struct SClimbInfo
     {
+        public int aniNumber;
         public Vector3 origin;
         public Vector3 destination;
         public Vector3 direction;
@@ -122,19 +124,30 @@ public class CPlayerController3D : MonoBehaviour
     /// <summary>애니메이션을 변경</summary>
     public void ChangeAnimation() { _animator.SetInteger(_animParameterPath, (int)_currentState); }
 
+    /// <summary>땅 위일 경우 true를 반환</summary>
+    public bool IsGrounded()
+    {
+        bool isGrounded = false;
+
+        for(int i = 0; i < _groundCheckPointCount; i++)
+        {
+            if (Physics.Raycast(_groundCheckPoints[i].position, Vector3.down, 0.15f, _playerIgnoreLayerMask))
+            {
+                isGrounded = true;
+                break;
+            }
+        }
+
+        return isGrounded;
+    }
+
     /// <summary>중력 계산</summary>
     private void CalcGravity(ref Vector3 velocity)
     {
         bool isApplyGravity = true;
 
-        for (int i = 0; i < _gravityCheckPointCount; i++)
-        {
-            if (!_isUseGravity || Physics.Raycast(_gravityCheckPoints[i].position, Vector3.down, 0.15f, _playerIgnoreLayerMask))
-            {
-                isApplyGravity = false;
-                break;
-            }
-        }
+        if (!_isUseGravity || IsGrounded())
+            isApplyGravity = false;
 
         if (isApplyGravity)
             velocity.y = _rigidBody.velocity.y + CPlayerManager.Instance.Stat.Gravity * Time.deltaTime;
@@ -229,10 +242,15 @@ public class CPlayerController3D : MonoBehaviour
                     {
                         result = true;
 
+                        _climbInfo.aniNumber = UnityEngine.Random.Range(0, 10) <= 2 ? 0 : 1;
                         _climbInfo.origin = hit.point + hit.normal;
                         _climbInfo.origin.y = transform.position.y;
-                        _climbInfo.destination = hit.point + -hit.normal * 0.777f + Vector3.up;
                         _climbInfo.direction = -hit.normal;
+
+                        if (_climbInfo.aniNumber.Equals(0))
+                            _climbInfo.destination = hit.point + -hit.normal * 0.777f + Vector3.up;
+                        else
+                            _climbInfo.destination = hit.point + -hit.normal * 0.71f + Vector3.up;
                     }
                 }
 

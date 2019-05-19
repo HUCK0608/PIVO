@@ -46,6 +46,12 @@ public class CPlayerManager : CCharacter
         RootObject2D.SetActive(false);
         RootObject3D.transform.parent = transform;
         RootObject2D.transform.parent = RootObject3D.transform;
+
+        //if (!Controller3D.IsGrounded())
+        //{
+        //    Debug.Log("call");
+        //    Controller3D.ChangeState(EPlayerState3D.Holding);
+        //}
         RootObject3D.SetActive(true);
     }
 
