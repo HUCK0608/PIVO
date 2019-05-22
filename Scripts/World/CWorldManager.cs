@@ -14,9 +14,13 @@ public class CWorldManager : MonoBehaviour
     public EWorldState CurrentWorldState { get { return _currentWorldState; } set { _currentWorldState = value; } }
 
     /// <summary>월드의 오브젝트 모음</summary>
-    private List<CWorldObject> _worldObjects;
+    private List<CWorldObject> _worldObjects = null;
     /// <summary>월드 오브젝트 개수</summary>
-    private int _worldObjectCount;
+    private int _worldObjectCount = 0;
+    /// <summary>제일 최근에 변경되었던 오브젝트 모음</summary>
+    private List<CWorldObject> _lastChangeObjects = null;
+    /// <summary>제일 최근에 변경되었던 오브젝트 개수</summary>
+    private int _lastChangeObjectCount = 0;
 
     /// <summary>카메라 무빙워크가 끝날때까지 대기</summary>
     private WaitUntil _endCameraMovingWorkWaitUntil = null;
@@ -28,7 +32,7 @@ public class CWorldManager : MonoBehaviour
         _instance = this;
 
         _worldObjects = new List<CWorldObject>();
-        _worldObjectCount = 0;
+        _lastChangeObjects = new List<CWorldObject>();
 
         _endCameraMovingWorkWaitUntil = new WaitUntil(() => !CCameraController.Instance.IsOnMovingWork);
         _changePlayer2DWaitForSeconds = new WaitForSeconds(0.3f);
@@ -49,9 +53,19 @@ public class CWorldManager : MonoBehaviour
     }
 
     /// <summary>월드 변경</summary>
-    public void ChangeWorld()
+    public void ChangeWorld(bool isChangeLastObject = false)
     {
+        if (isChangeLastObject)
+            SetLastObjects();
+
         StartCoroutine(ChangeWorldLogic());
+    }
+
+    /// <summary>최근 오브젝트 설정</summary>
+    private void SetLastObjects()
+    {
+        for (int i = 0; i < _lastChangeObjectCount; i++)
+            _lastChangeObjects[i].IsCanChange2D = true;
     }
 
     /// <summary>월드 변경 로직</summary>
@@ -79,8 +93,19 @@ public class CWorldManager : MonoBehaviour
 
             CCameraController.Instance.Change2D();
 
+            _lastChangeObjects.Clear();
+            _lastChangeObjectCount = 0;
+
             for (int i = 0; i < _worldObjectCount; i++)
+            {
                 _worldObjects[i].Change2D();
+
+                if (_worldObjects[i].IsCanChange2D)
+                {
+                    _lastChangeObjects.Add(_worldObjects[i]);
+                    _lastChangeObjectCount++;
+                }
+            }
 
             CLightController.Instance.SetShadows(false);
 

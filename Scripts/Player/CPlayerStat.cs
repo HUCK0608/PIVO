@@ -16,4 +16,9 @@ public class CPlayerStat : MonoBehaviour
     private float _rotationSpeed = 0f;
     /// <summary>회전 속도</summary>
     public float RotationSpeed { get { return _rotationSpeed; } }
+
+    [SerializeField]
+    private float _holdingMaxTime = 0f;
+    /// <summary>바둥거리기 최대 시간</summary>
+    public float HoldingMaxTime { get { return _holdingMaxTime; } }
 }

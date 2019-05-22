@@ -28,7 +28,10 @@ public class CPlayerManager : CCharacter
 
         _controller2D = RootObject2D.GetComponent<CPlayerController2D>();
         _controller3D = RootObject3D.GetComponent<CPlayerController3D>();
+    }
 
+    private void Start()
+    {
         Change3D();
     }
 
@@ -46,13 +49,11 @@ public class CPlayerManager : CCharacter
         RootObject2D.SetActive(false);
         RootObject3D.transform.parent = transform;
         RootObject2D.transform.parent = RootObject3D.transform;
-
-        //if (!Controller3D.IsGrounded())
-        //{
-        //    Debug.Log("call");
-        //    Controller3D.ChangeState(EPlayerState3D.Holding);
-        //}
         RootObject3D.SetActive(true);
+
+        // 땅이아니면 Holding 상태로 변경
+        if (!Controller3D.IsGrounded())
+            Controller3D.ChangeState(EPlayerState3D.Holding);
     }
 
     /// <summary>자동 이동 시작</summary>

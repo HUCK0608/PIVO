@@ -568,6 +568,7 @@ MonoBehaviour:
   _moveSpeed: 450
   _gravity: -35
   _rotationSpeed: 15
+  _holdingMaxTime: 3
 --- !u!114 &1461577678640211779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -853,6 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d43690468edb3d479e51ad464fce888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewChangeCapsuleEffect: {fileID: 1463532346368321335}
 --- !u!1 &1461577679311978077
 GameObject:
   m_ObjectHideFlags: 0
