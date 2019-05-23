@@ -196,7 +196,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
     private IEnumerator ClimbLogic(RaycastHit hit)
     {
         // 3 : 7 비율로 Climb0 : Climb1 애니메이션이 재생
-        int randAni = Random.Range(0, 10) <= 2 ? 0 : 1;
+        int randAni = Random.Range(0, 10) <= 2 ? 0 : 0;
 
         _animator.SetInteger("Climb", randAni);
 
@@ -206,7 +206,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
 
         Vector3 destination = Vector3.zero;
         if (randAni.Equals(0))
-            destination = hit.point - hit.normal * 0.777f + Vector3.up;
+            destination = hit.point - hit.normal * 0.69f + Vector3.up * 1.025f;
         else
             destination = hit.point - hit.normal * 0.71f + Vector3.up;
 
@@ -218,11 +218,11 @@ public class CPlayerController_StageSelect : MonoBehaviour
         {
             _camera.position = _climbCameraPoints[randAni].position;
 
-            if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Climb_0") &&
-               _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
+            AnimatorStateInfo currentAnimatorStateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+
+            if(currentAnimatorStateInfo.IsName("Climb_0") && currentAnimatorStateInfo.normalizedTime >= 1.05f)
                 break;
-            else if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Climb_1") &&
-                    _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.02f)
+            else if(currentAnimatorStateInfo.IsName("Climb_1") && currentAnimatorStateInfo.normalizedTime >= 1.02f)
                 break;
 
             yield return null;

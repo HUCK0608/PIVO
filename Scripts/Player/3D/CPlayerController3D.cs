@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EPlayerState3D { Idle, Move, Falling, ViewChangeInit, ViewChangeIdle, Climb, Holding, HoldFalling }
+public enum EPlayerState3D { Idle, Move, Falling, ViewChangeInit, ViewChangeIdle, Climb, Holding, HoldFalling, Dead }
 
 public class CPlayerController3D : MonoBehaviour
 {
@@ -40,6 +40,10 @@ public class CPlayerController3D : MonoBehaviour
     private Transform[] _climbDetectionPoints = null;
     /// <summary>기어오를 지점을 탐지하는 지점 개수</summary>
     private int _climbDetectionPointCount = 3;
+
+    private Vector3 _lastGroundPosition;
+    /// <summary>마지막 땅 위치</summary>
+    public Vector3 LastGroundPosition { set { _lastGroundPosition = value; } }
 
     public struct SClimbInfo
     {
@@ -106,6 +110,9 @@ public class CPlayerController3D : MonoBehaviour
     /// <summary>플레이어의 상태를 변경</summary>
     public void ChangeState(EPlayerState3D state)
     {
+        if (_currentState.Equals(EPlayerState3D.Dead))
+            return;
+
         // 기존 상태 종료
         if(_states[_currentState].enabled)
         {
@@ -168,6 +175,13 @@ public class CPlayerController3D : MonoBehaviour
 
         if(!direction.Equals(Vector3.zero))
             RotationSlerp(direction);
+
+        if (transform.position.y <= CPlayerManager.Instance.Stat.KillYVolume)
+        {
+            CPlayerManager.Instance.Stat.Hp -= 1;
+            _rigidBody.velocity = Vector3.zero;
+            transform.position = _lastGroundPosition;
+        }
     }
 
     /// <summary>키보드 입력 이동</summary>
@@ -242,13 +256,13 @@ public class CPlayerController3D : MonoBehaviour
                     {
                         result = true;
 
-                        _climbInfo.aniNumber = UnityEngine.Random.Range(0, 10) <= 2 ? 0 : 1;
+                        _climbInfo.aniNumber = UnityEngine.Random.Range(0, 10) <= 2 ? 0 : 0;
                         _climbInfo.origin = hit.point + hit.normal;
                         _climbInfo.origin.y = transform.position.y;
                         _climbInfo.direction = -hit.normal;
 
                         if (_climbInfo.aniNumber.Equals(0))
-                            _climbInfo.destination = hit.point + -hit.normal * 0.777f + Vector3.up;
+                            _climbInfo.destination = hit.point + -hit.normal * 0.69f + Vector3.up * 1.025f;
                         else
                             _climbInfo.destination = hit.point + -hit.normal * 0.71f + Vector3.up;
                     }

@@ -2,11 +2,6 @@
 
 public class CPlayerState3D_HoldFalling : CPlayerState3D
 {
-    public override void InitState()
-    {
-        base.InitState();
-    }
-
     private void Update()
     {
         Controller3D.Move(0f, 0f);

@@ -21,11 +21,11 @@ public class CPlayerState3D_Climb : CPlayerState3D
 
     private void Update()
     {
-        if(Controller3D.Animator.GetCurrentAnimatorStateInfo(0).IsName("Climb_0") && 
-           Controller3D.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f)
+        AnimatorStateInfo currentStateInfo = Controller3D.Animator.GetCurrentAnimatorStateInfo(0);
+
+        if (currentStateInfo.IsName("Climb_0") && currentStateInfo.normalizedTime >= 1.05f)
             Controller3D.ChangeState(EPlayerState3D.Idle);
-        else if(Controller3D.Animator.GetCurrentAnimatorStateInfo(0).IsName("Climb_1") &&
-                Controller3D.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.02f)
+        else if (currentStateInfo.IsName("Climb_1") && currentStateInfo.normalizedTime >= 1.02f)
             Controller3D.ChangeState(EPlayerState3D.Idle);
     }
 
