@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EPlayerState2D { Idle, Move, Falling, Climb }
+public enum EPlayerState2D { Idle, Move, Falling, Climb, Dead }
 
 public class CPlayerController2D : MonoBehaviour
 {
@@ -49,6 +49,10 @@ public class CPlayerController2D : MonoBehaviour
     /// <summary>현재 자동 이동중인지</summary>
     public bool IsOnAutoMove { get { return _isOnAutoMove; } }
 
+    private Vector3 _lastGroundPosition;
+    /// <summary>마지막 땅 위치</summary>
+    public Vector3 LastGroundPosition { set { _lastGroundPosition = value; } }
+
     private void Awake()
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
@@ -92,6 +96,9 @@ public class CPlayerController2D : MonoBehaviour
     /// <summary>플레이어의 상태를 변경</summary>
     public void ChangeState(EPlayerState2D state)
     {
+        if (_currentState.Equals(EPlayerState2D.Dead))
+            return;
+
         // 기존 상태 종료
         if(_states[_currentState].enabled)
         {
@@ -143,6 +150,13 @@ public class CPlayerController2D : MonoBehaviour
 
         if (!direction.Equals(Vector2.zero))
             LookDirection(direction);
+
+        if(transform.position.y <= CPlayerManager.Instance.Stat.KillYVolume)
+        {
+            CPlayerManager.Instance.Stat.Hp -= 1;
+            _rigidBody2D.velocity = Vector2.zero;
+            transform.position = _lastGroundPosition;
+        }
     }
 
     /// <summary>키보드 입력 이동</summary>

@@ -5,9 +5,21 @@ using UnityEngine;
 
 public class CPlayerController_StageSelect : MonoBehaviour
 {
+    /// <summary>중력 체크 지점들</summary>
+    [SerializeField]
+    private List<Transform> _gravityCheckPoints = null;
+
+    /// <summary>기어오르기 체크 지점</summary>
+    [SerializeField]
+    private Transform _climbCheckPoint = null;
+
     /// <summary>카메라</summary>
     [SerializeField]
     private Transform _camera = null;
+
+    /// <summary>기어오르기 카메라 위치</summary>
+    [SerializeField]
+    private Transform[] _climbCameraPoints = null;
 
     /// <summary>현재 스테이지</summary>
     private CStage _currentStage = null;
@@ -15,6 +27,8 @@ public class CPlayerController_StageSelect : MonoBehaviour
     /// <summary>스텟</summary>
     private CPlayerStat_StageSelect _stat = null;
 
+    /// <summary>리지드바디</summary>
+    private Rigidbody _rigidbody;
     /// <summary>애니메이터</summary>
     private Animator _animator;
 
@@ -29,12 +43,16 @@ public class CPlayerController_StageSelect : MonoBehaviour
     private void Start()
     {
         _stat = GetComponent<CPlayerStat_StageSelect>();
+        _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
 
         LoadPlayerDatas();
 
         transform.position = _currentStage.transform.position;
         _camera.position = _currentStage.transform.position;
+
+        // UI 변경
+        CUIManager_StageSelect.Instance.SetStageStatUI(_currentStage);
 
         StartCoroutine(IdleLogic());
     }
@@ -97,6 +115,11 @@ public class CPlayerController_StageSelect : MonoBehaviour
 
         while(true)
         {
+            if (ApplyGravity())
+                _animator.SetBool("IsFalling", true);
+            else
+                _animator.SetBool("IsFalling", false);
+
             if (Input.GetKeyDown(CKeyManager.StartStageKey))
             {
                 SavePlayerData();
@@ -122,6 +145,9 @@ public class CPlayerController_StageSelect : MonoBehaviour
 
         _currentStage = nextStage;
 
+        // UI 변경
+        CUIManager_StageSelect.Instance.SetStageStatUI(_currentStage);
+
         StartCoroutine(MoveLogic());
     }
 
@@ -130,18 +156,30 @@ public class CPlayerController_StageSelect : MonoBehaviour
     {
         // 목적지
         Vector3 destination = _currentStage.transform.position;
-        destination.y = transform.position.y;
 
         // 회전
         Vector3 direction = destination - transform.position;
-        transform.rotation = Quaternion.LookRotation(direction);
+        direction.y = 0f;
+        transform.rotation = Quaternion.LookRotation(direction.normalized);
 
         _animator.SetBool("IsMove", true);
         
         while(true)
         {
+            destination.y = transform.position.y;
             transform.position = Vector3.MoveTowards(transform.position, destination, _stat.MoveSpeed * Time.deltaTime);
             _camera.position = transform.position;
+
+            if (ApplyGravity())
+                _animator.SetBool("IsFalling", true);
+            else
+                _animator.SetBool("IsFalling", false);
+
+            RaycastHit hit;
+            if (Physics.Raycast(_climbCheckPoint.position, transform.forward, out hit, 0.2f))
+            {
+                yield return StartCoroutine(ClimbLogic(hit));
+            }
 
             if (transform.position.Equals(destination))
                 break;
@@ -152,5 +190,73 @@ public class CPlayerController_StageSelect : MonoBehaviour
         _animator.SetBool("IsMove", false);
 
         StartCoroutine(IdleLogic());
+    }
+
+    /// <summary>기어오르기 로직</summary>
+    private IEnumerator ClimbLogic(RaycastHit hit)
+    {
+        // 3 : 7 비율로 Climb0 : Climb1 애니메이션이 재생
+        int randAni = Random.Range(0, 10) <= 2 ? 0 : 0;
+
+        _animator.SetInteger("Climb", randAni);
+
+        // 시작점과 최종위치 계산
+        Vector3 origin = hit.point + hit.normal;
+        origin.y = transform.position.y;
+
+        Vector3 destination = Vector3.zero;
+        if (randAni.Equals(0))
+            destination = hit.point - hit.normal * 0.69f + Vector3.up * 1.025f;
+        else
+            destination = hit.point - hit.normal * 0.71f + Vector3.up;
+
+        // 캐릭터를 시작위치로 이동
+        transform.position = origin;
+        transform.rotation = Quaternion.LookRotation(-hit.normal);
+
+        while(true)
+        {
+            _camera.position = _climbCameraPoints[randAni].position;
+
+            AnimatorStateInfo currentAnimatorStateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+
+            if(currentAnimatorStateInfo.IsName("Climb_0") && currentAnimatorStateInfo.normalizedTime >= 1.05f)
+                break;
+            else if(currentAnimatorStateInfo.IsName("Climb_1") && currentAnimatorStateInfo.normalizedTime >= 1.02f)
+                break;
+
+            yield return null;
+        }
+
+        transform.position = destination;
+
+        _animator.SetInteger("Climb", -1);
+    }
+
+    /// <summary>중력 적용</summary>
+    private bool ApplyGravity()
+    {
+        bool isApplyGravity = true;
+
+        for(int i = 0; i < 4; i++)
+        {
+            if(Physics.Raycast(_gravityCheckPoints[i].position, Vector3.down, 0.15f))
+            {
+                isApplyGravity = false;
+                break;
+            }
+        }
+
+        // 땅이 아닐경우 중력 적용
+        if (isApplyGravity)
+        {
+            Vector3 newVelocity = Vector3.zero;
+            newVelocity.y = _rigidbody.velocity.y + _stat.Gravity * Time.deltaTime;
+            _rigidbody.velocity = newVelocity;
+        }
+        else
+            _rigidbody.velocity = Vector3.zero;
+
+        return isApplyGravity;
     }
 }

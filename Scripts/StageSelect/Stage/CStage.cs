@@ -19,10 +19,13 @@ public class CStage : MonoBehaviour
     /// <summary>먹은 비스킷 개수</summary>
     public int HaveBiscuitCount { get { return _haveBiscuitCount; } set { _haveBiscuitCount = value; } }
 
+    /// <summary>완벽한 클리어 여부</summary>
+    public bool IsPerfectClear { get { return _haveBiscuitCount.Equals(_maxBiscuitCount); } }
+
     [SerializeField]
     private bool _isClear = false;
     /// <summary>클리어 여부</summary>
-    public bool isClear { get { return _isClear; } set { _isClear = value; } }
+    public bool IsClear { get { return _isClear; } set { _isClear = value; } }
 
     [SerializeField]
     private bool _isUnlock = false;

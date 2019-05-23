@@ -70,7 +70,7 @@ public class CStageManager : MonoBehaviour
         // 데이터 쓰기
         for (int i = 0; i < stageAmount; i++)
         {
-            string[] datas = new string[] { _stages[i].MaxBiscuitCount.ToString(), _stages[i].HaveBiscuitCount.ToString(), _stages[i].isClear.ToString(), _stages[i].IsUnlock.ToString() };
+            string[] datas = new string[] { _stages[i].MaxBiscuitCount.ToString(), _stages[i].HaveBiscuitCount.ToString(), _stages[i].IsClear.ToString(), _stages[i].IsUnlock.ToString() };
             CDataManager.WritingData( _nodePath + _stages[i].GameSceneName, _elementsName, datas);
         }
 
@@ -101,7 +101,7 @@ public class CStageManager : MonoBehaviour
 
             _stages[i].MaxBiscuitCount = int.Parse(datas[0]);
             _stages[i].HaveBiscuitCount = int.Parse(datas[1]);
-            _stages[i].isClear = datas[2].ToBoolean();
+            _stages[i].IsClear = datas[2].ToBoolean();
             _stages[i].IsUnlock = datas[3].ToBoolean();
         }
     }

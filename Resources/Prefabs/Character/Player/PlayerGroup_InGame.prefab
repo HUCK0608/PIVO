@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1656302012}
   m_Layer: 10
-  m_Name: ClimbCameraTarget
+  m_Name: ClimbCameraTarget_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,13 +53,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1656302011}
-  m_LocalRotation: {x: -0.00028195977, y: 0.7071063, z: 0.70710725, w: 0.00028195977}
-  m_LocalPosition: {x: -0.09239603, y: 0, z: -0.68605304}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.103246, y: 0, z: -0.54552}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2563308899133264024}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 0}
 --- !u!1 &1708821640
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,9 +565,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8365ff968b3351a4f9aed684d8ba0cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hp: 3
   _moveSpeed: 450
   _gravity: -35
   _rotationSpeed: 15
+  _holdingMaxTime: 3
+  _killYVolume: -20
 --- !u!114 &1461577678640211779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -661,6 +664,9 @@ GameObject:
   - component: {fileID: 1461577679210180226}
   - component: {fileID: 1461577679210180229}
   - component: {fileID: 1816100918}
+  - component: {fileID: 1133669236}
+  - component: {fileID: 1491864319}
+  - component: {fileID: 1491864318}
   m_Layer: 10
   m_Name: Root3D
   m_TagString: Untagged
@@ -748,7 +754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewChangeRect: {fileID: 1461577678264425643}
-  _gravityCheckPoints:
+  _groundCheckPoints:
   - {fileID: 1461577678445096989}
   - {fileID: 1461577679569963839}
   - {fileID: 1461577679407640938}
@@ -837,7 +843,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afa52f08fcf9436428dd1967561bb821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraTarget: {fileID: 1656302012}
+  _cameraTarget:
+  - {fileID: 1656302012}
+  - {fileID: 8673611257679294187}
+--- !u!114 &1133669236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461577679210180235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d43690468edb3d479e51ad464fce888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _viewChangeCapsuleEffect: {fileID: 1463532346368321335}
+--- !u!114 &1491864319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461577679210180235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e94338435988db4cb843f57c23c19f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1491864318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461577679210180235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d98ab198ed7a14c94a845ffba7d42f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1461577679311978077
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,6 +900,7 @@ GameObject:
   - component: {fileID: 1461577679311978064}
   - component: {fileID: 1461577679311978066}
   - component: {fileID: 1461577679311978069}
+  - component: {fileID: 810693802}
   m_Layer: 10
   m_Name: Root2D
   m_TagString: Untagged
@@ -997,6 +1043,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f231aaa977f96b49aaa0fa53e2f79ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &810693802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461577679311978077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b218f38a0656d3458dfe1442d07b838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1461577679407640939
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,7 +1155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1461577680054279057}
   m_Layer: 10
-  m_Name: GravityCheckPoints
+  m_Name: GroundCheckPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1181,6 +1239,36 @@ Transform:
   m_Father: {fileID: 2895260603225590207}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7026768530130704105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8673611257679294187}
+  m_Layer: 10
+  m_Name: ClimbCameraTarget_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8673611257679294187
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7026768530130704105}
+  m_LocalRotation: {x: -0.49327087, y: 0.4132871, z: 0.5066398, w: -0.57375413}
+  m_LocalPosition: {x: -0.07331248, y: -0.038761973, z: -0.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2563308899133264024}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 8.468, y: -440, z: -90}
 --- !u!1001 &1461577678038853060
 PrefabInstance:
   m_ObjectHideFlags: 0

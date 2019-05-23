@@ -4,7 +4,7 @@ using UnityEngine;
 public class CPlayerState3D_Climb : CPlayerState3D
 {
     [SerializeField]
-    private Transform _cameraTarget = null;
+    private Transform[] _cameraTarget = null;
 
     public override void InitState()
     {
@@ -14,20 +14,25 @@ public class CPlayerState3D_Climb : CPlayerState3D
         Controller3D.LookDirection(Controller3D.ClimbInfo.direction);
         transform.position = Controller3D.ClimbInfo.origin;
 
-        CCameraController.Instance.Target = _cameraTarget;
+        Controller3D.Animator.SetInteger("Climb", Controller3D.ClimbInfo.aniNumber);
+
+        CCameraController.Instance.Target = _cameraTarget[Controller3D.ClimbInfo.aniNumber];
     }
 
-    /// <summary>기어오르기 애니메이션이 성공적으로 끝났을 때 실행됨</summary>
-    public void CompleteClimbAnimation()
+    private void Update()
     {
-        Controller3D.ChangeState(EPlayerState3D.Idle);
-        StartCoroutine(EndClimbLogic());
+        AnimatorStateInfo currentStateInfo = Controller3D.Animator.GetCurrentAnimatorStateInfo(0);
+
+        if (currentStateInfo.IsName("Climb_0") && currentStateInfo.normalizedTime >= 1.05f)
+            Controller3D.ChangeState(EPlayerState3D.Idle);
+        else if (currentStateInfo.IsName("Climb_1") && currentStateInfo.normalizedTime >= 1.02f)
+            Controller3D.ChangeState(EPlayerState3D.Idle);
     }
 
-    private IEnumerator EndClimbLogic()
+    public override void EndState()
     {
-        yield return null;
         transform.position = Controller3D.ClimbInfo.destination;
         CCameraController.Instance.Target = transform;
+        Controller3D.Animator.SetInteger("Climb", -1);
     }
 }
