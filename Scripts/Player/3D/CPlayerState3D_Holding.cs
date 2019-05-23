@@ -28,7 +28,7 @@ public class CPlayerState3D_Holding : CPlayerState3D
         _holdingAddTime += Time.deltaTime;
 
         if (vertical != 0 || horizontal != 0 || _holdingAddTime >= CPlayerManager.Instance.Stat.HoldingMaxTime)
-            Controller3D.ChangeState(EPlayerState3D.HoldFalling);
+            Controller3D.ChangeState(EPlayerState3D.Falling);
         else if(Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey))
         {
             CWorldManager.Instance.ChangeWorld(true);

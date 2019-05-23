@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EPlayerState3D { Idle, Move, Falling, ViewChangeInit, ViewChangeIdle, Climb, Holding, HoldFalling, Dead }
+public enum EPlayerState3D { Idle, Move, Falling, ViewChangeInit, ViewChangeIdle, Climb, Holding, Dead }
 
 public class CPlayerController3D : MonoBehaviour
 {
@@ -256,7 +256,7 @@ public class CPlayerController3D : MonoBehaviour
                     {
                         result = true;
 
-                        _climbInfo.aniNumber = UnityEngine.Random.Range(0, 10) <= 2 ? 0 : 0;
+                        _climbInfo.aniNumber = UnityEngine.Random.Range(0, 10) <= 2 ? 0 : 1;
                         _climbInfo.origin = hit.point + hit.normal;
                         _climbInfo.origin.y = transform.position.y;
                         _climbInfo.direction = -hit.normal;

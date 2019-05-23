@@ -196,7 +196,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
     private IEnumerator ClimbLogic(RaycastHit hit)
     {
         // 3 : 7 비율로 Climb0 : Climb1 애니메이션이 재생
-        int randAni = Random.Range(0, 10) <= 2 ? 0 : 0;
+        int randAni = Random.Range(0, 10) <= 2 ? 0 : 1;
 
         _animator.SetInteger("Climb", randAni);
 
