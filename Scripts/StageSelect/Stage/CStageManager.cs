@@ -11,20 +11,29 @@ public class CStageManager : MonoBehaviour
     /// <summary>스테이지들</summary>
     public List<CStage> Stages { get { return _stages; } }
 
+
     [Header("Programmer can edit")]
     /// <summary>데이터 파일 이름</summary>
     [SerializeField]
     private string _dataFileName = null;
     public string DataFileName { get { return _dataFileName; } }
 
+    public enum ESceneSeason { GrassStage, WinterStage };
+    [SerializeField]
+    private ESceneSeason _currentSeason = ESceneSeason.GrassStage;
+    /// <summary>현재 계절</summary>
+    public ESceneSeason CurrentSeason { get { return _currentSeason; } }
+
     /// <summary>노드 경로</summary>
-    private string _nodePath = "GrassStageDatas/StageDatas/";
+    private string _nodePath = null;
     /// <summary>속성들의 이름</summary>
     private string[] _elementsName = new string[] { "MaxBiscuitCount", "HaveBiscuitCount", "IsClear", "IsUnlock" };
 
     private void Awake()
     {
         _instance = this;
+
+        _nodePath = _currentSeason.ToString("G") + "Datas/StageDatas/";
 
         InitStages();
         LoadStageDatas();

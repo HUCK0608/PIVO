@@ -36,7 +36,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
     private Vector3 _idleEulerRotation = new Vector3(0, 180f, 0);
 
     /// <summary>노드 경로</summary>
-    private string _nodePath = "GrassStageDatas/PlayerDatas";
+    private string _nodePath = null;
     /// <summary>속성들의 이름</summary>
     private string[] _elementsName = new string[] { "CurrentStage" };
 
@@ -46,6 +46,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
 
+        _nodePath = CStageManager.Instance.CurrentSeason + "Datas/PlayerDatas";
         LoadPlayerDatas();
 
         transform.position = _currentStage.transform.position;
