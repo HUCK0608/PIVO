@@ -1,195 +1,173 @@
 ﻿using UnityEngine;
 using System.IO;
 using System.Xml;
+using System.Collections.Generic;
+
+public enum EXmlDocumentNames { None, SpringStageDatas, WinterStageDatas }
 
 public static class CDataManager
 {
-    /// <summary>XmlDocument</summary>
-    private static XmlDocument _xmlDocument = null;
-    /// <summary>폴더 위치</summary>
-    private static string _directoryPath = Application.persistentDataPath + "/";
+    /// <summary>파일이 저장되는 폴더 위치</summary>
+    private static string _fileDirectoryPath = Application.persistentDataPath + "/";
+
+    /// <summary>XmlDocument 모음</summary>
+    private static Dictionary<EXmlDocumentNames, XmlDocument> _xmlDocuments = new Dictionary<EXmlDocumentNames, XmlDocument>();
+
+    /// <summary>현재 xml 문서 이름</summary>
+    private static EXmlDocumentNames _currentXmlDocumentName = EXmlDocumentNames.None;
 
     /// <summary>
-    /// Xml 초기화
+    /// xml 문서 반환
     /// </summary>
-    /// <param name="fileName">파일 이름</param>
-    /// <param name="fileMode">파일 모드(OpenOrCreate만 사용(Default = FileMode.Open)</param>
-    public static void InitXmlDocument(string fileName, FileMode fileMode = FileMode.Open)
-    {
-        XmlDocument xmlDocument = null;
-
-        FileInfo fileInfo = new FileInfo(_directoryPath + fileName + ".xml");
-
-        // 파일이 없을 경우
-        if (!fileInfo.Exists)
-        {
-
-#if UNITY_EDITOR
-            Debug.Log("Xml 파일이 존재하지 않습니다.\n" +
-                      "경로 : " + _directoryPath + fileName);
-#endif
-
-            // 파일모드가 OpenOrCreate일 경우 파일을 생성
-            if (fileMode.Equals(FileMode.OpenOrCreate))
-            {
-                xmlDocument = new XmlDocument();
-                xmlDocument.AppendChild(xmlDocument.CreateXmlDeclaration("1.0", "utf-8", "yes"));
-
-#if UNITY_EDITOR
-                Debug.Log("Xml 파일구문을 생성합니다");
-#endif
-
-            }
-        }
-        // 파일이 있을 경우
-        else
-        {
-            xmlDocument = new XmlDocument();
-            xmlDocument.Load(fileInfo.FullName);
-        }
-
-        _xmlDocument = xmlDocument;
-    }
-
-    /// <summary>
-    /// 데이터를 씀
-    /// </summary>
-    /// <param name="nodePath">노드 경로</param>
-    /// <param name="elementsName">속성들의 이름</param>
-    /// <param name="datas">데이터들</param>
-    public static void WritingData(string nodePath, string[] elementsName, string[] datas)
-    {
-        // 노드 경로를 '/'단위로 쪼갬
-        string[] nodesName = nodePath.Split('/');
-
-        // 첫 번째 노드를 가져옴(없을 경우 생성)
-        XmlNode node = _xmlDocument.GetNode(_xmlDocument, nodesName[0], FileMode.OpenOrCreate);
-        // nodePath를 따라 노드를 찾아 들어감(없을 경우 생성)
-        for (int i = 1; i < nodesName.Length; i++)
-            node = node.GetNode(_xmlDocument, nodesName[i], FileMode.OpenOrCreate);
-
-        // 데이터 쓰기
-        int dataCount = datas.Length;
-        for (int i = 0; i < dataCount; i++)
-            node.SetElement(_xmlDocument, elementsName[i], datas[i]);
-    }
-
-    /// <summary>
-    /// 데이터 불러오기
-    /// </summary>
-    /// <param name="nodePath">노드 경로</param>
-    /// <param name="elementsName">속성들의 이름</param>
+    /// <param name="file">반환 받을 파일</param>
+    /// <param name="fileMode">파일이 없을 경우 Open이면 null을, OpenOrCreate이면 새로운 파일을 생성해서 반환</param>
     /// <returns></returns>
-    public static string[] LoadData(string nodePath, string[] elementsName)
+    private static XmlDocument GetXmlDocument(EXmlDocumentNames file, FileMode fileMode = FileMode.Open)
     {
-        string[] datas = null;
+        FileInfo fileInfo = new FileInfo(_fileDirectoryPath + file.ToString("G") + ".xml");
 
-        if(_xmlDocument != null)
+        // 해당 file이 있을 경우
+        if (fileInfo.Exists)
         {
-            // 노드 경로를 '/'단위로 쪼갬
-            string[] nodesName = nodePath.Split('/');
-
-            // 첫 번째 노드를 가져옴
-            XmlNode node = _xmlDocument.GetNode(_xmlDocument, nodesName[0]);
-            // nodePath를 따라 노드를 찾아 들어감
-            for (int i = 1; i < nodesName.Length && node != null; i++)
-                node = node.GetNode(_xmlDocument, nodesName[i]);
-
-            // 최종 노드가 존재할 경우에 진행
-            if (node != null)
+            // 저장되어 있는 xml 문서가 있다면 반환
+            if (_xmlDocuments.Count > 0 && _xmlDocuments[file] != null)
             {
-                // 데이터 배열 크기 초기화
-                datas = new string[elementsName.Length];
+                _currentXmlDocumentName = file;
 
-                for (int i = 0; i < elementsName.Length; i++)
-                {
-                    // 속성 노드를 가져옴
-                    XmlNode elementNode = node.GetNode(_xmlDocument, elementsName[i]);
+                return _xmlDocuments[file];
+            }
+            // 아닌 경우 해당 문서를 가져오고 리스트에 저장
+            else
+            {
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.Load(fileInfo.FullName);
+                _xmlDocuments.Add(file, xmlDocument);
 
-                    // 속성 노드가 존재할 경우 데이터 저장
-                    if (elementNode != null)
-                        datas[i] = elementNode.InnerText;
-                }
+                return xmlDocument;
             }
         }
 
-        return datas;
-    }
+        // 해당 file이 없고,
+        // fileMode가 OpenOrCreate이면 새로운 파일 생성 후 반환
+        if (fileMode.Equals(FileMode.OpenOrCreate))
+        {
+            // 새로운 파일 생성
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.AppendChild(xmlDocument.CreateXmlDeclaration("1.0", "utf-8", "yes"));
+            _xmlDocuments.Add(file, xmlDocument);
+            _currentXmlDocumentName = file;
 
-    /// <summary>
-    /// 파일로 저장
-    /// </summary>
-    /// <param name="fileName">파일 이름</param>
-    public static void SaveFile(string fileName)
-    {
-        _xmlDocument.Save(_directoryPath + fileName + ".xml");
-
-        _xmlDocument = null;
+            return xmlDocument;
+        }
+        // fileMode가 OpenOrCreate가 아니면 null을 반환
+        else
+            return null;
     }
 
     /// <summary>
     /// 노드 반환
     /// </summary>
     /// <param name="currentNode">현재 노드</param>
-    /// <param name="xmlDocument">XmlDocument</param>
     /// <param name="nodeName">노드 이름</param>
-    /// <param name="fileMode">파일 모드(OpenOrCreate만 사용, Default = FileMode.Open)</param>
-    private static XmlNode GetNode(this XmlNode currentNode, XmlDocument xmlDocument, string nodeName, FileMode fileMode = FileMode.Open)
+    /// <param name="fileMode">노드가 없을 경우 Open이면 null을, OpenOrCreate이면 새로운 노드를 생성해서 반환</param>
+    /// <returns></returns>
+    private static XmlNode GetNode(this XmlNode currentNode, string nodeName, FileMode fileMode = FileMode.Open)
     {
+        // 반환할 노드를 가져옴
         XmlNode node = currentNode.SelectSingleNode(nodeName);
 
-        if (node == null)
+        // 해당 노드가 존재하지 않고 fileMode가 OpenOrCreate이면 새로운 노드 생성 후 연결
+        if(node == null && fileMode.Equals(FileMode.OpenOrCreate))
         {
-
-#if UNITY_EDITOR
-            Debug.Log("노드가 존재하지 않습니다.\n" +
-                      "노드 이름 : " + nodeName);
-#endif
-
-            // 파일모드가 OpenOrCreate일 경우 노드를 생성
-            if(fileMode.Equals(FileMode.OpenOrCreate))
-            {
-                node = xmlDocument.CreateNode(XmlNodeType.Element, nodeName, string.Empty);
-                currentNode.AppendChild(node);
-
-#if UNITY_EDITOR
-                Debug.Log("노드를 생성합니다.\n" +
-                          "노드 이름 : " + nodeName);
-#endif
-
-            }
+            if (currentNode.OwnerDocument == null)
+                node = (currentNode as XmlDocument).CreateNode(XmlNodeType.Element, nodeName, string.Empty);
+            else
+                node = currentNode.OwnerDocument.CreateNode(XmlNodeType.Element, nodeName, string.Empty);
+            currentNode.AppendChild(node);
         }
 
         return node;
     }
 
     /// <summary>
-    /// 속성 설정
+    /// 데이터 쓰기
     /// </summary>
-    /// <param name="currentNode">현재 노드</param>
-    /// <param name="xmlDocument">XmlDocument</param>
-    /// <param name="elementName">속성 이름</param>
-    /// <param name="data">저장할 데이터</param>
-    private static void SetElement(this XmlNode currentNode, XmlDocument xmlDocument, string elementName, string data)
+    /// <param name="file">xml 파일</param>
+    /// <param name="nodePath">노드 경로</param>
+    /// <param name="elementsName">속성들의 이름</param>
+    /// <param name="datas">데이터들</param>
+    public static void WritingDatas(EXmlDocumentNames file, string nodePath, string[] elementsName, string[] datas)
     {
-        XmlNode elementNode = currentNode.SelectSingleNode(elementName);
+        // xml 파일 열기
+        XmlDocument xmlDocument = GetXmlDocument(file, FileMode.OpenOrCreate);
 
-        // 저장된 데이터가 없을 경우 생성
-        if(elementNode == null)
-        {
-            XmlElement element = xmlDocument.CreateElement(elementName);
-            element.InnerText = data;
-            currentNode.AppendChild(element);
+        // 노드 경로를 '/' 단위로 쪼갬
+        string[] nodesName = nodePath.Split('/');
 
-#if UNITY_EDITOR
-            Debug.Log("데이터가 존재하지 않아 속성을 생성합니다.\n" +
-                      "생성된 속성 : " + elementName);
-#endif
-        }
-        // 저장된 데이터가 있을 경우 수정
-        else
+        // nodePath를 따라 노드를 찾아 들어감(없을 경우 생성)
+        XmlNode currentNode = xmlDocument.GetNode(nodesName[0], FileMode.OpenOrCreate);
+        for (int i = 1; i < nodesName.Length; i++)
+            currentNode = currentNode.GetNode(nodesName[i], FileMode.OpenOrCreate);
+
+        // 속성 개수만큼 해당 속성의 데이터를 수정(없을 경우 생성)
+        for (int i = 0; i < elementsName.Length; i++)
         {
-            elementNode.InnerText = data;
+            XmlNode elementNode = currentNode.GetNode(elementsName[i], FileMode.OpenOrCreate);
+            elementNode.InnerText = datas[i];
         }
+    }
+
+    /// <summary>
+    /// 데이터 읽기
+    /// </summary>
+    /// <param name="file">xml 파일</param>
+    /// <param name="nodePath">노드 경로</param>
+    /// <param name="elementsName">속성들의 이름</param>
+    /// <returns></returns>
+    public static string[] ReadDatas(EXmlDocumentNames file, string nodePath, string[] elementsName)
+    {
+        // xml 문서 가져오기
+        XmlDocument xmlDocument = GetXmlDocument(file);
+
+        // xml 문서가 없을 경우 null을 반환
+        if (xmlDocument == null)
+            return null;
+
+        // 노드 경로를 '/' 단위로 쪼갬
+        string[] nodesName = nodePath.Split('/');
+
+        // nodePath를 따라 노드를 찾아 들어감
+        XmlNode currentNode = xmlDocument.GetNode(nodesName[0]);
+        for (int i = 1; i < nodesName.Length && currentNode != null; i++)
+            currentNode = currentNode.GetNode(nodesName[i]);
+
+        // 최종 노드가 없을 경우 null을 반환
+        if (currentNode == null)
+            return null;
+
+        // 반환할 데이터 배열 초기화
+        string[] datas = new string[elementsName.Length];
+
+        // 속성들이 있을경우 데이터를 불러옴
+        for(int i = 0; i < elementsName.Length; i++)
+        {
+            XmlNode elementNode = currentNode.GetNode(elementsName[i]);
+
+            if (elementNode != null)
+                datas[i] = elementNode.InnerText;
+        }
+
+        return datas;
+    }
+
+    /// <summary>
+    /// 현재 열려있는 xml 문서를 저장
+    /// </summary>
+    public static void SaveCurrentXmlDocument()
+    {
+        if (_currentXmlDocumentName.Equals(EXmlDocumentNames.None))
+            return;
+
+        _xmlDocuments[_currentXmlDocumentName].Save(_fileDirectoryPath + _currentXmlDocumentName.ToString("G") + ".xml");
     }
 }

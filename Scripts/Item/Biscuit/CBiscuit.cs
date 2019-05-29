@@ -10,24 +10,18 @@ public class CBiscuit : MonoBehaviour
     [SerializeField]
     private float _moveSpeed = 0f;
 
-    private void Awake()
-    {
-        LoadData();
-    }
+    /// <summary>이전에 먹은 비스킷인지 여부</summary>
+    private bool _isDidEat = false;
 
     private void Start()
     {
         StartCoroutine(MoveUpDown());
     }
 
-    /// <summary>데이터 로드</summary>
+    /// <summary>데이터 불러오기</summary>
     private void LoadData()
     {
-        string sceneName = SceneManager.GetActiveScene().name;
-        string[] splitPaths = sceneName.Split('.');
-
-        string nodePath = splitPaths[0] + "Datas/StageDatas/BiscuitDatas/" + splitPaths[1];
-        string dataFileName = splitPaths[0] + "Data";
+        string[] scenePaths = SceneManager.GetActiveScene().name.Split(',');    // 0 : Season, 1 : stage_xx
     }
 
     /// <summary>위 아래 이동</summary>

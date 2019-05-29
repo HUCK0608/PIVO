@@ -11,29 +11,20 @@ public class CStageManager : MonoBehaviour
     /// <summary>스테이지들</summary>
     public List<CStage> Stages { get { return _stages; } }
 
-
     [Header("Programmer can edit")]
-    /// <summary>데이터 파일 이름</summary>
     [SerializeField]
-    private string _dataFileName = null;
-    public string DataFileName { get { return _dataFileName; } }
+    private EXmlDocumentNames _xmlDocumentName = EXmlDocumentNames.None;
+    /// <summary>xml 문서 이름</summary>
+    public EXmlDocumentNames XmlDocumentName { get { return _xmlDocumentName; } }
 
-    public enum ESceneSeason { GrassStage, WinterStage };
-    [SerializeField]
-    private ESceneSeason _currentSeason = ESceneSeason.GrassStage;
-    /// <summary>현재 계절</summary>
-    public ESceneSeason CurrentSeason { get { return _currentSeason; } }
-
-    /// <summary>노드 경로</summary>
-    private string _nodePath = null;
+    /// <summary>노드 이름</summary>
+    private string _nodeName = "StageDatas";
     /// <summary>속성들의 이름</summary>
     private string[] _elementsName = new string[] { "MaxBiscuitCount", "HaveBiscuitCount", "IsClear", "IsUnlock" };
 
     private void Awake()
     {
         _instance = this;
-
-        _nodePath = _currentSeason.ToString("G") + "Datas/StageDatas/";
 
         InitStages();
         LoadStageDatas();
@@ -73,18 +64,17 @@ public class CStageManager : MonoBehaviour
     {
         int stageAmount = _stages.Count;
 
-        // Xml 초기화
-        CDataManager.InitXmlDocument(_dataFileName, FileMode.OpenOrCreate);
+        string firstNodePath = _xmlDocumentName.ToString("G") + '/' + _nodeName + '/';
 
         // 데이터 쓰기
         for (int i = 0; i < stageAmount; i++)
         {
             string[] datas = new string[] { _stages[i].MaxBiscuitCount.ToString(), _stages[i].HaveBiscuitCount.ToString(), _stages[i].IsClear.ToString(), _stages[i].IsUnlock.ToString() };
-            CDataManager.WritingData( _nodePath + _stages[i].GameSceneName, _elementsName, datas);
+            CDataManager.WritingDatas(_xmlDocumentName, firstNodePath + _stages[i].GameSceneName, _elementsName, datas);
         }
 
         // 파일 저장
-        CDataManager.SaveFile(_dataFileName);
+        CDataManager.SaveCurrentXmlDocument();
     }
 
     /// <summary>스테이지 데이터들을 불러옴</summary>
@@ -92,13 +82,12 @@ public class CStageManager : MonoBehaviour
     {
         int stageAmount = _stages.Count;
 
-        // Xml 초기화
-        CDataManager.InitXmlDocument(_dataFileName);
+        string firstNodePath = _xmlDocumentName.ToString("G") + '/' + _nodeName + '/';
 
         // 데이터 불러오기
-        for(int i = 0; i < stageAmount; i++)
+        for (int i = 0; i < stageAmount; i++)
         {
-            string[] datas = CDataManager.LoadData(_nodePath + _stages[i].GameSceneName, _elementsName);
+            string[] datas = CDataManager.ReadDatas(_xmlDocumentName, firstNodePath + _stages[i].GameSceneName, _elementsName);
 
             // 데이터가 존재하지 않는다면 첫 번째 스테이지의 잠금을 풀고 데이터를 저장한다.
             if (datas == null)

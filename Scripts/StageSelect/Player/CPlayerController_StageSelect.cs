@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CPlayerController_StageSelect : MonoBehaviour
 {
+    [Header("Programmer can edit")]
     /// <summary>중력 체크 지점들</summary>
     [SerializeField]
     private List<Transform> _gravityCheckPoints = null;
@@ -35,8 +36,8 @@ public class CPlayerController_StageSelect : MonoBehaviour
     /// <summary>Idle상태에서 기본 오일러 회전값</summary>
     private Vector3 _idleEulerRotation = new Vector3(0, 180f, 0);
 
-    /// <summary>노드 경로</summary>
-    private string _nodePath = null;
+    /// <summary>노드 이름</summary>
+    private string _nodeName = "SelectPlayerDatas";
     /// <summary>속성들의 이름</summary>
     private string[] _elementsName = new string[] { "CurrentStage" };
 
@@ -46,7 +47,6 @@ public class CPlayerController_StageSelect : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
 
-        _nodePath = CStageManager.Instance.CurrentSeason + "Datas/PlayerDatas";
         LoadPlayerDatas();
 
         transform.position = _currentStage.transform.position;
@@ -61,31 +61,22 @@ public class CPlayerController_StageSelect : MonoBehaviour
     /// <summary>플레이어 데이터 저장하기</summary>
     private void SavePlayerData()
     {
-        // 데이터 파일 이름
-        string dataFileName = CStageManager.Instance.DataFileName;
-
-        // Xml 초기화
-        CDataManager.InitXmlDocument(dataFileName, FileMode.OpenOrCreate);
-
         // 데이터 쓰기
+        string nodePath = CStageManager.Instance.XmlDocumentName.ToString("G") + "/" + _nodeName;
         string[] datas = new string[] { _currentStage.GameSceneName };
-        CDataManager.WritingData(_nodePath, _elementsName, datas);
+        CDataManager.WritingDatas(CStageManager.Instance.XmlDocumentName, nodePath, _elementsName, datas);
 
         // 파일 저장
-        CDataManager.SaveFile(dataFileName);
+        CDataManager.SaveCurrentXmlDocument();
     }
 
     /// <summary>플레이어 데이터 불러오기</summary>
     private void LoadPlayerDatas()
     {
-        // 데이터 파일 이름
-        string dataFileName = CStageManager.Instance.DataFileName;
-
-        // Xml 초기화
-        CDataManager.InitXmlDocument(dataFileName, FileMode.OpenOrCreate);
+        string nodePath = CStageManager.Instance.XmlDocumentName.ToString("G") + "/" + _nodeName;
 
         // 데이터 불러오기
-        string[] datas = CDataManager.LoadData(_nodePath, _elementsName);
+        string[] datas = CDataManager.ReadDatas(CStageManager.Instance.XmlDocumentName, nodePath, _elementsName);
 
         // 스테이지들
         List<CStage> stages = CStageManager.Instance.Stages;
