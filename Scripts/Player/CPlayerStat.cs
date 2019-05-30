@@ -27,6 +27,11 @@ public class CPlayerStat : MonoBehaviour
     public float MoveSpeed { get { return _moveSpeed; } }
 
     [SerializeField]
+    private float _airMoveSpeed = 0f;
+    /// <summary>공중 이동속도</summary>
+    public float AirMoveSpeed { get { return _airMoveSpeed; } }
+
+    [SerializeField]
     private float _gravity = 0f;
     /// <summary>중력</summary>
     public float Gravity { get { return _gravity; } }

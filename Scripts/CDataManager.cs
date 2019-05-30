@@ -3,7 +3,7 @@ using System.IO;
 using System.Xml;
 using System.Collections.Generic;
 
-public enum EXmlDocumentNames { None, SpringStageDatas, WinterStageDatas }
+public enum EXmlDocumentNames { None, GrassStageDatas, SnowStageDatas }
 
 public static class CDataManager
 {
@@ -24,27 +24,25 @@ public static class CDataManager
     /// <returns></returns>
     private static XmlDocument GetXmlDocument(EXmlDocumentNames file, FileMode fileMode = FileMode.Open)
     {
+        // 저장되어 있는 xml 문서가 있다면 반환
+        if (_xmlDocuments.Count > 0 && _xmlDocuments[file] != null)
+        {
+            _currentXmlDocumentName = file;
+
+            return _xmlDocuments[file];
+        }
+
         FileInfo fileInfo = new FileInfo(_fileDirectoryPath + file.ToString("G") + ".xml");
 
         // 해당 file이 있을 경우
         if (fileInfo.Exists)
         {
-            // 저장되어 있는 xml 문서가 있다면 반환
-            if (_xmlDocuments.Count > 0 && _xmlDocuments[file] != null)
-            {
-                _currentXmlDocumentName = file;
-
-                return _xmlDocuments[file];
-            }
             // 아닌 경우 해당 문서를 가져오고 리스트에 저장
-            else
-            {
-                XmlDocument xmlDocument = new XmlDocument();
-                xmlDocument.Load(fileInfo.FullName);
-                _xmlDocuments.Add(file, xmlDocument);
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(fileInfo.FullName);
+            _xmlDocuments.Add(file, xmlDocument);
 
-                return xmlDocument;
-            }
+            return xmlDocument;
         }
 
         // 해당 file이 없고,

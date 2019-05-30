@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CBiscuit : MonoBehaviour
 {
@@ -10,18 +9,48 @@ public class CBiscuit : MonoBehaviour
     [SerializeField]
     private float _moveSpeed = 0f;
 
+    [SerializeField]
+    private GameObject _biscuitEatEffect = null;
+
+    private int _number = -1;
+    /// <summary>구분 숫자</summary>
+    public int Number { get { return _number; } }
+    public bool _isDidEat = false;
     /// <summary>이전에 먹은 비스킷인지 여부</summary>
-    private bool _isDidEat = false;
+    public bool IsDidEat { get { return _isDidEat; } set { _isDidEat = value; } }
+
+    private void Awake()
+    {
+        if (CBiscuitManager.Instance == null)
+            gameObject.AddComponent<CBiscuitManager>();
+
+        RegisterBiscuit();
+    }
 
     private void Start()
     {
         StartCoroutine(MoveUpDown());
     }
 
-    /// <summary>데이터 불러오기</summary>
-    private void LoadData()
+    /// <summary>비스킷 등록</summary>
+    private void RegisterBiscuit()
     {
-        string[] scenePaths = SceneManager.GetActiveScene().name.Split(',');    // 0 : Season, 1 : stage_xx
+        _number = int.Parse(gameObject.name.Split('_')[2]);
+
+        CBiscuitManager.Instance.RegisterBiscuit(this);
+    }
+
+    /// <summary>비스킷을 먹어서 없앰</summary>
+    public void DestroyBiscuit()
+    {
+        // 이펙트 보여주기
+        _biscuitEatEffect.transform.parent = null;
+        _biscuitEatEffect.transform.position = CPlayerManager.Instance.RootObject3D.transform.position;
+        _biscuitEatEffect.SetActive(true);
+
+        _isDidEat = true;
+        CBiscuitManager.Instance.HaveBiscuitCount++;
+        gameObject.SetActive(false);
     }
 
     /// <summary>위 아래 이동</summary>

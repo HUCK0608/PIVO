@@ -30,6 +30,8 @@ public class CCameraController : MonoBehaviour
 
     /// <summary>글로벌 포그</summary>
     private GlobalFog _globalFog = null;
+    /// <summary>시작 포그 높이</summary>
+    private float _startFogHeight = 0f;
 
     /// <summary>마지막 2D 위치</summary>
     private Vector3 _last2DPosition;
@@ -44,6 +46,7 @@ public class CCameraController : MonoBehaviour
 
         _globalFog = GetComponentInChildren<GlobalFog>();
         _globalFog.heightDensity = 2.63f;
+        _startFogHeight = _globalFog.height;
     }
 
     private void Start()
@@ -56,7 +59,7 @@ public class CCameraController : MonoBehaviour
         if (!CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View2D) && !_isOnCameraShaking && !_isMoveLast2DPosition)
             transform.position = _target.position;
 
-        _globalFog.height = transform.position.y + 2f;
+        _globalFog.height = transform.position.y + _startFogHeight;
     }
 
     /// <summary>2D 무빙워크 실행</summary>
