@@ -33,12 +33,9 @@ public class CStageManager : MonoBehaviour
         ChangeStagesShader();
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        if (Input.GetKeyDown(KeyCode.F5))
-            SaveStageDatas();
-        else if (Input.GetKeyDown(KeyCode.F6))
-            LoadStageDatas();
+        SaveStageDatas();
     }
 
     /// <summary>스테이지 초기화</summary>
@@ -78,6 +75,10 @@ public class CStageManager : MonoBehaviour
     /// <summary>스테이지 데이터들을 불러옴</summary>
     private void LoadStageDatas()
     {
+        // 첫 번째 스테이지에 대한 잠금이 걸려 있을 경우 잠금을 해제
+        if(!_stages[0].IsUnlock)
+            _stages[0].IsUnlock = true;
+
         int stageAmount = _stages.Count;
 
         string firstNodePath = _xmlDocumentName.ToString("G") + "/StageDatas/";
@@ -87,22 +88,18 @@ public class CStageManager : MonoBehaviour
         {
             string[] datas = CDataManager.ReadDatas(_xmlDocumentName, firstNodePath + _stages[i].GameSceneName, _elementsName);
 
-            // 첫 스테이지에 대한 데이터가 존재하지 않으면 첫 스테이지의 잠금을 해제 후 전체 스테이지 정보 저장
-            if (i == 0 && datas[3] == null)
+            // 반환받은 데이터가 있을 경우에만 데이터를 가져옴
+            if (datas != null)
             {
-                _stages[0].IsUnlock = true;
-                SaveStageDatas();
-                break;
+                if (datas[0] != null)
+                    _stages[i].MaxBiscuitCount = int.Parse(datas[0]);
+                if (datas[1] != null)
+                    _stages[i].HaveBiscuitCount = int.Parse(datas[1]);
+                if (datas[2] != null)
+                    _stages[i].IsClear = datas[2].ToBoolean();
+                if (datas[3] != null)
+                    _stages[i].IsUnlock = datas[3].ToBoolean();
             }
-
-            if(datas[0] != null)
-                _stages[i].MaxBiscuitCount = int.Parse(datas[0]);
-            if(datas[1] != null)
-                _stages[i].HaveBiscuitCount = int.Parse(datas[1]);
-            if(datas[2] != null)
-                _stages[i].IsClear = datas[2].ToBoolean();
-            if(datas[3] != null)
-                _stages[i].IsUnlock = datas[3].ToBoolean();
         }
     }
 }

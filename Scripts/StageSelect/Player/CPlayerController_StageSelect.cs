@@ -58,6 +58,11 @@ public class CPlayerController_StageSelect : MonoBehaviour
         StartCoroutine(IdleLogic());
     }
 
+    private void OnDestroy()
+    {
+        SavePlayerData();
+    }
+
     /// <summary>플레이어 데이터 저장하기</summary>
     private void SavePlayerData()
     {
@@ -81,11 +86,11 @@ public class CPlayerController_StageSelect : MonoBehaviour
         // 스테이지들
         List<CStage> stages = CStageManager.Instance.Stages;
 
-        // 데이터가 없다면 첫 번째 스테이지를 현재 스테이지로 적용 후 저장
+        // 데이터가 없다면 첫 번째 스테이지를 현재 스테이지로 적용 리턴
         if (datas == null)
         {
             _currentStage = stages[0];
-            SavePlayerData();
+            return;
         }
         // 데이터가 존재할 경우 현재 스테이지를 데이터에서 가져옴
         else

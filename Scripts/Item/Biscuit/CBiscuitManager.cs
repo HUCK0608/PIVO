@@ -46,13 +46,14 @@ public class CBiscuitManager : MonoBehaviour
     {
         string[] datas = null;
 
-        string[] scenePaths = SceneManager.GetActiveScene().name.Split('_');    // 0 : Season, 1 : Stage_x
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        string[] scenePaths = currentSceneName.Split('_');    // 0 : Season, 1 : Stage_x
 
         // 봄 스테이지일 경우
         if(scenePaths[0].Equals("GrassStage"))
         {
             /* 이전에 먹었던 비스킷 개수 데이터 가져오기 */
-            string nodePath = EXmlDocumentNames.GrassStageDatas.ToString("G") + "/StageDatas/" + scenePaths[1];
+            string nodePath = EXmlDocumentNames.GrassStageDatas.ToString("G") + "/StageDatas/" + currentSceneName;
             string[] elementsName = new string[] { "HaveBiscuitCount" };
 
             // 데이터 읽기
@@ -64,7 +65,7 @@ public class CBiscuitManager : MonoBehaviour
 
             /* 비스킷 먹음 여부 데이터 가져오기 */
             // 노드 경로 설정
-            nodePath = EXmlDocumentNames.GrassStageDatas.ToString("G") + "/StageDatas/" + scenePaths[1] + "/BiscuitsDidEat";
+            nodePath = EXmlDocumentNames.GrassStageDatas.ToString("G") + "/StageDatas/" + currentSceneName + "/BiscuitsDidEat";
 
             // 속성 배열 초기화
             int biscuitCount = _biscuits.Count;
@@ -102,13 +103,14 @@ public class CBiscuitManager : MonoBehaviour
     {
         int biscuitCount = _biscuits.Count;
 
-        string[] scenePaths = SceneManager.GetActiveScene().name.Split('_');    // 0 : Season, 1 : Stage_x
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        string[] scenePaths = currentSceneName.Split('_');    // 0 : Season, 1 : Stage_x
 
         // 봄 스테이지일 경우
         if (scenePaths[0].Equals("GrassStage"))
         {
             /* 이전에 먹었던 비스킷 개수 데이터 가져오기 */
-            string nodePath = EXmlDocumentNames.GrassStageDatas.ToString("G") + "/StageDatas/" + scenePaths[1];
+            string nodePath = EXmlDocumentNames.GrassStageDatas.ToString("G") + "/StageDatas/" + currentSceneName;
             string[] elementsName = new string[] { "HaveBiscuitCount" };
             string[] datas = new string[] { _haveBiscuitCount.ToString() };
 
@@ -117,7 +119,7 @@ public class CBiscuitManager : MonoBehaviour
 
             /* 비스킷 먹음 여부 데이터 가져오기 */
             // 노드 경로 설정
-            nodePath = EXmlDocumentNames.GrassStageDatas.ToString("G") + "/StageDatas/" + scenePaths[1] + "/BiscuitsDidEat";
+            nodePath = EXmlDocumentNames.GrassStageDatas.ToString("G") + "/StageDatas/" + currentSceneName + "/BiscuitsDidEat";
 
             // 배열 초기화
             elementsName = new string[biscuitCount];
