@@ -1,18 +1,19 @@
 ﻿Shader "BlueCube/WorldObject2" {
 	Properties {
-		_Color ("CanChangeColor", Color) = (1,1,1,1)
-		_Color2 ("BlockColor", Color) = (1,1,1,1)
+		/*_Color ("CanChangeColor", Color) = (1,1,1,1)
+		_Color2 ("BlockColor", Color) = (1,1,1,1)*/
 		_MainTex ("3D_Texture", 2D) = "white" {}
 		_MainTex4 ("2D_Texture2", 2D) = "white" {}
-		_MainTex5("BackgroundTexture", 2D) = "white" {}
 		_MainTex2("Emission_Texture", 2D) = "white" {}
-		_MainTex3("Spectrum", 2D) = "white" {}
 		_Emission("Emission_Power", float) = 1
+		[Toggle]_Choice("Choice", float) = 0
+		//_MainTex5("BackgroundTexture", 2D) = "white" {}
+		/*_MainTex3("Spectrum", 2D) = "white" {}
 		_Emission2("Spectrum_Emission_Power", float) = 1
 		_Speed("Emission_Speed", float) = 1
-		_Speed2("Block_Emission_Speed", float) = 1
-		_Choice("Choice", float) = 0
-		[Space][Space][Space][Space]
+		_Speed2("Block_Emission_Speed", float) = 1*/
+		
+		/*[Space][Space][Space][Space]
 		
 		[Header(Outline_Setting)]
 		[Toggle]_OutlineCheck("Outline_Check", float) = 0
@@ -28,7 +29,7 @@
 		_SpecularSize("SpecularSize", float) = 1
 		_SpecularVector("Specular_Dir", Vector) = (0.55,100,0.65,0)
 		_SpecularRange("Specular_range", Range(0,10)) = 7
-		_EmissionPower("Speculer_Emission_Power", float) = 2
+		_EmissionPower("Speculer_Emission_Power", float) = 2*/
 	}
 
 	SubShader {
@@ -47,26 +48,26 @@
 
 		sampler2D _MainTex;
 		sampler2D _MainTex2;
-		sampler2D _MainTex3;
+		//sampler2D _MainTex3;
 		sampler2D _MainTex4;
-		sampler2D _MainTex5;
+		//sampler2D _MainTex5;
 
 		struct Input {
 			float2 uv_MainTex;
 			float2 uv_MainTex2;
-			float2 uv_MainTex3;
+			//float2 uv_MainTex3;
 			float2 uv_MainTex4;
-			float2 uv_MainTex5;
-			float3 worldPos;
-			float3 worldNormal;
+			//float2 uv_MainTex5;
+			/*float3 worldPos;
+			float3 worldNormal;*/
 		};
 
-		float4 _Color;
-		float4 _Color2;
+		/*float4 _Color;
+		float4 _Color2;*/
 		float _Emission;
-		float _Emission2;
+		/*float _Emission2;
 		float _Speed;
-		float _Speed2;
+		float _Speed2;*/
 		float _Choice;
 
 		void surf (Input IN, inout SurfaceOutputStandard o)
@@ -74,19 +75,19 @@
 			float4 c = tex2D(_MainTex, IN.uv_MainTex);
 			float4 f = tex2D(_MainTex2, IN.uv_MainTex);
 			float4 e = tex2D(_MainTex4, IN.uv_MainTex4);
-			float4 d = tex2D(_MainTex3, float2(_Time.y * _Speed, 0.5));
-			float4 g = tex2D(_MainTex3, float2(_Time.y * _Speed2, 0.5));
-			float4 h = tex2D(_MainTex5, IN.uv_MainTex5);
+			/*float4 d = tex2D(_MainTex3, float2(_Time.y * _Speed, 0.5));
+			float4 g = tex2D(_MainTex3, float2(_Time.y * _Speed2, 0.5));*/
+			//float4 h = tex2D(_MainTex5, IN.uv_MainTex5);
 						
-			float2 topUV = float2(IN.worldPos.x, IN.worldPos.z);
+			/*float2 topUV = float2(IN.worldPos.x, IN.worldPos.z);
 			float2 frontUV = float2(IN.worldPos.x, IN.worldPos.y);
 			float2 sideUV = float2(IN.worldPos.z, IN.worldPos.y);
 
 			float4 topTex = tex2D(_MainTex2, topUV);
 			float4 frontTex = tex2D(_MainTex2, frontUV);
-			float4 sideTex = tex2D(_MainTex2, sideUV);
+			float4 sideTex = tex2D(_MainTex2, sideUV);*/
 						
-			if (_Choice == 0)
+			/*if (_Choice == 0)
 			{
 				o.Albedo = c.rgb;
 				o.Emission = f.rgb * _Emission;
@@ -94,7 +95,10 @@
 			else if (_Choice == 1)
 			{
 				o.Albedo = e.rgb;
-			}
+			}*/
+			o.Albedo = lerp(c.rgb, e.rgb, _Choice);
+			o.Emission = lerp(f.rgb, 0, _Choice) * _Emission;
+			/*
 			else if (_Choice == 2)
 			{
 				o.Albedo = c.rgb;
@@ -111,7 +115,7 @@
 			{
 				o.Albedo = h.rgb;
 				o.Emission = f.rgb * _Emission;
-			}
+			}*/
 		}
 		ENDCG
 
