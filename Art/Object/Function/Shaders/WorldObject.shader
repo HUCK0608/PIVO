@@ -6,7 +6,7 @@
 		_MainTex4 ("2D_Texture2", 2D) = "white" {}
 		_MainTex2("Emission_Texture", 2D) = "white" {}
 		_Emission("Emission_Power", float) = 1
-		[Toggle]_Choice("Choice", float) = 0
+		[Toggle]_IsUse2DTexture("IsUse2DTexture", float) = 0
 		//_MainTex5("BackgroundTexture", 2D) = "white" {}
 		/*_MainTex3("Spectrum", 2D) = "white" {}
 		_Emission2("Spectrum_Emission_Power", float) = 1
@@ -68,7 +68,7 @@
 		/*float _Emission2;
 		float _Speed;
 		float _Speed2;*/
-		float _Choice;
+		float _IsUse2DTexture;
 
 		void surf (Input IN, inout SurfaceOutputStandard o)
 		{
@@ -87,31 +87,31 @@
 			float4 frontTex = tex2D(_MainTex2, frontUV);
 			float4 sideTex = tex2D(_MainTex2, sideUV);*/
 						
-			/*if (_Choice == 0)
+			/*if (_IsUse2DTexture == 0)
 			{
 				o.Albedo = c.rgb;
 				o.Emission = f.rgb * _Emission;
 			}
-			else if (_Choice == 1)
+			else if (_IsUse2DTexture == 1)
 			{
 				o.Albedo = e.rgb;
 			}*/
-			o.Albedo = lerp(c.rgb, e.rgb, _Choice);
-			o.Emission = lerp(f.rgb, 0, _Choice) * _Emission;
+			o.Albedo = lerp(c.rgb, e.rgb, _IsUse2DTexture);
+			o.Emission = lerp(f.rgb, 0, _IsUse2DTexture) * _Emission;
 			/*
-			else if (_Choice == 2)
+			else if (_IsUse2DTexture == 2)
 			{
 				o.Albedo = c.rgb;
 				o.Emission = f.rgb * _Emission;
 				o.Emission = (o.Emission + _Color) * _Emission2 * d.r;
 			}
-			else if (_Choice == 3)
+			else if (_IsUse2DTexture == 3)
 			{
 				o.Albedo = c.rgb;
 				o.Emission = f.rgb * _Emission;
 				o.Emission = (o.Emission + _Color2) * _Emission2 * g.r;
 			}
-			else if (_Choice == 4)
+			else if (_IsUse2DTexture == 4)
 			{
 				o.Albedo = h.rgb;
 				o.Emission = f.rgb * _Emission;

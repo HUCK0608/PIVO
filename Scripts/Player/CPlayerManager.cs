@@ -7,9 +7,13 @@ public class CPlayerManager : CCharacter
     /// <summary>플레이어 매니저 싱글턴</summary>
     public static CPlayerManager Instance { get { return _instance; } }
 
-    private CPlayerStat _stat;
+    private CPlayerStat _stat = null;
     /// <summary>플레이어 스텟</summary>
     public CPlayerStat Stat { get { return _stat; } }
+
+    private CPlayerEffect _effect = null;
+    /// <summary>플레이어 이펙트</summary>
+    public CPlayerEffect Effect { get { return _effect; } }
 
     private CPlayerController2D _controller2D;
     /// <summary>플레이어 컨트롤러 2D</summary>
@@ -25,6 +29,7 @@ public class CPlayerManager : CCharacter
 
         _instance = this;
         _stat = GetComponent<CPlayerStat>();
+        _effect = GetComponent<CPlayerEffect>();
 
         _controller2D = RootObject2D.GetComponent<CPlayerController2D>();
         _controller3D = RootObject3D.GetComponent<CPlayerController3D>();
@@ -42,6 +47,8 @@ public class CPlayerManager : CCharacter
         RootObject2D.transform.eulerAngles = Vector3.zero;
         RootObject3D.transform.parent = RootObject2D.transform;
         RootObject2D.SetActive(true);
+
+        _effect.MoveDustEffect_ChangeState(EWorldState.View2D);
     }
 
     public override void Change3D()
@@ -54,6 +61,8 @@ public class CPlayerManager : CCharacter
         // 땅이아니면 Holding 상태로 변경
         if (!Controller3D.IsGrounded())
             Controller3D.ChangeState(EPlayerState3D.Holding);
+
+        _effect.MoveDustEffect_ChangeState(EWorldState.View3D);
     }
 
     /// <summary>자동 이동 시작</summary>
