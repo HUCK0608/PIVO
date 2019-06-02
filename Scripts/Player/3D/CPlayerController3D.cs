@@ -72,7 +72,7 @@ public class CPlayerController3D : MonoBehaviour
         _rigidBody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
 
-        _playerIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne());
+        _playerIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.BackgroundObject.LeftShiftToOne());
 
         InitStates();
     }
@@ -163,12 +163,13 @@ public class CPlayerController3D : MonoBehaviour
     }
 
     /// <summary>방향 이동</summary>
-    public void Move(Vector3 direction)
+    public void Move(Vector3 direction, bool isAirMove = false)
     {
         if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.Changing))
             return;
 
-        Vector3 velocity = direction * CPlayerManager.Instance.Stat.MoveSpeed * Time.deltaTime;
+        float moveSpeed = isAirMove ? CPlayerManager.Instance.Stat.AirMoveSpeed : CPlayerManager.Instance.Stat.MoveSpeed;
+        Vector3 velocity = direction * moveSpeed * Time.deltaTime;
         CalcGravity(ref velocity);
 
         _rigidBody.velocity = velocity;
@@ -185,11 +186,11 @@ public class CPlayerController3D : MonoBehaviour
     }
 
     /// <summary>키보드 입력 이동</summary>
-    public void Move(float vertical, float horizontal)
+    public void Move(float vertical, float horizontal, bool isAirMove = false)
     {
         Vector3 direction = (Vector3.right + Vector3.forward) * vertical + (Vector3.right + Vector3.back) * horizontal;
 
-        Move(direction.normalized);
+        Move(direction.normalized, isAirMove);
     }
 
     /// <summary>자동 이동 실행</summary>

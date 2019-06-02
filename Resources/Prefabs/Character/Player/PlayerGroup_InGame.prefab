@@ -567,6 +567,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hp: 3
   _moveSpeed: 450
+  _airMoveSpeed: 200
   _gravity: -35
   _rotationSpeed: 15
   _holdingMaxTime: 3

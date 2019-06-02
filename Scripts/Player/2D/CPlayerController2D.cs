@@ -58,7 +58,7 @@ public class CPlayerController2D : MonoBehaviour
         _rigidBody2D = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
 
-        _playerIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne());
+        _playerIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.BackgroundObject.LeftShiftToOne());
 
         InitStates();
     }
@@ -138,12 +138,13 @@ public class CPlayerController2D : MonoBehaviour
     }
 
     /// <summary>방향 이동</summary>
-    public void Move(Vector2 direction)
+    public void Move(Vector2 direction, bool isAirMove = false)
     {
         if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.Changing))
             return;
 
-        Vector2 velocity = direction * CPlayerManager.Instance.Stat.MoveSpeed * Time.deltaTime;
+        float moveSpeed = isAirMove ? CPlayerManager.Instance.Stat.AirMoveSpeed : CPlayerManager.Instance.Stat.MoveSpeed;
+        Vector2 velocity = direction * moveSpeed * Time.deltaTime;
         CalcGravity(ref velocity);
 
         _rigidBody2D.velocity = velocity;
@@ -160,11 +161,11 @@ public class CPlayerController2D : MonoBehaviour
     }
 
     /// <summary>키보드 입력 이동</summary>
-    public void Move(float horizontal)
+    public void Move(float horizontal, bool isAirMove = false)
     {
         Vector2 direction = Vector2.right * horizontal;
 
-        Move(direction.normalized);
+        Move(direction.normalized, isAirMove);
     }
 
     /// <summary>자동 이동 시작</summary>

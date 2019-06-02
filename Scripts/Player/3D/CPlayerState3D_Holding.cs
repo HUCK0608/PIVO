@@ -36,6 +36,7 @@ public class CPlayerState3D_Holding : CPlayerState3D
             _viewChangeCapsuleEffect.SetActive(false);
             _viewChangeCapsuleEffect.SetActive(true);
             Controller3D.ChangeState(EPlayerState3D.Idle);
+            CCameraController.Instance.MoveLast2DPosition();
         }
     }
 

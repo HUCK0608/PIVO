@@ -30,6 +30,13 @@ public class CCameraController : MonoBehaviour
 
     /// <summary>글로벌 포그</summary>
     private GlobalFog _globalFog = null;
+    /// <summary>시작 포그 높이</summary>
+    private float _startFogHeight = 0f;
+
+    /// <summary>마지막 2D 위치</summary>
+    private Vector3 _last2DPosition;
+    /// <summary>마지막 2D 위치로 이동하는지 여부</summary>
+    private bool _isMoveLast2DPosition = false;
 
     private void Awake()
     {
@@ -39,6 +46,7 @@ public class CCameraController : MonoBehaviour
 
         _globalFog = GetComponentInChildren<GlobalFog>();
         _globalFog.heightDensity = 2.63f;
+        _startFogHeight = _globalFog.height;
     }
 
     private void Start()
@@ -48,10 +56,10 @@ public class CCameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View2D) && !_isOnCameraShaking)
+        if (!CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View2D) && !_isOnCameraShaking && !_isMoveLast2DPosition)
             transform.position = _target.position;
 
-        _globalFog.height = transform.position.y + 2f;
+        _globalFog.height = transform.position.y + _startFogHeight;
     }
 
     /// <summary>2D 무빙워크 실행</summary>
@@ -72,6 +80,9 @@ public class CCameraController : MonoBehaviour
     {
         _isOnMovingWork = true;
         _animator.SetBool(_animParameter, true);
+
+        _isMoveLast2DPosition = false;
+        _last2DPosition = transform.position;
     }
 
     /// <summary>무빙워크가 끝날 경우 변수 설정</summary>
@@ -104,5 +115,12 @@ public class CCameraController : MonoBehaviour
         }
 
         _isOnCameraShaking = false;
+    }
+
+    /// <summary>카메라를 마지막 2D 위치로 이동</summary>
+    public void MoveLast2DPosition()
+    {
+        _isMoveLast2DPosition = true;
+        transform.position = _last2DPosition;
     }
 }

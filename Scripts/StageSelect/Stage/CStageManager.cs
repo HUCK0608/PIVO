@@ -12,13 +12,11 @@ public class CStageManager : MonoBehaviour
     public List<CStage> Stages { get { return _stages; } }
 
     [Header("Programmer can edit")]
-    /// <summary>데이터 파일 이름</summary>
     [SerializeField]
-    private string _dataFileName = null;
-    public string DataFileName { get { return _dataFileName; } }
+    private EXmlDocumentNames _xmlDocumentName = EXmlDocumentNames.None;
+    /// <summary>xml 문서 이름</summary>
+    public EXmlDocumentNames XmlDocumentName { get { return _xmlDocumentName; } }
 
-    /// <summary>노드 경로</summary>
-    private string _nodePath = "GrassStageDatas/StageDatas/";
     /// <summary>속성들의 이름</summary>
     private string[] _elementsName = new string[] { "MaxBiscuitCount", "HaveBiscuitCount", "IsClear", "IsUnlock" };
 
@@ -64,18 +62,17 @@ public class CStageManager : MonoBehaviour
     {
         int stageAmount = _stages.Count;
 
-        // Xml 초기화
-        CDataManager.InitXmlDocument(_dataFileName, FileMode.OpenOrCreate);
+        string firstNodePath = _xmlDocumentName.ToString("G") + "/StageDatas/";
 
         // 데이터 쓰기
         for (int i = 0; i < stageAmount; i++)
         {
             string[] datas = new string[] { _stages[i].MaxBiscuitCount.ToString(), _stages[i].HaveBiscuitCount.ToString(), _stages[i].IsClear.ToString(), _stages[i].IsUnlock.ToString() };
-            CDataManager.WritingData( _nodePath + _stages[i].GameSceneName, _elementsName, datas);
+            CDataManager.WritingDatas(_xmlDocumentName, firstNodePath + _stages[i].GameSceneName, _elementsName, datas);
         }
 
         // 파일 저장
-        CDataManager.SaveFile(_dataFileName);
+        CDataManager.SaveCurrentXmlDocument();
     }
 
     /// <summary>스테이지 데이터들을 불러옴</summary>
@@ -83,26 +80,29 @@ public class CStageManager : MonoBehaviour
     {
         int stageAmount = _stages.Count;
 
-        // Xml 초기화
-        CDataManager.InitXmlDocument(_dataFileName);
+        string firstNodePath = _xmlDocumentName.ToString("G") + "/StageDatas/";
 
         // 데이터 불러오기
-        for(int i = 0; i < stageAmount; i++)
+        for (int i = 0; i < stageAmount; i++)
         {
-            string[] datas = CDataManager.LoadData(_nodePath + _stages[i].GameSceneName, _elementsName);
+            string[] datas = CDataManager.ReadDatas(_xmlDocumentName, firstNodePath + _stages[i].GameSceneName, _elementsName);
 
-            // 데이터가 존재하지 않는다면 첫 번째 스테이지의 잠금을 풀고 데이터를 저장한다.
-            if (datas == null)
+            // 첫 스테이지에 대한 데이터가 존재하지 않으면 첫 스테이지의 잠금을 해제 후 전체 스테이지 정보 저장
+            if (i == 0 && datas[3] == null)
             {
                 _stages[0].IsUnlock = true;
                 SaveStageDatas();
                 break;
             }
 
-            _stages[i].MaxBiscuitCount = int.Parse(datas[0]);
-            _stages[i].HaveBiscuitCount = int.Parse(datas[1]);
-            _stages[i].IsClear = datas[2].ToBoolean();
-            _stages[i].IsUnlock = datas[3].ToBoolean();
+            if(datas[0] != null)
+                _stages[i].MaxBiscuitCount = int.Parse(datas[0]);
+            if(datas[1] != null)
+                _stages[i].HaveBiscuitCount = int.Parse(datas[1]);
+            if(datas[2] != null)
+                _stages[i].IsClear = datas[2].ToBoolean();
+            if(datas[3] != null)
+                _stages[i].IsUnlock = datas[3].ToBoolean();
         }
     }
 }

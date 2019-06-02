@@ -11,7 +11,9 @@ public class CPlayerState2D_Falling : CPlayerState2D
 
     private void Update()
     {
-        Controller2D.Move(0);
+        float horizontal = Input.GetAxis(CString.Horizontal);
+
+        Controller2D.Move(horizontal, true);
 
         if (Controller2D.RigidBody2D.velocity.y >= -Mathf.Epsilon)
             Controller2D.ChangeState(EPlayerState2D.Idle);
