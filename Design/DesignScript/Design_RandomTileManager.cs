@@ -6,26 +6,27 @@ public class Design_RandomTileManager : MonoBehaviour
 {
     List<GameObject> TileGroup = new List<GameObject>();
     List<GameObject> MoveTileGroup = new List<GameObject>();
-    float PosX = -999f;
+    float XorZ = -9999;
     float TargetPosY;
     float MoveSpeed, RandomRange, WaitTileTime;
 
     bool bUseTileSelect = false;
     float WaitTileSelect;
-    
+
+    public bool bUseZaxis;
+
 
     void Start()
     {
-        MoveSpeed = 0.8f;
-        RandomRange = 5f;
-        WaitTileTime = 0.15f;
+        MoveSpeed = 0.8f;//0.8f
+        RandomRange = 5f;//5f
+        WaitTileTime = 0.15f;//0.15f
 
         TargetPosY = transform.position.y;
         for (int i = 0; i < transform.childCount; i++)
         {
             TileGroup.Add(transform.GetChild(i).gameObject);
         }
-        //StartCoroutine("TileSelect");
         bUseTileSelect = true;
     }
 
@@ -61,11 +62,21 @@ public class Design_RandomTileManager : MonoBehaviour
     {
         bool AllClear = false;
         int AllValueCheck = 0;
+        float AddValue;
+
+        if (bUseZaxis)
+            AddValue = -2;
+        else
+            AddValue = 2;
+
         foreach (var Value in TileGroup)
         {
-            if (PosX == -999)
+            if (XorZ == -9999)
             {
-                PosX = Value.transform.position.x;
+                if (bUseZaxis)
+                    XorZ = Value.transform.position.z;
+                else
+                    XorZ = Value.transform.position.x;
             }
 
             bool NotArray = true;
@@ -77,8 +88,16 @@ public class Design_RandomTileManager : MonoBehaviour
 
             if (NotArray)
             {
-                if (PosX > Value.transform.position.x && Value.transform.position.y != TargetPosY)
-                    PosX = Value.transform.position.x;
+                if (bUseZaxis)
+                {
+                    if (XorZ < Value.transform.position.z && Value.transform.position.y != TargetPosY)
+                        XorZ = Value.transform.position.z;
+                }
+                else
+                {
+                    if (XorZ > Value.transform.position.x && Value.transform.position.y != TargetPosY)
+                        XorZ = Value.transform.position.x;
+                }
             }
 
 
@@ -92,7 +111,13 @@ public class Design_RandomTileManager : MonoBehaviour
         {
             foreach (var Value in TileGroup)
             {
-                if (PosX == Value.transform.position.x)
+                float CompareValue;
+                if (bUseZaxis)
+                    CompareValue = Value.transform.position.z;
+                else
+                    CompareValue = Value.transform.position.x;
+
+                if (XorZ == CompareValue)
                 {
                     MoveTileGroup.Add(Value);
 
@@ -108,64 +133,7 @@ public class Design_RandomTileManager : MonoBehaviour
             bUseTileSelect = false;
         }
 
-        PosX += 2;
+        XorZ += AddValue;
     }
 
-    IEnumerator TileSelect()
-    {
-        while (true)
-        {
-            bool AllClear = false;
-            int AllValueCheck = 0;
-            foreach (var Value in TileGroup)
-            {
-                if (PosX == -999)
-                {
-                    PosX = Value.transform.position.x;
-                }
-                
-                bool NotArray = true;
-                foreach (var V in MoveTileGroup)
-                {
-                    if (Value == V)
-                        NotArray = false;
-                }
-
-                if (NotArray)
-                {
-                    if (PosX > Value.transform.position.x && Value.transform.position.y != TargetPosY)
-                        PosX = Value.transform.position.x;
-                }
-
-
-                if (Value.transform.position.y == TargetPosY)
-                    AllValueCheck++;
-
-                if (AllValueCheck == TileGroup.Count)
-                    AllClear = true;
-            }
-            if (!AllClear)
-            {
-                foreach (var Value in TileGroup)
-                {
-                    if (PosX == Value.transform.position.x)
-                    {
-                        MoveTileGroup.Add(Value);
-
-                        Vector3 ValuePos = Value.transform.position;
-                        float RandomYValue = ValuePos.y + Random.Range(-RandomRange, RandomRange);
-                        Vector3 RandomPos = new Vector3(ValuePos.x, RandomYValue, ValuePos.z);
-                        Value.transform.position = RandomPos;
-                    }
-                }
-            }
-            else
-            {
-                break;
-            }
-            
-            PosX += 2;
-            yield return new WaitForSeconds(WaitTileTime);
-        }
-    }
 }

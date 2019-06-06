@@ -86,8 +86,12 @@
 			float4 topTex = tex2D(_MainTex2, topUV);
 			float4 frontTex = tex2D(_MainTex2, frontUV);
 			float4 sideTex = tex2D(_MainTex2, sideUV);*/
-						
-			/*if (_Choice == 0)
+
+			o.Albedo = lerp(c.rgb, e.rgb, _Choice);
+			o.Emission = lerp(f.rgb, 0, _Choice) * _Emission;
+
+/*
+			if (_Choice == 0)
 			{
 				o.Albedo = c.rgb;
 				o.Emission = f.rgb * _Emission;
@@ -95,10 +99,8 @@
 			else if (_Choice == 1)
 			{
 				o.Albedo = e.rgb;
-			}*/
-			o.Albedo = lerp(c.rgb, e.rgb, _Choice);
-			o.Emission = lerp(f.rgb, 0, _Choice) * _Emission;
-			/*
+			}
+			
 			else if (_Choice == 2)
 			{
 				o.Albedo = c.rgb;
