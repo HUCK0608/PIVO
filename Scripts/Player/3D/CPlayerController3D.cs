@@ -63,10 +63,6 @@ public class CPlayerController3D : MonoBehaviour
     /// <summary>중력 적용 여부</summary>
     public bool IsUseGravity { get { return _isUseGravity; } set { _isUseGravity = value; } }
 
-    private bool _isOnAutoMove = false;
-    /// <summary>현재 자동 이동중인지</summary>
-    public bool IsOnAutoMove { get { return _isOnAutoMove; } }
-
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody>();
@@ -198,7 +194,7 @@ public class CPlayerController3D : MonoBehaviour
     /// <summary>자동 이동 로직</summary>
     private IEnumerator AutoMoveLogic(Vector3 target)
     {
-        _isOnAutoMove = true;
+        CPlayerManager.Instance.IsCanOperation = false;
 
         Vector3 directionToTarget = target - transform.position;
         directionToTarget.y = 0f;
@@ -221,7 +217,7 @@ public class CPlayerController3D : MonoBehaviour
 
         _animator.SetInteger(_animParameterPath, (int)EPlayerState3D.Idle);
 
-        _isOnAutoMove = false;
+        CPlayerManager.Instance.IsCanOperation = false;
     }
 
     /// <summary>Slerp 회전</summary>
