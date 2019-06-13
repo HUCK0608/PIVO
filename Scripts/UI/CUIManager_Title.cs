@@ -28,7 +28,6 @@ public class CUIManager_Title : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _maxMenuCount = _defaultMenu.Length;
-
     }
 
     private void Start()
@@ -99,5 +98,17 @@ public class CUIManager_Title : MonoBehaviour
     public void StartIntroTimeline()
     {
         _introPlayerDirector.Play();
+
+        CWorldManager.Instance.AllObjectsCanChange2D();
+        CWorldManager.Instance.ChangeWorld();
+
+        StartCoroutine(IntroTimeLineEndCheck());
+    }
+
+    /// <summary>인트로 타임라인 끝남 체크</summary>
+    private IEnumerator IntroTimeLineEndCheck()
+    {
+        while(_introPlayerDirector.time < 34f)
+            yield return null;
     }
 }

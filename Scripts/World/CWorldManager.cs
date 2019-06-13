@@ -117,4 +117,11 @@ public class CWorldManager : MonoBehaviour
             _currentWorldState = EWorldState.View2D;
         }
     }
+
+    /// <summary>모든 오브젝트를 2D 상태로 변경 가능하게 설정</summary>
+    public void AllObjectsCanChange2D()
+    {
+        for(int i = 0; i < _worldObjectCount; i++)
+            _worldObjects[i].IsCanChange2D = true;
+    }
 }
