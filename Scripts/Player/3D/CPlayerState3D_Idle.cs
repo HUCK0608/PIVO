@@ -5,7 +5,7 @@ public class CPlayerState3D_Idle : CPlayerState3D
     private void Update()
     {
         if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.Changing) ||
-            Controller3D.IsOnAutoMove)
+            !CPlayerManager.Instance.IsCanOperation)
             return;
 
         float vertical = Input.GetAxis(CString.Vertical);

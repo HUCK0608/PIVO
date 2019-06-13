@@ -23,6 +23,10 @@ public class CPlayerManager : CCharacter
     /// <summary>플레이어 컨트롤러 3D</summary>
     public CPlayerController3D Controller3D { get { return _controller3D; } }
 
+    private bool _isCanOperation = true;
+    /// <summary>조작이 가능한지 여부</summary>
+    public bool IsCanOperation { get { return _isCanOperation; }  set { _isCanOperation = value; } }
+
     protected override void Awake()
     {
         base.Awake();

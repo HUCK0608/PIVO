@@ -4,7 +4,7 @@ public class CPlayerState3D_Move : CPlayerState3D
 {
     private void Update()
     {
-        if (Controller3D.IsOnAutoMove)
+        if (!CPlayerManager.Instance.IsCanOperation)
             return;
 
         float vertical = Input.GetAxis(CString.Vertical);

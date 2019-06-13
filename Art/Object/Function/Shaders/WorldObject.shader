@@ -1,4 +1,4 @@
-﻿Shader "BlueCube/WorldObject2" {
+﻿Shader "BlueCube/WorldObject" {
 	Properties {
 		_MainTex("3D_Texture", 2D) = "white" {}
 		_MainTex4("2D_Texture2", 2D) = "white" {}
