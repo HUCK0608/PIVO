@@ -5,26 +5,38 @@ using UnityEngine;
 public class Design_StageSelectPC : MonoBehaviour
 {
     List<GameObject> MovePosArray = new List<GameObject>();
+    Design_StageSelectCam CameraActorComponent;
     int CurMovePos = 0;
     int MaxMovePos = 3;
+    Vector3 TargetActorPos;
+    bool bMoving = false;
     void Start()
     {
         InitializeMovePos();
+        InitializeCameraActor();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (!bMoving)
         {
-            if (CurMovePos < MaxMovePos)
-                CurMovePos++;
-            MoveChar(MovePosArray[CurMovePos]);
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            if (CurMovePos > 0)
-                CurMovePos--;
-            MoveChar(MovePosArray[CurMovePos]);
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                if (CurMovePos < MaxMovePos)
+                    CurMovePos++;
+                MoveChar(MovePosArray[CurMovePos]);
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                if (CurMovePos > 0)
+                    CurMovePos--;
+                MoveChar(MovePosArray[CurMovePos]);
+            }
+
+            if (CurMovePos == 2)
+                CameraActorComponent.UseDialogueCamera();
+            else
+                CameraActorComponent.FollowCharacterCamera();
         }
     }
 
@@ -39,11 +51,35 @@ public class Design_StageSelectPC : MonoBehaviour
         transform.position = new Vector3(InitPos.x, transform.position.y, InitPos.z);
     }
 
-    void MoveChar(GameObject PosActor)
+    void MoveChar(GameObject InputPosActor)
     {
-        Vector3 InitPos = PosActor.transform.position;
-        transform.position = new Vector3(InitPos.x, transform.position.y, InitPos.z);
+        bMoving = true;
+        Vector3 InitPos = InputPosActor.transform.position;
+        TargetActorPos = new Vector3(InitPos.x, transform.position.y, InitPos.z);
+        StartCoroutine("MoveToPos");
+        //transform.position = new Vector3(InitPos.x, transform.position.y, InitPos.z);
     }
 
-    //코루틴으로 다시 만들어야 할 듯
+    IEnumerator MoveToPos()
+    {
+        while (true)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, TargetActorPos, 0.3f);
+
+            if (transform.position == TargetActorPos)
+            {
+                bMoving = false;
+                break;
+            }
+
+            yield return null;
+        }
+    }
+
+
+
+    void InitializeCameraActor()
+    {
+        CameraActorComponent = GameObject.Find("Camera_Prototype").GetComponent<Design_StageSelectCam>();
+    }
 }
