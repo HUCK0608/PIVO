@@ -22,6 +22,9 @@ public class CSingleObject3D : CWorldObject
         if (IsCanChange2D)
         {
             _meshRenderer.lightmapIndex = -1;
+
+            if(IsUse2DTexture)
+                _meshRenderer.material.SetFloat("_IsUse2DTexture", 1f);
         }
         else
             _meshRenderer.enabled = false;
@@ -33,6 +36,9 @@ public class CSingleObject3D : CWorldObject
         {
             _meshRenderer.lightmapIndex = _defaultLightmapIndex;
             IsCanChange2D = false;
+
+            if(IsUse2DTexture)
+                _meshRenderer.material.SetFloat("_IsUse2DTexture", 0f);
         }
         else
             _meshRenderer.enabled = true;

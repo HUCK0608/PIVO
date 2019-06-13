@@ -7,6 +7,8 @@ public class CPlayerState2D_Falling : CPlayerState2D
         base.InitState();
 
         Controller2D.LastGroundPosition = transform.position + Vector3.right * -transform.localScale.x * 2f;
+
+        CPlayerManager.Instance.Effect.MoveDustEffect_SetActive(false);
     }
 
     private void Update()
@@ -17,5 +19,12 @@ public class CPlayerState2D_Falling : CPlayerState2D
 
         if (Controller2D.RigidBody2D.velocity.y >= -Mathf.Epsilon)
             Controller2D.ChangeState(EPlayerState2D.Idle);
+    }
+
+    public override void EndState()
+    {
+        base.EndState();
+
+        CPlayerManager.Instance.Effect.MoveDustEffect_SetActive(true);
     }
 }

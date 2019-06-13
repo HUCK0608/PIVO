@@ -10,10 +10,14 @@ public abstract class CWorldObject : MonoBehaviour
     /// <summary>최상위 3D 오브젝트</summary>
     public GameObject RootObject3D { get { return _rootObject3D; } }
 
-    private bool _isCanChange2D;
-
+    private bool _isCanChange2D = false;
     /// <summary>2D 시점전환 가능 여부</summary>
     public bool IsCanChange2D { get { return _isCanChange2D; } set { _isCanChange2D = value; } }
+
+    [SerializeField]
+    private bool _isUse2DTexture = false;
+    /// <summary>2D 텍스처 사용 여부</summary>
+    public bool IsUse2DTexture { get { return _isUse2DTexture; } }
 
     private static Material _blockMateiral = null;
     /// <summary>블락 머테리얼</summary>

@@ -142,6 +142,19 @@ MonoBehaviour:
   _moveSpeed: 0.2
   _biscuitEatEffect: {fileID: 6834804702477366834}
   _isDidEat: 0
+--- !u!114 &1826673783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6834804702477366834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a392aa6482578a64d97526218443f182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _activeTime: 2
 --- !u!1 &7202700493954714348
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06363c680819f044e8e56cc713aca723, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isUse2DTexture: 0
 --- !u!114 &6567165677844060893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,14 +297,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7496844718189880139}
     m_Modifications:
-    - target: {fileID: 1862615263582364, guid: 9f7f9406473bf214db53e8946633ccbe, type: 3}
-      propertyPath: m_Name
-      value: Effect_BiscuitEat
-      objectReference: {fileID: 0}
-    - target: {fileID: 1862615263582364, guid: 9f7f9406473bf214db53e8946633ccbe, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4200194450357532, guid: 9f7f9406473bf214db53e8946633ccbe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10
@@ -333,6 +339,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4200194450357532, guid: 9f7f9406473bf214db53e8946633ccbe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1862615263582364, guid: 9f7f9406473bf214db53e8946633ccbe, type: 3}
+      propertyPath: m_Name
+      value: Effect_BiscuitEat_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1862615263582364, guid: 9f7f9406473bf214db53e8946633ccbe, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
