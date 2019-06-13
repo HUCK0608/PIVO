@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Playables;
+using System.Collections;
 
 public class CUIManager_Title : MonoBehaviour
 {
@@ -9,6 +11,10 @@ public class CUIManager_Title : MonoBehaviour
     /// <summary>기본 메뉴 및 글로우 메뉴</summary>
     [SerializeField]
     private GameObject[] _defaultMenu = null, _selectMenu = null;
+
+    /// <summary>인트로 Playable Director</summary>
+    [SerializeField]
+    private PlayableDirector _introPlayerDirector = null;
 
     /// <summary>현재 선택하고 있는 메뉴</summary>
     private int _currentSelect = 0;
@@ -23,7 +29,6 @@ public class CUIManager_Title : MonoBehaviour
         _animator = GetComponent<Animator>();
         _maxMenuCount = _defaultMenu.Length;
 
-        ChangeSelectMenu(_currentSelect);
     }
 
     private void Start()
@@ -33,16 +38,26 @@ public class CUIManager_Title : MonoBehaviour
 
         if (CUIManager.Instance != null)
             CUIManager.Instance.gameObject.SetActive(false);
+
+        StartCoroutine(SelectMenuInputLogic());
     }
 
-    private void Update()
+    /// <summary>메뉴 선택 로직</summary>
+    private IEnumerator SelectMenuInputLogic()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-            ChangeSelectMenu(Mathf.Clamp(_currentSelect - 1, 0, _maxMenuCount - 1));
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-            ChangeSelectMenu(Mathf.Clamp(_currentSelect + 1, 0, _maxMenuCount - 1));
-        else if (Input.GetKeyDown(KeyCode.Space))
-            ExcutionSelectMenu(_currentSelect);
+        ChangeSelectMenu(_currentSelect);
+
+        while(!_isExcutionAnything)
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+                ChangeSelectMenu(Mathf.Clamp(_currentSelect - 1, 0, _maxMenuCount - 1));
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+                ChangeSelectMenu(Mathf.Clamp(_currentSelect + 1, 0, _maxMenuCount - 1));
+            else if (Input.GetKeyDown(KeyCode.Space))
+                ExcutionSelectMenu(_currentSelect);
+
+            yield return null;
+        }
     }
 
     /// <summary>선택 메뉴 변경</summary>
@@ -78,6 +93,11 @@ public class CUIManager_Title : MonoBehaviour
             case 3:
                 break;
         }
-
+    }
+    
+    /// <summary>인트로 타임라인 시작</summary>
+    public void StartIntroTimeline()
+    {
+        _introPlayerDirector.Play();
     }
 }
