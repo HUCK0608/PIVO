@@ -906,6 +906,8 @@ GameObject:
   - component: {fileID: 1461577679311978066}
   - component: {fileID: 1461577679311978069}
   - component: {fileID: 810693802}
+  - component: {fileID: 809911279}
+  - component: {fileID: 809911280}
   m_Layer: 10
   m_Name: Root2D
   m_TagString: Untagged
@@ -1058,6 +1060,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b218f38a0656d3458dfe1442d07b838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &809911279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461577679311978077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a25c028297593db4abf6d7d661b77633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &809911280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461577679311978077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd22f2308b7cd1439740965fc5f7b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1461577679407640939
@@ -1529,10 +1555,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1461577679210180234}
     m_Modifications:
-    - target: {fileID: 100060, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
-      propertyPath: m_Name
-      value: Character_Corgi3D
-      objectReference: {fileID: 0}
     - target: {fileID: 400060, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1577,14 +1599,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 13700000, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 9ea89606859bcce4eafe9bb0da113e83, type: 2}
+    - target: {fileID: 100060, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
+      propertyPath: m_Name
+      value: Character_Corgi3D
+      objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 511cbf620fd0b0b4a805228c376daaff, type: 2}
+    - target: {fileID: 13700000, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9ea89606859bcce4eafe9bb0da113e83, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
 --- !u!4 &2563308899133264086 stripped
