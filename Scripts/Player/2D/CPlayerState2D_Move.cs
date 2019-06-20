@@ -4,7 +4,7 @@ public class CPlayerState2D_Move : CPlayerState2D
 {
     private void Update()
     {
-        if (Controller2D.IsOnAutoMove)
+        if (!CPlayerManager.Instance.IsCanOperation)
             return;
 
         float horizontal = Input.GetAxis(CString.Horizontal);

@@ -12,6 +12,16 @@ public class CUIManager : MonoBehaviour
         _instance = this;
     }
 
+    /// <summary>캔버스</summary>
+    [SerializeField]
+    private Canvas _canvas = null;
+
+    /// <summary>목표 디스플레이 설정</summary>
+    public void SetTargetDisplay(int targetValue)
+    {
+        _canvas.targetDisplay = targetValue;
+    }
+
     /// <summary>체력 이미지 리스트</summary>
     [SerializeField]
     private List<GameObject> _hpImages = null;

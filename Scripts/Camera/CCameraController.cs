@@ -19,6 +19,10 @@ public class CCameraController : MonoBehaviour
     /// <summary>무빙워크 중일시 true를 반환</summary>
     public bool IsOnMovingWork { get { return _isOnMovingWork; } }
 
+    /// <summary>각 카메라</summary>
+    [SerializeField]
+    private Camera _mainCamera = null, _skyBoxCamera = null;
+
     /// <summary>카메라 흔들림 세기</summary>
     [SerializeField]
     private float _cameraShakingStrength = 0f;
@@ -122,5 +126,12 @@ public class CCameraController : MonoBehaviour
     {
         _isMoveLast2DPosition = true;
         transform.position = _last2DPosition;
+    }
+
+    /// <summary>목표 디스플레이 설정</summary>
+    public void SetTargetDisplay(int targetValue)
+    {
+        _mainCamera.targetDisplay = targetValue;
+        _skyBoxCamera.targetDisplay = targetValue;
     }
 }
