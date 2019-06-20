@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Design_Monster3D : MonoBehaviour
 {
+    [HideInInspector]
     public float MoveSpeed;
 
     bool bCheckPlayer;
@@ -13,10 +14,10 @@ public class Design_Monster3D : MonoBehaviour
     int PhaseNum;
     string CorgiState;
 
-    GameObject Corgi, Monster2D;
+    GameObject Corgi;
     Animator MonsterAnimator;
 
-    Vector3 MonsterPos, MonsterRot, PlayerPos, ThrowMonsterPos, LookTargetPos, ThrowCorgiPos;
+    Vector3 MonsterPos, PlayerPos, ThrowMonsterPos, ThrowCorgiPos, ColliderPos;
     void Start()
     {
     }
@@ -38,8 +39,6 @@ public class Design_Monster3D : MonoBehaviour
             Corgi = other.gameObject;
             PlayerPos = Corgi.transform.position;
             StartCoroutine("WaitAnimation");
-            LookTargetPos = new Vector3(PlayerPos.x, transform.position.y, PlayerPos.z);
-            CorgiState = "Stop";
             PhaseNum = 1;
         }
     }
@@ -56,9 +55,7 @@ public class Design_Monster3D : MonoBehaviour
         bThrowCheck = false;
         PhaseNum = 0;
         MonsterPos = transform.position;
-        MonsterRot = new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z);
         MonsterAnimator = GetComponentInChildren<Animator>();
-        Monster2D = transform.parent.transform.Find("2D").gameObject;
 
 
         Vector3 ThrowPosXZ = transform.Find("ThrowPos").transform.position;
@@ -70,6 +67,8 @@ public class Design_Monster3D : MonoBehaviour
             ZAxisValue = 1;
 
         ThrowMonsterPos = ThrowCorgiPos + new Vector3(0, 0, ZAxisValue*1.5f);
+        ColliderPos = transform.position + GetComponent<BoxCollider>().center;
+        ColliderPos.y = 0;
     }
 
 
@@ -78,6 +77,12 @@ public class Design_Monster3D : MonoBehaviour
 
 
 
+
+    float CheckColliderDistance()
+    {
+        Vector3 PlayerPos = new Vector3(Corgi.transform.position.x, 0, Corgi.transform.position.z);
+        return Vector3.Distance(ColliderPos, PlayerPos);
+    }
 
 
     void ControlCorgi()
@@ -97,16 +102,10 @@ public class Design_Monster3D : MonoBehaviour
             Corgi.transform.rotation = Quaternion.Euler(-ZAxisValue*90, 0, 0);
         }
     }
-
-    void SetMonsterLook()
-    {
-        transform.LookAt(LookTargetPos);
-    }
-
+    
 
     void OnMonster()
     {
-        //SetMonsterLook();
         if (PhaseNum == 1)
         {
             if (transform.position == PlayerPos)
@@ -118,8 +117,12 @@ public class Design_Monster3D : MonoBehaviour
             }
             else
             {
+                PlayerPos = Corgi.transform.position;
                 transform.position = Vector3.MoveTowards(transform.position, PlayerPos, MoveSpeed * 0.1f);
                 MonsterAnimator.SetBool("IsRun", true);
+                
+                if (CheckColliderDistance() > 5)
+                    PhaseNum = 3;
             }
         }
         else if (PhaseNum == 2)
@@ -144,6 +147,7 @@ public class Design_Monster3D : MonoBehaviour
                 MonsterAnimator.SetBool("IsRun", false);
                 Corgi.transform.rotation = Quaternion.Euler(0, 0, 0);
                 Corgi.transform.position += Vector3.up;
+                CorgiState = "None";
                 bWaitAnimation = false;
                 bCheckPlayer = false;
                 bThrowCheck = false;
@@ -169,7 +173,7 @@ public class Design_Monster3D : MonoBehaviour
 
     IEnumerator WaitAnimation()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
 
         bWaitAnimation = true;
     }
@@ -179,7 +183,6 @@ public class Design_Monster3D : MonoBehaviour
         yield return new WaitForSeconds(1f);
         PhaseNum = 2;
         bWaitAnimation = true;
-        LookTargetPos = new Vector3(ThrowMonsterPos.x, transform.position.y, ThrowMonsterPos.z);
     }
 
     IEnumerator WaitThrow()
@@ -188,7 +191,6 @@ public class Design_Monster3D : MonoBehaviour
         CorgiState = "Throw";
 
         yield return new WaitForSeconds(0.5f);
-        LookTargetPos = MonsterPos;
         PhaseNum = 3;
     }
 }

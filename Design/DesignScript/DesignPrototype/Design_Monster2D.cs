@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class Design_Monster2D : MonoBehaviour
 {
+    [HideInInspector]
     public float MoveSpeed;
 
     GameObject Corgi, Monster3D;
-    Vector3 PlayerPos, MonsterPos, MoveToPlayerPos, ThrowMonsterPos;
+    RaycastHit2D CorgiHit;
+    Vector3 PlayerPos, MonsterPos, MoveToPlayerPos, ThrowMonsterPos, OriginPos, LookVector;
     string CorgiState;
     float LookValue, RayLength, ThrowCorgiPosX;
     bool bUseAction;
@@ -33,20 +35,19 @@ public class Design_Monster2D : MonoBehaviour
 
     void CheckRaycast()
     {
-        Vector2 LookVector = new Vector2(-LookValue*1.5f, 0);
-        Vector3 OriginPos = transform.position + Vector3.up + (Vector3)LookVector;
-        RaycastHit2D hit = Physics2D.Raycast(OriginPos, LookVector, RayLength);
+        CorgiHit = Physics2D.Raycast(OriginPos, LookVector, RayLength);
 
-        if (hit)
+        if (CorgiHit)
         {
-            if (hit.collider.gameObject.layer == 10 && !bUseAction)
+            if (CorgiHit.collider.gameObject.layer == 10 && !bUseAction)
             {
-                Corgi = hit.collider.gameObject;
+                Corgi = CorgiHit.collider.gameObject;
                 PlayerPos = Corgi.transform.position;
                 MoveToPlayerPos = new Vector3(PlayerPos.x, PlayerPos.y, transform.position.z);
                 StartCoroutine("MonsterAction00");
                 bUseAction = true;
-                CorgiState = "Stop";
+                //CorgiState = "Stop";
+                Debug.Log("CollisionCheck");
             }
         }
     }
@@ -69,6 +70,9 @@ public class Design_Monster2D : MonoBehaviour
         ThrowCorgiPosX = transform.Find("ThrowPos").transform.position.x;
         ThrowMonsterPos = new Vector3(ThrowCorgiPosX + LookValue*1.5f, transform.position.y, transform.position.z);
         gameObject.SetActive(false);
+
+        LookVector = new Vector2(-LookValue * 1.5f, 0);
+        OriginPos = transform.position + Vector3.up + (Vector3)LookVector;
     }
 
     bool CheckZAxis()
@@ -120,6 +124,7 @@ public class Design_Monster2D : MonoBehaviour
     {
         bUseAction = false;
 
+        CorgiState = "None";
         Corgi.transform.rotation = Quaternion.Euler(0, 0, 0);
         Corgi.transform.position += Vector3.up;
     }
@@ -127,10 +132,12 @@ public class Design_Monster2D : MonoBehaviour
 
     IEnumerator MonsterAction00()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
 
         while (true)
         {
+            PlayerPos = Corgi.transform.position;
+            MoveToPlayerPos = new Vector3(PlayerPos.x, PlayerPos.y, transform.position.z);
             transform.position = Vector3.MoveTowards(transform.position, MoveToPlayerPos, MoveSpeed * 0.1f);
 
             if (transform.position == MoveToPlayerPos)
@@ -138,6 +145,13 @@ public class Design_Monster2D : MonoBehaviour
                 StartCoroutine("MonsterAction01");
                 break;
             }
+
+            if (!CorgiHit)
+            {
+                StartCoroutine("MonsterAction02");
+                break;
+            }
+
             yield return null;
         }
     }
@@ -154,6 +168,7 @@ public class Design_Monster2D : MonoBehaviour
             if (transform.position == ThrowMonsterPos)
             {
                 StartCoroutine("MonsterAction02");
+                CorgiState = "Throw";
                 break;
             }
             yield return null;
@@ -162,7 +177,6 @@ public class Design_Monster2D : MonoBehaviour
 
     IEnumerator MonsterAction02()
     {
-        CorgiState = "Throw";
         yield return new WaitForSeconds(1f);
 
         while (true)
