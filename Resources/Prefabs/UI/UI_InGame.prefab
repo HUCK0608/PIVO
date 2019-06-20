@@ -865,6 +865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d51364db3a94a0046a5de66a38d9e00a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 4330746418700720233}
   _hpImages:
   - {fileID: 4330746418448304616}
   - {fileID: 4330746418446682149}

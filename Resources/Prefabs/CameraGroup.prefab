@@ -64,9 +64,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55321728d81813a438e7313c30259ed0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainCamera: {fileID: 1037968616127367335}
+  _skyBoxCamera: {fileID: 1037968614874877858}
   _cameraShakingStrength: 0.1
   _cameraShakingTime: 0.5
-  _globalFog: {fileID: 951106676}
 --- !u!1 &1037968614874877863
 GameObject:
   m_ObjectHideFlags: 0

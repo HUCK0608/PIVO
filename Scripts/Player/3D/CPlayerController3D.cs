@@ -217,7 +217,7 @@ public class CPlayerController3D : MonoBehaviour
 
         _animator.SetInteger(_animParameterPath, (int)EPlayerState3D.Idle);
 
-        CPlayerManager.Instance.IsCanOperation = false;
+        CPlayerManager.Instance.IsCanOperation = true;
     }
 
     /// <summary>Slerp 회전</summary>
