@@ -12,6 +12,7 @@ public class Design_LookTarget : MonoBehaviour
 
     void Update()
     {
-        transform.LookAt(TargetObject.transform);
+        if (TargetObject != null)
+            transform.LookAt(TargetObject.transform);
     }
 }

@@ -46,6 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Corgi: {fileID: 0}
+  CubeBroTexture:
+  - {fileID: 2100000, guid: 621672a21a3d5354789655dbdd092f29, type: 2}
+  - {fileID: 2100000, guid: 96af8e329a46abb49bb451c97852ee1a, type: 2}
+  - {fileID: 2100000, guid: 80240c3c9b8a21b489a99700e964e80b, type: 2}
   bUseDialogue: 1
 --- !u!1 &7595859374357145105
 GameObject:
