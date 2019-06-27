@@ -72,7 +72,6 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
         RaycastHit hit;
         for (int i = 0; i < _blockCheckPointCount; i++)
         {
-            Debug.DrawRay(_blockCheckPoints[i].position, direction * distance, Color.red);
             if (Physics.Raycast(_blockCheckPoints[i].position, direction, out hit, distance, _blockCheckIgnoreLayerMask))
             {
                 result = false;

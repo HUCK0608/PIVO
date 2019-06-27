@@ -210,7 +210,10 @@ public class CPlayerController3D : MonoBehaviour
             target.y = transform.position.y;
 
             if (Vector3.Distance(transform.position, target) <= 0.5f)
+            {
+                transform.position = target;
                 break;
+            }
 
             yield return null;
         }
