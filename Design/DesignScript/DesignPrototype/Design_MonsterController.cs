@@ -5,12 +5,16 @@ using UnityEngine;
 public class Design_MonsterController : MonoBehaviour
 {
     public CWorldManager WorldManager;
-    public Vector2 CollisionSize;
+    private Vector2 CollisionSize;
+    private float MoveSpeed;
 
     private GameObject Monster3D, Monster2D;
     private bool bState3D, bState2D, OutViewRect;
     void Start()
     {
+        CollisionSize = new Vector2(5.5f, 5.5f);
+        MoveSpeed = 1.5f;
+
         Monster3D = transform.Find("3D").gameObject;
         Monster2D = transform.Find("2D").gameObject;
 
@@ -22,6 +26,8 @@ public class Design_MonsterController : MonoBehaviour
         OutViewRect = true;
 
         Vector3 SetCollisionSize = new Vector3(CollisionSize.x*2, 1, CollisionSize.y*2);
+        Monster3D.GetComponent<Design_Monster3D>().MoveSpeed = MoveSpeed;
+        Monster2D.GetComponent<Design_Monster2D>().MoveSpeed = MoveSpeed;
         Monster3D.GetComponent<Design_Monster3D>().SetCollisionSize(SetCollisionSize);
     }
 

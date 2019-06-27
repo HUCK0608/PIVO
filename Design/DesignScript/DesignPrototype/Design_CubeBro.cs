@@ -5,10 +5,12 @@ using UnityEngine;
 public class Design_CubeBro : MonoBehaviour
 {
     public GameObject Corgi;
+    public Material[] CubeBroTexture;
     public bool bUseDialogue;
 
     GameObject Text3D;
     MeshRenderer CubeBroMat;
+    Animator Anim;
     float DistanceMinimal;
     float WaitDialogue;
     bool bUseCoroutine;
@@ -25,6 +27,22 @@ public class Design_CubeBro : MonoBehaviour
     {
         if (!bUseCoroutine && bUseDialogue)
             CheckDistance();
+    }
+
+    public void ChangeTexture(int CubeTextureNumber)
+    {
+        GameObject HasTextureObject = transform.Find("cube bro-rigging").Find("cube_bro").gameObject;
+        Material SetMaterial = CubeBroTexture[CubeTextureNumber];
+        HasTextureObject.GetComponent<SkinnedMeshRenderer>().material = SetMaterial;
+    }
+
+    public void SetAnimState(string State)
+    {
+        Anim = transform.Find("cube bro-rigging").GetComponent<Animator>();
+        if (State == "Run")
+        {
+            Anim.SetTrigger("IsRun");
+        }
     }
 
     void CheckDistance()
