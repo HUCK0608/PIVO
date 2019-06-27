@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Design_CubeBro : MonoBehaviour
 {
-    public GameObject Corgi;
     public Material[] CubeBroTexture;
     public bool bUseDialogue;
 
+    GameObject Corgi;
     GameObject Text3D;
     MeshRenderer CubeBroMat;
     Animator Anim;
@@ -21,6 +21,8 @@ public class Design_CubeBro : MonoBehaviour
 
         Text3D = transform.Find("BillboardTEXT").Find("New Text").gameObject;
         Text3D.SetActive(false);
+
+        Corgi = GameObject.Find("PlayerGroup").transform.Find("Root3D").gameObject;
     }
 
     void Update()

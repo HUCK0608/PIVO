@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Corgi: {fileID: 0}
+  CubeBroTexture: []
   bUseDialogue: 1
 --- !u!1 &7595859374357145105
 GameObject:
@@ -72,7 +73,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7595859374357145105}
   m_LocalRotation: {x: 0.21209314, y: 0.381895, z: 0.090502225, w: -0.894976}
-  m_LocalPosition: {x: 2.67, y: 3.4, z: 2}
+  m_LocalPosition: {x: 2.67, y: 3.4, z: 11.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7595859375342903468}
@@ -241,7 +242,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7595859374542618152}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: -10}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7595859374542250498}
@@ -408,13 +409,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7595859375342903471}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -7.22, y: 3.11, z: -6.18}
+  m_LocalRotation: {x: -0.048315383, y: 0.99542856, z: 0.00000016391277, w: -0.0823864}
+  m_LocalPosition: {x: -7.22, y: 3.82, z: -5.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7595859374357145118}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.45600003, y: 189.441, z: -5.5200005}
 --- !u!23 &7595859375342903467
 MeshRenderer:
   m_ObjectHideFlags: 0

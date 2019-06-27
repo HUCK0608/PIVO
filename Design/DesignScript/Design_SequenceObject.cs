@@ -10,15 +10,26 @@ public class Design_SequenceObject : MonoBehaviour
     float WaitSeconds;
     int LoopNum;
     bool OneTime;
+    float MoveSpeed;
+    float TimeValue;
     void Start()
     {
         LoopNum = 1;
         OneTime = false;
+        MoveSpeed = 0.2f;
+        TimeValue = 1f;
+
+        StartCoroutine("FirstTimeSet");
         for (int i = 0; i < 13; i++)
         {
             CubeBroArray.Add(transform.Find("CubeBro_Red (" + i + ")").gameObject);
-            CubePos.Add(CubeBroArray[i].transform.position);
+            //CubePos.Add(CubeBroArray[i].transform.position);
             SetRandomTexture(i);
+        }
+
+        for (int i = 12; i > -1; i--)
+        {
+            CubePos.Add(CubeBroArray[i].transform.position);
         }
     }
 
@@ -39,11 +50,10 @@ public class Design_SequenceObject : MonoBehaviour
         }
         else
         {
-            WaitSeconds += Time.deltaTime;
+            WaitSeconds += Time.deltaTime * TimeValue;
             for (int i = 0; i < 13; i++)
             {
                 int j = i + LoopNum;
-                float MoveSpeed = 0.2f;
 
                 while (j > 12)
                 {
@@ -71,6 +81,7 @@ public class Design_SequenceObject : MonoBehaviour
         OneTime = false;
     }
 
+    [System.Obsolete]
     void SetRandomTexture(int CubeNum)
     {
         int RandomValue = Random.RandomRange(0, 3);
@@ -82,5 +93,13 @@ public class Design_SequenceObject : MonoBehaviour
         CubeBroArray[CubeNum].GetComponent<Design_CubeBro>().SetAnimState(State);
     }
 
+    IEnumerator FirstTimeSet()
+    {
+        TimeValue = 4f;
+        MoveSpeed = 10f;
+        yield return new WaitForSeconds(1f);
+        TimeValue = 1f;
+        MoveSpeed = 0.2f;
+    }
 
 }
