@@ -26,6 +26,7 @@ public class CStageManager : MonoBehaviour
 
         InitStages();
         LoadStageDatas();
+        InitUnlock();
     }
 
     private void Start()
@@ -100,6 +101,16 @@ public class CStageManager : MonoBehaviour
                 if (datas[3] != null)
                     _stages[i].IsUnlock = datas[3].ToBoolean();
             }
+        }
+    }
+
+    /// <summary>잠금 초기화</summary>
+    private void InitUnlock()
+    {
+        for(int i = 0; i < _stages.Count - 1; i++)
+        {
+            if (_stages[i].IsClear)
+                _stages[i + 1].IsUnlock = true;
         }
     }
 }

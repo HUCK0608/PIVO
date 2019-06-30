@@ -189,37 +189,6 @@ public class CPlayerController3D : MonoBehaviour
         Move(direction.normalized, isAirMove);
     }
 
-    /// <summary>자동 이동 실행</summary>
-    public void StartAutoMove(Vector3 target) { StartCoroutine(AutoMoveLogic(target)); }
-    /// <summary>자동 이동 로직</summary>
-    private IEnumerator AutoMoveLogic(Vector3 target)
-    {
-        CPlayerManager.Instance.IsCanOperation = false;
-
-        Vector3 directionToTarget = target - transform.position;
-        directionToTarget.y = 0f;
-        directionToTarget.Normalize();
-
-        ChangeState(EPlayerState3D.Idle);
-        _animator.SetInteger(_animParameterPath, (int)EPlayerState3D.Move);
-
-        while(true)
-        {
-            Move(directionToTarget);
-
-            target.y = transform.position.y;
-
-            if (Vector3.Distance(transform.position, target) <= 0.5f)
-                break;
-
-            yield return null;
-        }
-
-        _animator.SetInteger(_animParameterPath, (int)EPlayerState3D.Idle);
-
-        CPlayerManager.Instance.IsCanOperation = true;
-    }
-
     /// <summary>Slerp 회전</summary>
     public void RotationSlerp(Vector3 direction)
     {

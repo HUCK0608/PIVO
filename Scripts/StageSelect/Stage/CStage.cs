@@ -48,7 +48,10 @@ public class CStage : MonoBehaviour
     /// <summary>스테이지 시작</summary>
     public void StartStage()
     {
-        SceneManager.LoadSceneAsync(_gameSceneName);
+        if (_gameSceneName.Equals("GrassStage_Stage1"))
+            PlayerPrefs.SetInt("IsOnTitle", 1);
+
+        SceneManager.LoadScene(_gameSceneName);
     }
 
     /// <summary>해당 방향에 스테이지가 있는지 검사(스테이지가 없을 경우 null을 반환)</summary>

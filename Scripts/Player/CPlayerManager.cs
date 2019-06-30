@@ -70,11 +70,43 @@ public class CPlayerManager : CCharacter
     }
 
     /// <summary>자동 이동 시작</summary>
-    public void StartAutoMove(Vector3 target)
+    public void StartAutoMove(Vector3 target) { StartCoroutine(AutoMoveLogic(target)); }
+
+    /// <summary>자동이동 로직</summary>
+    private IEnumerator AutoMoveLogic(Vector3 target)
     {
-        if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View2D))
-            _controller2D.StartAutoMove(target);
-        else
-            _controller3D.StartAutoMove(target);
+        _isCanOperation = false;
+
+        _controller2D.ChangeState(EPlayerState2D.Move);
+        _controller3D.ChangeState(EPlayerState3D.Move);
+
+        while (true)
+        {
+            Vector3 directionToTarget = target - RootObject3D.transform.position;
+            directionToTarget.y = 0f;
+            directionToTarget.Normalize();
+
+            if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View2D))
+                _controller2D.Move(directionToTarget);
+            else if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View3D))
+                _controller3D.Move(directionToTarget);
+
+            target.y = transform.position.y;
+
+            if (Vector3.Distance(RootObject3D.transform.position, target) <= 0.5f)
+            {
+                RootObject2D.transform.position = target;
+                RootObject3D.transform.position = target;
+
+                break;
+            }
+
+            yield return null;
+        }
+
+        _controller2D.ChangeState(EPlayerState2D.Idle);
+        _controller3D.ChangeState(EPlayerState3D.Idle);
+
+        _isCanOperation = true;
     }
 }

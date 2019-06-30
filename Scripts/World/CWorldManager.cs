@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum EWorldState { View2D, View3D, Changing }
 public class CWorldManager : MonoBehaviour
@@ -123,5 +124,39 @@ public class CWorldManager : MonoBehaviour
     {
         for(int i = 0; i < _worldObjectCount; i++)
             _worldObjects[i].IsCanChange2D = true;
+    }
+
+    /// <summary>스테이지 클리어</summary>
+    public void StageClear()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        string[] scenePaths = currentSceneName.Split('_');     // 0 : Season, 1 : Stage_x
+        string stageSelectScenePath = null;
+
+        // 파일 이름 지정
+        EXmlDocumentNames documentName = EXmlDocumentNames.None;
+        if (scenePaths[0].Equals("GrassStage"))
+        {
+            documentName = EXmlDocumentNames.GrassStageDatas;
+            stageSelectScenePath = "StageSelect_Grass";
+        }
+        else if (scenePaths[0].Equals("SnowStage"))
+        {
+            documentName = EXmlDocumentNames.SnowStageDatas;
+            stageSelectScenePath = "StageSelect_Snow";
+        }
+
+        // 저장에 필요한 변수 설정
+        string nodePath = documentName.ToString("G") + "/StageDatas/" + currentSceneName;
+        string[] elementsName = new string[] { "IsClear" };
+        string[] datas = new string[] { "True" };
+
+        // 데이터 쓰기
+        CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+        // 데이터 저장
+        CDataManager.SaveCurrentXmlDocument();
+
+        // 스테이지 선택씬 로드
+        SceneManager.LoadScene(stageSelectScenePath);
     }
 }
