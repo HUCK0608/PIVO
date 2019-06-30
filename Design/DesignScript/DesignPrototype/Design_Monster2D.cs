@@ -20,10 +20,6 @@ public class Design_Monster2D : MonoBehaviour
 
 
 
-    void Start()
-    {
-    }
-
     void Update()
     {
         if (CheckZAxis())
@@ -47,7 +43,6 @@ public class Design_Monster2D : MonoBehaviour
                 StartCoroutine("MonsterAction00");
                 bUseAction = true;
                 //CorgiState = "Stop";
-                Debug.Log("CollisionCheck");
             }
         }
     }
@@ -63,8 +58,9 @@ public class Design_Monster2D : MonoBehaviour
 
     public void InitializeValue()
     {
+        CorgiState = "None";
         LookValue = transform.parent.forward.z;
-        RayLength = transform.parent.Find("3D").GetComponent<BoxCollider>().size.x - 3f;
+        RayLength = transform.parent.Find("3D").GetComponent<BoxCollider>().size.x - 1f;
         MonsterPos = transform.position;
 
         ThrowCorgiPosX = transform.Find("ThrowPos").transform.position.x;
@@ -124,9 +120,12 @@ public class Design_Monster2D : MonoBehaviour
     {
         bUseAction = false;
 
+        if (CorgiState != "None")
+        {
+            Corgi.transform.rotation = Quaternion.Euler(0, 0, 0);
+            Corgi.transform.position += Vector3.up;
+        }
         CorgiState = "None";
-        Corgi.transform.rotation = Quaternion.Euler(0, 0, 0);
-        Corgi.transform.position += Vector3.up;
     }
 
 

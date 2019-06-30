@@ -18,9 +18,7 @@ public class Design_Monster3D : MonoBehaviour
     Animator MonsterAnimator;
 
     Vector3 MonsterPos, PlayerPos, ThrowMonsterPos, ThrowCorgiPos, ColliderPos;
-    void Start()
-    {
-    }
+  
 
     void Update()
     {
@@ -31,7 +29,7 @@ public class Design_Monster3D : MonoBehaviour
             OnMonster();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == 10 && !bCheckPlayer)
         {
@@ -56,6 +54,7 @@ public class Design_Monster3D : MonoBehaviour
         PhaseNum = 0;
         MonsterPos = transform.position;
         MonsterAnimator = GetComponentInChildren<Animator>();
+        CorgiState = "None";
 
 
         Vector3 ThrowPosXZ = transform.Find("ThrowPos").transform.position;
@@ -109,7 +108,7 @@ public class Design_Monster3D : MonoBehaviour
         if (PhaseNum == 1)
         {
             if (transform.position == PlayerPos)
-            {
+            {                
                 MonsterAnimator.SetBool("IsRun", false);
                 CorgiState = "RaiseUp";
                 bWaitAnimation = false;
@@ -121,7 +120,7 @@ public class Design_Monster3D : MonoBehaviour
                 transform.position = Vector3.MoveTowards(transform.position, PlayerPos, MoveSpeed * 0.1f);
                 MonsterAnimator.SetBool("IsRun", true);
                 
-                if (CheckColliderDistance() > 5)
+                if (CheckColliderDistance() > 12)
                     PhaseNum = 3;
             }
         }
@@ -145,8 +144,11 @@ public class Design_Monster3D : MonoBehaviour
             if (transform.position == MonsterPos)
             {
                 MonsterAnimator.SetBool("IsRun", false);
-                Corgi.transform.rotation = Quaternion.Euler(0, 0, 0);
-                Corgi.transform.position += Vector3.up;
+                if (CorgiState != "None")
+                {
+                    Corgi.transform.rotation = Quaternion.Euler(0, 0, 0);
+                    Corgi.transform.position += Vector3.up;
+                }
                 CorgiState = "None";
                 bWaitAnimation = false;
                 bCheckPlayer = false;
@@ -166,6 +168,7 @@ public class Design_Monster3D : MonoBehaviour
         BoxCollider BoxCollision = GetComponent<BoxCollider>();
         BoxCollision.size = CollisionSize;
         BoxCollision.center = new Vector3(-CollisionSize.x/2 + 1, 1, 0);
+        BoxCollision.center = new Vector3(0, 1, 0);
     }
 
 
@@ -173,6 +176,7 @@ public class Design_Monster3D : MonoBehaviour
 
     IEnumerator WaitAnimation()
     {
+        MonsterAnimator.SetTrigger("Surprise");
         yield return new WaitForSeconds(1f);
 
         bWaitAnimation = true;

@@ -7,13 +7,14 @@ public class Design_MonsterController : MonoBehaviour
     public CWorldManager WorldManager;
     private Vector2 CollisionSize;
     private float MoveSpeed;
+    private float WaitTime;
 
     private GameObject Monster3D, Monster2D;
     private bool bState3D, bState2D, OutViewRect;
     void Start()
     {
-        CollisionSize = new Vector2(5.5f, 5.5f);
-        MoveSpeed = 1.5f;
+        CollisionSize = new Vector2(10f, 10f);
+        MoveSpeed = 5f;
 
         Monster3D = transform.Find("3D").gameObject;
         Monster2D = transform.Find("2D").gameObject;
