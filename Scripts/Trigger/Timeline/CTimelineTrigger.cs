@@ -52,7 +52,7 @@ public class CTimelineTrigger : MonoBehaviour
         // 타임라인 시작
         _playableDirector.Play();
         // 타임라인이 끝날때까지 대기
-        yield return new WaitUntil(() => _playableDirector.time <= _timelineEndTime);
+        yield return new WaitUntil(() => _playableDirector.time >= _timelineEndTime);
         // 스테이지 클리어 처리
         CWorldManager.Instance.StageClear();
     }

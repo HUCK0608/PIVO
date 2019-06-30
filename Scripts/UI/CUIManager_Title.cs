@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class CUIManager_Title : MonoBehaviour
@@ -32,6 +32,18 @@ public class CUIManager_Title : MonoBehaviour
 
     private void Start()
     {
+        // 0 : true, 1 : false
+        int isOnTitle = PlayerPrefs.GetInt("IsOnTitle");
+
+        // 타이틀을 보여주지 않을 경우 비활성화
+        if (isOnTitle.Equals(1))
+        {
+            PlayerPrefs.SetInt("IsOnTitle", 0);
+            gameObject.SetActive(false);
+            _introPlayerDirector.gameObject.SetActive(false);
+            return;
+        }
+
         // 플레이어 조작 막기
         CPlayerManager.Instance.IsCanOperation = false;
 
@@ -57,7 +69,7 @@ public class CUIManager_Title : MonoBehaviour
                 ChangeSelectMenu(Mathf.Clamp(_currentSelect - 1, 0, _maxMenuCount - 1));
             else if (Input.GetKeyDown(KeyCode.DownArrow))
                 ChangeSelectMenu(Mathf.Clamp(_currentSelect + 1, 0, _maxMenuCount - 1));
-            else if (Input.GetKeyDown(KeyCode.Space))
+            else if (Input.GetKeyDown(KeyCode.Z))
                 ExcutionSelectMenu(_currentSelect);
 
             yield return null;
@@ -91,6 +103,7 @@ public class CUIManager_Title : MonoBehaviour
                 _animator.SetBool("IsFadeOut", true);
                 break;
             case 1:
+                AllStageUnlock();
                 break;
             case 2:
                 break;
@@ -104,11 +117,11 @@ public class CUIManager_Title : MonoBehaviour
     {
         _introPlayerDirector.Play();
 
-        StartCoroutine(IntroTimeLineEndCheck());
+        StartCoroutine(IntroTimelineEndCheck());
     }
 
     /// <summary>인트로 타임라인 끝남 체크</summary>
-    private IEnumerator IntroTimeLineEndCheck()
+    private IEnumerator IntroTimelineEndCheck()
     {
         yield return new WaitUntil(() => _introPlayerDirector.time >= 35f);
         
@@ -125,6 +138,27 @@ public class CUIManager_Title : MonoBehaviour
         CUIManager.Instance.SetTargetDisplay(0);
         CPlayerManager.Instance.IsCanOperation = true;
 
-        //gameObject.SetActive(false);
+        gameObject.SetActive(false);
+    }
+
+    /// <summary>모든 스테이지 잠금해제</summary>
+    private void AllStageUnlock()
+    {
+        EXmlDocumentNames documentName = EXmlDocumentNames.GrassStageDatas;
+        string[] elementsName = new string[] { "IsUnlock" };
+        string[] datas = new string[] { "True" };
+
+        // 데이터 쓰기
+        for (int i = 1; i < 8; i++)
+        {
+            string nodePath = "GrassStageDatas/StageDatas/GrassStage_Stage" + i.ToString();
+            CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+        }
+
+        // 데이터 저장
+        CDataManager.SaveCurrentXmlDocument();
+
+        // 스테이지 선택 씬 불러오기
+        SceneManager.LoadScene("StageSelect_Grass");
     }
 }

@@ -153,6 +153,8 @@ public class CWorldManager : MonoBehaviour
 
         // 데이터 쓰기
         CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+        // 데이터 저장
+        CDataManager.SaveCurrentXmlDocument();
 
         // 스테이지 선택씬 로드
         SceneManager.LoadScene(stageSelectScenePath);

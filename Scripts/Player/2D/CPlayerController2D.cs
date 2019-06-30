@@ -164,37 +164,6 @@ public class CPlayerController2D : MonoBehaviour
         Move(direction.normalized, isAirMove);
     }
 
-    /// <summary>자동 이동 시작</summary>
-    public void StartAutoMove(Vector3 target) { StartCoroutine(AutoMoveLogic(target)); }
-    /// <summary>자동 이동 로직</summary>
-    private IEnumerator AutoMoveLogic(Vector3 target)
-    {
-        CPlayerManager.Instance.IsCanOperation = false;
-
-        Vector2 directionToTarget = target - transform.position;
-        directionToTarget.y = 0f;
-        directionToTarget.Normalize();
-
-        ChangeState(EPlayerState2D.Idle);
-        _animator.SetInteger(_animParameterPath, (int)EPlayerState2D.Move);
-
-        while (true)
-        {
-            Move(directionToTarget);
-
-            target.y = transform.position.y;
-
-            if (Vector2.Distance(transform.position, target) <= 0.5f)
-                break;
-
-            yield return null;
-        }
-
-        _animator.SetInteger(_animParameterPath, (int)EPlayerState2D.Idle);
-
-        CPlayerManager.Instance.IsCanOperation = true;
-    }
-
     /// <summary>해당 방향을 바라보게 함</summary>
     public void LookDirection(Vector2 direction)
     {
