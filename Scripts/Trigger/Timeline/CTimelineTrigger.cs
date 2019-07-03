@@ -25,12 +25,13 @@ public class CTimelineTrigger : MonoBehaviour
     private void Awake()
     {
         _collider3D = GetComponentInChildren<Collider>();
+
+        _playableDirector.gameObject.SetActive(false);
     }
 
     /// <summary>타임라인 로직 시작</summary>
     public void StartTimelineLogic()
     {
-        
         // 타임라인 종료 체크 코루틴 시작
         StartCoroutine(TimelineLogic());
     }
@@ -49,6 +50,8 @@ public class CTimelineTrigger : MonoBehaviour
         CCameraController.Instance.SetTargetDisplay(1);
         CUIManager.Instance.SetTargetDisplay(1);
 
+        // 타임라인 활성화
+        _playableDirector.gameObject.SetActive(true);
         // 타임라인 시작
         _playableDirector.Play();
         // 타임라인이 끝날때까지 대기
