@@ -47,4 +47,21 @@ public class CUIManager : MonoBehaviour
     {
         _biscuitCountText.text = "X " + currentBiscuitCount.ToString();
     }
+
+    /// <summary>상호작용 그룹</summary>
+    [SerializeField]
+    private GameObject _interactionGroup = null;
+    /// <summary>사용 수</summary>
+    private int _useCount = 0;
+
+    /// <summary>상호작용 UI 활성화 설정</summary>
+    public void SetActiveInteractionUI(bool value)
+    {
+        _useCount = value ? _useCount + 1 : _useCount - 1;
+
+        if (_useCount.Equals(0))
+            _interactionGroup.SetActive(false);
+        else if (!_interactionGroup.activeSelf)
+            _interactionGroup.SetActive(true);
+    }
 }

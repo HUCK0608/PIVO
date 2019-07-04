@@ -91,9 +91,9 @@ public class CPlayerManager : CCharacter
             else if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View3D))
                 _controller3D.Move(directionToTarget);
 
-            target.y = transform.position.y;
+            target.y = RootObject3D.transform.position.y;
 
-            if (Vector3.Distance(RootObject3D.transform.position, target) <= 0.5f)
+            if (Vector3.Distance(RootObject3D.transform.position, target) <= 0.05f)
             {
                 RootObject2D.transform.position = target;
                 RootObject3D.transform.position = target;
