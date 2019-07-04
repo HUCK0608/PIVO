@@ -14,7 +14,7 @@ public class Design_MonsterController : MonoBehaviour
     void Start()
     {
         CollisionSize = new Vector2(10f, 10f);
-        MoveSpeed = 5f;
+        MoveSpeed = 3f;
 
         Monster3D = transform.Find("3D").gameObject;
         Monster2D = transform.Find("2D").gameObject;
