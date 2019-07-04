@@ -16,7 +16,7 @@ public class Design_CubeBro : MonoBehaviour
     bool bUseCoroutine;
     void Start()
     {
-        DistanceMinimal = 8f;
+        DistanceMinimal = 15f;
         WaitDialogue = 10f;
 
         Text3D = transform.Find("BillboardTEXT").Find("New Text").gameObject;
