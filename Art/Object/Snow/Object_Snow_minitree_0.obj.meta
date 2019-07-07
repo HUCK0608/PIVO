@@ -5,12 +5,17 @@ ModelImporter:
   fileIDToRecycleName:
     100000: default
     100002: //RootNode
+    100004: Object_Snow_minitree_0
     400000: default
     400002: //RootNode
+    400004: Object_Snow_minitree_0
     2100000: defaultMat
     2300000: default
+    2300002: Object_Snow_minitree_0
     3300000: default
+    3300002: Object_Snow_minitree_0
     4300000: default
+    4300002: Object_Snow_minitree_0
   externalObjects: {}
   materials:
     importMaterials: 0
