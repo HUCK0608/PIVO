@@ -58,6 +58,8 @@ public class CUIManager : MonoBehaviour
     public void SetActiveInteractionUI(bool value)
     {
         _useCount = value ? _useCount + 1 : _useCount - 1;
+        if (_useCount < 0)
+            _useCount = 0;
 
         if (_useCount.Equals(0))
             _interactionGroup.SetActive(false);

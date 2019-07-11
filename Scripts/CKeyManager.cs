@@ -33,6 +33,14 @@ public static class CKeyManager
     /// <summary>또 다른시점전환 크기 조절 2번 키</summary>
     public static KeyCode AnotherViewRectScaleAdjustKey2 { get { return _anotherViewRectScaleAdjustKey2; } }
 
+    private static KeyCode _interactionKey = KeyCode.X;
+    /// <summary>상호작용 키</summary>
+    public static KeyCode InteractionKey { get { return _interactionKey; } }
+
+    private static KeyCode _interactionCancelKey = KeyCode.X;
+    /// <summary>상호작용 취소 키</summary>
+    public static KeyCode InteractionCancelKey { get { return _interactionCancelKey; } }
+
     /* StageSelect Key */
 
     private static KeyCode _startStageKey = KeyCode.Z;
