@@ -134,7 +134,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1535020674395265642}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.215, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1535020674030712769}
@@ -214,6 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06363c680819f044e8e56cc713aca723, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isUse2DTexture: 0
 --- !u!33 &1535020675028963685
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -284,4 +285,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5312824e443f4dd4aa729d2f06dd2a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovingActor: {fileID: 0}
+  MovingActor:
+  - {fileID: 0}
+  RepeatSwitch: 0
