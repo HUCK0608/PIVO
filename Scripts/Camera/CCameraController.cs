@@ -12,12 +12,17 @@ public class CCameraController : MonoBehaviour
 
     private Animator _animator;
 
-    private Transform _target;
-    public Transform Target { set { _target = value; } }
+    private Transform _target = null;
+    /// <summary>카메라의 타겟</summary>
+    public Transform Target { get { return _target; } set { _target = value; } }
 
-    private bool _isFollowTarget = true;
-    /// <summary>카메라가 타겟을 따라다니는지 여부</summary>
-    public bool IsFollowTarget { set { _isFollowTarget = value; } }
+    private bool _isHoldingToTarget = true;
+    /// <summary>카메라가 타겟에게 고정되었는지 여부</summary>
+    public bool IsHoldingToTarget { set { _isHoldingToTarget = value; } }
+
+    private bool _isLerpMove = false;
+    /// <summary>카메라가 lerp 이동을 하는지 여부</summary>
+    public bool IsLerpMove { set { _isLerpMove = value; } }
 
     private bool _isOnMovingWork = false;
     /// <summary>무빙워크 중일시 true를 반환</summary>
@@ -64,8 +69,11 @@ public class CCameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (_isFollowTarget && !_isOnCameraShaking && !_isMoveLast2DPosition)
+        if (_isLerpMove)
+            transform.position = Vector3.Lerp(transform.position, _target.position, 0.07f);
+        else if (_isHoldingToTarget && !_isOnCameraShaking && !_isMoveLast2DPosition)
             transform.position = _target.position;
+        
 
         _globalFog.height = transform.position.y + _startFogHeight;
     }
@@ -79,7 +87,7 @@ public class CCameraController : MonoBehaviour
             _isOnCameraShaking = false;
         }
 
-        _isFollowTarget = false;
+        _isHoldingToTarget = false;
         _isOnMovingWork = true;
         _animator.SetBool(_animParameter, false);
     }
@@ -90,7 +98,7 @@ public class CCameraController : MonoBehaviour
         _isOnMovingWork = true;
         _animator.SetBool(_animParameter, true);
 
-        _isFollowTarget = true;
+        _isHoldingToTarget = true;
         _isMoveLast2DPosition = false;
         _last2DPosition = transform.position;
     }

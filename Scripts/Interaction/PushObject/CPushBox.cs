@@ -4,6 +4,7 @@ using UnityEngine;
 public class CPushBox : MonoBehaviour
 {
     /// <summary>상자 이동 속도</summary>
+    [Header("Anyone can edit")]
     [SerializeField]
     private float _moveSpeed = 0f;
 
@@ -14,12 +15,9 @@ public class CPushBox : MonoBehaviour
     /// <summary>상자 이동</summary>
     public void MoveBox(Vector3 direction)
     {
-        if (direction.Equals(Vector3.zero))
-            return;
-
+        // 전, 후면 / 좌, 우측 방향
         Vector3 forwardBackDirection = direction;
         forwardBackDirection.x = 0f;
-
         Vector3 rightLeftDirection = direction;
         rightLeftDirection.z = 0f;
 
@@ -27,18 +25,11 @@ public class CPushBox : MonoBehaviour
         Vector3 forwardBackCenterPoint = transform.position + forwardBackDirection * 2f;
         Vector3 rightLeftCenterPoint = transform.position + rightLeftDirection * 2f;
 
-        // 전, 후면에 상자가 갈 수 있는지 체크 후 가능하면 이동
-        if (!forwardBackDirection.z.Equals(0f) && !Physics.BoxCast(transform.position, Vector3.one * 0.9f, forwardBackDirection, Quaternion.LookRotation(forwardBackDirection), 2f))
-        {
-            if (Physics.Raycast(forwardBackCenterPoint, Vector3.down, 1.2f, CLayer.PushTile.LeftShiftToOne()))
-                StartCoroutine(MoveLogic(forwardBackDirection));
-        }
-        // 좌, 우측에 상자가 갈 수 있는지 체크 후 가능하면 이동
-        else if (!rightLeftDirection.x.Equals(0f) && !Physics.BoxCast(transform.position, Vector3.one * 0.9f, rightLeftDirection, Quaternion.LookRotation(rightLeftDirection), 2f))
-        {
-            if (Physics.Raycast(rightLeftCenterPoint, Vector3.down, 1.2f, CLayer.PushTile.LeftShiftToOne()))
-                StartCoroutine(MoveLogic(rightLeftDirection));
-        }
+        // 갈 수 있는지 체크 후 갈 수 있으면 이동
+        if (Physics.Raycast(forwardBackCenterPoint, Vector3.down, Mathf.Infinity, CLayer.PushTile.LeftShiftToOne()))
+            StartCoroutine(MoveLogic(forwardBackDirection));
+        else if(Physics.Raycast(rightLeftCenterPoint, Vector3.down, Mathf.Infinity, CLayer.PushTile.LeftShiftToOne()))
+            StartCoroutine(MoveLogic(rightLeftDirection));
     }
 
     /// <summary>상자 이동 로직</summary>

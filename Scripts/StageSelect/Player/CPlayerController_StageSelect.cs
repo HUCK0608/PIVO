@@ -173,7 +173,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
                 _animator.SetBool("IsFalling", false);
 
             RaycastHit hit;
-            if (Physics.Raycast(_climbCheckPoint.position, transform.forward, out hit, 0.2f))
+            if (Physics.Raycast(_climbCheckPoint.position, transform.forward, out hit, 0.5f))
             {
                 yield return StartCoroutine(ClimbLogic(hit));
             }

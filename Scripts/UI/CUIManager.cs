@@ -10,6 +10,8 @@ public class CUIManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+
+        _interactionKeyText.text = CKeyManager.InteractionKey.ToString("G");
     }
 
     /// <summary>캔버스</summary>
@@ -66,4 +68,8 @@ public class CUIManager : MonoBehaviour
         else if (!_interactionGroup.activeSelf)
             _interactionGroup.SetActive(true);
     }
+
+    /// <summary>상호작용 키 텍스트</summary>
+    [SerializeField]
+    private Text _interactionKeyText = null;
 }

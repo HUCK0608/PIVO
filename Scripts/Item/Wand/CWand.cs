@@ -15,6 +15,7 @@ public class CWand : MonoBehaviour
         if (collision.gameObject.layer.Equals(CLayer.Player))
         {
             CWorldManager.Instance.ChangeWorld();
+            CPlayerManager.Instance.Controller2D.IsUseGravity = true;
             CPlayerManager.Instance.Controller2D.ChangeState(EPlayerState2D.Idle);
             gameObject.SetActive(false);
         }
