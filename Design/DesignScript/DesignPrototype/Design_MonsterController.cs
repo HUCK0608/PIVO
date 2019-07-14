@@ -26,10 +26,10 @@ public class Design_MonsterController : MonoBehaviour
         bState2D = false;
         OutViewRect = true;
 
-        Vector3 SetCollisionSize = new Vector3(CollisionSize.x*2, 1, CollisionSize.y*2);
+        Vector3 SetCollisionSize = new Vector3(CollisionSize.x*2, 0.25f, CollisionSize.y*2);
         Monster3D.GetComponent<Design_Monster3D>().MoveSpeed = MoveSpeed;
         Monster2D.GetComponent<Design_Monster2D>().MoveSpeed = MoveSpeed;
-        Monster3D.GetComponent<Design_Monster3D>().SetCollisionSize(SetCollisionSize);
+        //Monster3D.GetComponent<Design_Monster3D>().SetCollisionSize(SetCollisionSize);
     }
 
     void Update()
