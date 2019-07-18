@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 2430311687226134939}
   - component: {fileID: 6653140310570061065}
   m_Layer: 5
-  m_Name: E
+  m_Name: Key
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1068,6 +1068,7 @@ MonoBehaviour:
   - {fileID: 4330746418378982188}
   _biscuitCountText: {fileID: 4330746419518194523}
   _interactionGroup: {fileID: 7783034412831362426}
+  _interactionKeyText: {fileID: 6653140310570061065}
 --- !u!1 &4330746418752882597
 GameObject:
   m_ObjectHideFlags: 0
@@ -1633,7 +1634,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2582259167503882773
 RectTransform:
   m_ObjectHideFlags: 0

@@ -126,7 +126,7 @@ public class CUIManager_Title : MonoBehaviour
         yield return new WaitUntil(() => _introPlayerDirector.time >= 35f);
         
         CPlayerManager.Instance.Controller2D.ChangeState(EPlayerState2D.DownIdle);
-        CCameraController.Instance.IsFollowTarget = true;
+        CCameraController.Instance.IsHoldingToTarget = true;
         CPlayerManager.Instance.Controller2D.IsUseGravity = false;
         Vector3 startPosition = CPlayerManager.Instance.Controller2D.transform.position;
         startPosition.x = -46.72f;

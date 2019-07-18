@@ -120,7 +120,7 @@ public class CPlayerController2D : MonoBehaviour
 
         for(int i = 0; i < _gravityCheckPointCount; i++)
         {
-            if(!_isUseGravity || Physics2D.Raycast(_gravityCheckPoints[i].position, Vector2.down, 0.15f, _playerIgnoreLayerMask))
+            if (!_isUseGravity || Physics2D.Raycast(_gravityCheckPoints[i].position, Vector2.down, 0.15f, _playerIgnoreLayerMask))
             {
                 isApplyGravity = false;
                 break;
