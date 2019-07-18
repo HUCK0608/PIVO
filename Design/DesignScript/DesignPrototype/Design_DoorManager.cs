@@ -160,7 +160,7 @@ public class Design_DoorManager : MonoBehaviour
         Door3D.SetActive(bState);
         foreach (var v in KeyPosArray)
         {
-            if (v.transform.GetChild(0).gameObject)
+            if (v.transform.childCount > 0)
                 v.transform.GetChild(0).gameObject.SetActive(bState);
         }
     }
