@@ -222,7 +222,7 @@ public class CPlayerController3D : MonoBehaviour
                     {
                         result = true;
 
-                        _climbInfo.aniNumber = UnityEngine.Random.Range(0, 10) <= 2 ? 0 : 1;
+                        _climbInfo.aniNumber = UnityEngine.Random.Range(0f, 100f) <= CPlayerManager.Instance.Stat.Climb1Percent ? 0 : 1;
                         _climbInfo.origin = hit.point + hit.normal;
                         _climbInfo.origin.y = transform.position.y;
                         _climbInfo.direction = -hit.normal;

@@ -58,7 +58,6 @@ public class CCameraController : MonoBehaviour
         _animator = GetComponent<Animator>();
 
         _globalFog = GetComponentInChildren<GlobalFog>();
-        _globalFog.heightDensity = 2.63f;
         _startFogHeight = _globalFog.height;
     }
 

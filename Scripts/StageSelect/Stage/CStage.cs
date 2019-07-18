@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class CStage : MonoBehaviour
 {
@@ -51,6 +52,16 @@ public class CStage : MonoBehaviour
         if (_gameSceneName.Equals("GrassStage_Stage1"))
             PlayerPrefs.SetInt("IsOnTitle", 1);
 
+        CUIManager_StageSelect.Instance.StartFadeOut();
+
+        StartCoroutine(WaitFadeOut());
+    }
+    
+    /// <summary>페이드 아웃을 기다리는 코루틴</summary>
+    private IEnumerator WaitFadeOut()
+    {
+        yield return new WaitUntil(() => !CUIManager_StageSelect.Instance.IsFadeInOut);
+
         SceneManager.LoadScene(_gameSceneName);
     }
 
@@ -69,6 +80,9 @@ public class CStage : MonoBehaviour
     /// <summary>셰이더 변경</summary>
     public void ChangeShader()
     {
+        if (!_isUnlock)
+            return;
+
         // Perfect clear
         if (_haveBiscuitCount.Equals(_maxBiscuitCount))
             _meshRenderer.material.SetFloat("_IsPerfectClear", 1f);

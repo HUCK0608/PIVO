@@ -25,7 +25,7 @@ public static class CDataManager
     private static XmlDocument GetXmlDocument(EXmlDocumentNames file, FileMode fileMode = FileMode.Open)
     {
         // 저장되어 있는 xml 문서가 있다면 반환
-        if (_xmlDocuments.Count > 0 && _xmlDocuments[file] != null)
+        if (_xmlDocuments.ContainsKey(file))
         {
             _currentXmlDocumentName = file;
 

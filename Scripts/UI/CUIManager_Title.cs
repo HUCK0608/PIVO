@@ -147,11 +147,22 @@ public class CUIManager_Title : MonoBehaviour
         EXmlDocumentNames documentName = EXmlDocumentNames.GrassStageDatas;
         string[] elementsName = new string[] { "IsUnlock" };
         string[] datas = new string[] { "True" };
-
+        string nodePath = null;
         // 데이터 쓰기
         for (int i = 1; i < 8; i++)
         {
-            string nodePath = "GrassStageDatas/StageDatas/GrassStage_Stage" + i.ToString();
+            nodePath = "GrassStageDatas/StageDatas/GrassStage_Stage" + i.ToString();
+            CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+        }
+
+        nodePath = "GrassStageDatas/StageDatas/StageSelect_Snow";
+        CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+
+        documentName = EXmlDocumentNames.SnowStageDatas;
+
+        for(int i = 1; i < 3; i++)
+        {
+            nodePath = "SnowStageDatas/StageDatas/SnowStage_Stage" + i.ToString();
             CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
         }
 
