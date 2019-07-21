@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Design_Key : MonoBehaviour
 {
-    public CWorldManager WorldManager;
+    private CWorldManager WorldManager;
     private GameObject Key2D;
     private bool bState3D, bState2D, OutViewRect;
 
@@ -16,12 +16,15 @@ public class Design_Key : MonoBehaviour
 
     [HideInInspector]
     public float AttachSpeed;
+
+
     void Start()
     {
         bState3D = true;
         bState2D = false;
         OutViewRect = true;
         Key2D = transform.Find("2D").gameObject;
+        WorldManager = GameObject.Find("World").GetComponent<CWorldManager>();
     }
 
     void Update()
