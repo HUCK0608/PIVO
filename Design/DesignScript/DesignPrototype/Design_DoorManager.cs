@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class Design_DoorManager : MonoBehaviour
 {
-    public CWorldManager WorldManager;
     public GameObject DoorInDoor, DoorInDoor2, KeyPrefab;
     public float AttachKeySpeed;
 
     [Header("RegistKeyObject")]
     public GameObject[] KeyObject = new GameObject[] { };
-    
+
+    private CWorldManager WorldManager;
     private GameObject[] KeyPosArray = new GameObject[4];
     private GameObject Door2D, Door3D;
     private int KeyNum;
     private bool IsOpen;
     private bool bState3D, bState2D, OutViewRect;
+
 
 
     //InitializeValue
@@ -37,6 +38,8 @@ public class Design_DoorManager : MonoBehaviour
         OutViewRect = true;
         Door2D = transform.Find("Root2D").gameObject;
         Door3D = transform.Find("Root3D").gameObject;
+        WorldManager = GameObject.Find("World").GetComponent<CWorldManager>();
+        SetDoorPattern();
     }
 
     private void Update()
