@@ -591,6 +591,7 @@ MonoBehaviour:
   _rotationSpeed: 15
   _holdingMaxTime: 3
   _killYVolume: -20
+  _climb1Percent: 30
 --- !u!114 &1461577678640211779
 MonoBehaviour:
   m_ObjectHideFlags: 0

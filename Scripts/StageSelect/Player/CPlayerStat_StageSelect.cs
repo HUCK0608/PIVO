@@ -12,4 +12,9 @@ public class CPlayerStat_StageSelect : MonoBehaviour
     private float _gravity = 0f;
     /// <summary>중력</summary>
     public float Gravity { get { return _gravity; } }
+
+    [SerializeField]
+    private float _climb1Percent = 0f;
+    /// <summary>기어오르기1 확률</summary>
+    public float Climb1Percent { get { return _climb1Percent; } }
 }

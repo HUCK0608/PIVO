@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.ImageEffects;
 
 public class CPlayerController_StageSelect : MonoBehaviour
 {
-    [Header("Programmer can edit")]
     /// <summary>중력 체크 지점들</summary>
+    [Header("Programmer can edit")]
     [SerializeField]
     private List<Transform> _gravityCheckPoints = null;
 
@@ -17,6 +18,12 @@ public class CPlayerController_StageSelect : MonoBehaviour
     /// <summary>카메라</summary>
     [SerializeField]
     private Transform _camera = null;
+
+    /// <summary>글로벌 포그</summary>
+    [SerializeField]
+    private GlobalFog _globalFog = null;
+    /// <summary>시작 글로벌 포그 높이</summary>
+    private float _startGlobalFogHeight = 0f;
 
     /// <summary>기어오르기 카메라 위치</summary>
     [SerializeField]
@@ -54,6 +61,8 @@ public class CPlayerController_StageSelect : MonoBehaviour
 
         // UI 변경
         CUIManager_StageSelect.Instance.SetStageStatUI(_currentStage);
+
+        _startGlobalFogHeight = _globalFog.height;
 
         StartCoroutine(IdleLogic());
     }
@@ -112,6 +121,12 @@ public class CPlayerController_StageSelect : MonoBehaviour
 
         while(true)
         {
+            if(CUIManager_StageSelect.Instance.IsFadeInOut)
+            {
+                yield return null;
+                continue;
+            }
+
             if (ApplyGravity())
                 _animator.SetBool("IsFalling", true);
             else
@@ -166,6 +181,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
             destination.y = transform.position.y;
             transform.position = Vector3.MoveTowards(transform.position, destination, _stat.MoveSpeed * Time.deltaTime);
             _camera.position = transform.position;
+            _globalFog.height = _camera.position.y + _startGlobalFogHeight;
 
             if (ApplyGravity())
                 _animator.SetBool("IsFalling", true);
@@ -192,8 +208,8 @@ public class CPlayerController_StageSelect : MonoBehaviour
     /// <summary>기어오르기 로직</summary>
     private IEnumerator ClimbLogic(RaycastHit hit)
     {
-        // 3 : 7 비율로 Climb0 : Climb1 애니메이션이 재생
-        int randAni = Random.Range(0, 10) <= 2 ? 0 : 1;
+        // 애니메이션 랜덤 재생
+        int randAni = Random.Range(0f, 100f) <= _stat.Climb1Percent ? 0 : 1;
 
         _animator.SetInteger("Climb", randAni);
 
@@ -214,6 +230,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
         while(true)
         {
             _camera.position = _climbCameraPoints[randAni].position;
+            _globalFog.height = _camera.position.y + _startGlobalFogHeight;
 
             AnimatorStateInfo currentAnimatorStateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 

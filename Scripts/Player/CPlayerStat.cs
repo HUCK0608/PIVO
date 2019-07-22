@@ -50,4 +50,9 @@ public class CPlayerStat : MonoBehaviour
     private float _killYVolume = 0f;
     /// <summary>캐릭터에게 데미지를 입히는 y 위치</summary>
     public float KillYVolume { get { return _killYVolume; } }
+
+    [SerializeField]
+    private float _climb1Percent = 0f;
+    /// <summary>기어오르기1 확률</summary>
+    public float Climb1Percent { get { return _climb1Percent; } }
 }
