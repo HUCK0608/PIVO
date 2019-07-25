@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CUIManager : MonoBehaviour
 {
@@ -56,6 +57,10 @@ public class CUIManager : MonoBehaviour
     /// <summary>사용 수</summary>
     private int _useCount = 0;
 
+    /// <summary>상호작용 키 텍스트</summary>
+    [SerializeField]
+    private Text _interactionKeyText = null;
+
     /// <summary>상호작용 UI 활성화 설정</summary>
     public void SetActiveInteractionUI(bool value)
     {
@@ -69,7 +74,88 @@ public class CUIManager : MonoBehaviour
             _interactionGroup.SetActive(true);
     }
 
-    /// <summary>상호작용 키 텍스트</summary>
     [SerializeField]
-    private Text _interactionKeyText = null;
+    private GameObject _deadGroup = null;
+    /// <summary>재시작 및 스테이지 선택 이미지</summary>
+    [SerializeField]
+    private Image _retryImage = null, _stageSelectImage = null;
+    /// <summary>기본 및 빛나는 재시작 스프라이트</summary>
+    [SerializeField]
+    private Sprite _defaultRetrySprite = null, _glowRetrySprite = null;
+    /// <summary>기본 및 빛나는 스테이지 선택 스프라이트</summary>
+    [SerializeField]
+    private Sprite _defaultStageSelectSprite, _glowStageSelectSprite = null;
+
+    private bool _isSelectRetry = true;
+    private bool _isEndDeadUI = false;
+
+    public void ActiveDeadUI()
+    {
+        _deadGroup.SetActive(true);
+    }
+
+    /// <summary>죽음 UI 선택 메뉴 변경</summary>
+    public void DeadUIChangeSelectMenu()
+    {
+        if (!_retryImage.raycastTarget)
+            return;
+
+        if (_isSelectRetry)
+            StageSelectPointEnter();
+        else
+            RetryPointEnter();
+    }
+
+    /// <summary>죽음 UI 선택 메뉴 실행</summary>
+    public void DeadUIExcutionSelectMenu()
+    {
+        if (!_retryImage.raycastTarget)
+            return;
+
+        if (_isSelectRetry)
+            RetryPointUp();
+        else
+            StageSelectPointUp();
+    }
+
+    /// <summary>재시작 포인터 엔터 이벤트</summary>
+    public void RetryPointEnter()
+    {
+        _isSelectRetry = true;
+
+        _retryImage.sprite = _glowRetrySprite;
+        _stageSelectImage.sprite = _defaultStageSelectSprite;
+    }
+
+    /// <summary>스테이지 선택 포인터 엔터 이벤트</summary>
+    public void StageSelectPointEnter()
+    {
+        _isSelectRetry = false;
+
+        _retryImage.sprite = _defaultRetrySprite;
+        _stageSelectImage.sprite = _glowStageSelectSprite;
+    }
+
+    /// <summary>재시작 클릭 이벤트</summary>
+    public void RetryPointUp()
+    {
+        if (_isEndDeadUI)
+            return;
+
+        _isEndDeadUI = true;
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    /// <summary>스테이지 선택 클릭 이벤트</summary>
+    public void StageSelectPointUp()
+    {
+        if (_isEndDeadUI)
+            return;
+
+        _isEndDeadUI = true;
+
+        string season = SceneManager.GetActiveScene().name.Split('_')[0].Equals("GrassStage") ? "Grass" : "Snow";
+        SceneManager.LoadScene("StageSelect_" + season);
+    }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.ImageEffects;
+using UnityEngine.SceneManagement;
 
 public class CPlayerController_StageSelect : MonoBehaviour
 {
@@ -65,6 +66,13 @@ public class CPlayerController_StageSelect : MonoBehaviour
         _startGlobalFogHeight = _globalFog.height;
 
         StartCoroutine(IdleLogic());
+    }
+
+    /* 타이틀로 가기 임시 */
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SceneManager.LoadScene("GrassStage_Stage1");
     }
 
     private void OnDestroy()

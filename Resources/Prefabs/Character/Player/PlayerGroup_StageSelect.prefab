@@ -330,6 +330,7 @@ MonoBehaviour:
   - {fileID: 1392490924}
   _climbCheckPoint: {fileID: 8112934}
   _camera: {fileID: 0}
+  _globalFog: {fileID: 0}
   _climbCameraPoints:
   - {fileID: 7795594388628337037}
   - {fileID: 1377512750}
