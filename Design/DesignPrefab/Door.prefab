@@ -262,8 +262,8 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2051503208}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_Material: {fileID: 13400000, guid: 2a45dd0637e737447bb183266d1406da, type: 2}
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 3.3763123, y: 11.931057, z: 12.202621}
@@ -395,14 +395,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Activate_Door
       objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: 7d6154f4e1e3e2346a2ac532ebcae99d, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: a66f11b61dea8c94285ba62281e2dafb, type: 2}
-    - target: {fileID: 2300012, guid: 7d6154f4e1e3e2346a2ac532ebcae99d, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: e9aa5aa9674ddad4a8548073bcc7c79b, type: 2}
     - target: {fileID: 400000, guid: 7d6154f4e1e3e2346a2ac532ebcae99d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
@@ -447,6 +439,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 7d6154f4e1e3e2346a2ac532ebcae99d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a66f11b61dea8c94285ba62281e2dafb, type: 2}
+    - target: {fileID: 2300012, guid: 7d6154f4e1e3e2346a2ac532ebcae99d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e9aa5aa9674ddad4a8548073bcc7c79b, type: 2}
     - target: {fileID: 2300004, guid: 7d6154f4e1e3e2346a2ac532ebcae99d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
