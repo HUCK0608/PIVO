@@ -45,6 +45,9 @@ public class CCameraController : MonoBehaviour
     private GlobalFog _globalFog = null;
     /// <summary>시작 포그 높이</summary>
     private float _startFogHeight = 0f;
+    /// <summary>글로벌 포그 높이</summary>
+    public float GlobalFogHeight { get { return _globalFog.height; } }
+    public float GlobalFogHeightDensity { get { return _globalFog.heightDensity; } }
 
     /// <summary>마지막 2D 위치</summary>
     private Vector3 _last2DPosition;
@@ -72,7 +75,6 @@ public class CCameraController : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, _target.position, 0.07f);
         else if (_isHoldingToTarget && !_isOnCameraShaking && !_isMoveLast2DPosition)
             transform.position = _target.position;
-        
 
         _globalFog.height = transform.position.y + _startFogHeight;
     }

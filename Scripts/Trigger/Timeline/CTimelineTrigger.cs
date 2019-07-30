@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityStandardAssets.ImageEffects;
 
 public class CTimelineTrigger : MonoBehaviour
 {
@@ -49,6 +50,9 @@ public class CTimelineTrigger : MonoBehaviour
         // 타겟 디스플레이 변경
         CCameraController.Instance.SetTargetDisplay(1);
         CUIManager.Instance.SetTargetDisplay(1);
+        GlobalFog timelineGlobalFog = _playableDirector.GetComponentInChildren<GlobalFog>();
+        timelineGlobalFog.height = CCameraController.Instance.GlobalFogHeight;
+        timelineGlobalFog.heightDensity = CCameraController.Instance.GlobalFogHeightDensity;
 
         // 타임라인 활성화
         _playableDirector.gameObject.SetActive(true);
