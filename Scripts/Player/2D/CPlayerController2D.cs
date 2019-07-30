@@ -45,10 +45,6 @@ public class CPlayerController2D : MonoBehaviour
     /// <summary>중력 적용 여부</summary>
     public bool IsUseGravity { get { return _isUseGravity; } set { _isUseGravity = value; } }
 
-    private Vector3 _lastGroundPosition;
-    /// <summary>마지막 땅 위치</summary>
-    public Vector3 LastGroundPosition { set { _lastGroundPosition = value; } }
-
     private void Awake()
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
@@ -130,7 +126,10 @@ public class CPlayerController2D : MonoBehaviour
         if (isApplyGravity)
             velocity.y = _rigidBody2D.velocity.y + CPlayerManager.Instance.Stat.Gravity * Time.deltaTime;
         else
+        {
             velocity.y = 0f;
+            CPlayerManager.Instance.LastGroundPosition = transform.position + transform.forward * -2f;
+        }
     }
 
     /// <summary>방향 이동</summary>
@@ -152,7 +151,7 @@ public class CPlayerController2D : MonoBehaviour
         {
             CPlayerManager.Instance.Stat.Hp -= 1;
             _rigidBody2D.velocity = Vector2.zero;
-            transform.position = _lastGroundPosition;
+            transform.position = CPlayerManager.Instance.LastGroundPosition;
         }
     }
 

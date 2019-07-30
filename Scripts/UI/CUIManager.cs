@@ -84,7 +84,7 @@ public class CUIManager : MonoBehaviour
     private Sprite _defaultRetrySprite = null, _glowRetrySprite = null;
     /// <summary>기본 및 빛나는 스테이지 선택 스프라이트</summary>
     [SerializeField]
-    private Sprite _defaultStageSelectSprite, _glowStageSelectSprite = null;
+    private Sprite _defaultStageSelectSprite = null, _glowStageSelectSprite = null;
 
     private bool _isSelectRetry = true;
     private bool _isEndDeadUI = false;

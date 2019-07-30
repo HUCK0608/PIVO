@@ -41,10 +41,6 @@ public class CPlayerController3D : MonoBehaviour
     /// <summary>기어오를 지점을 탐지하는 지점 개수</summary>
     private int _climbDetectionPointCount = 3;
 
-    private Vector3 _lastGroundPosition;
-    /// <summary>마지막 땅 위치</summary>
-    public Vector3 LastGroundPosition { set { _lastGroundPosition = value; } }
-
     public struct SClimbInfo
     {
         public int aniNumber;
@@ -155,7 +151,10 @@ public class CPlayerController3D : MonoBehaviour
         if (isApplyGravity)
             velocity.y = _rigidBody.velocity.y + CPlayerManager.Instance.Stat.Gravity * Time.deltaTime;
         else
+        {
             velocity.y = 0f;
+            CPlayerManager.Instance.LastGroundPosition = transform.position + transform.forward * -2f;
+        }
     }
 
     /// <summary>방향 이동</summary>
@@ -177,7 +176,7 @@ public class CPlayerController3D : MonoBehaviour
         {
             CPlayerManager.Instance.Stat.Hp -= 1;
             _rigidBody.velocity = Vector3.zero;
-            transform.position = _lastGroundPosition;
+            transform.position = CPlayerManager.Instance.LastGroundPosition;
         }
     }
 
