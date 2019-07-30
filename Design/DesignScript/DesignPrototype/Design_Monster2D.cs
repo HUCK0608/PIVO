@@ -58,9 +58,10 @@ public class Design_Monster2D : MonoBehaviour
 
     public void InitializeValue()
     {
+
         CorgiState = "None";
         LookValue = transform.parent.forward.z;
-        RayLength = transform.parent.Find("3D").GetComponent<BoxCollider>().size.x - 1f;
+        RayLength = transform.parent.Find("3D").GetComponent<BoxCollider>().size.x / 2 - 1.5f;
         MonsterPos = transform.position;
 
         ThrowCorgiPosX = transform.Find("ThrowPos").transform.position.x;

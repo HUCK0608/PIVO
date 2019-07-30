@@ -148,7 +148,7 @@ public class Design_DoorManager : MonoBehaviour
 
     void OpenDoor()
     {
-        GetComponentInChildren<BoxCollider>().isTrigger = true;
+        Door3D.GetComponent<BoxCollider>().isTrigger = true;
         IsOpen = true;
     }
 
