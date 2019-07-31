@@ -6,8 +6,6 @@ public class CPlayerState2D_Falling : CPlayerState2D
     {
         base.InitState();
 
-        Controller2D.LastGroundPosition = transform.position + Vector3.right * -transform.localScale.x * 2f;
-
         CPlayerManager.Instance.Effect.MoveDustEffect_SetActive(false);
     }
 
