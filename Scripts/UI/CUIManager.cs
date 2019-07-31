@@ -13,6 +13,8 @@ public class CUIManager : MonoBehaviour
         _instance = this;
 
         _interactionKeyText.text = CKeyManager.InteractionKey.ToString("G");
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     /// <summary>캔버스</summary>
@@ -123,6 +125,8 @@ public class CUIManager : MonoBehaviour
     {
         _isSelectRetry = true;
 
+        PlayPointerEnterAudio();
+
         _retryImage.sprite = _glowRetrySprite;
         _stageSelectImage.sprite = _defaultStageSelectSprite;
     }
@@ -131,6 +135,8 @@ public class CUIManager : MonoBehaviour
     public void StageSelectPointEnter()
     {
         _isSelectRetry = false;
+
+        PlayPointerEnterAudio();
 
         _retryImage.sprite = _defaultRetrySprite;
         _stageSelectImage.sprite = _glowStageSelectSprite;
@@ -144,6 +150,8 @@ public class CUIManager : MonoBehaviour
 
         _isEndDeadUI = true;
 
+        PlayPointerUpAudio();
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -155,7 +163,46 @@ public class CUIManager : MonoBehaviour
 
         _isEndDeadUI = true;
 
+        PlayPointerUpAudio();
+
         string season = SceneManager.GetActiveScene().name.Split('_')[0].Equals("GrassStage") ? "Grass" : "Snow";
         SceneManager.LoadScene("StageSelect_" + season);
+    }
+
+    private AudioSource _audioSource = null;
+
+    [SerializeField]
+    private AudioClip[] _pointerEnterAudioClips = null, _pointerUpAudioClips = null;
+
+    public void PlayPointerEnterAudio()
+    {
+        int randomValue = Random.Range(1, 101);
+
+        if (randomValue <= 20)
+            _audioSource.clip = _pointerEnterAudioClips[0];
+        else if (randomValue <= 40)
+            _audioSource.clip = _pointerEnterAudioClips[1];
+        else if (randomValue <= 60)
+            _audioSource.clip = _pointerEnterAudioClips[2];
+        else if (randomValue <= 80)
+            _audioSource.clip = _pointerEnterAudioClips[3];
+        else
+            _audioSource.clip = _pointerEnterAudioClips[4];
+
+        _audioSource.Play();
+    }
+
+    public void PlayPointerUpAudio()
+    {
+        int randomValue = Random.Range(1, 100);
+
+        if (randomValue <= 33)
+            _audioSource.clip = _pointerUpAudioClips[0];
+        else if (randomValue <= 66)
+            _audioSource.clip = _pointerUpAudioClips[1];
+        else
+            _audioSource.clip = _pointerUpAudioClips[2];
+
+        _audioSource.Play();
     }
 }

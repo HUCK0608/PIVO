@@ -42,11 +42,12 @@ public class CPushSwitch : MonoBehaviour
         // 2D에서 들어오는 상황 때문에 3D가 될 때 까지 기다림
         yield return _currentWorldState3DWU;
         bool isOnUi = true;
+        bool isPreviousePlayerStateChangeView = false;
 
         while (true)
         {
             // 상호작용 키를 눌렀을 때 상호작용 로직으로 넘어가고 UI 끄기
-            if(Input.GetKeyDown(CKeyManager.InteractionKey) && !CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.PushEnd))
+            if(Input.GetKeyDown(CKeyManager.InteractionKey) && !isPreviousePlayerStateChangeView && !CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.PushEnd))
             {
                 CUIManager.Instance.SetActiveInteractionUI(false);
                 StartCoroutine(InteractionSwitchLogic());
@@ -59,18 +60,21 @@ public class CPushSwitch : MonoBehaviour
                 break;
             }
             // UI 끄기
-            else if(isOnUi && CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.ViewChangeInit))
+            else if(isOnUi && isPreviousePlayerStateChangeView)
             {
                 CUIManager.Instance.SetActiveInteractionUI(false);
                 isOnUi = false;
             }
             // UI 켜기
-            else if(!isOnUi && !CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.ViewChangeInit) && 
-                               !CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.ViewChangeIdle))
+            else if(!isOnUi && !isPreviousePlayerStateChangeView)
             {
                 CUIManager.Instance.SetActiveInteractionUI(true);
                 isOnUi = true;
             }
+
+            // 이전 상태 정보 저장
+            EPlayerState3D currentState = CPlayerManager.Instance.Controller3D.CurrentState;
+            isPreviousePlayerStateChangeView = currentState.Equals(EPlayerState3D.ViewChangeInit) || currentState.Equals(EPlayerState3D.ViewChangeIdle);
 
             yield return null;
         }

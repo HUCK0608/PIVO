@@ -28,6 +28,15 @@ public class CWorldManager : MonoBehaviour
     /// <summary>플레이어가 2D로 변하기까지 기다리는 시간</summary>
     private WaitForSeconds _changePlayer2DWaitForSeconds = null;
 
+    /// <summary>오디오 소스</summary>
+    private AudioSource _audioSource = null;
+    /// <summary>반복 BGM 오디오 클립</summary>
+    [SerializeField]
+    private AudioClip _bgmLoopAudioClip = null;
+    /// <summary>BGM을 사용할지 여부</summary>
+    [SerializeField]
+    private bool _isUseBGM = true;
+
     private void Awake()
     {
         _instance = this;
@@ -37,6 +46,14 @@ public class CWorldManager : MonoBehaviour
 
         _endCameraMovingWorkWaitUntil = new WaitUntil(() => !CCameraController.Instance.IsOnMovingWork);
         _changePlayer2DWaitForSeconds = new WaitForSeconds(0.3f);
+
+        _audioSource = GetComponent<AudioSource>();
+    }
+
+    private void Start()
+    {
+        if(_isUseBGM)
+            PlayBGM();
     }
 
     /// <summary>월드 오브젝트 등록</summary>
@@ -158,5 +175,24 @@ public class CWorldManager : MonoBehaviour
 
         // 스테이지 선택씬 로드
         SceneManager.LoadScene(stageSelectScenePath);
+    }
+    
+    /// <summary>BGM 재생</summary>
+    public void PlayBGM()
+    {
+        _audioSource.Play();
+
+        StartCoroutine(BGMLogic());
+    }
+
+    private IEnumerator BGMLogic()
+    {
+        // Intro BGM 이 끝날때까지 대기
+        yield return new WaitUntil(() => !_audioSource.isPlaying);
+
+        // 반복 오디오 재생
+        _audioSource.clip = _bgmLoopAudioClip;
+        _audioSource.loop = true;
+        _audioSource.PlayDelayed(0.4f);
     }
 }

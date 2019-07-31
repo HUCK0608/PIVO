@@ -8,9 +8,17 @@ public class CPushBox : MonoBehaviour
     [SerializeField]
     private float _moveSpeed = 0f;
 
+    /// <summary>오디오 소스</summary>
+    private AudioSource _audioSource = null;
+
     private bool _isMove = false;
     /// <summary>상자가 이동중인지 여부</summary>
     public bool IsMove { get { return _isMove; } }
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
 
     /// <summary>상자 이동</summary>
     public void MoveBox(Vector3 direction)
@@ -39,6 +47,8 @@ public class CPushBox : MonoBehaviour
 
         Vector3 movePoint = transform.position + direction * 2f;
 
+        _audioSource.Play();
+
         while(true)
         {
             transform.position = Vector3.MoveTowards(transform.position, movePoint, _moveSpeed * Time.deltaTime);
@@ -48,6 +58,8 @@ public class CPushBox : MonoBehaviour
 
             yield return null;
         }
+
+        _audioSource.Stop();
 
         _isMove = false;
     }
