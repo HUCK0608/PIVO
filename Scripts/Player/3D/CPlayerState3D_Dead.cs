@@ -13,7 +13,7 @@ public class CPlayerState3D_Dead : CPlayerState3D
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
             CUIManager.Instance.DeadUIChangeSelectMenu();
-        else if (Input.GetKeyDown(CKeyManager.InteractionKey))
+        else if (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey))
             CUIManager.Instance.DeadUIExcutionSelectMenu();
     }
 }
