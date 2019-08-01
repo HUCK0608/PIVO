@@ -578,8 +578,8 @@ MonoBehaviour:
   excludeFarPixels: 1
   useRadialDistance: 0
   heightFog: 1
-  height: 6.83
-  heightDensity: 3.7
+  height: 3.24
+  heightDensity: 1
   startDistance: 0
   fogShader: {fileID: 4800000, guid: 70d8568987ac0499f952b54c7c13e265, type: 3}
 --- !u!1001 &961207212
