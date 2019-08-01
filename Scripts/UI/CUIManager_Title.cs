@@ -113,6 +113,7 @@ public class CUIManager_Title : MonoBehaviour
             case 2:
                 break;
             case 3:
+                Application.Quit();
                 break;
         }
     }
