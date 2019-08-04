@@ -48109,12 +48109,12 @@ PrefabInstance:
     - target: {fileID: 4118917208912798589, guid: 02a4720c05a6e814fb55ff5c39d911c8,
         type: 3}
       propertyPath: m_Size.z
-      value: 11.990473
+      value: 15.66128
       objectReference: {fileID: 0}
     - target: {fileID: 4118917208912798589, guid: 02a4720c05a6e814fb55ff5c39d911c8,
         type: 3}
       propertyPath: m_Center.z
-      value: 3.0909548
+      value: 1.2555513
       objectReference: {fileID: 0}
     - target: {fileID: 4118917208912798589, guid: 02a4720c05a6e814fb55ff5c39d911c8,
         type: 3}
@@ -84475,7 +84475,7 @@ PrefabInstance:
     - target: {fileID: 2746714498699665445, guid: 877ae2fa8287dae46af4de384936e078,
         type: 3}
       propertyPath: MovingActor.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2746714498699665445, guid: 877ae2fa8287dae46af4de384936e078,
         type: 3}

@@ -7,6 +7,7 @@ public class Design_Monster3D : MonoBehaviour
     [HideInInspector]
     public float MoveSpeed;
 
+    bool IsInCollider;
     bool bCheckPlayer;
     bool bWaitAnimation;
     bool bThrowCheck;
@@ -39,6 +40,15 @@ public class Design_Monster3D : MonoBehaviour
             StartCoroutine("WaitAnimation");
             PhaseNum = 1;
         }
+
+        if (other.gameObject.layer == 10)
+            IsInCollider = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == 10)
+            IsInCollider = false;
     }
 
 
@@ -77,10 +87,22 @@ public class Design_Monster3D : MonoBehaviour
 
 
 
-    float CheckColliderDistance()
+    bool CheckColliderDistance()
     {
+        bool ReturnValue = false;
         Vector3 PlayerPos = new Vector3(Corgi.transform.position.x, 0, Corgi.transform.position.z);
-        return Vector3.Distance(ColliderPos, PlayerPos);
+
+        if (Vector3.Distance(ColliderPos, PlayerPos) > GetComponent<BoxCollider>().size.x / 2)//12
+        {
+            if (!IsInCollider)
+                ReturnValue = true;
+        }
+        else
+        {
+            ReturnValue = false;
+        }
+
+        return ReturnValue;
     }
 
 
@@ -120,7 +142,7 @@ public class Design_Monster3D : MonoBehaviour
                 transform.position = Vector3.MoveTowards(transform.position, PlayerPos, MoveSpeed * 0.1f);
                 MonsterAnimator.SetBool("IsRun", true);
                 
-                if (CheckColliderDistance() > 12)
+                if (CheckColliderDistance())
                     PhaseNum = 3;
             }
         }
