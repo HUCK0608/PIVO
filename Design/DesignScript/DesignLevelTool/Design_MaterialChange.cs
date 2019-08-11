@@ -11,6 +11,7 @@ public class Design_MaterialChange : MonoBehaviour
     public Material ChangeMaterial;
     private Material BeforeMaterial;
 
+    public bool SaveCurMat;
     public bool RotPlus;
     public bool RotMinus;
     public bool RotZero;
@@ -23,12 +24,15 @@ public class Design_MaterialChange : MonoBehaviour
 
     void Update()
     {
-        ChangeMaterialFunc();
-        ChangeRot3D();
-        ChangeRot3DZero();
-        SideRandom();
-        RotateZ();
-
+        if (Application.isPlaying == false)
+        {
+            ChangeMaterialFunc();
+            ChangeRot3D();
+            ChangeRot3DZero();
+            SideRandom();
+            RotateZ();
+            SaveCurMaterial();
+        }
     }
 
 
@@ -39,6 +43,12 @@ public class Design_MaterialChange : MonoBehaviour
             transform.Find("Root3D").GetComponent<MeshRenderer>().material = ChangeMaterial;
             BeforeMaterial = ChangeMaterial;
         }
+    }
+
+    void SaveCurMaterial()
+    {
+        if (SaveCurMat)
+            ChangeMaterial = transform.Find("Root3D").GetComponent<MeshRenderer>().sharedMaterial;
     }
 
 

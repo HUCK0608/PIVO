@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum FXType { Leaf, Snow }
+public enum FXType { Leaf, Snow, None }
 public class Design_FallingFX : MonoBehaviour
 {
     public FXType SelectFX;
@@ -17,9 +17,14 @@ public class Design_FallingFX : MonoBehaviour
             FXSnow.SetActive(false);
             FXLeaf.SetActive(true);
         }
-        else
+        else if (SelectFX == FXType.Snow)
         {
             FXSnow.SetActive(true);
+            FXLeaf.SetActive(false);
+        }
+        else
+        {
+            FXSnow.SetActive(false);
             FXLeaf.SetActive(false);
         }
     }
