@@ -53042,12 +53042,12 @@ PrefabInstance:
     - target: {fileID: 4118917208912798589, guid: 02a4720c05a6e814fb55ff5c39d911c8,
         type: 3}
       propertyPath: m_Size.x
-      value: 8.052444
+      value: 5.6583633
       objectReference: {fileID: 0}
     - target: {fileID: 4118917208912798589, guid: 02a4720c05a6e814fb55ff5c39d911c8,
         type: 3}
       propertyPath: m_Center.x
-      value: -1.0671082
+      value: -2.2641487
       objectReference: {fileID: 0}
     - target: {fileID: 4118917208912798589, guid: 02a4720c05a6e814fb55ff5c39d911c8,
         type: 3}
