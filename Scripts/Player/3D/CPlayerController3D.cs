@@ -130,9 +130,15 @@ public class CPlayerController3D : MonoBehaviour
 
         for(int i = 0; i < _groundCheckPointCount; i++)
         {
-            if (Physics.Raycast(_groundCheckPoints[i].position, Vector3.down, 0.15f, _playerIgnoreLayerMask))
+            RaycastHit hit;
+            if (Physics.Raycast(_groundCheckPoints[i].position, Vector3.down, out hit, 0.15f, _playerIgnoreLayerMask))
             {
                 isGrounded = true;
+
+                // 최근 위치 저장
+                if (hit.transform.parent.parent.name.Equals(CString.TileOut))
+                    CPlayerManager.Instance.LastGroundPosition = hit.transform.position + Vector3.up;
+
                 break;
             }
         }
@@ -151,10 +157,7 @@ public class CPlayerController3D : MonoBehaviour
         if (isApplyGravity)
             velocity.y = _rigidBody.velocity.y + CPlayerManager.Instance.Stat.Gravity * Time.deltaTime;
         else
-        {
             velocity.y = 0f;
-            CPlayerManager.Instance.LastGroundPosition = transform.position + transform.forward * -2f;
-        }
     }
 
     /// <summary>방향 이동</summary>

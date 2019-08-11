@@ -116,7 +116,8 @@ public class CPlayerController2D : MonoBehaviour
 
         for(int i = 0; i < _gravityCheckPointCount; i++)
         {
-            if (!_isUseGravity || Physics2D.Raycast(_gravityCheckPoints[i].position, Vector2.down, 0.15f, _playerIgnoreLayerMask))
+            RaycastHit2D hit = Physics2D.Raycast(_gravityCheckPoints[i].position, Vector2.down, 0.15f, _playerIgnoreLayerMask);
+            if (!_isUseGravity || hit.transform != null)
             {
                 isApplyGravity = false;
                 break;
@@ -126,10 +127,7 @@ public class CPlayerController2D : MonoBehaviour
         if (isApplyGravity)
             velocity.y = _rigidBody2D.velocity.y + CPlayerManager.Instance.Stat.Gravity * Time.deltaTime;
         else
-        {
             velocity.y = 0f;
-            CPlayerManager.Instance.LastGroundPosition = transform.position + transform.forward * -2f;
-        }
     }
 
     /// <summary>방향 이동</summary>
