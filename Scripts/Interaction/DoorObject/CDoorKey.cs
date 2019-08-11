@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CDoor : MonoBehaviour
+public class CDoorKey : MonoBehaviour
 {
 }
