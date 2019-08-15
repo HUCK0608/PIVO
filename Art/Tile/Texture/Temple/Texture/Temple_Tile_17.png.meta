@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8a30fb1a9e37a2f48ae0ae4e546447e7
+guid: 5396ea0022181784790c17b031e6de21
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
@@ -34,9 +34,9 @@ TextureImporter:
     filterMode: 0
     aniso: -1
     mipBias: -100
-    wrapU: -1
-    wrapV: -1
-    wrapW: -1
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
