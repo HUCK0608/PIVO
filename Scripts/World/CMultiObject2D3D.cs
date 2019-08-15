@@ -24,6 +24,8 @@ public class CMultiObject2D3D : CWorldObject
 
         _meshRenderes.AddRange(RootObject.GetComponentsInChildren<MeshRenderer>());
         _collider2Ds.AddRange(RootObject.GetComponentsInChildren<Collider2D>());
+        foreach (Collider2D c in _collider2Ds)
+            c.enabled = false;
         foreach (MeshRenderer m in _meshRenderes)
         {
             _defaultMaterials.Add(m.material);
