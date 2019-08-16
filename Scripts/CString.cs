@@ -10,4 +10,7 @@ public static class CString
 
     private static string _tileOut = "Tile_Out";
     public static string TileOut { get { return _tileOut; } }
+
+    private static string _patternFill = "_PatternFill";
+    public static string PatternFill { get { return _patternFill; } }
 }
