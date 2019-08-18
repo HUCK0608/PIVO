@@ -6,14 +6,16 @@ public class Design_SetWorldObject : MonoBehaviour
 {
     CWorldManager WorldManager;
     GameObject Object2D, Object3D;
-    bool bState3D, bState2D, OutViewRect;
+    bool StateCall, OutViewRect;
+    float bUseRectCheck;
+    EWorldState BefState;
 
     void Start()
     {
-
-        bState3D = true;
-        bState2D = false;
+        StateCall = false;
         OutViewRect = true;
+        bUseRectCheck = 0;
+        BefState = EWorldState.View3D;
         Object2D = transform.Find("Root2D").gameObject;
         Object3D = transform.Find("Root3D").gameObject;
         WorldManager = GameObject.Find("World").GetComponent<CWorldManager>();
@@ -21,35 +23,93 @@ public class Design_SetWorldObject : MonoBehaviour
 
     void Update()
     {
+        ChangingState();
+        RefreshRectCheck();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    void RefreshRectCheck()
+    {
+        if (!OutViewRect)
+        {
+            float WaitTime = 0.5f;
+            if (bUseRectCheck < WaitTime)
+            {
+                bUseRectCheck += Time.deltaTime;
+            }
+            else if (bUseRectCheck > WaitTime)
+            {
+                OutViewRect = true;
+                bUseRectCheck = 0;
+            }
+
+        }
+    }
+
+    void ChangingState()
+    {
         if (WorldManager)
         {
-            if (WorldManager.CurrentWorldState == EWorldState.View2D)
+            if (WorldManager.CurrentWorldState == EWorldState.Changing && StateCall)
             {
-                if (bState3D)//2D로 바꾸기
-                {
-                    //Set3DRender(false);
-                    bState2D = true;
-                    bState3D = false;
 
-                    if (OutViewRect)
-                    {
-                        Set3DRender(false);
-                        //Object2D.SetActive(false);
-                    }
-                    //else
-                    //Object2D.SetActive(true);
-                }
-            }
-            else
-            {
-                if (bState2D)//3D로 바꾸기
+                if (!OutViewRect)
                 {
-                    Set3DRender(true);
-                    //Object2D.SetActive(false);
-                    bState3D = true;
-                    bState2D = false;
-                    OutViewRect = true;
+                    //시점전환 박스에 들어옴
+                    if (BefState == EWorldState.View2D)
+                    {
+                        //2D -> 3D
+                        BefState = EWorldState.View3D;
+                        Set3DRender(true);
+                        Set2DRender(false);
+                    }
+                    else if (BefState == EWorldState.View3D)
+                    {
+                        //3D -> 2D
+                        BefState = EWorldState.View2D;
+                        Set3DRender(false);
+                        Set2DRender(true);
+                    }
                 }
+                else
+                {
+                    //시점전환 박스에 들어오지 않음
+                    if (BefState == EWorldState.View2D)
+                    {
+                        //2D -> 3D
+                        BefState = EWorldState.View3D;
+                        Set3DRender(true);
+                        Set2DRender(false);
+                    }
+                    else if (BefState == EWorldState.View3D)
+                    {
+                        //3D -> 2D
+                        BefState = EWorldState.View2D;
+                        Set3DRender(false);
+                        Set2DRender(false);
+                    }
+                }
+
+                OutViewRect = true;
+                StateCall = false;
+
+            }
+            else if (WorldManager.CurrentWorldState != EWorldState.Changing)
+            {
+
+                if (!StateCall)
+                    StateCall = true;
+
             }
         }
     }
@@ -57,6 +117,11 @@ public class Design_SetWorldObject : MonoBehaviour
     void Set3DRender(bool bState)
     {
         Object3D.SetActive(bState);
+    }
+
+    void Set2DRender(bool bState)
+    {
+        Object2D.SetActive(bState);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -72,5 +137,10 @@ public class Design_SetWorldObject : MonoBehaviour
         {
             OutViewRect = true;
         }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        bUseRectCheck = 0;
     }
 }
