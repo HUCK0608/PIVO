@@ -34,4 +34,9 @@ Material:
     m_Floats:
     - _Emission: 1
     - _IsUse2DTexture: 0
-    m_Colors: []
+    m_Colors:
+    - _Color1: {r: 1, g: 1, b: 1, a: 1}
+    - _Color2: {r: 1, g: 1, b: 1, a: 1}
+    - _Color3: {r: 1, g: 1, b: 1, a: 1}
+    - _Color4: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 0, b: 0.1639638, a: 0}

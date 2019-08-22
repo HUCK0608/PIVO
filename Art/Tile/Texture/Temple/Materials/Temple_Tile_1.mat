@@ -34,4 +34,5 @@ Material:
     m_Floats:
     - _Emission: 1
     - _IsUse2DTexture: 0
-    m_Colors: []
+    m_Colors:
+    - _EmissionColor: {r: 1, g: 0, b: 0, a: 0}
