@@ -5,7 +5,7 @@
 		_MainTex2("Emission_Texture", 2D) = "white" {}
 		_Emission("Emission_Power", float) = 1
 		[Toggle]_IsUse2DTexture("IsUse2DTexture", float) = 0
-
+		_EmissionColor("EmissionColor", color) = (0,0,0,0)
 		/*_Color ("CanChangeColor", Color) = (1,1,1,1)
 		_Color2 ("BlockColor", Color) = (1,1,1,1)*/
 		//_MainTex5("BackgroundTexture", 2D) = "white" {}
@@ -66,6 +66,7 @@
 		};
 		float _Emission;
 		float _IsUse2DTexture;
+		float4 _EmissionColor;
 
 		/*float4 _Color;
 		float4 _Color2;*/
@@ -80,7 +81,7 @@
 			float4 e = tex2D(_MainTex4, IN.uv_MainTex4);
 
 			o.Albedo = lerp(c.rgb, e.rgb, _IsUse2DTexture);
-			o.Emission = lerp(f.rgb, 0, _IsUse2DTexture) * _Emission;
+			o.Emission = lerp(f.rgb, 0, _IsUse2DTexture) * _Emission *_EmissionColor;
 
 			/*float4 d = tex2D(_MainTex3, float2(_Time.y * _Speed, 0.5));
 			float4 g = tex2D(_MainTex3, float2(_Time.y * _Speed2, 0.5));*/
