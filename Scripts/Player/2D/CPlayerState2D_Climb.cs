@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class CPlayerState2D_Climb : CPlayerState2D
 {
+    private string _sClimb = "Climb";
+
     public override void InitState()
     {
         base.InitState();
@@ -11,16 +13,16 @@ public class CPlayerState2D_Climb : CPlayerState2D
         transform.position = Controller2D.ClimbInfo.origin;
     }
 
-    /// <summary>기어오르기 애니메이션이 성공적으로 끝났을 때 실행됨</summary>
-    public void CompleteClimbAnimation()
+    private void Update()
     {
-        Controller2D.ChangeState(EPlayerState2D.Idle);
-        StartCoroutine(EndClimbLogic());
+        AnimatorStateInfo currentStateInfo = Controller2D.Animator.GetCurrentAnimatorStateInfo(0);
+
+        if (currentStateInfo.IsName(_sClimb) && currentStateInfo.normalizedTime >= 1f)
+            Controller2D.ChangeState(EPlayerState2D.Idle);
     }
 
-    private IEnumerator EndClimbLogic()
+    public override void EndState()
     {
-        yield return null;
         transform.position = Controller2D.ClimbInfo.destination;
     }
 }

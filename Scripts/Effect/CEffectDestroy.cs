@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectDestroy : MonoBehaviour
+public class CEffectDestroy : MonoBehaviour
 {
     // 활성화 시간
     [SerializeField]

@@ -101,8 +101,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 110, y: -160}
-  m_SizeDelta: {x: 228, y: 101}
+  m_AnchoredPosition: {x: 124, y: -160}
+  m_SizeDelta: {x: 408, y: 101}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1217603339
 CanvasRenderer:
@@ -132,7 +132,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: d999142350b8f644cb05779430b58f10, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d3e417174f81e1b4b892f25abc179ca9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -542,7 +542,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -160, y: -160}
+  m_AnchoredPosition: {x: -214, y: -160}
   m_SizeDelta: {x: 228, y: 101}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2144419609
@@ -1737,9 +1737,9 @@ MonoBehaviour:
   _defaultRetrySprite: {fileID: 21300000, guid: ad50c47cf4f1a7b4680a9a208d202225,
     type: 3}
   _glowRetrySprite: {fileID: 21300000, guid: 84c5230147b57f14c94ddf47d24c1591, type: 3}
-  _defaultStageSelectSprite: {fileID: 21300000, guid: d999142350b8f644cb05779430b58f10,
+  _defaultStageSelectSprite: {fileID: 21300000, guid: d3e417174f81e1b4b892f25abc179ca9,
     type: 3}
-  _glowStageSelectSprite: {fileID: 21300000, guid: baca77cb5d1975e49ada4eb80dd00a87,
+  _glowStageSelectSprite: {fileID: 21300000, guid: 8e75b158055ef96408c03fac2adc2224,
     type: 3}
   _pointerEnterAudioClips:
   - {fileID: 8300000, guid: 093292ea0c3f79543a016cb726fea9db, type: 3}

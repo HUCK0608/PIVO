@@ -6,6 +6,10 @@ public class CPlayerState3D_Climb : CPlayerState3D
     [SerializeField]
     private Transform[] _cameraTarget = null;
 
+    private string _sClimb = "Climb";
+    private string _sClimb_0 = "Climb_0";
+    private string _sClimb_1 = "Climb_1";
+
     public override void InitState()
     {
         base.InitState();
@@ -14,7 +18,7 @@ public class CPlayerState3D_Climb : CPlayerState3D
         Controller3D.LookDirection(Controller3D.ClimbInfo.direction);
         transform.position = Controller3D.ClimbInfo.origin;
 
-        Controller3D.Animator.SetInteger("Climb", Controller3D.ClimbInfo.aniNumber);
+        Controller3D.Animator.SetInteger(_sClimb, Controller3D.ClimbInfo.aniNumber);
 
         CCameraController.Instance.Target = _cameraTarget[Controller3D.ClimbInfo.aniNumber];
     }
@@ -23,9 +27,9 @@ public class CPlayerState3D_Climb : CPlayerState3D
     {
         AnimatorStateInfo currentStateInfo = Controller3D.Animator.GetCurrentAnimatorStateInfo(0);
 
-        if (currentStateInfo.IsName("Climb_0") && currentStateInfo.normalizedTime >= 1.05f)
+        if (currentStateInfo.IsName(_sClimb_0) && currentStateInfo.normalizedTime >= 1.05f)
             Controller3D.ChangeState(EPlayerState3D.Idle);
-        else if (currentStateInfo.IsName("Climb_1") && currentStateInfo.normalizedTime >= 1.02f)
+        else if (currentStateInfo.IsName(_sClimb_1) && currentStateInfo.normalizedTime >= 1.02f)
             Controller3D.ChangeState(EPlayerState3D.Idle);
     }
 
@@ -33,6 +37,6 @@ public class CPlayerState3D_Climb : CPlayerState3D
     {
         transform.position = Controller3D.ClimbInfo.destination;
         CCameraController.Instance.Target = transform;
-        Controller3D.Animator.SetInteger("Climb", -1);
+        Controller3D.Animator.SetInteger(_sClimb, -1);
     }
 }

@@ -14,7 +14,7 @@ public class CWorldManager : MonoBehaviour
     /// <summary>현재 월드 상태</summary>
     public EWorldState CurrentWorldState { get { return _currentWorldState; } set { _currentWorldState = value; } }
 
-    /// <summary>월드의 오브젝트 모음</summary>
+    /// <summary>월드의 오브젝트 리스트</summary>
     private List<CWorldObject> _worldObjects = null;
     /// <summary>월드 오브젝트 개수</summary>
     private int _worldObjectCount = 0;
@@ -22,6 +22,11 @@ public class CWorldManager : MonoBehaviour
     private List<CWorldObject> _lastChangeObjects = null;
     /// <summary>제일 최근에 변경되었던 오브젝트 개수</summary>
     private int _lastChangeObjectCount = 0;
+
+    /// <summary>이펙트 활성화 컨트롤러 리스트</summary>
+    private List<CEffectVisableController> _effectVisableControllers = null;
+    /// <summary>이펙트 활성화 컨트롤러 개수</summary>
+    private int _effectVisableControllerCount = 0;
 
     /// <summary>카메라 무빙워크가 끝날때까지 대기</summary>
     private WaitUntil _endCameraMovingWorkWaitUntil = null;
@@ -44,6 +49,8 @@ public class CWorldManager : MonoBehaviour
         _worldObjects = new List<CWorldObject>();
         _lastChangeObjects = new List<CWorldObject>();
 
+        _effectVisableControllers = new List<CEffectVisableController>();
+
         _endCameraMovingWorkWaitUntil = new WaitUntil(() => !CCameraController.Instance.IsOnMovingWork);
         _changePlayer2DWaitForSeconds = new WaitForSeconds(0.3f);
 
@@ -61,6 +68,20 @@ public class CWorldManager : MonoBehaviour
     {
         _worldObjects.Add(worldObject);
         _worldObjectCount++;
+    }
+
+    /// <summary>이펙트 활성화 컨트롤러 등록</summary>
+    public void AddEffectVisableController(CEffectVisableController effectVisableController)
+    {
+        _effectVisableControllers.Add(effectVisableController);
+        _effectVisableControllerCount++;
+    }
+
+    /// <summary>이펙트 활성화 컨트롤러 제거</summary>
+    public void RemoveEffectVisableController(CEffectVisableController effectVisableController)
+    {
+        _effectVisableControllers.Remove(effectVisableController);
+        _effectVisableControllerCount--;
     }
 
     /// <summary>포함되었던 오브젝트 리셋</summary>
@@ -97,6 +118,8 @@ public class CWorldManager : MonoBehaviour
 
             for (int i = 0; i < _worldObjectCount; i++)
                 _worldObjects[i].Change3D();
+            for (int i = 0; i < _effectVisableControllerCount; i++)
+                _effectVisableControllers[i].Change3D();
 
             CLightController.Instance.SetShadows(true);
             CPlayerManager.Instance.Change3D();
@@ -124,6 +147,9 @@ public class CWorldManager : MonoBehaviour
                     _lastChangeObjectCount++;
                 }
             }
+
+            for (int i = 0; i < _effectVisableControllerCount; i++)
+                _effectVisableControllers[i].Change2D();
 
             CLightController.Instance.SetShadows(false);
 
