@@ -191,6 +191,13 @@ public class CPlayerController3D : MonoBehaviour
         Move(direction.normalized, isAirMove);
     }
 
+    /// <summary>정지</summary>
+    public void Stop()
+    {
+        _rigidBody.velocity = Vector3.zero;
+        ChangeState(EPlayerState3D.Idle);
+    }
+
     /// <summary>Slerp 회전</summary>
     public void RotationSlerp(Vector3 direction)
     {

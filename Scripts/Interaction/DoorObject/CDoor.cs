@@ -17,7 +17,7 @@ public class CDoor : MonoBehaviour
     [SerializeField]
     private MeshRenderer _patternMeshRenderer = null;
     /// <summary>패턴 채우기 수치</summary>
-    private float[] _patternFill = new float[] { 1.0f, 1.6f, 2f, 6.8f };
+    private float[] _patternFill = new float[] { 1.6f, 2f, 6.8f };
 
     /// <summary>문열기 속도</summary>
     [Header("Anyone can edit")]
@@ -28,7 +28,6 @@ public class CDoor : MonoBehaviour
     [SerializeField]
     private float _patternFillTime = 0f;
 
-    private int _nextLandingPointIndex = 4;
     private int _currentKeyCount = 4;
 
     /// <summary>패턴을 채우고 있는중인지 여부</summary>
@@ -36,33 +35,41 @@ public class CDoor : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 3; i >= _currentKeyCount; i--, _nextLandingPointIndex--)
+        for (int i = 3; i >= _currentKeyCount; i--)
             _landingPoints[i].SetActive(false);
 
-        _patternMeshRenderer.material.SetFloat(CString.PatternFill, _patternFill[_currentKeyCount - 1]);
+        if(_currentKeyCount > 1)
+            _patternMeshRenderer.material.SetFloat(CString.PatternFill, _patternFill[_currentKeyCount - 1]);
     }
+
+    /// <summary>키 등록</summary>
+    public void RegisterKey() { _currentKeyCount--; }
 
     /// <summary>키 습득</summary>
     public void GetKey()
     {
-        _landingPoints[_currentKeyCount++].SetActive(true);
-
         if(!_isPatternFill)
-            StartCoroutine(PatternFillLogic());
+            StartCoroutine(GetKey3DLogic());
     }
 
     /// <summary>패턴 채우기 로직</summary>
-    private IEnumerator PatternFillLogic()
+    private IEnumerator GetKey3DLogic()
     {
-        _isPatternFill = true;
+        // 카메라 포커싱이 될 때까지 대기
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, CCameraController.Instance.transform.position) <= 1f);
 
-        while(true)
+        // 열쇠 활성화
+        _landingPoints[_currentKeyCount++].SetActive(true);
+
+        // 수치 설정
+        float goalPatternFill = _patternFill[_currentKeyCount - 2];
+        float patternFillSpeed = (goalPatternFill - _patternMeshRenderer.material.GetFloat(CString.PatternFill)) / _patternFillTime;
+
+        // 패턴채우기
+        while (true)
         {
-            float goalPatternFill = _patternFill[_currentKeyCount - 1];
-            float currentPatternFill = _patternMeshRenderer.material.GetFloat(CString.PatternFill);
-            float patternFillSpeed = currentPatternFill < 1.6f ? 0.6f / _patternFillTime : currentPatternFill < 2f ? 0.4f / _patternFillTime : 4.8f / _patternFillTime;
-            float nextPatternFill = Mathf.Clamp(_patternMeshRenderer.material.GetFloat(CString.PatternFill) + patternFillSpeed * Time.deltaTime, 1f, goalPatternFill);
-            _patternMeshRenderer.material.SetFloat(CString.PatternFill, Mathf.Clamp(nextPatternFill, 1f, goalPatternFill));
+            float nextPatternFill = Mathf.Clamp(_patternMeshRenderer.material.GetFloat(CString.PatternFill) + patternFillSpeed * Time.deltaTime, 1, goalPatternFill);
+            _patternMeshRenderer.material.SetFloat(CString.PatternFill, nextPatternFill);
 
             if (nextPatternFill.Equals(goalPatternFill))
                 break;
@@ -70,7 +77,10 @@ public class CDoor : MonoBehaviour
             yield return null;
         }
 
-        _isPatternFill = false;
+        CCameraController.Instance.Target = CPlayerManager.Instance.RootObject3D.transform;
+        yield return new WaitUntil(() => Vector3.Distance(CCameraController.Instance.transform.position, CPlayerManager.Instance.RootObject3D.transform.position) < 0.1f);
+        CCameraController.Instance.IsLerpMove = false;
+        CPlayerManager.Instance.IsCanOperation = true;
 
         if (_currentKeyCount == 4)
             StartCoroutine(OpenDoorLogic());
@@ -90,9 +100,4 @@ public class CDoor : MonoBehaviour
 
         _door.gameObject.SetActive(false);
     }
-
-    /// <summary>키 등록</summary>
-    public void RegisterKey() { _currentKeyCount--; }
-    /// <summary>착지 위치 반환</summary>
-    public Vector3 GetLandingPoint() { return _landingPoints[_nextLandingPointIndex++].transform.position; }
 }

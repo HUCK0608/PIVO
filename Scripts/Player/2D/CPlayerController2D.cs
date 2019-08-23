@@ -18,8 +18,9 @@ public class CPlayerController2D : MonoBehaviour
     /// <summary>리지드바디2D</summary>
     public Rigidbody2D RigidBody2D { get { return _rigidBody2D; } }
 
-    /// <summary>애니메이터</summary>
     private Animator _animator;
+    /// <summary>애니메이터</summary>
+    public Animator Animator { get { return _animator; } }
     /// <summary>애니메이터 파라미터 이름</summary>
     private static string _animParameterPath = "CurrentState";
 
