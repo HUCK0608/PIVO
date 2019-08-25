@@ -19,7 +19,7 @@ public class CPlayerState3D_Holding : CPlayerState3D
 
     private void Update()
     {
-        if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.Changing))
+        if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.Changing) || !CPlayerManager.Instance.IsCanOperation)
             return;
 
         float vertical = Input.GetAxis(CString.Vertical);

@@ -17,6 +17,18 @@ public static class CDataManager
     private static EXmlDocumentNames _currentXmlDocumentName = EXmlDocumentNames.None;
 
     /// <summary>
+    /// 데이터 파일이 존재하는지 여부
+    /// </summary>
+    /// <param name="file">파일 이름</param>
+    /// <returns></returns>
+    public static bool IsHaveData()
+    {
+        FileInfo fileInfo = new FileInfo(_fileDirectoryPath + EXmlDocumentNames.GrassStageDatas.ToString("G") + ".xml");
+
+        return fileInfo.Exists;
+    }
+
+    /// <summary>
     /// xml 문서 반환
     /// </summary>
     /// <param name="file">반환 받을 파일</param>
