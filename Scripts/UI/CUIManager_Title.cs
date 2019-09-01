@@ -42,6 +42,7 @@ public class CUIManager_Title : MonoBehaviour
         {
             _isHaveData = false;
             _loadGameImage.color = Color.black;
+            CDataManager.IsSaveData = false;
         }
     }
 
@@ -183,6 +184,7 @@ public class CUIManager_Title : MonoBehaviour
         CPlayerManager.Instance.IsCanOperation = true;
 
         CWorldManager.Instance.PlayBGM();
+        CDataManager.IsSaveData = true;
 
         gameObject.SetActive(false);
     }

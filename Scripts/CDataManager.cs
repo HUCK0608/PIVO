@@ -16,6 +16,10 @@ public static class CDataManager
     /// <summary>현재 xml 문서 이름</summary>
     private static EXmlDocumentNames _currentXmlDocumentName = EXmlDocumentNames.None;
 
+    private static bool _isSaveData = true;
+    /// <summary>데이터를 저장하는지 여부</summary>
+    public static bool IsSaveData { set { _isSaveData = value; } }
+
     /// <summary>
     /// 데이터 파일이 존재하는지 여부
     /// </summary>
@@ -108,6 +112,9 @@ public static class CDataManager
     /// <param name="datas">데이터들</param>
     public static void WritingDatas(EXmlDocumentNames file, string nodePath, string[] elementsName, string[] datas)
     {
+        if (!_isSaveData)
+            return;
+
         // xml 파일 열기
         XmlDocument xmlDocument = GetXmlDocument(file, FileMode.OpenOrCreate);
 
@@ -175,6 +182,9 @@ public static class CDataManager
     /// </summary>
     public static void SaveCurrentXmlDocument()
     {
+        if (!_isSaveData)
+            return;
+
         if (_currentXmlDocumentName.Equals(EXmlDocumentNames.None))
             return;
 
