@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class CDoorKey : MonoBehaviour
 {
-    /// <summary>연결된 문</summary>
+    /// <summary>이펙트 활성화 컨트롤러</summary>
     [Header("Programmer can edit")]
-    [SerializeField]
-    private CDoor _door = null;
-
     [SerializeField]
     private CEffectVisableController _effectVisableController = null;
 
-    /// <summary>이동 속도</summary>
+    /// <summary>연결된 문</summary>
     [Header("Anyone can edit")]
     [SerializeField]
-    private float _moveSpeed = 0f;
+    private CDoor _door = null;
 
     /// <summary>애니메이터</summary>
     private Animator _animator = null;

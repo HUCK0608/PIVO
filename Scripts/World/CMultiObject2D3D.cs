@@ -69,6 +69,8 @@ public class CMultiObject2D3D : CWorldObject
                 if (IsUse2DTexture)
                     _meshRenderes[i].material.SetFloat("_IsUse2DTexture", 0f);
             }
+
+            IsCanChange2D = false;
         }
         else
         {

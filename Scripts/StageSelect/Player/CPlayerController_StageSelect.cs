@@ -198,9 +198,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
 
             RaycastHit hit;
             if (Physics.Raycast(_climbCheckPoint.position, transform.forward, out hit, 0.5f))
-            {
                 yield return StartCoroutine(ClimbLogic(hit));
-            }
 
             if (transform.position.Equals(destination))
                 break;
@@ -273,7 +271,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
         if (isApplyGravity)
         {
             Vector3 newVelocity = Vector3.zero;
-            newVelocity.y = _rigidbody.velocity.y + _stat.Gravity * Time.deltaTime;
+            newVelocity.y = _rigidbody.velocity.y + _stat.Gravity;
             _rigidbody.velocity = newVelocity;
         }
         else

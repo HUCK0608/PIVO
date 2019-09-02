@@ -50,21 +50,14 @@ public class CPlayerManager : CCharacter
 
     public override void Change2D()
     {
-        RootObject3D.SetActive(false);
-        RootObject2D.transform.parent = transform;
-        RootObject2D.transform.eulerAngles = Vector3.zero;
-        RootObject3D.transform.parent = RootObject2D.transform;
-        RootObject2D.SetActive(true);
+        base.Change2D();
 
         _effect.MoveDustEffect_ChangeState(EWorldState.View2D);
     }
 
     public override void Change3D()
     {
-        RootObject2D.SetActive(false);
-        RootObject3D.transform.parent = transform;
-        RootObject2D.transform.parent = RootObject3D.transform;
-        RootObject3D.SetActive(true);
+        base.Change3D();
 
         // 땅이아니면 Holding 상태로 변경
         if (!Controller3D.IsGrounded())

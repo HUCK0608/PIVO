@@ -5,7 +5,7 @@ using UnityEngine;
 public class CEffectVisableController : MonoBehaviour
 {
     [SerializeField]
-    private CWorldObject _worldObject;
+    private CWorldObject _worldObject = null;
 
     private void Start()
     {

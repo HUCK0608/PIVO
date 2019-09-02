@@ -16,6 +16,20 @@ public abstract class CCharacter : MonoBehaviour
         _rootObject3D = transform.Find("Root3D").gameObject;
     }
 
-    public abstract void Change2D();
-    public abstract void Change3D();
+    public virtual void Change2D()
+    {
+        _rootObject2D.SetActive(false);
+        _rootObject2D.transform.parent = transform;
+        _rootObject2D.transform.eulerAngles = Vector3.zero;
+        _rootObject3D.transform.parent = RootObject2D.transform;
+        _rootObject2D.SetActive(true);
+    }
+
+    public virtual void Change3D()
+    {
+        _rootObject2D.SetActive(false);
+        _rootObject3D.transform.parent = transform;
+        _rootObject2D.transform.parent = RootObject3D.transform;
+        _rootObject3D.SetActive(true);
+    }
 }

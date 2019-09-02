@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
 
 public class CUIManager_Title : MonoBehaviour
@@ -16,6 +17,9 @@ public class CUIManager_Title : MonoBehaviour
     [SerializeField]
     private PlayableDirector _introPlayerDirector = null;
 
+    [SerializeField]
+    private Image _loadGameImage = null;
+
     /// <summary>현재 선택하고 있는 메뉴</summary>
     private int _currentSelect = 0;
     /// <summary>최대 메뉴 개수</summary>
@@ -24,11 +28,22 @@ public class CUIManager_Title : MonoBehaviour
     /// <summary>무언가를 실행하고 있는지 여부</summary>
     private bool _isExcutionAnything = false;
 
+    /// <summary>데이터가 존재하는지 여부</summary>
+    private bool _isHaveData = true;
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _maxMenuCount = _defaultMenu.Length;
         _audioSource = GetComponent<AudioSource>();
+
+
+        if (!CDataManager.IsHaveData())
+        {
+            _isHaveData = false;
+            _loadGameImage.color = Color.black;
+            CDataManager.IsSaveData = false;
+        }
     }
 
     private void Start()
@@ -67,9 +82,23 @@ public class CUIManager_Title : MonoBehaviour
         while(!_isExcutionAnything)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
-                ChangeSelectMenu(Mathf.Clamp(_currentSelect - 1, 0, _maxMenuCount - 1));
+            {
+                int nextSelect = Mathf.Clamp(_currentSelect - 1, 0, _maxMenuCount - 1);
+
+                if (!_isHaveData && nextSelect.Equals(1))
+                    nextSelect = 0;
+
+                ChangeSelectMenu(nextSelect);
+            }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
-                ChangeSelectMenu(Mathf.Clamp(_currentSelect + 1, 0, _maxMenuCount - 1));
+            {
+                int nextSelect = Mathf.Clamp(_currentSelect + 1, 0, _maxMenuCount - 1);
+
+                if (!_isHaveData && nextSelect.Equals(1))
+                    nextSelect = 2;
+
+                ChangeSelectMenu(nextSelect);
+            }
             else if (Input.GetKeyDown(KeyCode.Z))
                 ExcutionSelectMenu(_currentSelect);
 
@@ -80,7 +109,12 @@ public class CUIManager_Title : MonoBehaviour
     /// <summary>선택 메뉴 변경</summary>
     public void ChangeSelectMenu(int selectMenu)
     {
+        // 무언가 실행중이라면 리턴
         if (_isExcutionAnything)
+            return;
+
+        // 데이터가 없는데 로드게임을 선택하면 리턴
+        if (!_isHaveData && selectMenu.Equals(1))
             return;
 
         PlayPointerEnterAudio();
@@ -95,7 +129,12 @@ public class CUIManager_Title : MonoBehaviour
     /// <summary>선택 메뉴 실행</summary>
     public void ExcutionSelectMenu(int selectMenu)
     {
+        // 무언가 실행중이라면 리턴
         if (_isExcutionAnything)
+            return;
+
+        // 데이터가 없는데 로드게임을 선택하면 리턴
+        if (!_isHaveData && selectMenu == 1)
             return;
 
         _isExcutionAnything = true;
@@ -108,7 +147,7 @@ public class CUIManager_Title : MonoBehaviour
                 _animator.SetBool("IsFadeOut", true);
                 break;
             case 1:
-                AllStageUnlock();
+                SceneManager.LoadScene("StageSelect_Grass");
                 break;
             case 2:
                 break;
@@ -145,41 +184,42 @@ public class CUIManager_Title : MonoBehaviour
         CPlayerManager.Instance.IsCanOperation = true;
 
         CWorldManager.Instance.PlayBGM();
+        CDataManager.IsSaveData = true;
 
         gameObject.SetActive(false);
     }
 
-    /// <summary>모든 스테이지 잠금해제</summary>
-    private void AllStageUnlock()
-    {
-        EXmlDocumentNames documentName = EXmlDocumentNames.GrassStageDatas;
-        string[] elementsName = new string[] { "IsUnlock" };
-        string[] datas = new string[] { "True" };
-        string nodePath = null;
-        // 데이터 쓰기
-        for (int i = 1; i < 8; i++)
-        {
-            nodePath = "GrassStageDatas/StageDatas/GrassStage_Stage" + i.ToString();
-            CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
-        }
+    ///// <summary>모든 스테이지 잠금해제</summary>
+    //private void AllStageUnlock()
+    //{
+    //    EXmlDocumentNames documentName = EXmlDocumentNames.GrassStageDatas;
+    //    string[] elementsName = new string[] { "IsUnlock" };
+    //    string[] datas = new string[] { "True" };
+    //    string nodePath = null;
+    //    // 데이터 쓰기
+    //    for (int i = 1; i < 8; i++)
+    //    {
+    //        nodePath = "GrassStageDatas/StageDatas/GrassStage_Stage" + i.ToString();
+    //        CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+    //    }
 
-        nodePath = "GrassStageDatas/StageDatas/StageSelect_Snow";
-        CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+    //    nodePath = "GrassStageDatas/StageDatas/StageSelect_Snow";
+    //    CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
 
-        documentName = EXmlDocumentNames.SnowStageDatas;
+    //    documentName = EXmlDocumentNames.SnowStageDatas;
 
-        for(int i = 1; i < 3; i++)
-        {
-            nodePath = "SnowStageDatas/StageDatas/SnowStage_Stage" + i.ToString();
-            CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
-        }
+    //    for(int i = 1; i < 3; i++)
+    //    {
+    //        nodePath = "SnowStageDatas/StageDatas/SnowStage_Stage" + i.ToString();
+    //        CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+    //    }
 
-        // 데이터 저장
-        CDataManager.SaveCurrentXmlDocument();
+    //    // 데이터 저장
+    //    CDataManager.SaveCurrentXmlDocument();
 
-        // 스테이지 선택 씬 불러오기
-        SceneManager.LoadScene("StageSelect_Grass");
-    }
+    //    // 스테이지 선택 씬 불러오기
+    //    SceneManager.LoadScene("StageSelect_Grass");
+    //}
 
     private AudioSource _audioSource = null;
 

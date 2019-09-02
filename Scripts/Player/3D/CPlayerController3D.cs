@@ -155,7 +155,7 @@ public class CPlayerController3D : MonoBehaviour
             isApplyGravity = false;
 
         if (isApplyGravity)
-            velocity.y = _rigidBody.velocity.y + CPlayerManager.Instance.Stat.Gravity * Time.deltaTime;
+            velocity.y = _rigidBody.velocity.y + CPlayerManager.Instance.Stat.Gravity;
         else
             velocity.y = 0f;
     }
@@ -167,7 +167,7 @@ public class CPlayerController3D : MonoBehaviour
             return;
 
         float moveSpeed = isAirMove ? CPlayerManager.Instance.Stat.AirMoveSpeed : CPlayerManager.Instance.Stat.MoveSpeed;
-        Vector3 velocity = direction * moveSpeed * Time.deltaTime;
+        Vector3 velocity = direction * moveSpeed;
         CalcGravity(ref velocity);
 
         _rigidBody.velocity = velocity;
