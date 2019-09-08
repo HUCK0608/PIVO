@@ -18,7 +18,7 @@ public abstract class CCharacter : MonoBehaviour
 
     public virtual void Change2D()
     {
-        _rootObject2D.SetActive(false);
+        _rootObject3D.SetActive(false);
         _rootObject2D.transform.parent = transform;
         _rootObject2D.transform.eulerAngles = Vector3.zero;
         _rootObject3D.transform.parent = RootObject2D.transform;

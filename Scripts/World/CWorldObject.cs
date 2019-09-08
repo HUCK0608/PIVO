@@ -2,8 +2,8 @@
 
 public abstract class CWorldObject : MonoBehaviour
 {
-    private GameObject _rootObject;
-    private GameObject _rootObject3D;
+    private GameObject _rootObject = null;
+    private GameObject _rootObject3D = null;
 
     /// <summary>최상위 오브젝트</summary>
     public GameObject RootObject { get { return _rootObject; } }
