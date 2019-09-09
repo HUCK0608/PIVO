@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EPlayerState2D { Idle, Move, Falling, Climb, Dead, DownIdle, DownMove }
+public enum EPlayerState2D { Idle = 0, Move, Falling, Climb, Dead, DownIdle, DownMove }
 
 public class CPlayerController2D : MonoBehaviour
 {
     /// <summary>상태 모음</summary>
-    private Dictionary<EPlayerState2D, CPlayerState2D> _states;
+    private Dictionary<EPlayerState2D, CPlayerState2D> _states = new Dictionary<EPlayerState2D, CPlayerState2D>();
 
     private EPlayerState2D _currentState;
     /// <summary>현재 플레이어 상태</summary>
@@ -22,7 +22,7 @@ public class CPlayerController2D : MonoBehaviour
     /// <summary>애니메이터</summary>
     public Animator Animator { get { return _animator; } }
     /// <summary>애니메이터 파라미터 이름</summary>
-    private static string _animParameterPath = "CurrentState";
+    private string _animParameterPath = "CurrentState";
 
     /// <summary>중력 확인 지점들</summary>
     [SerializeField]
@@ -64,8 +64,6 @@ public class CPlayerController2D : MonoBehaviour
     /// <summary>상태 초기화</summary>
     private void InitStates()
     {
-        _states = new Dictionary<EPlayerState2D, CPlayerState2D>();
-
         // EPlayerState2D 값들
         EPlayerState2D[] enumValues = (EPlayerState2D[])Enum.GetValues(typeof(EPlayerState2D));
         // 상태 개수
@@ -73,14 +71,14 @@ public class CPlayerController2D : MonoBehaviour
         // 상태의 앞 네임
         string stateFirstPath = "CPlayerState2D_";
 
-        for(int i = 0; i < stateCount; i++)
+        foreach(EPlayerState2D enumValue in enumValues)
         {
             // 찾을 상태의 풀 네임
-            string stateFullPath = stateFirstPath + enumValues[i].ToString("G");
+            string stateFullPath = stateFirstPath + enumValue.ToString("G");
             // 상태 가져오기
             CPlayerState2D state = GetComponent(stateFullPath) as CPlayerState2D;
             // 상태 저장
-            _states.Add(enumValues[i], state);
+            _states.Add(enumValue, state);
             // 상태 비활성화
             state.enabled = false;
         }
