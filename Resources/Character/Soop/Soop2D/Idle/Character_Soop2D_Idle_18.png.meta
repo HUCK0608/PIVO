@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0f95bf6e81b6bb4418e6773d717aa17a
+guid: d98068e6fe345d24c81326c369251325
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
@@ -86,7 +86,11 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: d928a89cbffea0443ab6572afcc1bd63
+<<<<<<< HEAD:Resources/Character/Soop/Soop2D/Idle/18.png.meta
+    spriteID: 3abbaca160e93164390bd56dbb599a87
+=======
+    spriteID: 028104fe4ac36f243bd32f4d78f157f0
+>>>>>>> Programmer:Resources/Character/Soop/Soop2D/Idle/Character_Soop2D_Idle_18.png.meta
     vertices: []
     indices: 
     edges: []
