@@ -43,6 +43,7 @@ ModelImporter:
     100074: scarf_bone3
     100076: scarf_bone4
     100078: wand
+    100080: Dummy_COM
     400000: Bip001
     400002: Bip001 ear_L
     400004: Bip001 ear_L02
@@ -83,6 +84,7 @@ ModelImporter:
     400074: scarf_bone3
     400076: scarf_bone4
     400078: wand
+    400080: Dummy_COM
     2100000: 'Material #78'
     2100002: 03 - Default
     2300000: wand

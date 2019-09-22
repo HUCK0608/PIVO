@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class CSoopState3D : CSoopState
+﻿public class CSoopState3D : CSoopState
 {
     private CSoopController3D _controller = null;
     /// <summary>숲숲이 3D 컨트롤러</summary>

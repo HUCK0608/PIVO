@@ -73,6 +73,37 @@ public class CSoopController2D : MonoBehaviour
         _states[_currentState].enabled = true;
     }
 
+    /// <summary>해당 위치로 이동</summary>
+    public void MoveToPoint(Vector3 point)
+    {
+        point.y = transform.position.y;
+        point.z = transform.position.z;
+
+        transform.position = Vector3.MoveTowards(transform.position, point, _manager.Stat.MoveSpeed * Time.deltaTime);
+    }
+
+    /// <summary>플레이어가 탐지되었는지 여부</summary>
+    public bool IsDetectionPlayer()
+    {
+        Vector2 playerPosition = CPlayerManager.Instance.RootObject2D.transform.position;
+        Vector2 detectionAreaPosition = _manager.Stat.DetectionAreaPosition;
+        Vector3 detectionAreaHalfSize = _manager.Stat.DetectionAreaSize * 0.5f;
+
+        // x 위치 체크
+        if (!(playerPosition.x >= detectionAreaPosition.x - detectionAreaHalfSize.x && playerPosition.x <= detectionAreaPosition.x + detectionAreaHalfSize.x))
+            return false;
+
+        // y 위치 체크
+        if (!(playerPosition.y >= detectionAreaPosition.y - detectionAreaHalfSize.y && playerPosition.y <= detectionAreaPosition.y + detectionAreaHalfSize.y))
+            return false;
+
+        // 전방에 있는지 검사
+        if (Physics2D.Raycast(transform.position + Vector3.up, Vector3.right * (_manager.Stat.IsSoopDirectionRight ? 1 : -1), _manager.Stat.DetectionAreaSize.x * 0.5f, CLayer.Player.LeftShiftToOne()))
+            return true;
+
+        return false;
+    }
+
     /// <summary>애니메이션을 변경</summary>
     public void ChangeAnimation() { _animator.SetInteger(_animParameterPath, (int)_currentState); }
 }

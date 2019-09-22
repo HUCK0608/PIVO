@@ -73,8 +73,32 @@ public class CSoopController3D : MonoBehaviour
         _states[_currentState].enabled = true;
     }
 
-    /// <summary>애니메이션을 변경</summary>
-    public void ChangeAnimation() { _animator.SetInteger(_animParameterPath, (int)_currentState); }
+    /// <summary>해당 위치로 이동</summary>
+    public void MoveToPoint(Vector3 point)
+    {
+        point.y = transform.position.y;
+
+        // 이동
+        transform.position = Vector3.MoveTowards(transform.position, point, _manager.Stat.MoveSpeed * Time.deltaTime);
+
+        // 회전
+        RotationSlerp((point - transform.position).normalized);
+    }
+
+    /// <summary>Slerp 회전</summary>
+    public void RotationSlerp(Vector3 direction)
+    {
+        if (direction.Equals(Vector3.zero))
+            return;
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), _manager.Stat.RotationSpeed * Time.deltaTime);
+    }
+
+    /// <summary>해당 방향을 바라보게 함</summary>
+    public void LookDirection(Vector3 direction)
+    {
+        transform.rotation = Quaternion.LookRotation(direction);
+    }
 
     /// <summary>플레이어가 탐지되었는지 여부</summary>
     public bool IsDetectionPlayer()
@@ -97,4 +121,7 @@ public class CSoopController3D : MonoBehaviour
 
         return true;
     }
+
+    /// <summary>애니메이션을 변경</summary>
+    public void ChangeAnimation() { _animator.SetInteger(_animParameterPath, (int)_currentState); }
 }

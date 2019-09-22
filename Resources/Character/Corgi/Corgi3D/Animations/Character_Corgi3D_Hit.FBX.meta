@@ -41,6 +41,7 @@ ModelImporter:
     100070: scarf_bone2
     100072: scarf_bone3
     100074: scarf_bone4
+    100076: Dummy_COM
     400000: Bip001
     400002: Bip001 ear_L
     400004: Bip001 ear_L02
@@ -79,6 +80,7 @@ ModelImporter:
     400070: scarf_bone2
     400072: scarf_bone3
     400074: scarf_bone4
+    400076: Dummy_COM
     7400000: Character_Corgi3D_Hit
     9500000: //RootNode
   externalObjects: {}

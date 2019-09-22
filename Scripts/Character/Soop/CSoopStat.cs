@@ -26,6 +26,22 @@ public class CSoopStat : MonoBehaviour
     /// <summary>이동 속도</summary>
     public float MoveSpeed { get { return _moveSpeed; } }
 
+    [SerializeField]
+    private float _rotationSpeed = 0f;
+    /// <summary>회전 속도</summary>
+    public float RotationSpeed { get { return _rotationSpeed; } }
+
+    [SerializeField]
+    private float _putDistance = 0f;
+    /// <summary>코기를 잡기 위한 거리</summary>
+    public float PutDistance { get { return _putDistance; } }
+
+    [Header("Programmer can edit")]
+    [SerializeField]
+    private Transform _putPoint = null;
+    /// <summary>놓는 지점</summary>
+    public Transform PutPoint { get { return _putPoint; } }
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {

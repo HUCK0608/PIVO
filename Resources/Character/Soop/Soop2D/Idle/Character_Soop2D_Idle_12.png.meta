@@ -86,11 +86,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-<<<<<<< HEAD:Resources/Character/Soop/Soop2D/Idle/12.png.meta
-    spriteID: 8d1c241d40b42154d971db9eb1df4826
-=======
-    spriteID: 762dbcc883bbf46438a57d4baee56789
->>>>>>> Programmer:Resources/Character/Soop/Soop2D/Idle/Character_Soop2D_Idle_12.png.meta
+    spriteID: 570de827118cb444bbd921b02da09acd
     vertices: []
     indices: 
     edges: []
