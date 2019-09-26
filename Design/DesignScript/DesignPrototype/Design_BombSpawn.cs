@@ -2,23 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Design_BombSpawn : MonoBehaviour
+public class Design_BombSpawn : Design_WorldController
 {
     public GameObject Bomb;
 
     GameObject CurBomb;
-    void Start()
+
+    public override void BeginPlay()
     {
+        base.BeginPlay();
         SpawnBomb();
     }
 
     public void SpawnBomb()
     {
+        if (bShow)
+        {
+            CurBomb = Instantiate(Bomb, transform);
+            CurBomb.transform.parent = null;
+            CurBomb.transform.GetComponent<Design_BombController>().ParentBombSpawn = this;
+            StartCoroutine("RiseBomb");
+        }
+        else
+            StartCoroutine("WaitShow");
 
-        CurBomb = Instantiate(Bomb, transform);
-        CurBomb.transform.Find("Root3D").GetComponent<Design_Bomb>().ParentBombSpawn = this;
-        StartCoroutine("RiseBomb");
+    }
 
+    IEnumerator WaitShow()
+    {
+        yield return new WaitUntil(() => bShow);
+        SpawnBomb();
     }
 
     IEnumerator RiseBomb()

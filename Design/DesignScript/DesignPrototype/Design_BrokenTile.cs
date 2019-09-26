@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Design_BrokenTile : MonoBehaviour
+public class Design_BrokenTile : Design_WorldController
 {
 }
