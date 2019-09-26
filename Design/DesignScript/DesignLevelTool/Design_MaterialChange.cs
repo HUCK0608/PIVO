@@ -18,6 +18,7 @@ public class Design_MaterialChange : MonoBehaviour
     public bool RotZ;
     public ThemeType Theme;
     public bool UseSideRandom;
+    public bool Use2DTexture;
 
     private bool ChangeRot;
     
@@ -83,7 +84,8 @@ public class Design_MaterialChange : MonoBehaviour
         }
     }
 
-    void SideRandom()
+    //빌드할때 문제있어서 주석침
+    void SideRandom() 
     {
         //if (UseSideRandom)
         //{
@@ -135,6 +137,16 @@ public class Design_MaterialChange : MonoBehaviour
         if (RotZ)
         {
             transform.Find("Root3D").transform.Rotate(new Vector3(0, 0, 180));
+        }
+    }
+    
+    //타일도 투디텍스쳐 쓰고싶은데 잠김...
+    void IsUse2DTexture()
+    {
+
+        if (Use2DTexture)
+        {
+            //transform.Find("Root3D").gameObject.GetComponent<CSingleObject2D3D>().IsUse2DTexture = true;
         }
     }
 
