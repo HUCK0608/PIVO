@@ -20,12 +20,12 @@ public class Design_BombSpawn : Design_WorldController
         {
             CurBomb = Instantiate(Bomb, transform);
             CurBomb.transform.parent = null;
-            CurBomb.transform.GetComponent<Design_BombController>().ParentBombSpawn = this;
+            CurBomb.GetComponent<Design_BombController>().ParentBombSpawn = this;
+            CurBomb.GetComponent<Design_BombController>().bUseBomb = false;
             StartCoroutine("RiseBomb");
         }
         else
             StartCoroutine("WaitShow");
-
     }
 
     IEnumerator WaitShow()
@@ -45,5 +45,6 @@ public class Design_BombSpawn : Design_WorldController
             yield return new WaitForSeconds(Time.deltaTime);
         }
 
+        CurBomb.GetComponent<Design_BombController>().bUseBomb = true;
     }
 }

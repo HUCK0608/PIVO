@@ -34,7 +34,7 @@ public class Design_Bomb3D : MonoBehaviour
         else
             AttachForDistance();
 
-        Explosion();
+        //Explosion();
     }
 
 

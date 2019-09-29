@@ -13,10 +13,13 @@ public class Design_BombController : Design_WorldController
 
     Design_Bomb3D Actor3DClass;
     Design_Bomb2D Actor2DClass;
-    
+
+    EWorldState CurrentState;
+    float ExplosionDistance;
+    [HideInInspector]
+    public bool bUseBomb = false;
 
 
-    bool bAttachCorgi;
 
     public override void BeginPlay()
     {
@@ -34,12 +37,15 @@ public class Design_BombController : Design_WorldController
         InteractionKey = KeyCode.X;
         ExplosionKey = KeyCode.C;
 
+        CurrentState = WorldManager.CurrentWorldState;
+        ExplosionDistance = 15f;
     }
 
     public override void ChangeWorld(EWorldState CurState)
     {
         base.ChangeWorld(CurState);
 
+        CurrentState = CurState;
         if (CurState == EWorldState.View2D)
         {
             Actor2DClass.enabled = true;
@@ -51,6 +57,82 @@ public class Design_BombController : Design_WorldController
             Actor2DClass.enabled = false;
         }
     }
+
+
+
+
+
+
+
+    public override void OnTick()
+    {
+        base.OnTick();
+
+        Explosion();
+    }
+
+
+
+
+
+
+
+
+    void Explosion()
+    {
+        bool bCondition = false;
+        if (CurrentState == EWorldState.View2D)
+        {
+            Vector3 Corgi3DPos = CPlayerManager.Instance.RootObject3D.transform.position;
+            if (Vector3.Distance(Corgi3DPos, this.transform.position) < ExplosionDistance)
+                bCondition = true;
+        }
+        else if(CurrentState == EWorldState.View3D)
+        {
+            Vector3 Corgi2DPos = CPlayerManager.Instance.RootObject2D.transform.position;
+            if (Vector2.Distance(Corgi2DPos, this.transform.position) < ExplosionDistance)
+                bCondition = true;
+        }
+
+        if (Input.GetKeyDown(ExplosionKey) && bCondition && bUseBomb)
+        {
+            this.transform.parent = null;
+            StartCoroutine("ExplosionCoroutine");
+        }
+    }
+
+    IEnumerator ExplosionCoroutine()
+    {
+        Vector3 AddPosition = new Vector3(0, 0, -0.5f);
+        GameObject BoomInstance = Instantiate(BoomEffect, transform.position + AddPosition, transform.rotation);
+        Actor3D.GetComponent<MeshRenderer>().enabled = false;
+        bUseBomb = false;
+
+        if (CurrentState == EWorldState.View3D)
+        {
+            Actor3D.GetComponent<BoxCollider>().isTrigger = true;
+
+            float BoomSize3D = 8;
+            Actor3D.GetComponent<BoxCollider>().size = new Vector3(BoomSize3D, BoomSize3D, BoomSize3D);
+            Actor3D.GetComponent<BoxCollider>().center = Actor3D.GetComponent<BoxCollider>().center + new Vector3(0, BoomSize3D / 2, 0);
+        }
+
+        else if (CurrentState == EWorldState.View2D)
+        {
+            Actor2D.GetComponent<BoxCollider2D>().isTrigger = true;
+
+            float BoomSize2D = 8;
+            Actor2D.GetComponent<BoxCollider2D>().size = new Vector3(BoomSize2D, BoomSize2D, BoomSize2D);
+            Actor2D.GetComponent<BoxCollider2D>().offset = Actor2D.GetComponent<BoxCollider2D>().offset + new Vector2(0, BoomSize2D / 2);
+        }
+
+        yield return new WaitForSeconds(2);
+
+        this.ParentBombSpawn.SpawnBomb();
+        Destroy(BoomInstance);
+        Destroy(this.gameObject);
+    }
+
 
 
     /*

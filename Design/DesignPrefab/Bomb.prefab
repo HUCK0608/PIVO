@@ -59,11 +59,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da06a7936ce0dc845b31c10722571f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WorldManager: {fileID: 0}
   Actor3D: {fileID: 0}
   Actor2D: {fileID: 0}
+  bState3D: 0
+  bState2D: 0
+  OutViewRect: 0
+  bChanging: 0
+  bShow: 0
   BoomEffect: {fileID: 1385546039964652, guid: 1ce52d341bc84644e8bd416381b5ed81, type: 3}
-  Corgi: {fileID: 0}
-  Bomb: {fileID: 0}
+  InteractionKey: 0
+  ExplosionKey: 0
+  ParentBombSpawn: {fileID: 0}
+  bUseBomb: 0
 --- !u!1 &2217642562183859300
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,6 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dec728b733225644bbb60c3bb84663f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Controller: {fileID: 0}
 --- !u!1 &6617460864644098098
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,8 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 671635633e652c34ea6dd2f36feedcb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ParentBombSpawn: {fileID: 0}
-  BoomEffect: {fileID: 1385546039964652, guid: 1ce52d341bc84644e8bd416381b5ed81, type: 3}
+  Controller: {fileID: 0}
 --- !u!65 &623664969269233143
 BoxCollider:
   m_ObjectHideFlags: 0

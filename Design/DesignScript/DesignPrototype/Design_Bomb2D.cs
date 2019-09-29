@@ -33,7 +33,7 @@ public class Design_Bomb2D : MonoBehaviour
         else
             AttachForDistance();
 
-        Explosion();
+        //Explosion();
 
     }
 

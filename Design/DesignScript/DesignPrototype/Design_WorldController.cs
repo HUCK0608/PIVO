@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Design_WorldController : MonoBehaviour
 {
-    private CWorldManager WorldManager;
+    [HideInInspector]
+    public CWorldManager WorldManager;
     [HideInInspector]
     public GameObject Actor3D, Actor2D;
 
@@ -14,6 +15,7 @@ public class Design_WorldController : MonoBehaviour
     public bool bState3D, bState2D, OutViewRect, bChanging, bShow;
 
     public virtual void BeginPlay() { }
+    public virtual void OnTick() { }
     public virtual void ChangeWorld(EWorldState CurState) { }
 
     void Start()
@@ -54,6 +56,8 @@ public class Design_WorldController : MonoBehaviour
             else
                 bChanging = false;
         }
+
+        OnTick();
     }
 
     void SetWorldState(EWorldState CurState)
