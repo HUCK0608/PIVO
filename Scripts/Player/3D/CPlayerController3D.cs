@@ -136,8 +136,12 @@ public class CPlayerController3D : MonoBehaviour
                 isGrounded = true;
 
                 // 최근 위치 저장
-                if (hit.transform.parent.parent.name.Equals(CString.TileOut))
-                    CPlayerManager.Instance.LastGroundPosition = hit.transform.position + Vector3.up;
+                //Null체크 추가합니다. 폭탄/폭탄 스폰하는거 프로토타입 추가했는데 발로 밟으면 여기서 Null뜨면서 오류가 뜸
+                if (hit.transform.parent.parent)
+                {
+                    if (hit.transform.parent.parent.name.Equals(CString.TileOut))
+                        CPlayerManager.Instance.LastGroundPosition = hit.transform.position + Vector3.up;
+                }
 
                 break;
             }

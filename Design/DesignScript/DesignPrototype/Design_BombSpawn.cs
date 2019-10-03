@@ -16,12 +16,24 @@ public class Design_BombSpawn : Design_WorldController
 
     public void SpawnBomb()
     {
-        if (bShow)
+        if (bShow && WorldManager.CurrentWorldState != EWorldState.Changing)
         {
             CurBomb = Instantiate(Bomb, transform);
             CurBomb.transform.parent = null;
             CurBomb.GetComponent<Design_BombController>().ParentBombSpawn = this;
             CurBomb.GetComponent<Design_BombController>().bUseBomb = false;
+
+            if (bState3D)
+            {
+                CurBomb.GetComponent<Design_BombController>().SetWorldStateCustom(EWorldState.View3D);
+                CurBomb.GetComponent<Design_BombController>().CurrentState = EWorldState.View3D;
+            }
+            else
+            {
+                CurBomb.GetComponent<Design_BombController>().SetWorldStateCustom(EWorldState.View2D);
+                CurBomb.GetComponent<Design_BombController>().CurrentState = EWorldState.View2D;
+            }
+
             StartCoroutine("RiseBomb");
         }
         else

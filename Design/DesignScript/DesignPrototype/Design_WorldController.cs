@@ -20,28 +20,9 @@ public class Design_WorldController : MonoBehaviour
 
     void Start()
     {
-        WorldManager = CWorldManager.Instance.GetComponent<CWorldManager>();
-        Actor3D = transform.Find("Root3D").gameObject;
-        Actor2D = transform.Find("Root2D").gameObject;
-
-        bState3D = true;
-        bState2D = false;
-        bShow = true;
-
+        Initialize();
         BeginPlay();
 
-        if (WorldManager.CurrentWorldState == EWorldState.View2D)
-        {
-            //2D 상태로 시작
-            OutViewRect = false;
-            SetWorldState(EWorldState.View3D);
-        }
-        else
-        {
-            //3D 상태로 시작
-            OutViewRect = true;
-            SetWorldState(EWorldState.View2D);
-        }
     }
 
     void Update()
@@ -58,6 +39,51 @@ public class Design_WorldController : MonoBehaviour
         }
 
         OnTick();
+    }
+
+
+
+
+
+
+
+
+    void Initialize()
+    {
+        WorldManager = CWorldManager.Instance.GetComponent<CWorldManager>();
+        Actor3D = transform.Find("Root3D").gameObject;
+        Actor2D = transform.Find("Root2D").gameObject;
+
+        bState3D = true;
+        bState2D = true;
+        bShow = true;
+        OutViewRect = true;
+        bChanging = false;
+    }
+
+    public void SetWorldStateCustom(EWorldState CurState)
+    {
+        Initialize();
+        BeginPlay();
+
+        if (CurState == EWorldState.View3D)
+        {
+            bState3D = true;
+            bState2D = true;
+            bShow = true;
+            OutViewRect = false;
+            bChanging = false;
+            BeforeState = EWorldState.View3D;
+        }
+        else if (CurState == EWorldState.View2D)
+        {
+            bState3D = true;
+            bState2D = true;
+            bShow = true;
+            OutViewRect = false;
+            bChanging = false;
+            BeforeState = EWorldState.View2D;
+        }
     }
 
     void SetWorldState(EWorldState CurState)
@@ -99,7 +125,6 @@ public class Design_WorldController : MonoBehaviour
                 bState2D = false;
                 OutViewRect = true;
                 bShow = true;
-
             }
         }
 
