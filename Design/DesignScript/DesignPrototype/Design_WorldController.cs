@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class Design_WorldController : MonoBehaviour
 {
-    private CWorldManager WorldManager;
-    private GameObject Actor3D, Actor2D;
+    [HideInInspector]
+    public CWorldManager WorldManager;
+    [HideInInspector]
+    public GameObject Actor3D, Actor2D;
 
     private EWorldState BeforeState = EWorldState.View3D;
 
-    private bool bState3D, bState2D, OutViewRect, IsChanging;
+    [HideInInspector]
+    public bool bState3D, bState2D, OutViewRect, bChanging, bShow;
+
+    public virtual void BeginPlay() { }
+    public virtual void OnTick() { }
+    public virtual void ChangeWorld(EWorldState CurState) { }
 
     void Start()
     {
-        WorldManager = GameObject.Find("World").GetComponent<CWorldManager>();
-        Actor3D = transform.Find("Root3D").gameObject;
-        Actor2D = transform.Find("Root2D").gameObject;
-
-        bState3D = true;
-        bState2D = false;
-        OutViewRect = true;
+        Initialize();
+        BeginPlay();
 
     }
 
@@ -29,41 +31,103 @@ public class Design_WorldController : MonoBehaviour
         {
             if (WorldManager.CurrentWorldState == EWorldState.Changing)
             {
-                if (BeforeState == EWorldState.View3D && !IsChanging)
-                {
-                    if (bState3D)//2D로 바꾸기
-                    {
-                        if (Actor2D.GetComponent<SpriteRenderer>())
-                            SetAllActorActive(true, false);
-
-                        BeforeState = EWorldState.View2D;
-                        bState2D = true;
-                        bState3D = false;
-
-                        if (OutViewRect)
-                            SetAllActorActive(false, false);
-                        else
-                            Actor2D.SetActive(true);
-                    }
-                }
-                else if (BeforeState == EWorldState.View2D && !IsChanging)
-                {
-                    if (bState2D)//3D로 바꾸기
-                    {
-                        BeforeState = EWorldState.View3D;
-                        Actor3D.SetActive(true);
-                        Actor2D.SetActive(false);
-                        bState3D = true;
-                        bState2D = false;
-                        OutViewRect = true;
-                    }
-                }
-
-                IsChanging = true;
+                SetWorldState(BeforeState);
+                bChanging = true;
             }
             else
-                IsChanging = false;
+                bChanging = false;
         }
+
+        OnTick();
+    }
+
+
+
+
+
+
+
+
+    void Initialize()
+    {
+        WorldManager = CWorldManager.Instance.GetComponent<CWorldManager>();
+        Actor3D = transform.Find("Root3D").gameObject;
+        Actor2D = transform.Find("Root2D").gameObject;
+
+        bState3D = true;
+        bState2D = true;
+        bShow = true;
+        OutViewRect = true;
+        bChanging = false;
+    }
+
+    public void SetWorldStateCustom(EWorldState CurState)
+    {
+        Initialize();
+        BeginPlay();
+
+        if (CurState == EWorldState.View3D)
+        {
+            bState3D = true;
+            bState2D = true;
+            bShow = true;
+            OutViewRect = false;
+            bChanging = false;
+            BeforeState = EWorldState.View3D;
+        }
+        else if (CurState == EWorldState.View2D)
+        {
+            bState3D = true;
+            bState2D = true;
+            bShow = true;
+            OutViewRect = false;
+            bChanging = false;
+            BeforeState = EWorldState.View2D;
+        }
+    }
+
+    void SetWorldState(EWorldState CurState)
+    {
+        if (CurState == EWorldState.View3D && !bChanging)
+        {
+            if (bState3D)//2D로 바꾸기
+            {
+                ChangeWorld(EWorldState.View2D);
+                if (Actor2D.GetComponent<SpriteRenderer>())
+                    SetAllActorActive(true, false);
+
+                BeforeState = EWorldState.View2D;
+                bState2D = true;
+                bState3D = false;
+
+                if (OutViewRect)
+                {
+                    bShow = false;
+                    SetAllActorActive(false, false);
+                }
+                else
+                {
+                    bShow = true;
+                    Actor2D.SetActive(true);
+                }
+
+            }
+        }
+        else if (CurState == EWorldState.View2D && !bChanging)
+        {
+            if (bState2D)//3D로 바꾸기
+            {
+                ChangeWorld(EWorldState.View3D);
+                BeforeState = EWorldState.View3D;
+                Actor3D.SetActive(true);
+                Actor2D.SetActive(false);
+                bState3D = true;
+                bState2D = false;
+                OutViewRect = true;
+                bShow = true;
+            }
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -82,10 +146,10 @@ public class Design_WorldController : MonoBehaviour
         }
     }
 
-    void SetAllActorActive(bool A, bool B)
+    void SetAllActorActive(bool Show3D, bool Show2D)
     {
-        Actor3D.SetActive(A);
-        Actor2D.SetActive(B);
+        Actor3D.SetActive(Show3D);
+        Actor2D.SetActive(Show2D);
     }
 
 }
