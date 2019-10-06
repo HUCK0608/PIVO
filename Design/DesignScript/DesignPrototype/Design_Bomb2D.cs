@@ -60,6 +60,7 @@ public class Design_Bomb2D : MonoBehaviour
         {
             if (Input.GetKeyDown(Controller.InteractionKey))
             {
+                transform.parent.parent = null;
                 AttachCorgi();
             }
         }

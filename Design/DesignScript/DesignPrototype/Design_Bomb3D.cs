@@ -71,6 +71,7 @@ public class Design_Bomb3D : MonoBehaviour
         {
             if (Input.GetKeyDown(Controller.InteractionKey))
             {
+                transform.parent.parent = null;
                 Vector3 CompareForward = GetCorgiForward() - GetBomb2PlayerForward();
                 float CompareAngle = Mathf.Abs(CompareForward.x + CompareForward.z);
 
@@ -126,6 +127,15 @@ public class Design_Bomb3D : MonoBehaviour
                 Bomb.transform.position = Corgi.transform.position + GetCorgiForward() + DownValue;
                 Bomb.transform.parent = null;
                 StartCoroutine("UseGravity");
+            }
+
+            if (!bAttachCorgi)
+            {
+                RaycastHit hit2;
+                if (Physics.Raycast(transform.position, Vector3.down, out hit2, BoxCastDistance))
+                {
+                    transform.parent.parent = hit2.transform;
+                }
             }
 
         }
