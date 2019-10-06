@@ -4,24 +4,27 @@ using UnityEngine;
 
 public class Design_IntroTimeLineCircleMovement : MonoBehaviour
 {
-    public float RotateSpeed;
-    public float Radius;
+    float TimeCounter = 0;
+    public float Speed;
+    public float Width;
+    public float Height;
 
-    private Vector2 _centre;
-    private float _angle;
-
-    private void Start()
+    void Start()
     {
-        _centre = transform.position;
+        
     }
 
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
+        TimeCounter += Time.deltaTime;
 
-        _angle += RotateSpeed * Time.deltaTime;
+        float x = Mathf.Cos(TimeCounter) * Width;
+        float y = Mathf.Sin(TimeCounter) * Height;
+        float z = 0;
 
-        var offset = new Vector2(Mathf.Sin(_angle), Mathf.Cos(_angle)) * Radius;
-        transform.position = _centre + offset;
+        transform.position = new Vector3(x, y, z);
+
+        
     }
-
 }
