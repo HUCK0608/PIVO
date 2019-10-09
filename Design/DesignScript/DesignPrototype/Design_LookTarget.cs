@@ -5,10 +5,6 @@ using UnityEngine;
 public class Design_LookTarget : MonoBehaviour
 {
     public GameObject TargetObject;
-    void Start()
-    {
-        
-    }
 
     void Update()
     {

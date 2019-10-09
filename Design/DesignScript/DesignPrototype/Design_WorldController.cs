@@ -93,8 +93,6 @@ public class Design_WorldController : MonoBehaviour
             if (bState3D)//2D로 바꾸기
             {
                 ChangeWorld(EWorldState.View2D);
-                if (Actor2D.GetComponent<SpriteRenderer>())
-                    SetAllActorActive(true, false);
 
                 BeforeState = EWorldState.View2D;
                 bState2D = true;
@@ -108,7 +106,10 @@ public class Design_WorldController : MonoBehaviour
                 else
                 {
                     bShow = true;
-                    Actor2D.SetActive(true);
+                    if (Actor2D.GetComponent<SpriteRenderer>())
+                        SetAllActorActive(false, true);
+                    else
+                        SetAllActorActive(true, true);
                 }
 
             }
