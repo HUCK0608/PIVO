@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Design_CubeBroController : Design_WorldController
 {
-    public Material[] CubeBroTexture;
     public float DistanceMinimal;
 
     GameObject TextObject;
@@ -63,7 +62,12 @@ public class Design_CubeBroController : Design_WorldController
         {
             GameObject Corgi2D = CPlayerManager.Instance.RootObject2D;
             if (Vector2.Distance(transform.position, Corgi2D.transform.position) < DistanceMinimal)
-                TextObject.SetActive(true);
+            {
+                if (bShow)
+                    TextObject.SetActive(true);
+                else
+                    TextObject.SetActive(false);
+            }
             else
                 TextObject.SetActive(false);
         }

@@ -78,14 +78,16 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5204406080260955601}
-  m_Text: "\uC774\uC871\uBCF4\uD589\n\uCF54\uAE30!"
+  m_Text: 'Looking For
+
+    Owner?'
   m_OffsetZ: 0
-  m_CharacterSize: 1
+  m_CharacterSize: 0.2
   m_LineSpacing: 1
   m_Anchor: 4
   m_Alignment: 0
   m_TabSize: 4
-  m_FontSize: 11
+  m_FontSize: 37
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 6828e8706bbf4344586fe201031c2caa, type: 3}
@@ -162,6 +164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5204406081078480974}
+  - component: {fileID: 4179199994319930566}
   m_Layer: 0
   m_Name: Root2D
   m_TagString: Untagged
@@ -183,6 +186,54 @@ Transform:
   m_Father: {fileID: 5204406082247158123}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &4179199994319930566
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5204406081078480973}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: aeb68492f07314d4a9dd56b63c1227c5, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 2, y: 2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &5204406081140548783
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,6 +506,7 @@ GameObject:
   - component: {fileID: 5204406082247158123}
   - component: {fileID: 5204406082247158124}
   - component: {fileID: 5204406082247158125}
+  - component: {fileID: 3585202910137981021}
   m_Layer: 0
   m_Name: CubeBro
   m_TagString: Untagged
@@ -499,7 +551,6 @@ MonoBehaviour:
   OutViewRect: 0
   bChanging: 0
   bShow: 0
-  CubeBroTexture: []
   DistanceMinimal: 10
 --- !u!65 &5204406082247158125
 BoxCollider:
@@ -514,6 +565,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &3585202910137981021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5204406082247158122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cc9171296ac4744da3ecbc60d73a8a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Blue: {fileID: 2100000, guid: 621672a21a3d5354789655dbdd092f29, type: 2}
+  Red: {fileID: 2100000, guid: 96af8e329a46abb49bb451c97852ee1a, type: 2}
+  Purple: {fileID: 2100000, guid: 80240c3c9b8a21b489a99700e964e80b, type: 2}
+  CubeColor: 0
 --- !u!1 &5204406082331401573
 GameObject:
   m_ObjectHideFlags: 0
