@@ -15,6 +15,7 @@ public class Design_BombController : Design_WorldController
     Design_Bomb2D Actor2DClass;
     
     float ExplosionDistance;
+    float BoxSize;
 
     [HideInInspector]
     public EWorldState CurrentState;
@@ -40,6 +41,7 @@ public class Design_BombController : Design_WorldController
         ExplosionKey = KeyCode.C;
 
         ExplosionDistance = 12.5f;
+        BoxSize = 8f;
     }
 
     public override void ChangeWorld(EWorldState CurState)
@@ -116,18 +118,16 @@ public class Design_BombController : Design_WorldController
         {
             Actor3D.GetComponent<BoxCollider>().isTrigger = true;
 
-            float BoomSize3D = 8;
-            Actor3D.GetComponent<BoxCollider>().size = new Vector3(BoomSize3D, BoomSize3D + 2f, BoomSize3D);
-            Actor3D.GetComponent<BoxCollider>().center = Actor3D.GetComponent<BoxCollider>().center + new Vector3(0, BoomSize3D / 2, 0);
+            Actor3D.GetComponent<BoxCollider>().size = new Vector3(BoxSize, BoxSize - 1f, BoxSize);
+            Actor3D.GetComponent<BoxCollider>().center = Actor3D.GetComponent<BoxCollider>().center + new Vector3(0, BoxSize / 2 - 4f, 0);
         }
 
         else if (CurrentState == EWorldState.View2D)
         {
             Actor2D.GetComponent<BoxCollider2D>().isTrigger = true;
 
-            float BoomSize2D = 8;
-            Actor2D.GetComponent<BoxCollider2D>().size = new Vector3(BoomSize2D, BoomSize2D + 2f, BoomSize2D);
-            Actor2D.GetComponent<BoxCollider2D>().offset = Actor2D.GetComponent<BoxCollider2D>().offset + new Vector2(0, BoomSize2D / 2);
+            Actor2D.GetComponent<BoxCollider2D>().size = new Vector3(BoxSize, BoxSize - 1f, BoxSize);
+            Actor2D.GetComponent<BoxCollider2D>().offset = Actor2D.GetComponent<BoxCollider2D>().offset + new Vector2(0, BoxSize / 2 - 4f);
         }
 
         yield return new WaitForSeconds(2);

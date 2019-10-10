@@ -19,7 +19,6 @@ public class Design_BombSpawn : Design_WorldController
         if (bShow && WorldManager.CurrentWorldState != EWorldState.Changing)
         {
             CurBomb = Instantiate(Bomb, transform);
-            CurBomb.transform.parent = null;
             CurBomb.GetComponent<Design_BombController>().ParentBombSpawn = this;
             CurBomb.GetComponent<Design_BombController>().bUseBomb = false;
 
