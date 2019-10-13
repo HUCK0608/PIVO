@@ -6,12 +6,12 @@ public class CSoopState3D_Idle : CSoopState3D
     {
         base.InitState();
 
-        Controller.LookDirection(Controller.Manager.Stat.IsSoopDirectionRight ? Vector3.right : Vector3.left);
+        Controller3D.LookDirection(Controller3D.Manager.Stat.IsSoopDirectionRight ? Vector3.right : Vector3.left);
     }
 
     private void Update()
     {
-        if (Controller.IsDetectionPlayer())
-            Controller.ChangeState(ESoopState.Chase);
+        if (Controller3D.IsDetectionPlayer())
+            Controller3D.ChangeState(ESoopState.Surprise);
     }
 }

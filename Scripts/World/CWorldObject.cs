@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+#if UNITY_EDITOR
+[System.Serializable]
+#endif
 public abstract class CWorldObject : MonoBehaviour
 {
     private GameObject _rootObject = null;
@@ -17,7 +20,7 @@ public abstract class CWorldObject : MonoBehaviour
     [SerializeField]
     private bool _isUse2DTexture = false;
     /// <summary>2D 텍스처 사용 여부</summary>
-    public bool IsUse2DTexture { get { return _isUse2DTexture; } }
+    public bool IsUse2DTexture { get { return _isUse2DTexture; } set { _isUse2DTexture = value; } }
 
     private static Material _blockMateiral = null;
     /// <summary>블락 머테리얼</summary>

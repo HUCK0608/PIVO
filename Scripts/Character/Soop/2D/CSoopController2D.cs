@@ -15,8 +15,10 @@ public class CSoopController2D : MonoBehaviour
     /// <summary>현재 숲숲이 상태</summary>
     public ESoopState CurrentState { get { return _currentState; } }
 
-    /// <summary>애니메이터</summary>
     private Animator _animator = null;
+    /// <summary>애니메이터</summary>
+    public Animator Animator { get { return _animator; } }
+
     /// <summary>애니메이터 파라미터 이름</summary>
     private string _animParameterPath = "CurrentState";
 

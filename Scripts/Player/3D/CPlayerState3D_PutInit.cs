@@ -15,7 +15,7 @@ public class CPlayerState3D_PutInit : CPlayerState3D
     {
         AnimatorStateInfo currentAnimatorStateInfo = Controller3D.Animator.GetCurrentAnimatorStateInfo(0);
 
-        if (currentAnimatorStateInfo.IsName("PutInit") && currentAnimatorStateInfo.normalizedTime >= 1.0f)
+        if (currentAnimatorStateInfo.IsName("PutInit") && currentAnimatorStateInfo.normalizedTime >= 1f)
             Controller3D.ChangeState(EPlayerState3D.PutIdle);
     }
 }

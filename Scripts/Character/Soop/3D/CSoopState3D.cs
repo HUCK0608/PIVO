@@ -2,7 +2,7 @@
 {
     private CSoopController3D _controller = null;
     /// <summary>숲숲이 3D 컨트롤러</summary>
-    public CSoopController3D Controller { get { return _controller; } }
+    public CSoopController3D Controller3D { get { return _controller; } }
 
     protected virtual void Awake()
     {

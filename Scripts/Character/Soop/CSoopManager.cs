@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ESoopState { Idle = 0, Chase, Return, PutInit, PutIdle, PutEnd }
+public enum ESoopState { Idle = 0, Surprise, Chase, Return, PutInit, PutMove, PutEnd }
 
 public class CSoopManager : MonoBehaviour
 {
