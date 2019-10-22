@@ -78,6 +78,7 @@ public class CSoopController2D : MonoBehaviour
     /// <summary>해당 위치로 이동</summary>
     public void MoveToPoint(Vector3 point)
     {
+        // 이동
         point.y = transform.position.y;
         point.z = transform.position.z;
 

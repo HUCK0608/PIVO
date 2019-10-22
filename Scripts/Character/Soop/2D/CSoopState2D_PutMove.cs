@@ -6,7 +6,7 @@ public class CSoopState2D_PutMove : CSoopState2D
     {
         base.InitState();
 
-        CPlayerManager.Instance.transform.parent = transform;
+        CPlayerManager.Instance.RootObject2D.transform.parent = transform;
     }
 
     private void Update()
@@ -21,6 +21,6 @@ public class CSoopState2D_PutMove : CSoopState2D
     {
         base.EndState();
 
-        CPlayerManager.Instance.transform.parent = null;
+        CPlayerManager.Instance.RootObject2D.transform.parent = CPlayerManager.Instance.transform;
     }
 }
