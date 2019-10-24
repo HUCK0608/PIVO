@@ -7,6 +7,11 @@ public class CSoopState3D_PutInit : CSoopState3D
         base.InitState();
 
         CPlayerManager.Instance.Controller3D.ChangeState(EPlayerState3D.PutInit);
-        Controller.ChangeState(ESoopState.PutIdle);
+    }
+
+    private void Update()
+    {
+        if (CPlayerManager.Instance.Stat.IsPut)
+            Controller3D.ChangeState(ESoopState.PutMove);
     }
 }

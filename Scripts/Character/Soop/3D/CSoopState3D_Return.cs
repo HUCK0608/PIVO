@@ -4,13 +4,13 @@ public class CSoopState3D_Return : CSoopState3D
 {
     private void Update()
     {
-        Vector3 startPoint = Controller.Manager.transform.position;
+        Vector3 startPoint = Controller3D.Manager.transform.position;
 
-        Controller.MoveToPoint(startPoint);
+        Controller3D.MoveToPoint(startPoint);
 
-        if (Controller.IsDetectionPlayer())
-            Controller.ChangeState(ESoopState.Chase);
+        if (Controller3D.IsDetectionPlayer())
+            Controller3D.ChangeState(ESoopState.Surprise);
         else if (transform.position.Equals(startPoint))
-            Controller.ChangeState(ESoopState.Idle);
+            Controller3D.ChangeState(ESoopState.Idle);
     }
 }

@@ -55,4 +55,8 @@ public class CPlayerStat : MonoBehaviour
     private float _climb1Percent = 0f;
     /// <summary>기어오르기1 확률</summary>
     public float Climb1Percent { get { return _climb1Percent; } }
+
+    private bool _isPut = false;
+    /// <summary>코기가 잡혀있는지 여부</summary>
+    public bool IsPut { get { return _isPut; } set { _isPut = value; } }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CSoopState3D_PutEnd : CSoopState3D
 {
@@ -9,6 +7,13 @@ public class CSoopState3D_PutEnd : CSoopState3D
         base.InitState();
 
         CPlayerManager.Instance.Controller3D.ChangeState(EPlayerState3D.PutEnd);
-        Controller.ChangeState(ESoopState.Return);
+    }
+
+    private void Update()
+    {
+        AnimatorStateInfo currentAnimatorStateInfo = Controller3D.Animator.GetCurrentAnimatorStateInfo(0);
+
+        if (currentAnimatorStateInfo.IsName("PutEnd") && currentAnimatorStateInfo.normalizedTime >= 1f)
+            Controller3D.ChangeState(ESoopState.Return);
     }
 }

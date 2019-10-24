@@ -15,7 +15,7 @@ public class CPlayerState3D_PutEnd : CPlayerState3D
     {
         AnimatorStateInfo currentAnimatorStateInfo = Controller3D.Animator.GetCurrentAnimatorStateInfo(0);
 
-        if (currentAnimatorStateInfo.IsName("PutEnd") && currentAnimatorStateInfo.normalizedTime >= 1.0f)
+        if (currentAnimatorStateInfo.IsName("PutEnd") && currentAnimatorStateInfo.normalizedTime >= 1f)
             Controller3D.ChangeState(EPlayerState3D.Idle);
     }
 }

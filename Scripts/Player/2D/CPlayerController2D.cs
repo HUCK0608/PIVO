@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EPlayerState2D { Idle = 0, Move, Falling, Climb, Dead, DownIdle, DownMove }
+public enum EPlayerState2D { Idle = 0, Move, Falling, Climb, Dead, DownIdle, DownMove, PutInit, PutIdle, PutEnd }
 
 public class CPlayerController2D : MonoBehaviour
 {

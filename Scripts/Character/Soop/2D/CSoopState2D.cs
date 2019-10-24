@@ -4,7 +4,7 @@ public class CSoopState2D : CSoopState
 {
     private CSoopController2D _controller = null;
     /// <summary>숲숲이 2D 컨트롤러</summary>
-    public CSoopController2D Controller { get { return _controller; } }
+    public CSoopController2D Controller2D { get { return _controller; } }
 
     protected virtual void Awake()
     {
