@@ -9,12 +9,14 @@ public enum ECubeColor { Blue, Purple, Red }
 [ExecuteInEditMode]
 public class Design_CubeMaterialChange : MonoBehaviour
 {
-    public Material Blue, Red, Purple;
+    public Material MBlue, MRed, MPurple;
+    public Sprite SBlue, SRed, SPurple;
 
     public ECubeColor CubeColor;
     private ECubeColor BeforeColor;
 
     private Material CurMaterial;
+    private Sprite CurSprite;
 
     void Update()
     {
@@ -28,14 +30,25 @@ public class Design_CubeMaterialChange : MonoBehaviour
         if (BeforeColor != CubeColor)
         {
             if (CubeColor == ECubeColor.Blue)
-                CurMaterial = Blue;
+            {
+                CurMaterial = MBlue;
+                CurSprite = SBlue;
+            }
             else if (CubeColor == ECubeColor.Purple)
-                CurMaterial = Purple;
+            {
+                CurMaterial = MPurple;
+                CurSprite = SPurple;
+            }
             else if (CubeColor == ECubeColor.Red)
-                CurMaterial = Red;
+            {
+                CurMaterial = MRed;
+                CurSprite = SRed;
+            }
 
+            transform.Find("Root2D").GetComponent<SpriteRenderer>().sprite = CurSprite;
             transform.Find("Root3D").Find("cube_bro").GetComponent<SkinnedMeshRenderer>().material = CurMaterial;
             BeforeColor = CubeColor;
         }
     }
+
 }

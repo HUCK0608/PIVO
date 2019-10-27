@@ -17,12 +17,12 @@ public class Design_WorldController : MonoBehaviour
     public virtual void BeginPlay() { }
     public virtual void OnTick() { }
     public virtual void ChangeWorld(EWorldState CurState) { }
+    public virtual void BeginChange() { }
 
     void Start()
     {
         Initialize();
         BeginPlay();
-
     }
 
     void Update()
@@ -35,7 +35,9 @@ public class Design_WorldController : MonoBehaviour
                 bChanging = true;
             }
             else
+            {
                 bChanging = false;
+            }
         }
 
         OnTick();
@@ -59,6 +61,8 @@ public class Design_WorldController : MonoBehaviour
         bShow = true;
         OutViewRect = true;
         bChanging = false;
+
+        Actor2D.SetActive(false);
     }
 
     public void SetWorldStateCustom(EWorldState CurState)
@@ -107,7 +111,7 @@ public class Design_WorldController : MonoBehaviour
                 {
                     bShow = true;
                     if (Actor2D.GetComponent<SpriteRenderer>())
-                        SetAllActorActive(false, true);
+                        StartCoroutine(WaitAndChangeObject());
                     else
                         SetAllActorActive(true, true);
                 }
@@ -151,6 +155,12 @@ public class Design_WorldController : MonoBehaviour
     {
         Actor3D.SetActive(Show3D);
         Actor2D.SetActive(Show2D);
+    }
+
+    IEnumerator WaitAndChangeObject()
+    {
+        yield return new WaitForSeconds(0.5f);
+        SetAllActorActive(false, true);
     }
 
 }
