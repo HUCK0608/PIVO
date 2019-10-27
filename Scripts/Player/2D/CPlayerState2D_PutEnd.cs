@@ -14,6 +14,9 @@ public class CPlayerState2D_PutEnd : CPlayerState2D
         AnimatorStateInfo currentAnimatorStateInfo = Controller2D.Animator.GetCurrentAnimatorStateInfo(0);
 
         if (currentAnimatorStateInfo.IsName("PutEnd") && currentAnimatorStateInfo.normalizedTime >= 1f)
+        {
             Controller2D.ChangeState(EPlayerState2D.Idle);
+            CWorldManager.Instance.ChangeWorld();
+        }
     }
 }

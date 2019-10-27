@@ -8,6 +8,9 @@ public class CSoopState3D_Return : CSoopState3D
 
         Controller3D.MoveToPoint(startPoint);
 
+        if (!Controller3D.Animator.GetInteger("CurrentState").Equals(3))
+            Controller3D.ChangeAnimation();
+
         if (Controller3D.IsDetectionPlayer())
             Controller3D.ChangeState(ESoopState.Surprise);
         else if (transform.position.Equals(startPoint))

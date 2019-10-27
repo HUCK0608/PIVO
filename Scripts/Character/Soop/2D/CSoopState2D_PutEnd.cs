@@ -14,6 +14,10 @@ public class CSoopState2D_PutEnd : CSoopState2D
         AnimatorStateInfo currentAnimatorStateInfo = Controller2D.Animator.GetCurrentAnimatorStateInfo(0);
 
         if (currentAnimatorStateInfo.IsName("PutEnd") && currentAnimatorStateInfo.normalizedTime >= 1f)
+        {
+            Manager.Controller3D.ChangeState(ESoopState.Return);
+            Manager.Controller3D.ChangeAnimation();
             Controller2D.ChangeState(ESoopState.Return);
+        }
     }
 }
