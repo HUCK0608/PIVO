@@ -58,13 +58,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6906782733022790876}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3287776515796898434}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!33 &1040769371891957196
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -72,7 +72,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6906782733022790876}
-  m_Mesh: {fileID: 4300002, guid: 49c5a4aa414eb084380118108b5fd612, type: 3}
+  m_Mesh: {fileID: 4300002, guid: 23e3546ee61ba1044b4fdc6ff5aaa5bd, type: 3}
 --- !u!23 &9031239888474411386
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7dce117e5c1a764da47f059f5954cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isUse2DTexture: 0
+  _isUse2DTexture: 1
 --- !u!65 &4701293338136117127
 BoxCollider:
   m_ObjectHideFlags: 0
