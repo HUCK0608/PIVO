@@ -2,23 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MovingType { Once, Repeat }
+//public enum MovingType { Once, Repeat }
+public enum MovingType { Vertical_Z, Horizontal_X }
 
 public class Design_MovingActor : MonoBehaviour
 {
     List<Vector3> MovePosArray = new List<Vector3>();
 
+    float DefaultWait;
     int TargetNum;
-    int MoveDir;
-    bool bWait;
-    bool IsEnabled;
-    bool FirstPlay;
+    bool SwitchOn;
 
     public bool SetEnabled;
     public float MoveSpeed;
-    public float WaitTime;
-    public MovingType CurMoveType;
-
+    public float[] WaitTime;
+    public MovingType[] MoveSet;
 
 
 
@@ -34,7 +32,7 @@ public class Design_MovingActor : MonoBehaviour
 
     void Update()
     {
-        ProcessMoveActor();
+        MoveActor();
     }
 
 
@@ -59,11 +57,9 @@ public class Design_MovingActor : MonoBehaviour
     void InitializeValue()
     {
         TargetNum = 0;
-        MoveDir = 1;
-        bWait = false;
-        IsEnabled = SetEnabled;
+        SwitchOn = false;
         MoveSpeed = MoveSpeed * 0.1f;
-        FirstPlay = false;
+        DefaultWait = 0.2f;
     }
 
 
@@ -75,54 +71,39 @@ public class Design_MovingActor : MonoBehaviour
     //ProcessMoveActor
 
 
-    void ProcessMoveActor()
-    {
-        if (IsEnabled)
-        {
-            MoveActor();
-            SetTargetNum(CurMoveType);
-        }
-    }
-
-    void SetTargetNum(MovingType MoveType)
-    {
-        if (!bWait)
-        {
-            foreach (var v in MovePosArray)
-            {
-                if (v == transform.position)
-                {
-                    if (MoveType == MovingType.Once)
-                        StartCoroutine("OnceNum");
-                    else if (MoveType == MovingType.Repeat)
-                        StartCoroutine("RepeatNum");
-
-                    bWait = true;
-                    break;
-                }
-            }
-        }
-    }
 
     void MoveActor()
     {
-        if (!bWait)
+        if (SwitchOn)
         {
-            transform.position = Vector3.MoveTowards(transform.position, MovePosArray[TargetNum], MoveSpeed);
+            Vector3 FirstTarget = MovePosArray[TargetNum];
+            Vector3 SecondTarget = MovePosArray[TargetNum];            
+
+            if (MoveSet.Length != 0)
+            {
+                if (MoveSet[TargetNum-1] == MovingType.Horizontal_X)
+                    FirstTarget = new Vector3(MovePosArray[TargetNum].x, transform.position.y, transform.position.z);
+                else
+                    FirstTarget = new Vector3(transform.position.x, transform.position.y, MovePosArray[TargetNum].z);
+
+                SecondTarget = new Vector3(MovePosArray[TargetNum].x, transform.position.y, transform.position.z);
+            }
+
+            if (transform.position != FirstTarget)
+                transform.position = Vector3.MoveTowards(transform.position, FirstTarget, MoveSpeed);
+            else if (transform.position != SecondTarget)
+                transform.position = Vector3.MoveTowards(transform.position, SecondTarget, MoveSpeed);
+            else if (transform.position != MovePosArray[TargetNum])
+                transform.position = Vector3.MoveTowards(transform.position, MovePosArray[TargetNum], MoveSpeed);
+            else
+                SwitchOn = false;
+
         }
     }
 
     public void OnMovingActor()
     {
-        if (!IsEnabled)
-        {
-            IsEnabled = true;
-            if (!FirstPlay)
-            {
-                FirstPlay = true;
-                TargetNum++;
-            }
-        }
+        StartCoroutine(OnceNum());
     }
 
 
@@ -130,42 +111,22 @@ public class Design_MovingActor : MonoBehaviour
 
 
 
-
-    //SetNum
-
-    void SetNum()
-    {
-        bWait = false;
-        TargetNum+= MoveDir;
-    }
-
-    void ChangeMoveDir()
-    {
-        if (TargetNum > MovePosArray.Count - 1)
-        {
-            MoveDir = -1;
-            TargetNum -= 2;
-        }
-        else if (TargetNum < 0)
-        {
-            MoveDir = 1;
-            TargetNum += 2;
-        }
-    }
-
-    IEnumerator RepeatNum()
-    {
-        yield return new WaitForSeconds(WaitTime);
-        SetNum();
-        ChangeMoveDir();
-    }
 
     IEnumerator OnceNum()
     {
-        yield return new WaitForSeconds(WaitTime);
-        SetNum();
-        IsEnabled = false;
+        TargetNum++;
 
-        ChangeMoveDir();
+        if (WaitTime.Length != 0)
+        {
+            if (WaitTime[TargetNum-1] < 0)
+                yield return new WaitForSeconds(DefaultWait);
+            else
+                yield return new WaitForSeconds(WaitTime[TargetNum-1]);
+        }
+        else
+            yield return new WaitForSeconds(DefaultWait);
+
+        SwitchOn = true;
+
     }
 }

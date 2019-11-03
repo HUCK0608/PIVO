@@ -40,7 +40,8 @@ public class Design_CubeBroController : Design_WorldController
         if (CurWorldState == EWorldState.View2D)
         {
             TargetValue = -1;
-            SpawnEffect(true);
+            if (bShow)
+                SpawnEffect(true);
         }
         else
         {

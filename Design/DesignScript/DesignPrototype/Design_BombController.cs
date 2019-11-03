@@ -102,8 +102,11 @@ public class Design_BombController : Design_WorldController
 
         if (Input.GetKeyDown(ExplosionKey) && bCondition && bUseBomb)
         {
-            this.transform.parent = null;
-            StartCoroutine("ExplosionCoroutine");
+            if (this.transform.parent.gameObject != CPlayerManager.Instance.RootObject3D && this.transform.parent.gameObject != CPlayerManager.Instance.RootObject2D)
+            {
+                this.transform.parent = null;
+                StartCoroutine(ExplosionCoroutine());
+            }
         }
     }
 
@@ -120,6 +123,10 @@ public class Design_BombController : Design_WorldController
 
             Actor3D.GetComponent<BoxCollider>().size = new Vector3(BoxSize, BoxSize - 1f, BoxSize);
             Actor3D.GetComponent<BoxCollider>().center = Actor3D.GetComponent<BoxCollider>().center + new Vector3(0, BoxSize / 2 - 4f, 0);
+
+            yield return new WaitForSeconds(0.5f);
+
+            Actor3D.GetComponent<BoxCollider>().enabled = false;
         }
 
         else if (CurrentState == EWorldState.View2D)
@@ -128,9 +135,13 @@ public class Design_BombController : Design_WorldController
 
             Actor2D.GetComponent<BoxCollider2D>().size = new Vector3(BoxSize, BoxSize - 1f, BoxSize);
             Actor2D.GetComponent<BoxCollider2D>().offset = Actor2D.GetComponent<BoxCollider2D>().offset + new Vector2(0, BoxSize / 2 - 4f);
+
+            yield return new WaitForSeconds(0.5f);
+
+            Actor2D.GetComponent<BoxCollider2D>().enabled = false;
         }
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.5f);
 
         this.ParentBombSpawn.SpawnBomb();
         Destroy(BoomInstance);

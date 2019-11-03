@@ -96,7 +96,6 @@ public class Design_WorldController : MonoBehaviour
         {
             if (bState3D)//2D로 바꾸기
             {
-                ChangeWorld(EWorldState.View2D);
 
                 BeforeState = EWorldState.View2D;
                 bState2D = true;
@@ -116,6 +115,7 @@ public class Design_WorldController : MonoBehaviour
                         SetAllActorActive(true, true);
                 }
 
+                ChangeWorld(EWorldState.View2D);
             }
         }
         else if (CurState == EWorldState.View2D && !bChanging)
