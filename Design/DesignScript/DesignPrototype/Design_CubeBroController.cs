@@ -8,12 +8,12 @@ public class Design_CubeBroController : Design_WorldController
     public float DistanceMinimal;
 
     GameObject TextObject;
+    GameObject ViewChangeEffect;
 
     EWorldState CurWorldState;
     Vector3 TextOriginPos;
 
     float TargetValue;
-    int AA;
 
 
     public override void BeginPlay()
@@ -21,6 +21,9 @@ public class Design_CubeBroController : Design_WorldController
         base.BeginPlay();
 
         CurWorldState = EWorldState.View3D;
+
+        ViewChangeEffect = transform.Find("ViewChange_Effect").gameObject;
+        ViewChangeEffect.SetActive(false);
 
         TextObject = transform.Find("BillboardTEXT").Find("TextObject").gameObject;
         TextObject.transform.forward = Camera.main.transform.forward;
@@ -130,7 +133,7 @@ public class Design_CubeBroController : Design_WorldController
 
     void SpawnEffect(bool bState)
     {
-        transform.Find("ViewChange_Capsule").gameObject.SetActive(bState);
+        ViewChangeEffect.SetActive(bState);
     }
 
 }

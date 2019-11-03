@@ -84,6 +84,7 @@ public class Design_Bomb3D : MonoBehaviour
     void AttachCorgi()
     {
         bAttachCorgi = true;
+        Bomb.GetComponent<Design_BombController>().DisableBomb();
         Bomb.transform.position = Corgi.transform.position + Vector3.up * 4f;
 
         Bomb.transform.parent = Corgi.transform;
@@ -93,6 +94,8 @@ public class Design_Bomb3D : MonoBehaviour
     {
         if (Input.GetKeyDown(Controller.InteractionKey))
         {
+            Bomb.GetComponent<Design_BombController>().EnableBomb();
+
             float BoxCastSizeF = 0.2f;
             Vector3 BoxCastSize = new Vector3(BoxCastSizeF, BoxCastSizeF, BoxCastSizeF);
             Vector3 BoxCastStartPoint = Corgi.transform.position + new Vector3(0, 0.5f, 0);

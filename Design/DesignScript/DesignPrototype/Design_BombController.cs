@@ -11,6 +11,7 @@ public class Design_BombController : Design_WorldController
     [HideInInspector]
     public Design_BombSpawn ParentBombSpawn;
 
+    GameObject IgnitionFireEffect;
     Design_Bomb3D Actor3DClass;
     Design_Bomb2D Actor2DClass;
     
@@ -21,6 +22,8 @@ public class Design_BombController : Design_WorldController
     public EWorldState CurrentState;
     [HideInInspector]
     public bool bUseBomb = false;
+    [HideInInspector]
+    public bool IsEnabled;
 
 
 
@@ -37,11 +40,16 @@ public class Design_BombController : Design_WorldController
         Actor2DClass.BeginPlay();
         Actor2DClass.enabled = false;
 
+        IgnitionFireEffect = transform.Find("IgnitionFireGroup").gameObject;
+        IgnitionFireEffect.SetActive(false);
+
         InteractionKey = KeyCode.X;
         ExplosionKey = KeyCode.C;
 
         ExplosionDistance = 12.5f;
         BoxSize = 8f;
+
+        Actor2D.SetActive(true);
     }
 
     public override void ChangeWorld(EWorldState CurState)
@@ -81,6 +89,18 @@ public class Design_BombController : Design_WorldController
 
 
 
+    public void EnableBomb()
+    {
+        IsEnabled = true;
+        IgnitionFireEffect.SetActive(true);
+    }
+
+    public void DisableBomb()
+    {
+        IsEnabled = false;
+        IgnitionFireEffect.SetActive(false);
+    }
+    
     void Explosion()
     {
         bool bCondition = false;
@@ -100,7 +120,7 @@ public class Design_BombController : Design_WorldController
             }
         }
 
-        if (Input.GetKeyDown(ExplosionKey) && bCondition && bUseBomb)
+        if (Input.GetKeyDown(ExplosionKey) && bCondition && bUseBomb && IsEnabled)
         {
             if (this.transform.parent.gameObject != CPlayerManager.Instance.RootObject3D && this.transform.parent.gameObject != CPlayerManager.Instance.RootObject2D)
             {
@@ -115,10 +135,14 @@ public class Design_BombController : Design_WorldController
         Vector3 AddPosition = new Vector3(0, 0, -0.5f);
         GameObject BoomInstance = Instantiate(BoomEffect, transform.position + AddPosition, transform.rotation);
         Actor3D.GetComponent<MeshRenderer>().enabled = false;
+        IgnitionFireEffect.SetActive(false);
         bUseBomb = false;
 
         if (CurrentState == EWorldState.View3D)
         {
+            Actor3D.GetComponent<BoxCollider>().enabled = false;
+            Actor3D.GetComponent<BoxCollider>().enabled = true;
+
             Actor3D.GetComponent<BoxCollider>().isTrigger = true;
 
             Actor3D.GetComponent<BoxCollider>().size = new Vector3(BoxSize, BoxSize - 1f, BoxSize);
@@ -131,6 +155,9 @@ public class Design_BombController : Design_WorldController
 
         else if (CurrentState == EWorldState.View2D)
         {
+            Actor2D.GetComponent<BoxCollider2D>().enabled = false;
+            Actor2D.GetComponent<BoxCollider2D>().enabled = true;
+
             Actor2D.GetComponent<BoxCollider2D>().isTrigger = true;
 
             Actor2D.GetComponent<BoxCollider2D>().size = new Vector3(BoxSize, BoxSize - 1f, BoxSize);
