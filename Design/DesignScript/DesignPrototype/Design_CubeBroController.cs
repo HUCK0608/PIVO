@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class Design_CubeBroController : Design_WorldController
 {
     public float DistanceMinimal;
 
     GameObject TextObject;
+    GameObject ViewChangeEffect;
 
     EWorldState CurWorldState;
     Vector3 TextOriginPos;
@@ -19,6 +21,9 @@ public class Design_CubeBroController : Design_WorldController
         base.BeginPlay();
 
         CurWorldState = EWorldState.View3D;
+
+        ViewChangeEffect = transform.Find("ViewChange_Effect").gameObject;
+        ViewChangeEffect.SetActive(false);
 
         TextObject = transform.Find("BillboardTEXT").Find("TextObject").gameObject;
         TextObject.transform.forward = Camera.main.transform.forward;
@@ -36,11 +41,19 @@ public class Design_CubeBroController : Design_WorldController
         CurWorldState = CurState;
 
         if (CurWorldState == EWorldState.View2D)
+        {
             TargetValue = -1;
+            if (bShow)
+                SpawnEffect(true);
+        }
         else
+        {
             TargetValue = 0;
+            SpawnEffect(false);
+        }
 
-        StartCoroutine("SetTextObjectPosition");
+        StartCoroutine(SetTextObjectPosition());
+
     }
 
 
@@ -53,17 +66,18 @@ public class Design_CubeBroController : Design_WorldController
         if (CurWorldState == EWorldState.View3D)
         {
             GameObject Corgi3D = CPlayerManager.Instance.RootObject3D;
-            if (Vector3.Distance(transform.position, Corgi3D.transform.position) < DistanceMinimal)
+            if (Vector3.Distance(transform.position, Corgi3D.transform.position) < DistanceMinimal && CPlayerManager.Instance.gameObject.activeSelf)
                 TextObject.SetActive(true);
             else
                 TextObject.SetActive(false);
         }
         else if (CurWorldState == EWorldState.View2D)
         {
+            SetCubeAnimation2D();
             GameObject Corgi2D = CPlayerManager.Instance.RootObject2D;
             if (Vector2.Distance(transform.position, Corgi2D.transform.position) < DistanceMinimal)
             {
-                if (bShow)
+                if (bShow && CPlayerManager.Instance.gameObject.activeSelf)
                     TextObject.SetActive(true);
                 else
                     TextObject.SetActive(false);
@@ -71,6 +85,7 @@ public class Design_CubeBroController : Design_WorldController
             else
                 TextObject.SetActive(false);
         }
+
     }
 
     IEnumerator SetTextObjectPosition()
@@ -100,10 +115,26 @@ public class Design_CubeBroController : Design_WorldController
 
                 yield return new WaitForSeconds(Time.deltaTime);
             }
-        }
-        
-
-        
+        }       
     }
+
+    void SetCubeAnimation2D()
+    {
+        Animator Anim = Actor2D.GetComponent<Animator>();
+        ECubeColor CurColor = GetComponent<Design_CubeMaterialChange>().CubeColor;
+
+        if (CurColor == ECubeColor.Blue)
+            Anim.SetInteger("AnimSelect", 1);
+        else if (CurColor == ECubeColor.Red)
+            Anim.SetInteger("AnimSelect", 2);
+        else if (CurColor == ECubeColor.Purple)
+            Anim.SetInteger("AnimSelect", 3);
+    }
+
+    void SpawnEffect(bool bState)
+    {
+        ViewChangeEffect.SetActive(bState);
+    }
+
 }
 
