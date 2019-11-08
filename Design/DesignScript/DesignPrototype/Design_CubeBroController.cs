@@ -123,7 +123,7 @@ public class Design_CubeBroController : Design_WorldController
         Animator Anim = Actor2D.GetComponent<Animator>();
         ECubeColor CurColor = GetComponent<Design_CubeMaterialChange>().CubeColor;
 
-        if (CurColor == ECubeColor.Blue)
+        if (CurColor == ECubeColor.Mint)
             Anim.SetInteger("AnimSelect", 1);
         else if (CurColor == ECubeColor.Red)
             Anim.SetInteger("AnimSelect", 2);

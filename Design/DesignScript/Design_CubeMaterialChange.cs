@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEditor;
 
 
-public enum ECubeColor { Blue, Purple, Red }
+public enum ECubeColor { Mint, Purple, Red }
 
 [ExecuteInEditMode]
 public class Design_CubeMaterialChange : MonoBehaviour
 {
-    public Material MBlue, MRed, MPurple;
-    public Sprite SBlue, SRed, SPurple;
-    public GameObject EBlue, ERed, EPurple;
+    public Material MMint, MRed, MPurple;
+    public Sprite SMint, SRed, SPurple;
+    public GameObject EMint, ERed, EPurple;
 
     public ECubeColor CubeColor;
     private ECubeColor BeforeColor;
@@ -31,11 +31,11 @@ public class Design_CubeMaterialChange : MonoBehaviour
     {
         if (BeforeColor != CubeColor)
         {
-            if (CubeColor == ECubeColor.Blue)
+            if (CubeColor == ECubeColor.Mint)
             {
-                CurMaterial = MBlue;
-                CurSprite = SBlue;
-                CurEffect = EBlue;
+                CurMaterial = MMint;
+                CurSprite = SMint;
+                CurEffect = EMint;
             }
             else if (CubeColor == ECubeColor.Purple)
             {
@@ -50,9 +50,12 @@ public class Design_CubeMaterialChange : MonoBehaviour
                 CurEffect = ERed;
             }
 
-            for (int i=0; i<transform.Find("ViewChange_Effect").childCount; i++)
+            if (transform.Find("ViewChange_Effect").childCount > 0)
             {
-                DestroyImmediate(transform.Find("ViewChange_Effect").GetChild(i).gameObject);
+                for (int i = 0; i < transform.Find("ViewChange_Effect").childCount; i++)
+                {
+                    DestroyImmediate(transform.Find("ViewChange_Effect").GetChild(i).gameObject);
+                }
             }
 
             GameObject BoomInstance = Instantiate(CurEffect, transform.position, transform.rotation);
