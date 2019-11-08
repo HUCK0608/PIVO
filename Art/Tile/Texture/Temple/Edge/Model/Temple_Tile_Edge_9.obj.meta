@@ -1,16 +1,22 @@
 fileFormatVersion: 2
-guid: c07be260de114f14b89f4dc89d3ef49c
+guid: 19b223d727b741c428fc8dc5821017f3
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Temple_Tile_Edge_9
+    100000: default
     100002: //RootNode
-    400000: Temple_Tile_Edge_9
+    100004: Temple_Tile_Edge_9
+    400000: default
     400002: //RootNode
-    2100000: Temple_Tile_Edge_9Mat
-    2300000: Temple_Tile_Edge_9
-    3300000: Temple_Tile_Edge_9
-    4300000: Temple_Tile_Edge_9
+    400004: Temple_Tile_Edge_9
+    2100000: defaultMat
+    2100002: Temple_Tile_Edge_9Mat
+    2300000: default
+    2300002: Temple_Tile_Edge_9
+    3300000: default
+    3300002: Temple_Tile_Edge_9
+    4300000: default
+    4300002: Temple_Tile_Edge_9
   externalObjects: {}
   materials:
     importMaterials: 0
