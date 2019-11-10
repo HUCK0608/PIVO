@@ -99,7 +99,10 @@ public class Design_Bomb2D : MonoBehaviour
                 RaycastHit2D hit2 = Physics2D.BoxCast(CastPos2, CastSize, 0, CastDir, CastDistance);
 
                 if (hit2)
+                {
+                    Bomb.GetComponent<Design_BombController>().DisableBomb();
                     Debug.Log("2층에 뭐가 있어서 내려놓을 수 없음");
+                }
                 else
                 {
                     bAttachCorgi = false;

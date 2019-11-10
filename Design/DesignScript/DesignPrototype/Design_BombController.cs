@@ -140,10 +140,10 @@ public class Design_BombController : Design_WorldController
 
         if (CurrentState == EWorldState.View3D)
         {
+            Actor3D.GetComponent<BoxCollider>().isTrigger = true;
+
             Actor3D.GetComponent<BoxCollider>().enabled = false;
             Actor3D.GetComponent<BoxCollider>().enabled = true;
-
-            Actor3D.GetComponent<BoxCollider>().isTrigger = true;
 
             Actor3D.GetComponent<BoxCollider>().size = new Vector3(BoxSize, BoxSize - 1f, BoxSize);
             Actor3D.GetComponent<BoxCollider>().center = Actor3D.GetComponent<BoxCollider>().center + new Vector3(0, BoxSize / 2 - 4f, 0);
@@ -155,11 +155,11 @@ public class Design_BombController : Design_WorldController
 
         else if (CurrentState == EWorldState.View2D)
         {
-            Actor2D.GetComponent<BoxCollider2D>().enabled = false;
-            Actor2D.GetComponent<BoxCollider2D>().enabled = true;
-
             Actor2D.GetComponent<BoxCollider2D>().isTrigger = true;
 
+            Actor2D.GetComponent<BoxCollider2D>().enabled = false;
+            Actor2D.GetComponent<BoxCollider2D>().enabled = true;
+            
             Actor2D.GetComponent<BoxCollider2D>().size = new Vector3(BoxSize, BoxSize - 1f, BoxSize);
             Actor2D.GetComponent<BoxCollider2D>().offset = Actor2D.GetComponent<BoxCollider2D>().offset + new Vector2(0, BoxSize / 2 - 4f);
 
