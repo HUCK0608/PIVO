@@ -628,15 +628,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cc9171296ac4744da3ecbc60d73a8a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MBlue: {fileID: 2100000, guid: 621672a21a3d5354789655dbdd092f29, type: 2}
+  MMint: {fileID: 2100000, guid: 621672a21a3d5354789655dbdd092f29, type: 2}
   MRed: {fileID: 2100000, guid: 96af8e329a46abb49bb451c97852ee1a, type: 2}
   MPurple: {fileID: 2100000, guid: 80240c3c9b8a21b489a99700e964e80b, type: 2}
-  SBlue: {fileID: 21300000, guid: 36050f24fc960fa43a99c2c1fa3565c4, type: 3}
+  SMint: {fileID: 21300000, guid: 36050f24fc960fa43a99c2c1fa3565c4, type: 3}
   SRed: {fileID: 21300000, guid: 85e7bc20c9baf8f4e8075c425f9e3d92, type: 3}
   SPurple: {fileID: 21300000, guid: aeb68492f07314d4a9dd56b63c1227c5, type: 3}
-  EBlue: {fileID: 1992098770099162, guid: 99c49f5148c83aa4c9cd4aaec92ccd95, type: 3}
-  ERed: {fileID: 1097787290594770, guid: ab5b785025df81b4fbb3728f57ba2ff8, type: 3}
-  EPurple: {fileID: 1097787290594770, guid: ab5b785025df81b4fbb3728f57ba2ff8, type: 3}
+  EMint: {fileID: 1992098770099162, guid: 15cb72a0bae4c3942abcb18b62535640, type: 3}
+  ERed: {fileID: 1992098770099162, guid: d98eef91f844a7a45bb2c9c80ae184b2, type: 3}
+  EPurple: {fileID: 1992098770099162, guid: a2039de7f4cb6374f8dad1d074396657, type: 3}
   CubeColor: 0
 --- !u!1 &5204406082331401573
 GameObject:
@@ -711,7 +711,7 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
+  m_DrawMode: 1
   m_Size: {x: 2.28, y: 1.58}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0

@@ -1,16 +1,22 @@
 fileFormatVersion: 2
-guid: 56e1e84e3a99c1a45bcb04b208f9478f
+guid: fa9511e72a779bf4ba1890aa5da77b7b
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Temple_Tile_Edge_1
+    100000: default
     100002: //RootNode
-    400000: Temple_Tile_Edge_1
+    100004: Temple_Tile_Edge_1
+    400000: default
     400002: //RootNode
-    2100000: Temple_Tile_Edge_1Mat
-    2300000: Temple_Tile_Edge_1
-    3300000: Temple_Tile_Edge_1
-    4300000: Temple_Tile_Edge_1
+    400004: Temple_Tile_Edge_1
+    2100000: defaultMat
+    2100002: Temple_Tile_Edge_1Mat
+    2300000: default
+    2300002: Temple_Tile_Edge_1
+    3300000: default
+    3300002: Temple_Tile_Edge_1
+    4300000: default
+    4300002: Temple_Tile_Edge_1
   externalObjects: {}
   materials:
     importMaterials: 0
@@ -45,7 +51,7 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
-    useSRGBMaterialColor: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 0
