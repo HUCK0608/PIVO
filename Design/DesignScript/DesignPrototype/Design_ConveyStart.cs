@@ -9,7 +9,7 @@ public class Design_ConveyStart : Design_Convey
         base.ChangeWorld(CurState);
         if (CurState == EWorldState.View3D)
             ConveyPower(true, EConveyDirection.Right);
-        else if (CurState == EWorldState.View2D)
+        else if (CurState == EWorldState.View2D && bShow)
             ConveyPower(false, EConveyDirection.Right);
     }
 }

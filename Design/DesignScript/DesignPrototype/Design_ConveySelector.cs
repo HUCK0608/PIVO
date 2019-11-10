@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class Design_ConveySelector : Design_Convey
 {
-    private bool IsON;
-
-    public void PowerON()
+    public override void PushConveyPower()
     {
-        IsON = true;
+        base.PushConveyPower();
+
+        if (WorldManager.CurrentWorldState == EWorldState.View3D)
+            ConveyPower(true, EConveyDirection.Right);
+        else if (WorldManager.CurrentWorldState == EWorldState.View2D && bShow)
+            ConveyPower(false, EConveyDirection.Right);
     }
 
-    public void PowerOFF()
-    {
-        IsON = false;
-    }
-    
 }

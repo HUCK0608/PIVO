@@ -8,7 +8,7 @@ public class Design_Convey : Design_WorldController
     public void ConveyPower(bool Is3D, EConveyDirection EConveyDir)
     {
         Vector3 ConveyDir = Vector3.zero;
-        float RayDistance = 5f;
+        float RayDistance = 2f;
 
         if (EConveyDir == EConveyDirection.Left)
             ConveyDir = Vector3.left;
@@ -24,7 +24,9 @@ public class Design_Convey : Design_WorldController
         {
             RaycastHit hit;
             if (Physics.Raycast(transform.position, ConveyDir, out hit, RayDistance))
-                hit.transform.parent.GetComponent<Design_ConveySelector>().PowerON();
+            {
+                StartCoroutine(WaitChangingWorld(hit.transform.parent.GetComponent<Design_Convey>()));
+            }
         }
         else
         {
@@ -33,11 +35,19 @@ public class Design_Convey : Design_WorldController
             {
                 if (Value.transform.parent.gameObject != gameObject)
                 {
-                    Value.transform.parent.GetComponent<Design_ConveySelector>().PowerON();
+                    StartCoroutine(WaitChangingWorld(Value.transform.parent.GetComponent<Design_Convey>()));
                     break;
                 }
             }
         }
     }
+
+    IEnumerator WaitChangingWorld(Design_Convey Script)
+    {
+        yield return new WaitUntil(() => WorldManager.CurrentWorldState != EWorldState.Changing);
+        Script.PushConveyPower();
+    }
+
+    public virtual void PushConveyPower() { }
 
 }

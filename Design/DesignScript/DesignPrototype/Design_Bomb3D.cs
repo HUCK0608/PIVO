@@ -109,7 +109,10 @@ public class Design_Bomb3D : MonoBehaviour
                 {
                     Vector3 BoxCastStartPoint2 = Corgi.transform.position + new Vector3(0, 2.5f, 0);
                     if (Physics.BoxCast(BoxCastStartPoint2, BoxCastSize, Corgi.transform.forward, out hit, Quaternion.Euler(0, 0, 0), BoxCastDistance))
+                    {
+                        Bomb.GetComponent<Design_BombController>().DisableBomb();
                         Debug.Log("2층에 뭐가 있어서 내려놓을 수 없음");
+                    }
                     else
                     {
                         bAttachCorgi = false;
