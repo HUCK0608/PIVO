@@ -5,8 +5,24 @@ using UnityEngine;
 public enum EConveyDirection{ None, Left, Right, Up, Down }
 public class Design_Convey : Design_WorldController
 {
+    [HideInInspector]
+    public bool Power;
+    public override void BeginPlay()
+    {
+        base.BeginPlay();
+
+        Power = false;
+    }
     public void ConveyPower(bool Is3D, EConveyDirection EConveyDir)
     {
+        StartCoroutine(WaitRayChangingWorld(Is3D, EConveyDir));
+    }
+
+
+    IEnumerator WaitRayChangingWorld(bool Is3D, EConveyDirection EConveyDir)
+    {
+        yield return new WaitUntil(() => WorldManager.CurrentWorldState != EWorldState.Changing);
+
         Vector3 ConveyDir = Vector3.zero;
         float RayDistance = 2f;
 
@@ -25,7 +41,21 @@ public class Design_Convey : Design_WorldController
             RaycastHit hit;
             if (Physics.Raycast(transform.position, ConveyDir, out hit, RayDistance))
             {
-                StartCoroutine(WaitChangingWorld(hit.transform.parent.GetComponent<Design_Convey>()));
+                if (hit.transform.GetComponent<Design_Convey>() != null)
+                {
+                    if (!hit.transform.GetComponent<Design_Convey>().Power)
+                    {
+                        hit.transform.GetComponent<Design_Convey>().PushConveyPower();
+                    }
+                }
+                else if (hit.transform.parent.GetComponent<Design_Convey>() != null)
+                {
+                    if (!hit.transform.parent.GetComponent<Design_Convey>().Power)
+                    {
+                        hit.transform.parent.GetComponent<Design_Convey>().PushConveyPower();
+                    }
+                }
+
             }
         }
         else
@@ -33,19 +63,26 @@ public class Design_Convey : Design_WorldController
             RaycastHit2D[] hit2D = Physics2D.RaycastAll(transform.position, ConveyDir, RayDistance);
             foreach (var Value in hit2D)
             {
-                if (Value.transform.parent.gameObject != gameObject)
+                Debug.Log(Value.transform.parent.name);
+                if (Value.transform.parent.GetComponent<Design_Convey>() != null)
                 {
-                    StartCoroutine(WaitChangingWorld(Value.transform.parent.GetComponent<Design_Convey>()));
-                    break;
+                    if (!Value.transform.parent.GetComponent<Design_Convey>().Power)
+                    {
+                        Value.transform.parent.GetComponent<Design_Convey>().PushConveyPower();
+                        break;
+                    }
+                }
+                else if (Value.transform.GetComponent<Design_Convey>() != null)
+                {
+                    if (!Value.transform.GetComponent<Design_Convey>().Power)
+                    {
+                        Value.transform.GetComponent<Design_Convey>().PushConveyPower();
+                        break;
+                    }
                 }
             }
         }
-    }
 
-    IEnumerator WaitChangingWorld(Design_Convey Script)
-    {
-        yield return new WaitUntil(() => WorldManager.CurrentWorldState != EWorldState.Changing);
-        Script.PushConveyPower();
     }
 
     public virtual void PushConveyPower() { }

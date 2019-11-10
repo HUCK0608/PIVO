@@ -83,13 +83,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2463402025951898638}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7186672001907506386}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!33 &2357719549953028661
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -97,7 +97,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2463402025951898638}
-  m_Mesh: {fileID: 4300002, guid: bed77b9c6342c2641890ae249d1d1343, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 5daf71c0639f83b47a60df14a53fd49b, type: 3}
 --- !u!23 &6295827349860304477
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -115,7 +115,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8d415cec11e998242a756e7259f89819, type: 2}
+  - {fileID: 2100000, guid: 9315f89faed2a374595dc18d99e33608, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: 7186672001907506386}
   - component: {fileID: 7186672001907506397}
   - component: {fileID: 3893497608158495721}
+  - component: {fileID: 391317488880068498}
   m_Layer: 0
   m_Name: Pipe
   m_TagString: Untagged
@@ -190,7 +191,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7186672001907506387}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2, y: 2, z: 2}
@@ -207,3 +208,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338f0e471429e564583db939e2ec8dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WorldManager: {fileID: 0}
+  Actor3D: {fileID: 0}
+  Actor2D: {fileID: 0}
+  bState3D: 0
+  bState2D: 0
+  OutViewRect: 0
+  bChanging: 0
+  bShow: 0
+  Power: 0
+--- !u!114 &391317488880068498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7186672001907506387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42f6a0dc39945654d82cfd6e7af403b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StraightON: {fileID: 4300000, guid: 672c1cd83a8760a4ca6cfce42e697d36, type: 3}
+  StraightOFF: {fileID: 4300000, guid: de56a380fd17b1647b3e3642690d0514, type: 3}
+  CornerON: {fileID: 4300000, guid: 5daf71c0639f83b47a60df14a53fd49b, type: 3}
+  CornerOFF: {fileID: 4300000, guid: add24ec977ff7724fa595cae474114ab, type: 3}
+  ObjectMeshSelect: 0
+  bRotate: 0
