@@ -205,4 +205,9 @@ public class CUIManager : MonoBehaviour
 
         _audioSource.Play();
     }
+
+    [SerializeField]
+    private GameObject _holdingUIGroup = null;
+
+    public void SetHoldingUI(bool value) { _holdingUIGroup.SetActive(value); }
 }
