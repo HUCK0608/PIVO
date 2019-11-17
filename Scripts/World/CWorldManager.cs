@@ -70,6 +70,12 @@ public class CWorldManager : MonoBehaviour
         _worldObjectCount++;
     }
 
+    public void RemoveWorldObject(CWorldObject worldObject)
+    {
+        _worldObjects.Remove(worldObject);
+        _worldObjectCount--;
+    }
+
     /// <summary>이펙트 활성화 컨트롤러 등록</summary>
     public void AddEffectVisableController(CEffectVisableController effectVisableController)
     {

@@ -28,8 +28,16 @@ public abstract class CWorldObject : MonoBehaviour
 
     protected virtual void Awake()
     {
-        _rootObject = transform.parent.gameObject;
-        _rootObject3D = gameObject;
+        if (transform.Find("Root3D") != null)
+        {
+            _rootObject = gameObject;
+            _rootObject3D = transform.Find("Root3D").gameObject;
+        }
+        else
+        {
+            _rootObject = transform.parent.gameObject;
+            _rootObject3D = gameObject;
+        }
 
         _blockMateiral = Resources.Load("BlockMaterialDumy") as Material;
 

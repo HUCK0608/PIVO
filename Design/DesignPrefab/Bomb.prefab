@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 544235812547343790}
-  - component: {fileID: 544235812547343786}
   - component: {fileID: 1178247696367236540}
+  - component: {fileID: 1754579011536596230}
   m_Layer: 11
   m_Name: Bomb
   m_TagString: Untagged
@@ -35,19 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &544235812547343786
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544235812547343789}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.5, z: 1.5}
-  m_Center: {x: 0, y: -0.2, z: 0}
 --- !u!114 &1178247696367236540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,14 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da06a7936ce0dc845b31c10722571f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WorldManager: {fileID: 0}
-  Actor3D: {fileID: 0}
-  Actor2D: {fileID: 0}
-  bState3D: 0
-  bState2D: 0
-  OutViewRect: 0
-  bChanging: 0
-  bShow: 0
+  _isUse2DTexture: 0
   BoomEffect: {fileID: 1385546039964652, guid: 1ce52d341bc84644e8bd416381b5ed81, type: 3}
   InteractionKey: 0
   ExplosionKey: 0
@@ -75,6 +55,19 @@ MonoBehaviour:
   CurrentState: 0
   bUseBomb: 0
   IsEnabled: 0
+--- !u!65 &1754579011536596230
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544235812547343789}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2217642562183859300
 GameObject:
   m_ObjectHideFlags: 0
