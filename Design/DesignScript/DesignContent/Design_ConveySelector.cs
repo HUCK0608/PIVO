@@ -15,13 +15,13 @@ public class Design_ConveySelector : Design_Convey
     public override void DesignChange2D()
     {
         base.DesignChange2D();
-        //ChangeWorld();
+        ChangeWorld();
     }
 
     public override void DesignChange3D()
     {
         base.DesignChange3D();
-        //ChangeWorld();
+        ChangeWorld();
     }
 
 
@@ -57,7 +57,6 @@ public class Design_ConveySelector : Design_Convey
     void SetConveyRay(bool Is3D)
     {
         float CurObjectRotX = transform.Find("Root3D").rotation.x;
-        Debug.Log(CurObjectRotX);
 
         if (CurObjectRotX == -0.5f)
             CurObjectRotX *= transform.Find("Root3D").forward.y;

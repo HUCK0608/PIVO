@@ -134,9 +134,11 @@ public class CPlayerController3D : MonoBehaviour
             if (Physics.Raycast(_groundCheckPoints[i].position, Vector3.down, out hit, 0.15f, _playerIgnoreLayerMask))
             {
                 isGrounded = true;
+                //@Design_코기가 밟고있는 오브젝트에 어태치시킵니다.
+                transform.parent.parent = hit.transform;
 
                 // 최근 위치 저장
-                //Null체크 추가합니다. 폭탄/폭탄 스폰하는거 프로토타입 추가했는데 발로 밟으면 여기서 Null뜨면서 오류가 뜸
+                //@Design_Null체크 추가합니다. 폭탄/폭탄 스폰하는거 프로토타입 추가했는데 발로 밟으면 여기서 Null뜨면서 오류가 뜸
                 if (hit.transform.parent)
                 {
                     if (hit.transform.parent.parent)

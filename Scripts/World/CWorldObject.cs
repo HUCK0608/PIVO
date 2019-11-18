@@ -28,6 +28,7 @@ public abstract class CWorldObject : MonoBehaviour
 
     protected virtual void Awake()
     {
+        //@Design 디자인 오브젝트들은 전부 Root3D가 아닌 최상위 오브젝트에 스크립트가 들어있어서 Root3D 지정하는 방식을 조금 수정
         if (transform.Find("Root3D") != null)
         {
             _rootObject = gameObject;

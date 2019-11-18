@@ -70,6 +70,8 @@ public class CWorldManager : MonoBehaviour
         _worldObjectCount++;
     }
 
+    //@Design 폭탄오브젝트가 생성됐다 사라졌다를 반복해야해서 추가했음.
+    /// <summary>월드 오브젝트 제거</summary>
     public void RemoveWorldObject(CWorldObject worldObject)
     {
         _worldObjects.Remove(worldObject);

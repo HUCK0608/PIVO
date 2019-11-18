@@ -17,14 +17,14 @@ public class Design_ConveyStart : Design_Convey
     {
         base.DesignChange2D();
 
-        ConveyPower(true, EConveyDirection.Right);
+        if (IsCanChange2D)
+            ConveyPower(false, EConveyDirection.Right);
     }
 
     public override void DesignChange3D()
     {
         base.DesignChange3D();
 
-        if (IsCanChange2D)
-            ConveyPower(false, EConveyDirection.Right);
+        ConveyPower(true, EConveyDirection.Right);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 //public enum MovingType { Once, Repeat }
 public enum MovingType { Vertical_Z, Horizontal_X }
 
-public class Design_MovingActor : MonoBehaviour
+public class Design_MovingActor : CWorldObject
 {
     List<Vector3> MovePosArray = new List<Vector3>();
 
@@ -24,8 +24,10 @@ public class Design_MovingActor : MonoBehaviour
 
 
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
         InitializeValue();
         InitializeMovePos();
     }
@@ -35,6 +37,10 @@ public class Design_MovingActor : MonoBehaviour
         MoveActor();
     }
 
+    public override void Change2D() { }
+    public override void Change3D() { }
+    public override void ShowOffBlock() { }
+    public override void ShowOnBlock() { }
 
 
 

@@ -63,7 +63,7 @@ public class Design_Convey : Design_WorldObjectController
             RaycastHit2D[] hit2D = Physics2D.RaycastAll(transform.position, ConveyDir, RayDistance);
             foreach (var Value in hit2D)
             {
-                Debug.Log(Value.transform.parent.name);
+                //Debug.Log(Value.transform.parent.name);
                 if (Value.transform.parent.GetComponent<Design_Convey>() != null)
                 {
                     if (!Value.transform.parent.GetComponent<Design_Convey>().Power)
