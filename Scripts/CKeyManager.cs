@@ -41,6 +41,10 @@ public static class CKeyManager
     /// <summary>상호작용 취소 키</summary>
     public static KeyCode InteractionCancelKey { get { return _interactionCancelKey; } }
 
+    private static KeyCode _bombInteractionKey = KeyCode.C;
+    /// <summary>폭탄 터트리는 키</summary>
+    public static KeyCode BombInteractionKey { get { return _bombInteractionKey; } }
+
     /* StageSelect Key */
 
     private static KeyCode _startStageKey = KeyCode.Z;

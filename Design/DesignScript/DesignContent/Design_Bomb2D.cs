@@ -33,8 +33,6 @@ public class Design_Bomb2D : MonoBehaviour
         else
             AttachForDistance();
 
-        //Explosion();
-
     }
 
 
@@ -43,7 +41,9 @@ public class Design_Bomb2D : MonoBehaviour
         if (other.transform.parent.Find("Root3D"))
         {
             if (other.transform.parent.GetComponent<Design_BrokenTile>())
-                Destroy(other.transform.parent.gameObject);
+            {
+                other.transform.parent.GetComponent<Design_BrokenTile>().DestroyBrokenTile();
+            }
         }
     }
 

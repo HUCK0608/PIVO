@@ -34,14 +34,15 @@ public class Design_Bomb3D : MonoBehaviour
         else
             AttachForDistance();
 
-        //Explosion();
     }
 
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.parent.GetComponent<Design_BrokenTile>())
-            Destroy(other.transform.parent.gameObject);
+        {
+            other.transform.parent.GetComponent<Design_BrokenTile>().DestroyBrokenTile();
+        }
     }
 
 
@@ -120,7 +121,7 @@ public class Design_Bomb3D : MonoBehaviour
 
                         Bomb.transform.position = Corgi.transform.position + GetCorgiForward() + DownValue;
                         Bomb.transform.parent = null;
-                        StartCoroutine("UseGravity");
+                        StartCoroutine(UseGravity());
                     }
                 }
 
@@ -132,7 +133,7 @@ public class Design_Bomb3D : MonoBehaviour
 
                 Bomb.transform.position = Corgi.transform.position + GetCorgiForward() + DownValue;
                 Bomb.transform.parent = null;
-                StartCoroutine("UseGravity");
+                StartCoroutine(UseGravity());
             }
 
             if (!bAttachCorgi)
@@ -147,31 +148,6 @@ public class Design_Bomb3D : MonoBehaviour
         }
     }
 
-    void Explosion()
-    {
-        if (Input.GetKeyDown(Controller.ExplosionKey) && Vector3.Distance(Corgi.transform.position, Bomb.transform.position) < ExplosionDistance)
-        {
-            Bomb.transform.parent = null;
-            StartCoroutine("ExplosionBoom");
-        }
-    }
-
-    IEnumerator ExplosionBoom()
-    {
-        Vector3 AddPosition = new Vector3(0, 0, -0.5f);
-        GameObject BoomInstance = Instantiate(Controller.BoomEffect, transform.position + AddPosition, transform.rotation);
-        GetComponent<MeshRenderer>().enabled = false;
-        GetComponent<BoxCollider>().isTrigger = true;
-
-        float BoomSize = 8;
-        GetComponent<BoxCollider>().size = new Vector3(BoomSize, BoomSize, BoomSize);
-        GetComponent<BoxCollider>().center = GetComponent<BoxCollider>().center + new Vector3(0, BoomSize/2, 0);
-        yield return new WaitForSeconds(2f);
-
-        Controller.ParentBombSpawn.SpawnBomb();
-        Destroy(BoomInstance);
-        Destroy(Bomb);
-    }
 
     IEnumerator UseGravity()
     {
