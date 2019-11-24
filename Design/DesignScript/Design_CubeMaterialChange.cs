@@ -60,12 +60,12 @@ public class Design_CubeMaterialChange : MonoBehaviour
 
             GameObject BoomInstance = Instantiate(CurEffect, transform.position, transform.rotation);
             BoomInstance.transform.parent = transform.Find("ViewChange_Effect");
-            //BoomInstance.SetActive(false);
 
             transform.Find("Root2D").GetComponent<SpriteRenderer>().sprite = CurSprite;
             transform.Find("Root3D").Find("cube_bro").GetComponent<SkinnedMeshRenderer>().material = CurMaterial;
             BeforeColor = CubeColor;
         }
     }
+
 
 }
