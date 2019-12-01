@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Design_WorldObjectController : CWorldObject
 {
+    /// <summary>메쉬 렌더러</summary>
+    private MeshRenderer _meshRenderer;
+    /// <summary>기존 머테리얼</summary>
+    private Material _defaultMaterial;
+    /// <summary>기존 라이트맵 인덱스</summary>
+    private int _defaultLightmapIndex;
+
     private GameObject _rootObject2D = null;
     private CWorldManager _worldManager = null;
     public GameObject RootObject2D { get { return _rootObject2D; } }
@@ -13,6 +20,8 @@ public class Design_WorldObjectController : CWorldObject
     {
         base.Awake();
         _rootObject2D = RootObject.transform.Find("Root2D").gameObject;
+        _meshRenderer = RootObject3D.GetComponent<MeshRenderer>();
+        _defaultLightmapIndex = _meshRenderer.lightmapIndex;
     }
 
     protected override void Start()
@@ -44,6 +53,18 @@ public class Design_WorldObjectController : CWorldObject
             RootObject3D.SetActive(false);
         }
 
+
+
+        if (IsCanChange2D)
+        {
+            _meshRenderer.lightmapIndex = -1;
+
+            if (IsUse2DTexture)
+                _meshRenderer.material.SetFloat("_IsUse2DTexture", 1f);
+        }
+        else
+            _meshRenderer.enabled = false;
+
         DesignChange2D();
     }
 
@@ -55,11 +76,34 @@ public class Design_WorldObjectController : CWorldObject
 
         IsCanChange2D = false;
 
+
+
+        if (IsCanChange2D)
+        {
+            _meshRenderer.lightmapIndex = _defaultLightmapIndex;
+            IsCanChange2D = false;
+
+            if (IsUse2DTexture)
+                _meshRenderer.material.SetFloat("_IsUse2DTexture", 0f);
+        }
+        else
+            _meshRenderer.enabled = true;
+
         DesignChange3D();
     }
 
-    public override void ShowOnBlock() { }
-    public override void ShowOffBlock() { }
+    public override void ShowOnBlock()
+    {
+        if (_defaultMaterial == null)
+            _defaultMaterial = _meshRenderer.material;
+
+        _meshRenderer.material = BlockMaterial;
+    }
+    public override void ShowOffBlock()
+    {
+        if (_defaultMaterial != null)
+            _meshRenderer.material = _defaultMaterial;
+    }
 
     IEnumerator WaitChangeWorldForSprite()
     {

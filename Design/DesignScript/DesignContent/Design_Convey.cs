@@ -7,6 +7,8 @@ public class Design_Convey : Design_WorldObjectController
 {
     [HideInInspector]
     public bool Power;
+    [HideInInspector]
+    public List<EConveyDirection> ConveyState = new List<EConveyDirection>();
     public override void BeginPlay()
     {
         base.BeginPlay();
@@ -25,15 +27,28 @@ public class Design_Convey : Design_WorldObjectController
 
         Vector3 ConveyDir = Vector3.zero;
         float RayDistance = 2f;
+        EConveyDirection PartnerDirecton = EConveyDirection.None;
 
         if (EConveyDir == EConveyDirection.Left)
+        {
+            PartnerDirecton = EConveyDirection.Right;
             ConveyDir = Vector3.left;
+        }
         else if (EConveyDir == EConveyDirection.Right)
+        {
+            PartnerDirecton = EConveyDirection.Left;
             ConveyDir = Vector3.right;
+        }
         else if (EConveyDir == EConveyDirection.Up)
+        {
+            PartnerDirecton = EConveyDirection.Down;
             ConveyDir = Vector3.up;
+        }
         else if (EConveyDir == EConveyDirection.Down)
+        {
+            PartnerDirecton = EConveyDirection.Up;
             ConveyDir = Vector3.down;
+        }
 
 
         if (Is3D)
@@ -45,14 +60,29 @@ public class Design_Convey : Design_WorldObjectController
                 {
                     if (!hit.transform.GetComponent<Design_Convey>().Power)
                     {
-                        hit.transform.GetComponent<Design_Convey>().PushConveyPower();
+                        foreach (var Value in hit.transform.GetComponent<Design_Convey>().ConveyState)
+                        {
+                            Debug.Log(Value + " : " + PartnerDirecton);
+                            if (Value == PartnerDirecton)
+                            {
+                                hit.transform.GetComponent<Design_Convey>().PushConveyPower();
+                                break;
+                            }
+                        }
                     }
                 }
                 else if (hit.transform.parent.GetComponent<Design_Convey>() != null)
                 {
                     if (!hit.transform.parent.GetComponent<Design_Convey>().Power)
                     {
-                        hit.transform.parent.GetComponent<Design_Convey>().PushConveyPower();
+                        foreach (var Value in hit.transform.parent.GetComponent<Design_Convey>().ConveyState)
+                        {
+                            if (Value == PartnerDirecton)
+                            {
+                                hit.transform.parent.GetComponent<Design_Convey>().PushConveyPower();
+                                break;
+                            }
+                        }
                     }
                 }
 
@@ -63,21 +93,32 @@ public class Design_Convey : Design_WorldObjectController
             RaycastHit2D[] hit2D = Physics2D.RaycastAll(transform.position, ConveyDir, RayDistance);
             foreach (var Value in hit2D)
             {
-                //Debug.Log(Value.transform.parent.name);
                 if (Value.transform.parent.GetComponent<Design_Convey>() != null)
                 {
                     if (!Value.transform.parent.GetComponent<Design_Convey>().Power)
                     {
-                        Value.transform.parent.GetComponent<Design_Convey>().PushConveyPower();
-                        break;
+                        foreach (var V in Value.transform.parent.GetComponent<Design_Convey>().ConveyState)
+                        {
+                            if (V == PartnerDirecton)
+                            {
+                                Value.transform.parent.GetComponent<Design_Convey>().PushConveyPower();
+                                break;
+                            }
+                        }
                     }
                 }
                 else if (Value.transform.GetComponent<Design_Convey>() != null)
                 {
                     if (!Value.transform.GetComponent<Design_Convey>().Power)
                     {
-                        Value.transform.GetComponent<Design_Convey>().PushConveyPower();
-                        break;
+                        foreach (var V in Value.transform.parent.GetComponent<Design_Convey>().ConveyState)
+                        {
+                            if (V == PartnerDirecton)
+                            {
+                                Value.transform.GetComponent<Design_Convey>().PushConveyPower();
+                                break;
+                            }
+                        }
                     }
                 }
             }
