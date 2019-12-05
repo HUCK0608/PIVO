@@ -595,6 +595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isUse2DTexture: 0
+  NoMeshRenderer: 1
   DistanceMinimal: 10
   FlipValue: 1
 --- !u!114 &3585202910137981021

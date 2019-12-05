@@ -30,7 +30,7 @@ public class Design_ConveySelector : Design_Convey
     public override void PushConveyPower()
     {
         base.PushConveyPower();
-
+        
         Power = true;
 
         if (CurMeshState == ConveySelectorState.Straight)
@@ -47,66 +47,53 @@ public class Design_ConveySelector : Design_Convey
 
     void SetConveyState()
     {
-        float CurObjectRotY = transform.Find("Root3D").rotation.y;
-        CurObjectRotY *= 10;
-        CurObjectRotY = Mathf.Round(CurObjectRotY);
-        CurObjectRotY *= 0.1f;
+        Vector3 CurForwardVector = transform.Find("Root3D").forward;
         ConveyState.Clear();
 
         if (CurMeshState == ConveySelectorState.Straight)
         {
-            if (CurObjectRotY == 0.7f)
+            if (CurForwardVector == new Vector3(1, 0, 0))
             {
                 ConveyState.Add(EConveyDirection.Left);
                 ConveyState.Add(EConveyDirection.Right);
             }
-            else if (CurObjectRotY == -0.7f)
+            else if (CurForwardVector == new Vector3(-1, 0, 0))
             {
                 ConveyState.Add(EConveyDirection.Left);
                 ConveyState.Add(EConveyDirection.Right);
             }
-            else if (CurObjectRotY == 0.5f)
+            else if (CurForwardVector == new Vector3(0, 1, 0))
             {
                 ConveyState.Add(EConveyDirection.Up);
                 ConveyState.Add(EConveyDirection.Down);
             }
-            else if (CurObjectRotY == -0.5f)
+            else if (CurForwardVector == new Vector3(0, -1, 0))
             {
                 ConveyState.Add(EConveyDirection.Up);
                 ConveyState.Add(EConveyDirection.Down);
-            }
-            else if (CurObjectRotY == 0f)
-            {
-                ConveyState.Add(EConveyDirection.Left);
-                ConveyState.Add(EConveyDirection.Right);
             }
         }
         else if (CurMeshState == ConveySelectorState.Corner)
         {
-            if (CurObjectRotY == 0.7f)
-            {
-                ConveyState.Add(EConveyDirection.Left);
-                ConveyState.Add(EConveyDirection.Up);
-            }
-            else if (CurObjectRotY == -0.7f)
-            {
-                ConveyState.Add(EConveyDirection.Down);
-                ConveyState.Add(EConveyDirection.Right);
-            }
-            else if (CurObjectRotY == 0.5f)
+            if (CurForwardVector == new Vector3(1, 0, 0))
             {
                 ConveyState.Add(EConveyDirection.Right);
                 ConveyState.Add(EConveyDirection.Up);
             }
-            else if (CurObjectRotY == -0.5f)
+            else if (CurForwardVector == new Vector3(-1, 0, 0))
             {
                 ConveyState.Add(EConveyDirection.Left);
                 ConveyState.Add(EConveyDirection.Down);
             }
-            else if (CurObjectRotY == 0f)
+            else if (CurForwardVector == new Vector3(0, 1, 0))
             {
                 ConveyState.Add(EConveyDirection.Left);
                 ConveyState.Add(EConveyDirection.Up);
+            }
+            else if (CurForwardVector == new Vector3(0, -1, 0))
+            {
+                ConveyState.Add(EConveyDirection.Right);
+                ConveyState.Add(EConveyDirection.Down);
             }
         }
     }

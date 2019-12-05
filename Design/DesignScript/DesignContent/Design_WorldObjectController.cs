@@ -16,12 +16,17 @@ public class Design_WorldObjectController : CWorldObject
     public GameObject RootObject2D { get { return _rootObject2D; } }
     public CWorldManager WorldManager { get { return _worldManager; } }
 
+    public bool NoMeshRenderer;
+
     protected override void Awake()
     {
         base.Awake();
         _rootObject2D = RootObject.transform.Find("Root2D").gameObject;
-        _meshRenderer = RootObject3D.GetComponent<MeshRenderer>();
-        _defaultLightmapIndex = _meshRenderer.lightmapIndex;
+        if (!NoMeshRenderer)
+        {
+            _meshRenderer = RootObject3D.GetComponent<MeshRenderer>();
+            _defaultLightmapIndex = _meshRenderer.lightmapIndex;
+        }
     }
 
     protected override void Start()
@@ -55,15 +60,18 @@ public class Design_WorldObjectController : CWorldObject
 
 
 
-        if (IsCanChange2D)
+        if (!NoMeshRenderer)
         {
-            _meshRenderer.lightmapIndex = -1;
+            if (IsCanChange2D)
+            {
+                _meshRenderer.lightmapIndex = -1;
 
-            if (IsUse2DTexture)
-                _meshRenderer.material.SetFloat("_IsUse2DTexture", 1f);
+                if (IsUse2DTexture)
+                    _meshRenderer.material.SetFloat("_IsUse2DTexture", 1f);
+            }
+            else
+                _meshRenderer.enabled = false;
         }
-        else
-            _meshRenderer.enabled = false;
 
         DesignChange2D();
     }
@@ -77,32 +85,40 @@ public class Design_WorldObjectController : CWorldObject
         IsCanChange2D = false;
 
 
-
-        if (IsCanChange2D)
+        if (!NoMeshRenderer)
         {
-            _meshRenderer.lightmapIndex = _defaultLightmapIndex;
-            IsCanChange2D = false;
+            if (IsCanChange2D)
+            {
+                _meshRenderer.lightmapIndex = _defaultLightmapIndex;
+                IsCanChange2D = false;
 
-            if (IsUse2DTexture)
-                _meshRenderer.material.SetFloat("_IsUse2DTexture", 0f);
+                if (IsUse2DTexture)
+                    _meshRenderer.material.SetFloat("_IsUse2DTexture", 0f);
+            }
+            else
+                _meshRenderer.enabled = true;
         }
-        else
-            _meshRenderer.enabled = true;
 
         DesignChange3D();
     }
 
     public override void ShowOnBlock()
     {
-        if (_defaultMaterial == null)
-            _defaultMaterial = _meshRenderer.material;
+        if (!NoMeshRenderer)
+        {
+            if (_defaultMaterial == null)
+                _defaultMaterial = _meshRenderer.material;
 
-        _meshRenderer.material = BlockMaterial;
+            _meshRenderer.material = BlockMaterial;
+        }
     }
     public override void ShowOffBlock()
     {
-        if (_defaultMaterial != null)
-            _meshRenderer.material = _defaultMaterial;
+        if (!NoMeshRenderer)
+        {
+            if (_defaultMaterial != null)
+                _meshRenderer.material = _defaultMaterial;
+        }
     }
 
     IEnumerator WaitChangeWorldForSprite()

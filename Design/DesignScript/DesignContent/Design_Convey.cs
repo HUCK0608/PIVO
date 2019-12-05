@@ -62,7 +62,6 @@ public class Design_Convey : Design_WorldObjectController
                     {
                         foreach (var Value in hit.transform.GetComponent<Design_Convey>().ConveyState)
                         {
-                            Debug.Log(Value + " : " + PartnerDirecton);
                             if (Value == PartnerDirecton)
                             {
                                 hit.transform.GetComponent<Design_Convey>().PushConveyPower();
@@ -95,7 +94,7 @@ public class Design_Convey : Design_WorldObjectController
             {
                 if (Value.transform.parent.GetComponent<Design_Convey>() != null)
                 {
-                    if (!Value.transform.parent.GetComponent<Design_Convey>().Power)
+                    if (!Value.transform.parent.GetComponent<Design_Convey>().Power && !Value.transform.parent.GetComponent<Design_Convey>().CheckBlockingTile())
                     {
                         foreach (var V in Value.transform.parent.GetComponent<Design_Convey>().ConveyState)
                         {
@@ -109,7 +108,7 @@ public class Design_Convey : Design_WorldObjectController
                 }
                 else if (Value.transform.GetComponent<Design_Convey>() != null)
                 {
-                    if (!Value.transform.GetComponent<Design_Convey>().Power)
+                    if (!Value.transform.GetComponent<Design_Convey>().Power && !Value.transform.GetComponent<Design_Convey>().CheckBlockingTile())
                     {
                         foreach (var V in Value.transform.parent.GetComponent<Design_Convey>().ConveyState)
                         {
@@ -127,5 +126,24 @@ public class Design_Convey : Design_WorldObjectController
     }
 
     public virtual void PushConveyPower() { }
+
+    bool CheckBlockingTile()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + (-Vector3.forward * 2f), -Vector3.forward, out hit))
+        {
+            if (hit.transform.GetComponent<CWorldObject>())
+            {
+                if (hit.transform.GetComponent<CWorldObject>().IsCanChange2D)
+                    return true;
+            }
+            else if (hit.transform.parent.GetComponent<CWorldObject>())
+            {
+                if (hit.transform.parent.GetComponent<CWorldObject>().IsCanChange2D)
+                    return true;
+            }
+        }
+        return false;
+    }
 
 }
