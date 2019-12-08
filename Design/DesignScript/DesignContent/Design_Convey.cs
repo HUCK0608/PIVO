@@ -127,7 +127,7 @@ public class Design_Convey : Design_WorldObjectController
 
     public virtual void PushConveyPower() { }
 
-    bool CheckBlockingTile()
+    public bool CheckBlockingTile()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position + (-Vector3.forward * 2f), -Vector3.forward, out hit))

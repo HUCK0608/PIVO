@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Playables;
 
 public class CGrassToSnowCut : MonoBehaviour
 {
@@ -10,6 +12,9 @@ public class CGrassToSnowCut : MonoBehaviour
 
         if (ShowGrassToSnowCut.Equals(1))
             LoadSnowStageSelect();
+        else
+            StartCoroutine(PlayLevelSequence());
+
     }
 
     public void LoadSnowStageSelect()
@@ -17,5 +22,16 @@ public class CGrassToSnowCut : MonoBehaviour
         SceneManager.LoadScene("StageSelect_Snow");
 
         PlayerPrefs.SetInt("ShowGrassToSnowCut", 1);
+    }
+
+    IEnumerator PlayLevelSequence()
+    {
+        PlayableDirector LevelSequence = GetComponent<PlayableDirector>();
+        float TargetDuration = Mathf.Floor((float)LevelSequence.duration);
+
+        yield return new WaitUntil(() => LevelSequence.time >= TargetDuration);
+
+        LoadSnowStageSelect();
+
     }
 }

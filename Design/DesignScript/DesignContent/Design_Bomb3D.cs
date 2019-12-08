@@ -41,7 +41,8 @@ public class Design_Bomb3D : MonoBehaviour
     {
         if (other.transform.parent.GetComponent<Design_BrokenTile>())
         {
-            other.transform.parent.GetComponent<Design_BrokenTile>().DestroyBrokenTile();
+            if (!Controller.bUseBomb)
+                other.transform.parent.GetComponent<Design_BrokenTile>().DestroyBrokenTile();
         }
     }
 
@@ -68,7 +69,7 @@ public class Design_Bomb3D : MonoBehaviour
 
     void AttachForDistance()
     {
-        if (Vector3.Distance(Corgi.transform.position, Bomb.transform.position) < MinDistance)
+        if (Vector3.Distance(Corgi.transform.position, Bomb.transform.position) < MinDistance && Controller.bUseBomb)
         {
             if (Input.GetKeyDown(Controller.InteractionKey))
             {
