@@ -3,6 +3,7 @@ using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CUIManager_Title : MonoBehaviour
 {
@@ -20,8 +21,8 @@ public class CUIManager_Title : MonoBehaviour
     [SerializeField]
     private Image _loadGameImage = null;
 
-    /// <summary>현재 선택하고 있는 메뉴</summary>
-    private int _currentSelect = 0;
+    /// <summary>현재 선택하고 있는 메인 메뉴</summary>
+    private int _mainCurrentSelect = 0;
     /// <summary>최대 메뉴 개수</summary>
     private int _maxMenuCount = 0;
 
@@ -71,19 +72,19 @@ public class CUIManager_Title : MonoBehaviour
         CWorldManager.Instance.AllObjectsCanChange2D();
         CWorldManager.Instance.ChangeWorld();
 
-        StartCoroutine(SelectMenuInputLogic());
+        StartCoroutine(MainMenuInputLogic());
     }
 
     /// <summary>메뉴 선택 로직</summary>
-    private IEnumerator SelectMenuInputLogic()
+    private IEnumerator MainMenuInputLogic()
     {
-        ChangeSelectMenu(_currentSelect);
+        ChangeSelectMenu(_mainCurrentSelect);
 
         while(!_isExcutionAnything)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                int nextSelect = Mathf.Clamp(_currentSelect - 1, 0, _maxMenuCount - 1);
+                int nextSelect = Mathf.Clamp(_mainCurrentSelect - 1, 0, _maxMenuCount - 1);
 
                 if (!_isHaveData && nextSelect.Equals(1))
                     nextSelect = 0;
@@ -92,15 +93,15 @@ public class CUIManager_Title : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                int nextSelect = Mathf.Clamp(_currentSelect + 1, 0, _maxMenuCount - 1);
+                int nextSelect = Mathf.Clamp(_mainCurrentSelect + 1, 0, _maxMenuCount - 1);
 
                 if (!_isHaveData && nextSelect.Equals(1))
                     nextSelect = 2;
 
                 ChangeSelectMenu(nextSelect);
             }
-            else if (Input.GetKeyDown(KeyCode.Z))
-                ExcutionSelectMenu(_currentSelect);
+            else if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Return))
+                ExcutionMainMenu(_mainCurrentSelect);
 
             yield return null;
         }
@@ -119,15 +120,15 @@ public class CUIManager_Title : MonoBehaviour
 
         PlayPointerEnterAudio();
 
-        _defaultMenu[_currentSelect].SetActive(true);
-        _selectMenu[_currentSelect].SetActive(false);
-        _currentSelect = selectMenu;
-        _defaultMenu[_currentSelect].SetActive(false);
-        _selectMenu[_currentSelect].SetActive(true);
+        _defaultMenu[_mainCurrentSelect].SetActive(true);
+        _selectMenu[_mainCurrentSelect].SetActive(false);
+        _mainCurrentSelect = selectMenu;
+        _defaultMenu[_mainCurrentSelect].SetActive(false);
+        _selectMenu[_mainCurrentSelect].SetActive(true);
     }
 
-    /// <summary>선택 메뉴 실행</summary>
-    public void ExcutionSelectMenu(int selectMenu)
+    /// <summary>메인 메뉴 실행</summary>
+    public void ExcutionMainMenu(int selectMenu)
     {
         // 무언가 실행중이라면 리턴
         if (_isExcutionAnything)
@@ -150,6 +151,7 @@ public class CUIManager_Title : MonoBehaviour
                 SceneManager.LoadScene("StageSelect_Grass");
                 break;
             case 2:
+                StartCoroutine(OptionMenuInputLogic());
                 break;
             case 3:
                 Application.Quit();
@@ -256,5 +258,54 @@ public class CUIManager_Title : MonoBehaviour
             _audioSource.clip = _pointerUpAudioClips[2];
 
         _audioSource.Play();
+    }
+
+    /// <summary>메인 메뉴 그룹</summary>
+    [SerializeField]
+    private GameObject _mainMenu = null;
+    /// <summary>옵션 메뉴 그룹</summary>
+    [SerializeField]
+    private GameObject _optionMenu = null;
+
+    // 메뉴 그룹 활성화 함수
+    private void SetActiveMainMenu(bool value) { _mainMenu.SetActive(value); }
+    private void SetActiveOptionMenu(bool value) { _optionMenu.SetActive(value); }
+
+    /// <summary>선택 메뉴 백 이미지</summary>
+    [SerializeField]
+    private Transform _selectMenuBG = null;
+    /// <summary>현재 선택하고 있는 옵션 메뉴</summary>
+    private int _optionCurrentSelect = 0;
+
+    /// <summary>옵션 메뉴 입력 로직</summary>
+    private IEnumerator OptionMenuInputLogic()
+    {
+        SetActiveMainMenu(false);
+        SetActiveOptionMenu(true);
+
+        while (true)
+        {
+            if(Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                _optionCurrentSelect = Mathf.Min(3, _optionCurrentSelect + 1);
+                _selectMenuBG.localPosition = Vector3.up * -70f * _optionCurrentSelect + Vector3.up * 70f;
+            }
+            else if(Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                _optionCurrentSelect = Mathf.Max(0, _optionCurrentSelect - 1);
+                _selectMenuBG.localPosition = Vector3.up * -70f * _optionCurrentSelect + Vector3.up * 70f;
+            }
+            else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape))
+            {
+                SetActiveOptionMenu(false);
+                SetActiveMainMenu(true);
+                break;
+            }
+
+            yield return null;
+        }
+
+        _isExcutionAnything = false;
+        StartCoroutine(MainMenuInputLogic());
     }
 }
