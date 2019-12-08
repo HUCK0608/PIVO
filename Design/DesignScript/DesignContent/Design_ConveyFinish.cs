@@ -11,6 +11,7 @@ public class Design_ConveyFinish : Design_Convey
     public override void BeginPlay()
     {
         base.BeginPlay();
+        ConveyState.Add(EConveyDirection.Left);
     }
     public override void PushConveyPower()
     {

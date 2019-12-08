@@ -6,12 +6,14 @@ public class Design_BombSpawn : Design_WorldObjectController
 {
     public GameObject Bomb;
 
+    bool bFirstTime;
     GameObject CurBomb;
 
     public override void BeginPlay()
     {
         base.BeginPlay();
 
+        bFirstTime = true;
         SpawnBomb();
     }
 
@@ -19,7 +21,13 @@ public class Design_BombSpawn : Design_WorldObjectController
     {
         if (WorldManager.CurrentWorldState != EWorldState.Changing)
         {
-            CurBomb = Instantiate(Bomb, transform);
+            if (bFirstTime)
+            {
+                CurBomb = Instantiate(Bomb, transform);
+                bFirstTime = false;
+            }
+
+            CurBomb.transform.parent = transform;
             CurBomb.GetComponent<Design_BombController>().ParentBombSpawn = this;
             CurBomb.GetComponent<Design_BombController>().bUseBomb = false;
 
@@ -59,6 +67,7 @@ public class Design_BombSpawn : Design_WorldObjectController
         {
             CurBomb.transform.position = CurBomb.transform.position + new Vector3(0, 0.1f, 0);
             yield return new WaitForSeconds(Time.deltaTime);
+            CurBomb.GetComponent<Design_BombController>().IsCanChange2D = IsCanChange2D;
         }
 
         CurBomb.GetComponent<Design_BombController>().bUseBomb = true;

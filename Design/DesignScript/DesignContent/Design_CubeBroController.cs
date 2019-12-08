@@ -7,6 +7,7 @@ public class Design_CubeBroController : Design_WorldObjectController
 {
 
     public float DistanceMinimal;
+    public float FlipValue;
 
     GameObject TextObject;
     GameObject ViewChangeEffect;
@@ -43,7 +44,7 @@ public class Design_CubeBroController : Design_WorldObjectController
         if (IsCanChange2D)
             SpawnEffect(true);
 
-        StartCoroutine(SetTextObjectPosition());
+        StartCoroutine(SetText2DPosition());
     }
 
     public override void DesignChange3D()
@@ -52,7 +53,7 @@ public class Design_CubeBroController : Design_WorldObjectController
 
         SpawnEffect(false);
 
-        StartCoroutine(SetTextObjectPosition());
+        StartCoroutine(SetText3DPosition());
     }
 
     public override void WaitChangeWorld(EWorldState CurState)
@@ -94,37 +95,65 @@ public class Design_CubeBroController : Design_WorldObjectController
             else
                 TextObject.SetActive(false);
         }
+        else if (WorldManager.CurrentWorldState == EWorldState.Changing)
+            TextObject.SetActive(false);
 
     }
 
-    IEnumerator SetTextObjectPosition()
+    IEnumerator SetText3DPosition()
     {
-        float Modify = 2.9f;
+        float TargetValue = 1 / 0.3f;
+        float SaveDeltaSeconds = 0f;
 
-        if (TargetValue >= 0)
+        Vector3 TargetPosition = TextObject.transform.position;
+
+        while (true)
         {
-            while (true)
+            SaveDeltaSeconds += Time.deltaTime;
+            if (SaveDeltaSeconds > 1)
             {
-                if (TextObject.transform.position.x < TextOriginPos.x + TargetValue)
-                    TextObject.transform.position += new Vector3(Time.deltaTime * Modify, 0, 0);
-                else
-                    break;
-
-                yield return new WaitForSeconds(Time.deltaTime);
+                Mathf.Clamp(SaveDeltaSeconds, 0, 1);
+                TextObject.transform.position = Vector3.Lerp(TargetPosition, TextOriginPos, SaveDeltaSeconds * TargetValue);
+                break;
             }
+
+            TextObject.transform.position = Vector3.Lerp(TargetPosition, TextOriginPos, SaveDeltaSeconds * TargetValue);
+            yield return new WaitForSeconds(Time.deltaTime);
         }
-        else
-        {
-            while (true)
-            {
-                if (TextObject.transform.position.x > TextOriginPos.x + TargetValue)
-                    TextObject.transform.position -= new Vector3(Time.deltaTime * Modify, 0, 0);
-                else
-                    break;
 
-                yield return new WaitForSeconds(Time.deltaTime);
+        yield return null;
+
+    }
+
+    IEnumerator SetText2DPosition()
+    {
+        float TargetValue = 1 / 0.3f;
+        float SaveDeltaSeconds = 0f;
+        float TargetPosX = TextObject.transform.Find("Dialogue_Bubble").Find("BubblePoint").position.x;
+
+        if (TextObject.transform.Find("Dialogue_Bubble").GetComponent<SpriteRenderer>().flipX)
+            TargetPosX = Mathf.Abs(TargetPosX - (transform.position.x + FlipValue));
+        else
+            TargetPosX = -Mathf.Abs(TargetPosX - (transform.position.x - FlipValue - 1));
+
+        Vector3 TargetPosition = new Vector3(TextOriginPos.x + TargetPosX, TextOriginPos.y, TextOriginPos.z);
+
+        while (true)
+        {
+            SaveDeltaSeconds += Time.deltaTime;
+            if (SaveDeltaSeconds > 1)
+            {
+                Mathf.Clamp(SaveDeltaSeconds, 0, 1);
+                TextObject.transform.position = Vector3.Lerp(TextOriginPos, TargetPosition, SaveDeltaSeconds * TargetValue);
+                break;
             }
-        }       
+
+            TextObject.transform.position = Vector3.Lerp(TextOriginPos, TargetPosition, SaveDeltaSeconds * TargetValue);
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        yield return null;
+
     }
 
     void SetCubeAnimation2D()

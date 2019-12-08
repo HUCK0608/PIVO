@@ -5,11 +5,13 @@ using UnityEngine;
 public class Design_ConveySelector : Design_Convey
 {
     private ConveySelectorState CurMeshState;
+
     public override void BeginPlay()
     {
         base.BeginPlay();
 
         CurMeshState = GetComponent<Design_ConveySelectorMesh>().ObjectMeshSelect;
+        SetConveyState();
     }
 
     public override void DesignChange2D()
@@ -25,11 +27,10 @@ public class Design_ConveySelector : Design_Convey
     }
 
 
-
     public override void PushConveyPower()
     {
         base.PushConveyPower();
-
+        
         Power = true;
 
         if (CurMeshState == ConveySelectorState.Straight)
@@ -40,8 +41,61 @@ public class Design_ConveySelector : Design_Convey
         if (WorldManager.CurrentWorldState == EWorldState.View3D)
             SetConveyRay(true);
         else if (WorldManager.CurrentWorldState == EWorldState.View2D && IsCanChange2D)
-            SetConveyRay(false);        
-           
+            SetConveyRay(false);
+
+    }
+
+    void SetConveyState()
+    {
+        Vector3 CurForwardVector = transform.Find("Root3D").forward;
+        ConveyState.Clear();
+
+        if (CurMeshState == ConveySelectorState.Straight)
+        {
+            if (CurForwardVector == new Vector3(1, 0, 0))
+            {
+                ConveyState.Add(EConveyDirection.Left);
+                ConveyState.Add(EConveyDirection.Right);
+            }
+            else if (CurForwardVector == new Vector3(-1, 0, 0))
+            {
+                ConveyState.Add(EConveyDirection.Left);
+                ConveyState.Add(EConveyDirection.Right);
+            }
+            else if (CurForwardVector == new Vector3(0, 1, 0))
+            {
+                ConveyState.Add(EConveyDirection.Up);
+                ConveyState.Add(EConveyDirection.Down);
+            }
+            else if (CurForwardVector == new Vector3(0, -1, 0))
+            {
+                ConveyState.Add(EConveyDirection.Up);
+                ConveyState.Add(EConveyDirection.Down);
+            }
+        }
+        else if (CurMeshState == ConveySelectorState.Corner)
+        {
+            if (CurForwardVector == new Vector3(1, 0, 0))
+            {
+                ConveyState.Add(EConveyDirection.Right);
+                ConveyState.Add(EConveyDirection.Up);
+            }
+            else if (CurForwardVector == new Vector3(-1, 0, 0))
+            {
+                ConveyState.Add(EConveyDirection.Left);
+                ConveyState.Add(EConveyDirection.Down);
+            }
+            else if (CurForwardVector == new Vector3(0, 1, 0))
+            {
+                ConveyState.Add(EConveyDirection.Left);
+                ConveyState.Add(EConveyDirection.Up);
+            }
+            else if (CurForwardVector == new Vector3(0, -1, 0))
+            {
+                ConveyState.Add(EConveyDirection.Right);
+                ConveyState.Add(EConveyDirection.Down);
+            }
+        }
     }
 
     void ChangeWorld()
@@ -56,59 +110,11 @@ public class Design_ConveySelector : Design_Convey
 
     void SetConveyRay(bool Is3D)
     {
-        float CurObjectRotX = transform.Find("Root3D").rotation.x;
-
-        if (CurObjectRotX == -0.5f)
-            CurObjectRotX *= transform.Find("Root3D").forward.y;
-        else if (CurObjectRotX < -0.5f)
-            CurObjectRotX = 1f;
-
-        if (CurMeshState == ConveySelectorState.Straight)
+        foreach (var Value in ConveyState)
         {
-            if (CurObjectRotX == 0f)
-            {
-                ConveyPower(Is3D, EConveyDirection.Left);
-                ConveyPower(Is3D, EConveyDirection.Right);
-            }
-            else if (CurObjectRotX == 0.5f)
-            {
-                ConveyPower(Is3D, EConveyDirection.Up);
-                ConveyPower(Is3D, EConveyDirection.Down);
-            }
-            else if (CurObjectRotX == 1f)
-            {
-                ConveyPower(Is3D, EConveyDirection.Left);
-                ConveyPower(Is3D, EConveyDirection.Right);
-            }
-            else if (CurObjectRotX == -0.5f)
-            {
-                ConveyPower(Is3D, EConveyDirection.Up);
-                ConveyPower(Is3D, EConveyDirection.Down);
-            }
+            ConveyPower(Is3D, Value);
         }
-        else if (CurMeshState == ConveySelectorState.Corner)
-        {
-            if (CurObjectRotX == 0)
-            {
-                ConveyPower(Is3D, EConveyDirection.Left);
-                ConveyPower(Is3D, EConveyDirection.Down);
-            }
-            else if (CurObjectRotX == 0.5f)
-            {
-                ConveyPower(Is3D, EConveyDirection.Right);
-                ConveyPower(Is3D, EConveyDirection.Down);
-            }
-            else if (CurObjectRotX == 1f)
-            {
-                ConveyPower(Is3D, EConveyDirection.Up);
-                ConveyPower(Is3D, EConveyDirection.Right);
-            }
-            else if (CurObjectRotX == -0.5f)
-            {
-                ConveyPower(Is3D, EConveyDirection.Up);
-                ConveyPower(Is3D, EConveyDirection.Left);
-            }
-        }
+        
     }
 
 }

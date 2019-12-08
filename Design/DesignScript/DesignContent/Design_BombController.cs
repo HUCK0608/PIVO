@@ -14,7 +14,10 @@ public class Design_BombController : Design_WorldObjectController
     GameObject IgnitionFireEffect;
     Design_Bomb3D Actor3DClass;
     Design_Bomb2D Actor2DClass;
-    
+
+    Vector3 ColliderSize, ColliderOffset;
+    Vector3 Collider2DSize, Collider2DOffset;
+
     float ExplosionDistance;
     float BoxSize;
 
@@ -40,8 +43,14 @@ public class Design_BombController : Design_WorldObjectController
         IgnitionFireEffect = transform.Find("IgnitionFireGroup").gameObject;
         IgnitionFireEffect.SetActive(false);
 
-        InteractionKey = KeyCode.X;
-        ExplosionKey = KeyCode.C;
+        ColliderSize = RootObject3D.GetComponent<BoxCollider>().size;
+        ColliderOffset = RootObject3D.GetComponent<BoxCollider>().center;
+
+        Collider2DSize = RootObject2D.GetComponent<BoxCollider2D>().size;
+        Collider2DOffset = RootObject2D.GetComponent<BoxCollider2D>().offset;
+
+        InteractionKey = CKeyManager.InteractionKey;
+        ExplosionKey = CKeyManager.BombInteractionKey;
 
         ExplosionDistance = 12.5f;
         BoxSize = 8f;
@@ -164,10 +173,25 @@ public class Design_BombController : Design_WorldObjectController
 
         yield return new WaitForSeconds(1.5f);
 
-        this.ParentBombSpawn.SpawnBomb();
-        CWorldManager.Instance.RemoveWorldObject(this);
+        transform.position = ParentBombSpawn.transform.position;
+        transform.rotation = ParentBombSpawn.transform.rotation;
+        ParentBombSpawn.SpawnBomb();
+
         Destroy(BoomInstance);
-        Destroy(this.gameObject);
+
+        RootObject2D.GetComponent<BoxCollider2D>().size = Collider2DSize;
+        RootObject2D.GetComponent<BoxCollider2D>().offset = Collider2DOffset;
+        RootObject3D.GetComponent<BoxCollider>().size = ColliderSize;
+        RootObject3D.GetComponent<BoxCollider>().center = ColliderOffset;
+
+        RootObject3D.GetComponent<MeshRenderer>().enabled = true;
+
+        yield return new WaitUntil(() => WorldManager.CurrentWorldState != EWorldState.Changing);
+
+        if (WorldManager.CurrentWorldState == EWorldState.View3D)
+            RootObject3D.GetComponent<BoxCollider>().enabled = true;
+        else if (WorldManager.CurrentWorldState == EWorldState.View2D)
+            RootObject2D.GetComponent<BoxCollider2D>().enabled = true;
     }
 
 
