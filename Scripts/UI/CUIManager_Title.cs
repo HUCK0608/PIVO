@@ -288,12 +288,12 @@ public class CUIManager_Title : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.DownArrow))
             {
                 _optionCurrentSelect = Mathf.Min(3, _optionCurrentSelect + 1);
-                _selectMenuBG.localPosition = Vector3.up * -70f * _optionCurrentSelect + Vector3.up * 70f;
+                _selectMenuBG.localPosition = Vector3.up * -70f * _optionCurrentSelect + Vector3.up * 70f + Vector3.right * -65f;
             }
             else if(Input.GetKeyDown(KeyCode.UpArrow))
             {
                 _optionCurrentSelect = Mathf.Max(0, _optionCurrentSelect - 1);
-                _selectMenuBG.localPosition = Vector3.up * -70f * _optionCurrentSelect + Vector3.up * 70f;
+                _selectMenuBG.localPosition = Vector3.up * -70f * _optionCurrentSelect + Vector3.up * 70f + Vector3.right * -65f;
             }
             else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape))
             {

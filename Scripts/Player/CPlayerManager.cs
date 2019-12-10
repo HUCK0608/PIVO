@@ -90,7 +90,7 @@ public class CPlayerManager : CCharacter
 
             target.y = RootObject3D.transform.position.y;
 
-            if (Vector3.Distance(RootObject3D.transform.position, target) <= 0.07f)
+            if (Vector3.Distance(RootObject3D.transform.position, target) <= 0.1f)
             {
                 RootObject2D.transform.position = target;
                 RootObject3D.transform.position = target;
