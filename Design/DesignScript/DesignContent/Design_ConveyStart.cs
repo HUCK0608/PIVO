@@ -17,7 +17,7 @@ public class Design_ConveyStart : Design_Convey
     {
         base.DesignChange2D();
 
-        if (IsCanChange2D)
+        if (IsCanChange2D && !CheckBlockingTile())
             ConveyPower(false, EConveyDirection.Right);
     }
 

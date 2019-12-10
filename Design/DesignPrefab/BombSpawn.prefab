@@ -116,13 +116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d942ee743750a243aaa4de2346924d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Actor3D: {fileID: 0}
-  Actor2D: {fileID: 0}
-  bState3D: 0
-  bState2D: 0
-  OutViewRect: 0
-  bChanging: 0
-  bShow: 0
+  _isUse2DTexture: 0
+  NoMeshRenderer: 0
   Bomb: {fileID: 544235812547343789, guid: 3ec0f201847acf44cba515f88b4efd71, type: 3}
 --- !u!1 &5094803996106967810
 GameObject:
@@ -136,7 +131,7 @@ GameObject:
   - component: {fileID: 5593952791101808257}
   - component: {fileID: 2614402265522066931}
   m_Layer: 9
-  m_Name: BombSpawnDoor (1)
+  m_Name: BombSpawnDoor_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -306,7 +301,7 @@ GameObject:
   - component: {fileID: 8630486152773742271}
   - component: {fileID: 8741313188718461213}
   m_Layer: 9
-  m_Name: BombSpawnDoor
+  m_Name: BombSpawnDoor_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
