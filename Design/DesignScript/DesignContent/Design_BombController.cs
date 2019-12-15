@@ -72,6 +72,18 @@ public class Design_BombController : Design_WorldObjectController
         Actor2DClass.enabled = false;
     }
 
+    public override void Change3D()
+    {
+        if (bUseBomb)
+            base.Change3D();
+    }
+
+    public override void Change2D()
+    {
+        if (bUseBomb)
+            base.Change2D();
+    }
+
     void Update()
     {
         Explosion();

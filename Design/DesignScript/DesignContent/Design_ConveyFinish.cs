@@ -17,6 +17,9 @@ public class Design_ConveyFinish : Design_Convey
     {
         base.PushConveyPower();
 
+        if (WorldManager.CurrentWorldState == EWorldState.View2D && CheckBlockingTile())
+            return;
+
         Power = true;
 
         transform.Find("Root3D").Find("InternalPower").GetComponent<MeshRenderer>().material = OnMaterial;

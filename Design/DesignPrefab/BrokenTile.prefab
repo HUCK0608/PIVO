@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &6469775267898845821
 Transform:
@@ -124,7 +124,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &4156649618588456557
 Transform:
@@ -203,7 +203,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4
   m_IsActive: 1
 --- !u!4 &6422224947817121950
 Transform:
@@ -228,7 +228,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6422224947817122017}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 2a45dd0637e737447bb183266d1406da, type: 2}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
@@ -246,10 +246,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aea724f248690241840c03ec1410b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Actor3D: {fileID: 0}
-  Actor2D: {fileID: 0}
-  bState3D: 0
-  bState2D: 0
-  OutViewRect: 0
-  bChanging: 0
-  bShow: 0
+  _isUse2DTexture: 0
+  NoMeshRenderer: 0

@@ -48,11 +48,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isUse2DTexture: 0
+  NoMeshRenderer: 0
   BoomEffect: {fileID: 1385546039964652, guid: 1ce52d341bc84644e8bd416381b5ed81, type: 3}
   InteractionKey: 0
   ExplosionKey: 0
   ParentBombSpawn: {fileID: 0}
-  CurrentState: 0
   bUseBomb: 0
   IsEnabled: 0
 --- !u!65 &1754579011536596230

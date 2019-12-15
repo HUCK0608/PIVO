@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8017399786391899357}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ViewChange_Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 5204406080260955602}
   - component: {fileID: 5204406080260955604}
   - component: {fileID: 5204406080260955603}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: TextObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5204406080670298362}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bone005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5204406080836769306}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bone004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +196,7 @@ GameObject:
   - component: {fileID: 5204406081078480974}
   - component: {fileID: 4179199994319930566}
   - component: {fileID: 414426100}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Root2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5204406081140548784}
   - component: {fileID: 5204406081140548785}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: cube_bro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,7 +378,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5204406081479806119}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BillboardTEXT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -409,7 +409,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5204406081723981332}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bone001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -440,7 +440,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5204406081962144042}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bone002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,7 +472,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5204406082176728263}
   - component: {fileID: 5204406082176728264}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Root3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -523,7 +523,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5204406082200497153}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bone003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -557,7 +557,7 @@ GameObject:
   - component: {fileID: 5204406082247158124}
   - component: {fileID: 3585202910137981021}
   - component: {fileID: 6114578450222025752}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CubeBro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -643,7 +643,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5204406082331401574}
   - component: {fileID: 5204406082331401575}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dialogue_Bubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -723,7 +723,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1407739091297674560}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BubblePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

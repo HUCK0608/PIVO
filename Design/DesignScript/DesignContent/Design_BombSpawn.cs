@@ -8,12 +8,17 @@ public class Design_BombSpawn : Design_WorldObjectController
 
     bool bFirstTime;
     GameObject CurBomb;
+    GameObject LeftDoor, RightDoor;
 
     public override void BeginPlay()
     {
         base.BeginPlay();
 
         bFirstTime = true;
+
+        LeftDoor = RootObject3D.transform.Find("BombSpawnDoor_L").gameObject;
+        RightDoor = RootObject3D.transform.Find("BombSpawnDoor_R").gameObject;
+
         SpawnBomb();
     }
 
@@ -61,7 +66,20 @@ public class Design_BombSpawn : Design_WorldObjectController
     IEnumerator RiseBomb()
     {
         CurBomb.transform.position = transform.position;
-        float TargetPositionY = transform.position.y + 2;
+        float TargetPositionY = transform.position.y + 2f;
+        float TargetLeftDoorX = transform.position.x - 1.2f;
+        float TargetDefaultLeftDoorX = LeftDoor.transform.position.x;
+
+        while (true)
+        {
+            float Modifier = 0.05f;
+            LeftDoor.transform.Translate(Vector3.left * Modifier);
+            RightDoor.transform.Translate(Vector3.left * Modifier);
+            yield return new WaitForSeconds(Time.deltaTime);
+
+            if (LeftDoor.transform.position.x < TargetLeftDoorX)
+                break;
+        }
 
         while (CurBomb.transform.position.y < TargetPositionY)
         {
@@ -71,5 +89,16 @@ public class Design_BombSpawn : Design_WorldObjectController
         }
 
         CurBomb.GetComponent<Design_BombController>().bUseBomb = true;
+
+        while (true)
+        {
+            float Modifier = 0.05f;
+            LeftDoor.transform.Translate(Vector3.right * Modifier);
+            RightDoor.transform.Translate(Vector3.right * Modifier);
+            yield return new WaitForSeconds(Time.deltaTime);
+
+            if (LeftDoor.transform.position.x > TargetDefaultLeftDoorX)
+                break;
+        }
     }
 }
