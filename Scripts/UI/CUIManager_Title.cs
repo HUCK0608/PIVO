@@ -267,15 +267,14 @@ public class CUIManager_Title : MonoBehaviour
     [SerializeField]
     private GameObject _optionMenu = null;
 
-    // 메뉴 그룹 활성화 함수
+    /// <summary>메인 메뉴 활성화 여부</summary>
     private void SetActiveMainMenu(bool value) { _mainMenu.SetActive(value); }
+    /// <summary>옵션 메뉴 활성화 여부</summary>
     private void SetActiveOptionMenu(bool value) { _optionMenu.SetActive(value); }
 
-    /// <summary>선택 메뉴 백 이미지</summary>
+    /// <summary>선택 옵션 메뉴 백 이미지</summary>
     [SerializeField]
-    private Transform _selectMenuBG = null;
-    /// <summary>현재 선택하고 있는 옵션 메뉴</summary>
-    private int _optionCurrentSelect = 0;
+    private Transform _selectOptionMenuBG = null;
 
     /// <summary>옵션 메뉴 입력 로직</summary>
     private IEnumerator OptionMenuInputLogic()
@@ -283,19 +282,22 @@ public class CUIManager_Title : MonoBehaviour
         SetActiveMainMenu(false);
         SetActiveOptionMenu(true);
 
+        // 현재 선택 위치를 맨 위로 초기화
+        SetSelectOptionMenuBGPoint(0);
+
         while (true)
         {
-            if(Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                _optionCurrentSelect = Mathf.Min(3, _optionCurrentSelect + 1);
-                _selectMenuBG.localPosition = Vector3.up * -70f * _optionCurrentSelect + Vector3.up * 70f + Vector3.right * -65f;
-            }
-            else if(Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                _optionCurrentSelect = Mathf.Max(0, _optionCurrentSelect - 1);
-                _selectMenuBG.localPosition = Vector3.up * -70f * _optionCurrentSelect + Vector3.up * 70f + Vector3.right * -65f;
-            }
-            else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape))
+            //if(Input.GetKeyDown(KeyCode.DownArrow))
+            //{
+            //    _optionCurrentSelect = Mathf.Min(3, _optionCurrentSelect + 1);
+            //    _selectMenuBG.localPosition = Vector3.up * -70f * _optionCurrentSelect + Vector3.up * 70f + Vector3.right * -65f;
+            //}
+            //else if(Input.GetKeyDown(KeyCode.UpArrow))
+            //{
+            //    _optionCurrentSelect = Mathf.Max(0, _optionCurrentSelect - 1);
+            //    _selectMenuBG.localPosition = Vector3.up * -70f * _optionCurrentSelect + Vector3.up * 70f + Vector3.right * -65f;
+            //}
+            if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape))
             {
                 SetActiveOptionMenu(false);
                 SetActiveMainMenu(true);
@@ -307,5 +309,12 @@ public class CUIManager_Title : MonoBehaviour
 
         _isExcutionAnything = false;
         StartCoroutine(MainMenuInputLogic());
+    }
+
+    /// <summary>선택 옵션 메뉴 BG 위치 설정</summary>
+    public void SetSelectOptionMenuBGPoint(int selectMenuValue)
+    {
+        Vector3 temp = Vector3.up * 70f;
+        _selectOptionMenuBG.localPosition = -temp * selectMenuValue + temp + Vector3.right * -65f;
     }
 }
