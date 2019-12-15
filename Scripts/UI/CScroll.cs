@@ -19,6 +19,14 @@ public class CScroll : MonoBehaviour
     /// <summary>정규화 값</summary>
     public float NormalizedValue { get { return _normalizedValue; } }
 
+    public void SetScroll(float normalizedValue)
+    {
+        _normalizedValue = normalizedValue;
+
+        _button.localPosition = Vector3.right * 340f * _normalizedValue - Vector3.right * 170f;
+        _scrollDefault.fillAmount = _normalizedValue;
+    }
+
     public void DragEvent()
     {
         Vector3 newLocalPosition = Vector3.zero;
