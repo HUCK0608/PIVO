@@ -1,25 +1,36 @@
-﻿Shader "Custom/VertexPaint"
+﻿Shader "BlueCube/VertexPaint"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
-        _MainTex ("Albedo (RGB)", 2D) = "white" {}
+        _MainTex3D("3D_Texture", 2D) = "white" {}
+		_MainTex2D("2D_Texture", 2D) = "white" {}
+
 		_ShadowColor ("DeepShadowColor", Color) = (1,1,1,1)
+		_ShadowColor2("DeepShadowColor2", Color) = (1,1,1,1)
+		[Toggle]_IsUse2DTexture("IsUse2DTexture", float) = 0
     }
     SubShader
     {
         Tags { "RenderType"="Opaque" }
         LOD 200
 
+		Stencil 
+		{
+			Ref[_Stencil]
+			Pass Replace
+		}
+
         CGPROGRAM
         #pragma surface surf ModifyShadow vertex:vert
         #pragma target 3.0
 
-        sampler2D _MainTex;
+        sampler2D _MainTex3D;
+		sampler2D _MainTex2D;
 
         struct Input
         {
-            float2 uv_MainTex;
+            float2 uv_MainTex3D;
+			float2 uv_MainTex2D;
 			float4 VColor : Color;
         };
 
@@ -28,31 +39,46 @@
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 		}
 
-        float4 _Color;
 		float4 _ShadowColor;
+		float4 _ShadowColor2;
+
 		float4 VertexColor;
+		float3 MaskG;
+		float3 MaskB;
+
+		float _IsUse2DTexture;
 
         UNITY_INSTANCING_BUFFER_START(Props)
         UNITY_INSTANCING_BUFFER_END(Props)
 
         void surf (Input IN, inout SurfaceOutput o)
         {
-			float4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
+			float4 Tex3 = tex2D(_MainTex3D, IN.uv_MainTex3D);
+			float4 Tex2 = tex2D(_MainTex2D, IN.uv_MainTex2D);
 			VertexColor = IN.VColor;
+			
+			MaskG = Tex3.rgb * (1 - VertexColor.b);
+			MaskB = Tex3.rgb * (1 - VertexColor.g);
 
-			o.Albedo = c.rgb * VertexColor.r;
-            o.Alpha = c.a;
+			o.Albedo = lerp(Tex3.rgb - MaskG - MaskB, Tex2.rgb, _IsUse2DTexture);
+            o.Alpha = lerp(Tex3.a, Tex2.a, _IsUse2DTexture);
         }
 
 		half4 LightingModifyShadow(SurfaceOutput s, half3 lightDir, half atten)
 		{
 			half4 Final;
 
-			half NdotL = max(0, dot(s.Normal, lightDir));			
+			half NdotL = max(0, dot(s.Normal, lightDir));
 			half ShadowRange = NdotL * atten;
-			half3 ShadowColor = (1 - VertexColor.r) * _ShadowColor;
+			half3 ShadowColor = MaskB * _ShadowColor;
+			half3 ShadowColor2 = MaskG * _ShadowColor2;
 			
-			Final.rgb = (s.Albedo * _LightColor0 * ShadowRange) + ShadowColor;
+			Final.rgb = lerp(
+				(s.Albedo * _LightColor0 * ShadowRange) + ShadowColor + ShadowColor2,
+				s.Albedo,
+				_IsUse2DTexture
+			);
+
 			Final.a = s.Alpha;
 
 			return Final;
