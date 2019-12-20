@@ -10,28 +10,11 @@ public class Design_Bomb2D : MonoBehaviour
     GameObject Corgi;
     GameObject Bomb;
 
-    bool bAttachCorgi;
-    float MinDistance;
-    float ExplosionDistance;
     public void BeginPlay()
     {
 
-        bAttachCorgi = false;
-        MinDistance = 2.5f;
-        ExplosionDistance = 15f;
-
         Corgi = CPlayerManager.Instance.RootObject2D;
         Bomb = this.transform.parent.gameObject;
-
-    }
-
-    void Update()
-    {
-
-        if (bAttachCorgi)
-            DownBomb();
-        else
-            AttachForDistance();
 
     }
 
@@ -54,72 +37,87 @@ public class Design_Bomb2D : MonoBehaviour
     /*---------------
     //Function
     ----------------*/
-
-    void AttachForDistance()
+    public void AttachForDistance()
     {
-        if (Vector2.Distance(Corgi.transform.position, Bomb.transform.position) < MinDistance && Controller.bUseBomb)
+        float MinDistance = 2.5f;
+
+        if (Vector2.Distance(Corgi.transform.position, Controller.transform.position) < MinDistance)
         {
-            if (Input.GetKeyDown(Controller.InteractionKey))
-            {
-                transform.parent.parent = null;
-                AttachCorgi();
-            }
+            Controller.AttachCorgi();
         }
     }
 
-    void AttachCorgi()
-    {
-        bAttachCorgi = true;
-        Bomb.GetComponent<Design_BombController>().DisableBomb();
-        Vector3 TargetPos = new Vector3(Corgi.transform.position.x, Corgi.transform.position.y, Bomb.transform.position.z);
-        Bomb.transform.position = TargetPos + Vector3.up * 4f;
-
-        Bomb.transform.parent = Corgi.transform;
-    }
-    void DownBomb()
+    public void DownBomb()
     {
         
-        if (Input.GetKeyDown(Controller.InteractionKey))
+        float BoxSizeF = 1.2f;
+        float ScaleX = Corgi.transform.localScale.x;
+        Vector2 CastPos = (Vector2)Corgi.transform.position + new Vector2(ScaleX * 1.5f, 1f);
+        Vector2 CastSize = new Vector2(BoxSizeF, BoxSizeF);
+        Vector2 CastDir = new Vector2(ScaleX, 0);
+        float CastDistance = 0.3f;
+
+        RaycastHit2D hit = Physics2D.BoxCast(CastPos, CastSize, 0, CastDir, CastDistance);
+
+        Debug.DrawRay(CastPos, CastDir * CastDistance, Color.red, 0.1f);
+        if (hit)
         {
-            Bomb.GetComponent<Design_BombController>().EnableBomb();
+            Debug.Log(hit.transform.parent.name);
+            Vector2 CastPos2 = CastPos + new Vector2(0, 1);
+            RaycastHit2D hit2 = Physics2D.BoxCast(CastPos2, CastSize, 0, CastDir, CastDistance);
 
-            float BoxSizeF = 1.2f;
-            float ScaleX = Corgi.transform.localScale.x;
-            Vector2 CastPos = (Vector2)Corgi.transform.position + new Vector2(ScaleX * 1.5f, 1f);
-            Vector2 CastSize = new Vector2(BoxSizeF, BoxSizeF);
-            Vector2 CastDir = new Vector2(ScaleX, 0);
-            float CastDistance = 0.3f;
-
-            RaycastHit2D hit = Physics2D.BoxCast(CastPos, CastSize, 0, CastDir, CastDistance);
-
-            Debug.DrawRay(CastPos, CastDir * CastDistance, Color.red, 0.1f);
-            if (hit)
+            if (hit2)
             {
-                Debug.Log(hit.transform.parent.name);
-                Vector2 CastPos2 = CastPos + new Vector2(0, 1);
-                RaycastHit2D hit2 = Physics2D.BoxCast(CastPos2, CastSize, 0, CastDir, CastDistance);
-
-                if (hit2)
-                {
-                    Bomb.GetComponent<Design_BombController>().DisableBomb();
-                    Debug.Log("2층에 뭐가 있어서 내려놓을 수 없음");
-                }
-                else
-                {
-                    bAttachCorgi = false;
-                    Vector3 DownValue = new Vector3(ScaleX * 1.5f, 3, 0);
-
-                    Bomb.transform.position = Corgi.transform.position + DownValue;
-                    Bomb.transform.parent = null;
-                }
+                Bomb.GetComponent<Design_BombController>().DisableBomb();
+                Debug.Log("2층에 뭐가 있어서 내려놓을 수 없음");
             }
             else
             {
-                bAttachCorgi = false;
-                Vector3 DownValue = new Vector3(ScaleX * 1.5f, 1, 0);
+                Controller.bAttachCorgi = false;
+                Vector3 DownValue = new Vector3(ScaleX * 1.5f, 3, 0);
+                StartCoroutine(UseGravity());
 
                 Bomb.transform.position = Corgi.transform.position + DownValue;
                 Bomb.transform.parent = null;
+            }
+        }
+        else
+        {
+            Controller.bAttachCorgi = false;
+            Vector3 DownValue = new Vector3(ScaleX * 1.5f, 1, 0);
+            StartCoroutine(UseGravity());
+
+            Bomb.transform.position = Corgi.transform.position + DownValue;
+            Bomb.transform.parent = null;
+        }
+    }
+
+    IEnumerator UseGravity()
+    {
+        if (!Controller.bAttachCorgi)
+        {
+            while (true)
+            {
+
+                float BoxCastSizeF = 0.2f;
+                Vector3 BoxCastSize = new Vector3(BoxCastSizeF, BoxCastSizeF, BoxCastSizeF);
+                RaycastHit hit;
+                float BoxCastDistance = 1f;
+
+                if (Physics.BoxCast(Bomb.transform.position, BoxCastSize, transform.up * -1, out hit, Quaternion.Euler(0, 0, 0), BoxCastDistance))
+                    break;
+                else
+                    Bomb.transform.position = Bomb.transform.position + new Vector3(0, -0.2f, 0);
+
+                yield return new WaitForSeconds(Time.deltaTime);
+
+                Debug.Log(Vector2.Distance(Corgi.transform.position, transform.position));
+                if (Vector2.Distance(Corgi.transform.position, transform.position) > 15)
+                {
+                    Controller.BeginExplosion();
+                    break;                    
+                }
+
             }
         }
     }

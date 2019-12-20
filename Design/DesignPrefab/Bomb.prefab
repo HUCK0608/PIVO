@@ -53,6 +53,7 @@ MonoBehaviour:
   InteractionKey: 0
   ExplosionKey: 0
   ParentBombSpawn: {fileID: 0}
+  bAttachCorgi: 0
   bUseBomb: 0
   IsEnabled: 0
 --- !u!65 &1754579011536596230

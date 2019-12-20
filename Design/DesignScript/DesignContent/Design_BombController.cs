@@ -12,6 +12,7 @@ public class Design_BombController : Design_WorldObjectController
     public Design_BombSpawn ParentBombSpawn;
 
     GameObject IgnitionFireEffect;
+    CPlayerManager Corgi;
     Design_Bomb3D Actor3DClass;
     Design_Bomb2D Actor2DClass;
 
@@ -22,9 +23,13 @@ public class Design_BombController : Design_WorldObjectController
     float BoxSize;
 
     [HideInInspector]
+    public bool bAttachCorgi;
+    [HideInInspector]
     public bool bUseBomb = false;
     [HideInInspector]
-    public bool IsEnabled;
+    public bool IsEnabled = false;
+    [HideInInspector]
+    public bool bAttach = false;
 
 
     protected override void Awake()
@@ -41,7 +46,7 @@ public class Design_BombController : Design_WorldObjectController
         Actor2DClass.enabled = false;
 
         IgnitionFireEffect = transform.Find("IgnitionFireGroup").gameObject;
-        IgnitionFireEffect.SetActive(false);
+        DisableBomb();
 
         ColliderSize = RootObject3D.GetComponent<BoxCollider>().size;
         ColliderOffset = RootObject3D.GetComponent<BoxCollider>().center;
@@ -51,6 +56,8 @@ public class Design_BombController : Design_WorldObjectController
 
         InteractionKey = CKeyManager.InteractionKey;
         ExplosionKey = CKeyManager.BombInteractionKey;
+
+        Corgi = CPlayerManager.Instance;
 
         ExplosionDistance = 12.5f;
         BoxSize = 8f;
@@ -62,6 +69,9 @@ public class Design_BombController : Design_WorldObjectController
 
         Actor2DClass.enabled = true;
         Actor3DClass.enabled = false;
+
+        if (!IsCanChange2D)
+            SetIgnitionFireEffect(false);
     }
 
     public override void DesignChange3D()
@@ -70,6 +80,9 @@ public class Design_BombController : Design_WorldObjectController
 
         Actor3DClass.enabled = true;
         Actor2DClass.enabled = false;
+
+        if (IsEnabled)
+            SetIgnitionFireEffect(true);
     }
 
     public override void Change3D()
@@ -87,6 +100,11 @@ public class Design_BombController : Design_WorldObjectController
     void Update()
     {
         Explosion();
+
+        if (bAttachCorgi)
+            DownBomb();
+        else if (bAttach)
+            AttachForDistance();
     }
 
 
@@ -94,18 +112,63 @@ public class Design_BombController : Design_WorldObjectController
 
 
 
+    void DownBomb()
+    {
+        if (Input.GetKeyDown(InteractionKey))
+        {
+            EnableBomb();
+            if (WorldManager.CurrentWorldState == EWorldState.View3D)
+                Actor3DClass.DownBomb();
+            else if (WorldManager.CurrentWorldState == EWorldState.View2D)
+                Actor2DClass.DownBomb();
+        }
+    }
 
+    void AttachForDistance()
+    {
+        if (Input.GetKeyDown(InteractionKey) && bUseBomb)
+        {
+            if (WorldManager.CurrentWorldState == EWorldState.View3D)
+                Actor3DClass.AttachForDistance();
+            else if (WorldManager.CurrentWorldState == EWorldState.View2D)
+                Actor2DClass.AttachForDistance();
+        }            
+    }
+
+    public void AttachCorgi()
+    {
+        bAttachCorgi = true;
+        DisableBomb();
+        if (WorldManager.CurrentWorldState == EWorldState.View3D)
+        {
+            transform.position = Corgi.RootObject3D.transform.position + Vector3.up * 4f;
+            transform.parent = Corgi.RootObject3D.transform;
+        }
+        else if (WorldManager.CurrentWorldState == EWorldState.View2D)
+        {
+            Vector3 TargetPos = new Vector3(Corgi.RootObject2D.transform.position.x, Corgi.RootObject2D.transform.position.y, transform.position.z);
+            transform.position = TargetPos + Vector3.up * 4f;
+            transform.parent = Corgi.RootObject2D.transform;
+        }
+
+    }
 
     public void EnableBomb()
     {
         IsEnabled = true;
-        IgnitionFireEffect.SetActive(true);
+        SetIgnitionFireEffect(true);
     }
 
     public void DisableBomb()
     {
         IsEnabled = false;
-        IgnitionFireEffect.SetActive(false);
+        bAttach = false;
+        SetIgnitionFireEffect(false);
+    }
+
+    public void SetIgnitionFireEffect(bool bState)
+    {
+        IgnitionFireEffect.SetActive(bState);
     }
     
     void Explosion()
@@ -134,15 +197,22 @@ public class Design_BombController : Design_WorldObjectController
                 if (this.transform.parent.gameObject != CPlayerManager.Instance.RootObject3D && this.transform.parent.gameObject != CPlayerManager.Instance.RootObject2D)
                 {
                     this.transform.parent = null;
-                    StartCoroutine(ExplosionCoroutine());
+                    BeginExplosion();
                 }
             }
             else
             {
                 if (WorldManager.CurrentWorldState == EWorldState.View2D)
-                    StartCoroutine(ExplosionCoroutine());
+                    BeginExplosion();
             }
         }
+    }
+
+    public void BeginExplosion()
+    {
+        StartCoroutine(ExplosionCoroutine());
+        SetIgnitionFireEffect(false);
+        DisableBomb();
     }
 
     IEnumerator ExplosionCoroutine()
