@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class CScroll : MonoBehaviour
@@ -20,6 +18,14 @@ public class CScroll : MonoBehaviour
     private float _normalizedValue = 1f;
     /// <summary>정규화 값</summary>
     public float NormalizedValue { get { return _normalizedValue; } }
+
+    public void SetScroll(float normalizedValue)
+    {
+        _normalizedValue = normalizedValue;
+
+        _button.localPosition = Vector3.right * 340f * _normalizedValue - Vector3.right * 170f;
+        _scrollDefault.fillAmount = _normalizedValue;
+    }
 
     public void DragEvent()
     {

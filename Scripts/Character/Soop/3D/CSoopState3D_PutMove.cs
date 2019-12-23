@@ -13,7 +13,10 @@ public class CSoopState3D_PutMove : CSoopState3D
     {
         Controller3D.MoveToPoint(Controller3D.Manager.Stat.PutPoint.position);
 
-        if (transform.position.Equals(Controller3D.Manager.Stat.PutPoint.position))
+        Vector3 checkPosition = Controller3D.Manager.Stat.PutPoint.position;
+        checkPosition.y = transform.position.y;
+
+        if (Vector3.Distance(transform.position, checkPosition) < 0.01f)
             Controller3D.ChangeState(ESoopState.PutEnd);
     }
 
