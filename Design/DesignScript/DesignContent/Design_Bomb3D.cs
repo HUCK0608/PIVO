@@ -11,29 +11,10 @@ public class Design_Bomb3D : MonoBehaviour
     GameObject Corgi;
     
 
-    bool bAttachCorgi;
-    float MinDistance;
-    float ExplosionDistance;
-    float AllowAngle;
     public void BeginPlay()
     {
-
-        bAttachCorgi = false;
-        MinDistance = 2.5f;
-        AllowAngle = 0.6f;
-        ExplosionDistance = 15f;
-
         Corgi = CPlayerManager.Instance.RootObject3D;
         Bomb = this.transform.parent.gameObject;
-    }
-
-    void Update()
-    {
-        if (bAttachCorgi)
-            DownBomb();
-        else
-            AttachForDistance();
-
     }
 
 
@@ -59,100 +40,79 @@ public class Design_Bomb3D : MonoBehaviour
         return Corgi.transform.forward;
     }
 
-    Vector3 GetBomb2PlayerForward()
+    public void AttachForDistance()
     {
-        Vector3 BminusP = Bomb.transform.position - Corgi.transform.position;
-        Vector3 B2PNormal = BminusP.normalized;
+        float MinDistance = 2.5f;
+        float AllowAngle = 0.6f;
 
-        return B2PNormal;
-    }
-
-    void AttachForDistance()
-    {
-        if (Vector3.Distance(Corgi.transform.position, Bomb.transform.position) < MinDistance && Controller.bUseBomb)
+        if (Vector3.Distance(Corgi.transform.position, Controller.transform.position) < MinDistance)
         {
-            if (Input.GetKeyDown(Controller.InteractionKey))
-            {
-                transform.parent.parent = null;
-                Vector3 CompareForward = GetCorgiForward() - GetBomb2PlayerForward();
-                float CompareAngle = Mathf.Abs(CompareForward.x + CompareForward.z);
+            Controller.transform.parent = null;
+            Vector3 B2PNormal = (Controller.transform.position - Corgi.transform.position).normalized;
+            Vector3 CompareForward = Corgi.transform.forward - B2PNormal;
+            float CompareAngle = Mathf.Abs(CompareForward.x + CompareForward.z);
 
-                if (AllowAngle > CompareAngle)
-                    AttachCorgi();
-            }
+            if (AllowAngle > CompareAngle)
+                Controller.AttachCorgi();
         }
     }
 
-    void AttachCorgi()
+    public void DownBomb()
     {
-        bAttachCorgi = true;
-        Bomb.GetComponent<Design_BombController>().DisableBomb();
-        Bomb.transform.position = Corgi.transform.position + Vector3.up * 4f;
+        float BoxCastSizeF = 0.2f;
+        Vector3 BoxCastSize = new Vector3(BoxCastSizeF, BoxCastSizeF, BoxCastSizeF);
+        Vector3 BoxCastStartPoint = Corgi.transform.position + new Vector3(0, 0.5f, 0);
+        float BoxCastDistance = 1.2f;
 
-        Bomb.transform.parent = Corgi.transform;
-    }
+        RaycastHit hit;
 
-    void DownBomb()
-    {
-        if (Input.GetKeyDown(Controller.InteractionKey))
+        if (Physics.BoxCast(BoxCastStartPoint, BoxCastSize, Corgi.transform.forward, out hit, Quaternion.Euler(0, 0, 0), BoxCastDistance))
         {
-            Bomb.GetComponent<Design_BombController>().EnableBomb();
-
-            float BoxCastSizeF = 0.2f;
-            Vector3 BoxCastSize = new Vector3(BoxCastSizeF, BoxCastSizeF, BoxCastSizeF);
-            Vector3 BoxCastStartPoint = Corgi.transform.position + new Vector3(0, 0.5f, 0);
-            float BoxCastDistance = 1.2f;
-
-            RaycastHit hit;
-
-            if (Physics.BoxCast(BoxCastStartPoint, BoxCastSize, Corgi.transform.forward, out hit, Quaternion.Euler(0, 0, 0), BoxCastDistance))
+            if (hit.transform.gameObject.layer == 9)
             {
-                if (hit.transform.gameObject.layer == 9)
+                Vector3 BoxCastStartPoint2 = Corgi.transform.position + new Vector3(0, 2.5f, 0);
+                if (Physics.BoxCast(BoxCastStartPoint2, BoxCastSize, Corgi.transform.forward, out hit, Quaternion.Euler(0, 0, 0), BoxCastDistance))
                 {
-                    Vector3 BoxCastStartPoint2 = Corgi.transform.position + new Vector3(0, 2.5f, 0);
-                    if (Physics.BoxCast(BoxCastStartPoint2, BoxCastSize, Corgi.transform.forward, out hit, Quaternion.Euler(0, 0, 0), BoxCastDistance))
-                    {
-                        Bomb.GetComponent<Design_BombController>().DisableBomb();
-                        Debug.Log("2층에 뭐가 있어서 내려놓을 수 없음");
-                    }
-                    else
-                    {
-                        bAttachCorgi = false;
-                        Vector3 DownValue = new Vector3(0, 3, 0);
-
-                        Bomb.transform.position = Corgi.transform.position + GetCorgiForward() + DownValue;
-                        Bomb.transform.parent = null;
-                        StartCoroutine(UseGravity());
-                    }
+                    Bomb.GetComponent<Design_BombController>().DisableBomb();
+                    Debug.Log("2층에 뭐가 있어서 내려놓을 수 없음");
                 }
-
-            }
-            else
-            {
-                bAttachCorgi = false;
-                Vector3 DownValue = new Vector3(0, 1, 0);
-
-                Bomb.transform.position = Corgi.transform.position + GetCorgiForward() + DownValue;
-                Bomb.transform.parent = null;
-                StartCoroutine(UseGravity());
-            }
-
-            if (!bAttachCorgi)
-            {
-                RaycastHit hit2;
-                if (Physics.Raycast(transform.position, Vector3.down, out hit2, BoxCastDistance))
+                else
                 {
-                    transform.parent.parent = hit2.transform;
+                    Controller.bAttachCorgi = false;
+                    Vector3 DownValue = new Vector3(0, 3, 0);
+
+                    Bomb.transform.position = Corgi.transform.position + GetCorgiForward() + DownValue;
+                    Bomb.transform.parent = null;
+                    StartCoroutine(UseGravity());
                 }
             }
 
         }
+        else
+        {
+            Controller.bAttachCorgi = false;
+            Vector3 DownValue = new Vector3(0, 1, 0);
+
+            Bomb.transform.position = Corgi.transform.position + GetCorgiForward() + DownValue;
+            Bomb.transform.parent = null;
+            StartCoroutine(UseGravity());
+        }
+
+        if (!Controller.bAttachCorgi)
+        {
+            RaycastHit hit2;
+            if (Physics.Raycast(transform.position, Vector3.down, out hit2, BoxCastDistance))
+            {
+                transform.parent.parent = hit2.transform;
+            }
+        }
+
     }
 
 
     IEnumerator UseGravity()
     {
-        if (!bAttachCorgi)
+        if (!Controller.bAttachCorgi)
         {
             while (true)
             {
@@ -169,6 +129,11 @@ public class Design_Bomb3D : MonoBehaviour
 
                 yield return new WaitForSeconds(Time.deltaTime);
 
+                if (Vector3.Distance(Corgi.transform.position, transform.position) > 15)
+                {
+                    Controller.BeginExplosion();
+                    break;
+                }
             }
         }
     }

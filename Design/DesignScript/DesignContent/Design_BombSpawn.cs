@@ -24,6 +24,13 @@ public class Design_BombSpawn : Design_WorldObjectController
 
     public void SpawnBomb()
     {
+        if (!bFirstTime)
+        {
+            Design_BombController Controller = CurBomb.GetComponent<Design_BombController>();
+            Controller.RootObject2D.SetActive(false);
+            Controller.RootObject3D.SetActive(false);
+        }
+
         if (WorldManager.CurrentWorldState != EWorldState.Changing)
         {
             if (bFirstTime)
@@ -32,22 +39,12 @@ public class Design_BombSpawn : Design_WorldObjectController
                 bFirstTime = false;
             }
 
-            CurBomb.transform.parent = transform;
-            CurBomb.GetComponent<Design_BombController>().ParentBombSpawn = this;
-            CurBomb.GetComponent<Design_BombController>().bUseBomb = false;
 
-            if (WorldManager.CurrentWorldState == EWorldState.View3D)
-            {
-                CurBomb.GetComponent<Design_BombController>().Change3D();
-            }
-            else
-            {
-                if (IsCanChange2D)
-                {
-                    CurBomb.GetComponent<Design_BombController>().IsCanChange2D = true;
-                    CurBomb.GetComponent<Design_BombController>().Change2D();
-                }
-            }
+            CurBomb.transform.parent = transform;
+            CurBomb.GetComponent<Design_BombController>().bUseBomb = true;
+            CurBomb.GetComponent<Design_BombController>().bAttach = false;
+            CurBomb.GetComponent<Design_BombController>().ParentBombSpawn = this;
+
 
             StartCoroutine(RiseBomb());
         }
@@ -69,6 +66,11 @@ public class Design_BombSpawn : Design_WorldObjectController
         float TargetPositionY = transform.position.y + 2f;
         float TargetLeftDoorX = transform.position.x - 1.2f;
         float TargetDefaultLeftDoorX = LeftDoor.transform.position.x;
+        float TargetDefaultRightDoorX = RightDoor.transform.position.x;
+
+        Design_BombController Controller = CurBomb.GetComponent<Design_BombController>();
+        Controller.RootObject2D.SetActive(true);
+        Controller.RootObject3D.SetActive(true);
 
         while (true)
         {
@@ -86,9 +88,8 @@ public class Design_BombSpawn : Design_WorldObjectController
             CurBomb.transform.position = CurBomb.transform.position + new Vector3(0, 0.1f, 0);
             yield return new WaitForSeconds(Time.deltaTime);
             CurBomb.GetComponent<Design_BombController>().IsCanChange2D = IsCanChange2D;
+            CurBomb.GetComponent<Design_BombController>().bAttach = true;
         }
-
-        CurBomb.GetComponent<Design_BombController>().bUseBomb = true;
 
         while (true)
         {
@@ -98,7 +99,11 @@ public class Design_BombSpawn : Design_WorldObjectController
             yield return new WaitForSeconds(Time.deltaTime);
 
             if (LeftDoor.transform.position.x > TargetDefaultLeftDoorX)
+            {
+                RightDoor.transform.position = new Vector3(TargetDefaultRightDoorX, RightDoor.transform.position.y, RightDoor.transform.position.z);
+                LeftDoor.transform.position = new Vector3(TargetDefaultLeftDoorX, LeftDoor.transform.position.y, RightDoor.transform.position.z);
                 break;
+            }
         }
     }
 }
