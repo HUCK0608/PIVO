@@ -40,7 +40,7 @@ public class CUIManager_Title : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
 
 
-        if (!CDataManager.IsHaveData())
+        if (!CDataManager.IsHaveGameData())
         {
             _isHaveData = false;
             _loadGameImage.color = Color.black;
@@ -74,6 +74,9 @@ public class CUIManager_Title : MonoBehaviour
         CWorldManager.Instance.ChangeWorld();
 
         StartCoroutine(MainMenuInputLogic());
+
+        LoadOptionData();
+        _isOptionInitialize = true;
     }
 
     /// <summary>메뉴 선택 로직</summary>
@@ -279,6 +282,50 @@ public class CUIManager_Title : MonoBehaviour
     /// <summary>현재 옵션 선택 메뉴</summary>
     private int _currentSelectOptionMenu = 1;
 
+    private bool _isOptionInitialize = false;
+
+    /// <summary>옵션 설정 저장</summary>
+    private void SaveOptionData()
+    {
+        EXmlDocumentNames documentName = EXmlDocumentNames.Setting;
+        string nodePath = documentName.ToString("G");
+        string[] elementsName = new string[] { "WindowMode", "Resolution", "BGM", "SFX" };
+        string[] datas = new string[] { ((int)_currentWindowMode).ToString(),
+                                        _currentResolution.ToString(),
+                                        _currentBGMNormalizedValue.ToString(),
+                                        _currentSFXNormalizedValue.ToString() };
+
+        CDataManager.WritingDatas(EXmlDocumentNames.Setting, nodePath, elementsName, datas, true);
+        CDataManager.SaveCurrentXmlDocument(true);
+        _a.text = CDataManager.FileDirectoryPath;
+    }
+
+    /// <summary>옵션 설정 로드</summary>
+    private void LoadOptionData()
+    {
+        EXmlDocumentNames documentName = EXmlDocumentNames.Setting;
+        string nodePath = documentName.ToString("G");
+        string[] elementsName = new string[] { "WindowMode", "Resolution", "BGM", "SFX" };
+
+        string[] datas = CDataManager.ReadDatas(documentName, nodePath, elementsName);
+
+        if (datas == null)
+            return;
+
+        _currentWindowMode = (EWindowMode)int.Parse(datas[0]);
+        _selectWindowMode = _currentWindowMode;
+        _currentResolution = int.Parse(datas[1]);
+        _selectResolution = _currentResolution;
+        _currentBGMNormalizedValue = float.Parse(datas[2]);
+        _selectBGMNormalizedValue = _currentBGMNormalizedValue;
+        _currentSFXNormalizedValue = float.Parse(datas[3]);
+        _selectSFXNormalizedValue = _currentSFXNormalizedValue;
+
+        UpdateOptionUI();
+
+        ApplyOption();
+    }
+
     /// <summary>옵션 메뉴 활성화</summary>
     private void OnEnableOntionMenu()
     {
@@ -286,10 +333,8 @@ public class CUIManager_Title : MonoBehaviour
         SetActiveMainMenu(false);
         SetActiveOptionMenu(true);
 
-        _currentSelectOptionMenu = 0;
-
         // 선택 메뉴 초기화(맨 위)
-        SetSelectOptionMenuBGPoint(_currentSelectOptionMenu);
+        SetSelectOptionMenuBGPoint(0);
     }
 
     /// <summary>옵션 메뉴 비활성화</summary>
@@ -318,6 +363,15 @@ public class CUIManager_Title : MonoBehaviour
         PlayPointerUpAudio();
     }
 
+    /// <summary>옵션 업데이트</summary>
+    private void UpdateOptionUI()
+    {
+        UpdateOptionUI_WindowMode();
+        UpdateOptionUI_Resolution();
+        UpdateOptionUI_BGM();
+        UpdateOptionUI_SFX();
+    }
+
     /// <summary>옵션 메뉴 입력 로직</summary>
     private IEnumerator OptionMenuInputLogic()
     {
@@ -337,22 +391,19 @@ public class CUIManager_Title : MonoBehaviour
     /// <summary>옵션 적용</summary>
     public void ApplyOption()
     {
-        ApplyWindowModeWithResolution();
-        ApplySound();
+        ApplyOption_WindowModeWithResolution();
+        ApplyOption_Sound();
 
-        PlayPointerEnterAudio();
+        if (_isOptionInitialize)
+        {
+            SaveOptionData();
+            PlayPointerEnterAudio();
+        }
     }
 
     /// <summary>윈도우 모드 및 해상도 변경</summary>
-    private void ApplyWindowModeWithResolution()
+    private void ApplyOption_WindowModeWithResolution()
     {
-        // 윈도우 모드나 해상도가 변경되었는지 체크
-        bool isChanging = _currentWindowMode != _selectWindowMode ||
-                          _currentResolution != _selectResolution ? true : false;
-
-        if (!isChanging)
-            return;
-
         _currentWindowMode = _selectWindowMode;
         _currentResolution = _selectResolution;
 
@@ -365,7 +416,7 @@ public class CUIManager_Title : MonoBehaviour
     }
 
     /// <summary>사운드 적용</summary>
-    private void ApplySound()
+    private void ApplyOption_Sound()
     {
         _currentBGMNormalizedValue = _selectBGMNormalizedValue;
         _currentSFXNormalizedValue = _selectSFXNormalizedValue;
@@ -382,39 +433,28 @@ public class CUIManager_Title : MonoBehaviour
         CancelResolution();
         CancelSound();
 
+        UpdateOptionUI();
+
         OnDisableOtionMenu();
     }
 
     /// <summary>윈도우 모드 설정 취소</summary>
-    private void CancelWindowMode()
-    {
-        _selectWindowMode = _currentWindowMode;
-
-        UpdateWindowModeUI();
-    }
+    private void CancelWindowMode() { _selectWindowMode = _currentWindowMode; }
 
     /// <summary>해상도 설정 취소</summary>
-    private void CancelResolution()
-    {
-        _selectResolution = _currentResolution;
-
-        UpdateResolutionUI();
-    }
+    private void CancelResolution() { _selectResolution = _currentResolution; }
 
     /// <summary>사운드 설정 취소</summary>
     private void CancelSound()
     {
         _selectBGMNormalizedValue = _currentBGMNormalizedValue;
         _selectSFXNormalizedValue = _currentSFXNormalizedValue;
-
-        UpdateSoundUI(_BGMScroll, _currentBGMNormalizedValue);
-        UpdateSoundUI(_SFXScroll, _currentSFXNormalizedValue);
     }
 
 
     ///////////////////////////////////////// Window Mode
     /// <summary>윈도우 모드 Enum</summary>
-    private enum EWindowMode { FullScreen = 0, FullScreenWindow, Windowed };
+    private enum EWindowMode { FullScreen = 0, FullScreenWindow = 1, Windowed };
     /// <summary>현재 윈도우 모드</summary>
     private EWindowMode _currentWindowMode = EWindowMode.FullScreen;
     /// <summary>선택 윈도우 모드</summary>
@@ -437,13 +477,13 @@ public class CUIManager_Title : MonoBehaviour
         else if (((int)_selectWindowMode).Equals(System.Enum.GetValues(typeof(EWindowMode)).Length))
             _selectWindowMode = 0;
 
-        UpdateWindowModeUI();
+        UpdateOptionUI_WindowMode();
 
         PlayPointerUpAudio();
     }
 
     /// <summary>윈도우 모드 UI 업데이트</summary>
-    private void UpdateWindowModeUI()
+    private void UpdateOptionUI_WindowMode()
     {
         UpdateWindowModeText();
     }
@@ -479,13 +519,13 @@ public class CUIManager_Title : MonoBehaviour
         else if (_selectResolution.Equals(_resolution1.Count))
             _selectResolution = 0;
 
-        UpdateResolutionUI();
+        UpdateOptionUI_Resolution();
 
         PlayPointerUpAudio();
     }
 
     /// <summary>해상도 UI 업데이트</summary>
-    private void UpdateResolutionUI()
+    private void UpdateOptionUI_Resolution()
     {
         UpdateResolutionText();
     }
@@ -519,11 +559,15 @@ public class CUIManager_Title : MonoBehaviour
     /// <summary>선택 SFX 노말 값</summary>
     private float _selectSFXNormalizedValue = 1f;
 
-    /// <summary>사운드 UI 업데이트</summary>
-    private void UpdateSoundUI(CScroll scroll, float normalizedValue) { scroll.SetScroll(normalizedValue); }
+    /// <summary>BGM UI 업데이트</summary>
+    private void UpdateOptionUI_BGM() { _BGMScroll.SetScroll(_currentBGMNormalizedValue); }
+    /// <summary>SFX UI 업데이트</summary>
+    private void UpdateOptionUI_SFX() { _SFXScroll.SetScroll(_currentSFXNormalizedValue); }
 
     /// <summary>BGM 볼륨 설정</summary>
     public void ChangeBGMVolume() { _selectBGMNormalizedValue = _BGMScroll.NormalizedValue; }
     /// <summary>SFX 볼륨 설정</summary>
     public void ChangeSFXVolume() { _selectSFXNormalizedValue = _SFXScroll.NormalizedValue; }
+
+    public Text _a;
 }

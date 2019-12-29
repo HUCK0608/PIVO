@@ -3,12 +3,13 @@ using System.IO;
 using System.Xml;
 using System.Collections.Generic;
 
-public enum EXmlDocumentNames { None, GrassStageDatas, SnowStageDatas }
+public enum EXmlDocumentNames { None, GrassStageDatas, SnowStageDatas, Setting }
 
 public static class CDataManager
 {
     /// <summary>파일이 저장되는 폴더 위치</summary>
     private static string _fileDirectoryPath = Application.persistentDataPath + "/";
+    public static string FileDirectoryPath { get { return _fileDirectoryPath; } }
 
     /// <summary>XmlDocument 모음</summary>
     private static Dictionary<EXmlDocumentNames, XmlDocument> _xmlDocuments = new Dictionary<EXmlDocumentNames, XmlDocument>();
@@ -25,7 +26,7 @@ public static class CDataManager
     /// </summary>
     /// <param name="file">파일 이름</param>
     /// <returns></returns>
-    public static bool IsHaveData()
+    public static bool IsHaveGameData()
     {
         FileInfo fileInfo = new FileInfo(_fileDirectoryPath + EXmlDocumentNames.GrassStageDatas.ToString("G") + ".xml");
 
@@ -110,9 +111,9 @@ public static class CDataManager
     /// <param name="nodePath">노드 경로</param>
     /// <param name="elementsName">속성들의 이름</param>
     /// <param name="datas">데이터들</param>
-    public static void WritingDatas(EXmlDocumentNames file, string nodePath, string[] elementsName, string[] datas)
+    public static void WritingDatas(EXmlDocumentNames file, string nodePath, string[] elementsName, string[] datas, bool isCompulsion = false)
     {
-        if (!_isSaveData)
+        if (!_isSaveData && !isCompulsion)
             return;
 
         // xml 파일 열기
@@ -179,10 +180,11 @@ public static class CDataManager
 
     /// <summary>
     /// 현재 열려있는 xml 문서를 저장
+    /// <param name="isCompulsion">강제 저장 여부</param>
     /// </summary>
-    public static void SaveCurrentXmlDocument()
+    public static void SaveCurrentXmlDocument(bool isCompulsion = false)
     {
-        if (!_isSaveData)
+        if (!_isSaveData && !isCompulsion)
             return;
 
         if (_currentXmlDocumentName.Equals(EXmlDocumentNames.None))
