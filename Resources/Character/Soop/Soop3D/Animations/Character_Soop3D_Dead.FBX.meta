@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e29a69d7021a60c4aac07ee69bf217dd
+guid: 54eaed871fc2c2d4286d42edeb1274ea
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -55,7 +55,7 @@ ModelImporter:
     400046: M_hand R2
     400048: M_hand R3
     400050: //RootNode
-    7400000: Character_Soop3D_PutEnd
+    7400000: Character_Soop3D_Dead
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -86,17 +86,17 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Character_Soop3D_PutEnd
+      name: Character_Soop3D_Dead
       takeName: Take 001
-      firstFrame: 190
-      lastFrame: 211
+      firstFrame: 0
+      lastFrame: 64
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0

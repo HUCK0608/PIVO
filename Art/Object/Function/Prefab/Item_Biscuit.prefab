@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1246363675711112478}
   - component: {fileID: 663794126}
   - component: {fileID: 2041285654612888929}
-  m_Layer: 11
+  m_Layer: 2
   m_Name: Root2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7496844718189880139}
   - component: {fileID: 6617041505529358318}
-  m_Layer: 11
+  m_Layer: 2
   m_Name: Item_Biscuit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 1111171849089568859}
   - component: {fileID: 7202700493954714349}
   - component: {fileID: 6567165677844060893}
-  m_Layer: 11
+  m_Layer: 2
   m_Name: Root3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,6 +305,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1862615263582364, guid: 9f7f9406473bf214db53e8946633ccbe, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4200194450357532, guid: 9f7f9406473bf214db53e8946633ccbe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10
@@ -348,6 +352,14 @@ PrefabInstance:
     - target: {fileID: 4200194450357532, guid: 9f7f9406473bf214db53e8946633ccbe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065317023934824, guid: 9f7f9406473bf214db53e8946633ccbe, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1534964759791966, guid: 9f7f9406473bf214db53e8946633ccbe, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f7f9406473bf214db53e8946633ccbe, type: 3}

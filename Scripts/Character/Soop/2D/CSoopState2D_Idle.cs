@@ -13,7 +13,11 @@ public class CSoopState2D_Idle : CSoopState2D
 
     private void Update()
     {
+        Vector3 startPoint = Controller2D.Manager.transform.position;
+
         if (Controller2D.IsDetectionPlayer())
             Controller2D.ChangeState(ESoopState.Surprise);
+        else if (!transform.position.Equals(startPoint))
+            Controller2D.ChangeState(ESoopState.Return);
     }
 }

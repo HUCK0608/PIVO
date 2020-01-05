@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2cb761a9841144e44a6465668f37d2d3
+guid: 34f49174e8c5708458332b343f550561
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -89,7 +89,7 @@ ModelImporter:
       name: Character_Soop3D_Idle
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 83
+      lastFrame: 167
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -164,7 +164,7 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: bba25423987d79f4fb4a8d926d0eac63,
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: a3ba70b03f2f7634eb43adba692c51b5,
     type: 3}
   animationType: 2
   humanoidOversampling: 1

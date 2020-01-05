@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fb3292122c97af240879e0ce4cc76f9d
+guid: 09a51147b20b02a418bf51c06ced289c
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -22,13 +22,13 @@ ModelImporter:
     100032: Bip002 Spine
     100034: Bip002 Spine1
     100036: Bip002 Spine2
-    100038: //RootNode
-    100040: M_hand L1
-    100042: M_hand L2
-    100044: M_hand L3
-    100046: M_hand R1
-    100048: M_hand R2
-    100050: M_hand R3
+    100038: M_hand L1
+    100040: M_hand L2
+    100042: M_hand L3
+    100044: M_hand R1
+    100046: M_hand R2
+    100048: M_hand R3
+    100050: //RootNode
     400000: Bip002
     400002: Bip002 Head
     400004: Bip002 L Calf
@@ -48,14 +48,14 @@ ModelImporter:
     400032: Bip002 Spine
     400034: Bip002 Spine1
     400036: Bip002 Spine2
-    400038: //RootNode
-    400040: M_hand L1
-    400042: M_hand L2
-    400044: M_hand L3
-    400046: M_hand R1
-    400048: M_hand R2
-    400050: M_hand R3
-    7400000: Character_Soop3D_Idle_2
+    400038: M_hand L1
+    400040: M_hand L2
+    400042: M_hand L3
+    400044: M_hand R1
+    400046: M_hand R2
+    400048: M_hand R3
+    400050: //RootNode
+    7400000: Character_Soop3D_Idle2
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -86,7 +86,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Character_Soop3D_Idle_2
+      name: Character_Soop3D_Idle2
       takeName: Take 001
       firstFrame: 0
       lastFrame: 40
@@ -164,7 +164,7 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: bba25423987d79f4fb4a8d926d0eac63,
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: a3ba70b03f2f7634eb43adba692c51b5,
     type: 3}
   animationType: 2
   humanoidOversampling: 1

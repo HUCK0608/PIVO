@@ -17,7 +17,11 @@ public class CMonster : CWorldObject
         base.Awake();
 
         _rootObject2D = RootObject.transform.Find("Root2D").gameObject;
+    }
 
+    protected override void Start()
+    {
+        base.Start();
         Change3D();
     }
 
@@ -32,6 +36,7 @@ public class CMonster : CWorldObject
     private IEnumerator Change2DLogic()
     {
         _effectCapusle.SetActive(false);
+        _effectCapusle.transform.position = RootObject2D.transform.position;
         _effectCapusle.SetActive(true);
 
         yield return new WaitForSeconds(0.3f);

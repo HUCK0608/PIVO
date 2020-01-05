@@ -33,7 +33,8 @@ public class CSoopController2D : MonoBehaviour
 
     private void Start()
     {
-        ChangeState(ESoopState.Idle);
+        if(!_currentState.Equals(ESoopState.Dead))
+            ChangeState(ESoopState.Idle);
     }
 
     /// <summary>상태 초기화</summary>
@@ -109,4 +110,19 @@ public class CSoopController2D : MonoBehaviour
 
     /// <summary>애니메이션을 변경</summary>
     public void ChangeAnimation() { _animator.SetInteger(_animParameterPath, (int)_currentState); }
+
+    /// <summary>숲숲이의 죽음 상태 설정</summary>
+    public void ActivateDead(bool active)
+    {
+        if (active)
+        {
+            if(!CurrentState.Equals(ESoopState.Dead))
+                ChangeState(ESoopState.Dead);
+        }
+        else
+        {
+            if (CurrentState.Equals(ESoopState.Dead))
+                ChangeState(ESoopState.Idle);
+        }
+    }
 }
