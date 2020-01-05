@@ -35,7 +35,8 @@ public class Design_BombSpawn : Design_WorldObjectController
         {
             if (bFirstTime)
             {
-                CurBomb = Instantiate(Bomb, transform);
+                CurBomb = Instantiate(Bomb, transform.position, Quaternion.identity);
+                CurBomb.transform.parent = transform;
                 bFirstTime = false;
             }
 

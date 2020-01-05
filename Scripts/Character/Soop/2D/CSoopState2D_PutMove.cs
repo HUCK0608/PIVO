@@ -13,7 +13,10 @@ public class CSoopState2D_PutMove : CSoopState2D
     {
         Controller2D.MoveToPoint(Controller2D.Manager.Stat.PutPoint.position);
 
-        if (transform.position.Equals(Controller2D.Manager.Stat.PutPoint.position))
+        Vector3 putPoint = Controller2D.Manager.Stat.PutPoint.position;
+        putPoint.z = transform.position.z;
+
+        if (transform.position.Equals(putPoint))
             Controller2D.ChangeState(ESoopState.PutEnd);
     }
 

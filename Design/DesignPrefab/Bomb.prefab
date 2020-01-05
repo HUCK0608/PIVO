@@ -56,6 +56,7 @@ MonoBehaviour:
   bAttachCorgi: 0
   bUseBomb: 0
   IsEnabled: 0
+  bAttach: 0
 --- !u!65 &1754579011536596230
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67,8 +68,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.5, y: 1.5, z: 1.5}
+  m_Center: {x: 0, y: -0.2, z: 0}
 --- !u!1 &2217642562183859300
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +111,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 2217642562183859300}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8987bd89783cb354196b4d32ed40e718, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -239,7 +240,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6617460864644098098}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 2a45dd0637e737447bb183266d1406da, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

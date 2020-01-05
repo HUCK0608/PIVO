@@ -101,9 +101,9 @@ public class Design_BombController : Design_WorldObjectController
     {
         Explosion();
 
-        if (bAttachCorgi)
-            DownBomb();
-        else if (bAttach)
+        //if (bAttachCorgi)
+        //    DownBomb();
+        if (bAttach)
             AttachForDistance();
     }
 
@@ -130,27 +130,18 @@ public class Design_BombController : Design_WorldObjectController
         {
             if (WorldManager.CurrentWorldState == EWorldState.View3D)
                 Actor3DClass.AttachForDistance();
-            else if (WorldManager.CurrentWorldState == EWorldState.View2D)
-                Actor2DClass.AttachForDistance();
         }            
     }
 
     public void AttachCorgi()
     {
-        bAttachCorgi = true;
-        DisableBomb();
-        if (WorldManager.CurrentWorldState == EWorldState.View3D)
-        {
-            transform.position = Corgi.RootObject3D.transform.position + Vector3.up * 4f;
-            transform.parent = Corgi.RootObject3D.transform;
-        }
-        else if (WorldManager.CurrentWorldState == EWorldState.View2D)
-        {
-            Vector3 TargetPos = new Vector3(Corgi.RootObject2D.transform.position.x, Corgi.RootObject2D.transform.position.y, transform.position.z);
-            transform.position = TargetPos + Vector3.up * 4f;
-            transform.parent = Corgi.RootObject2D.transform;
-        }
+        if (!Corgi.Controller3D.CurrentState.Equals(EPlayerState3D.Idle) && !Corgi.Controller3D.CurrentState.Equals(EPlayerState3D.Move))
+            return;
 
+        if (bAttachCorgi)
+            return;
+
+        StartCoroutine(PutBombInitLogic());
     }
 
     public void EnableBomb()
@@ -276,7 +267,68 @@ public class Design_BombController : Design_WorldObjectController
             RootObject2D.GetComponent<BoxCollider2D>().enabled = true;
     }
 
+    private IEnumerator PutBombInitLogic()
+    {
+        bAttachCorgi = true;
 
+        CPlayerController3D corgiController3D = Corgi.Controller3D;
+        corgiController3D.ChangeState(EPlayerState3D.PutObjectInit);
+        yield return new WaitUntil(() => corgiController3D.Animator.GetCurrentAnimatorStateInfo(0).IsName("PutObjectInit"));
+
+        float animationTime = corgiController3D.Animator.GetCurrentAnimatorStateInfo(0).length;
+        Vector3 startPoint = transform.position;
+        Vector3 putPoint = corgiController3D.transform.position + Vector3.up * 4f + corgiController3D.transform.forward * 2f;
+        float oneDivAnimationTime = 1f / (animationTime - 0.1f);
+        float addTime = 0f;
+        while(true)
+        {
+            addTime += Time.deltaTime;
+            transform.position = Vector3.Lerp(startPoint, putPoint, Mathf.Clamp(oneDivAnimationTime * addTime, 0f, 1f));
+
+            if (transform.position.Equals(putPoint))
+                break;
+
+            yield return null;
+        }
+
+        transform.parent = corgiController3D.transform;
+        yield return new WaitUntil(() => corgiController3D.Animator.GetCurrentAnimatorStateInfo(0).IsName("PutObjectIdle"));
+
+        StartCoroutine(PutBombEndLogic());
+    }
+
+    private IEnumerator PutBombEndLogic()
+    {
+        yield return new WaitUntil(() => Input.GetKeyDown(InteractionKey));
+        EnableBomb();
+
+        transform.parent = ParentBombSpawn.transform;
+        CPlayerController3D corgiController3D = Corgi.Controller3D;
+        corgiController3D.ChangeState(EPlayerState3D.PutObjectEnd);
+        yield return new WaitUntil(() => corgiController3D.Animator.GetCurrentAnimatorStateInfo(0).IsName("PutObjectEnd"));
+
+        Vector3 startPoint = transform.position;
+        RaycastHit hit;
+        Physics.Raycast(transform.position, Vector3.down, out hit, float.PositiveInfinity);
+        Vector3 putPoint = hit.point + Vector3.up;
+        float putTime = 0.3f;
+        float oneDivAnimationTime = 1f / putTime;
+        float addTime = 0f;
+
+        yield return new WaitForSeconds(0.5f);
+        while(true)
+        {
+            addTime += Time.deltaTime;
+            transform.position = Vector3.Lerp(startPoint, putPoint, Mathf.Clamp(oneDivAnimationTime * addTime, 0f, 1f));
+
+            if (transform.position.Equals(putPoint))
+                break;
+
+            yield return null;
+        }
+
+        bAttachCorgi = false;
+    }
 
     /*
      * 폭탄을 들고 있는 상태로는 시점전환을 할 수 없다.

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EPlayerState3D { Idle, Move, Falling, ViewChangeInit, ViewChangeIdle, Climb, Holding, Dead, PushInit, PushIdle, PushEnd, PutInit, PutIdle, PutEnd }
+public enum EPlayerState3D { Idle, Move, Falling, ViewChangeInit, ViewChangeIdle, Climb, Holding, Dead, PushInit, PushIdle, PushEnd, PutInit, PutIdle, PutEnd, PutObjectInit, PutObjectIdle, PutObjectMove, PutObjectEnd }
 
 public class CPlayerController3D : MonoBehaviour
 {
@@ -62,7 +62,7 @@ public class CPlayerController3D : MonoBehaviour
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
 
         _playerIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.BackgroundObject.LeftShiftToOne());
 

@@ -12,7 +12,7 @@ public class CTriggerMagicStone : MonoBehaviour
     [SerializeField]
     private float _checkDistance = 0f;
 
-    public bool _isActive = false;
+    private bool _isActive = false;
     /// <summary>매직스톤 활성화 여부</summary>
     public bool IsActive { set { _isActive = value; } }
 

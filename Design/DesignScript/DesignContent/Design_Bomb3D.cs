@@ -61,7 +61,7 @@ public class Design_Bomb3D : MonoBehaviour
     {
         float BoxCastSizeF = 0.2f;
         Vector3 BoxCastSize = new Vector3(BoxCastSizeF, BoxCastSizeF, BoxCastSizeF);
-        Vector3 BoxCastStartPoint = Corgi.transform.position + new Vector3(0, 0.5f, 0);
+        Vector3 BoxCastStartPoint = Corgi.transform.position + Vector3.up * 0.5f;
         float BoxCastDistance = 1.2f;
 
         RaycastHit hit;
@@ -71,10 +71,10 @@ public class Design_Bomb3D : MonoBehaviour
             if (hit.transform.gameObject.layer == 9)
             {
                 Vector3 BoxCastStartPoint2 = Corgi.transform.position + new Vector3(0, 2.5f, 0);
+                // 2층에 물체가 있는지 체크
                 if (Physics.BoxCast(BoxCastStartPoint2, BoxCastSize, Corgi.transform.forward, out hit, Quaternion.Euler(0, 0, 0), BoxCastDistance))
                 {
                     Bomb.GetComponent<Design_BombController>().DisableBomb();
-                    Debug.Log("2층에 뭐가 있어서 내려놓을 수 없음");
                 }
                 else
                 {
