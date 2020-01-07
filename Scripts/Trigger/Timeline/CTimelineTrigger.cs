@@ -18,6 +18,14 @@ public class CTimelineTrigger : MonoBehaviour
     [SerializeField]
     private float _timelineEndTime = 0f;
 
+
+    /// <summary>스테이지 선택씬이 아닌 타임라인이 있는 씬으로 이동할 때 체크</summary>
+    [SerializeField]
+    private bool _bUseTimelineScene;
+    /// <summary>_bUseTimelineScene이 true일때만 사용. 이동할 씬의 이름 작성</summary>
+    [SerializeField]
+    private string _TimelineSceneName;
+
     /// <summary>타임라인 시작 지점</summary>
     [Header("Programmer can edit")]
     [SerializeField]
@@ -60,7 +68,15 @@ public class CTimelineTrigger : MonoBehaviour
         _playableDirector.Play();
         // 타임라인이 끝날때까지 대기
         yield return new WaitUntil(() => _playableDirector.time >= _timelineEndTime);
-        // 스테이지 클리어 처리
-        CWorldManager.Instance.StageClear();
+
+        if (_bUseTimelineScene)
+        {
+            CWorldManager.Instance.StageClearWaitTimeLineScene(_TimelineSceneName);
+        }
+        else
+        {
+            // 스테이지 클리어 처리
+            CWorldManager.Instance.StageClear();
+        }
     }
 }

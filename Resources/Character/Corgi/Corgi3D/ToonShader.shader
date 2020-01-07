@@ -9,7 +9,9 @@
 		_TexColor("TextureColor", Color) = (1,1,1,1)
 	}
 	SubShader {
-		Tags { "RenderType"="Opaque" }
+		Tags { "RenderType"="Opaque"
+				"Queue" = "Transparent"
+		}
 
 		CGPROGRAM
 		#pragma surface surf Toon noshadow
