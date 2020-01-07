@@ -19,6 +19,8 @@ public class Design_MaterialChange : MonoBehaviour
     public ThemeType Theme;
     public bool UseSideRandom;
     public bool Use2DTexture;
+    public bool bOffShadowOption;
+    public bool bOnShadowOption;
 
     private bool ChangeRot;
     
@@ -33,6 +35,9 @@ public class Design_MaterialChange : MonoBehaviour
             SideRandom();
             RotateZ();
             SaveCurMaterial();
+            OffShadowOption();
+            OnShadowOption();
+
         }
     }
 
@@ -150,4 +155,23 @@ public class Design_MaterialChange : MonoBehaviour
         }
     }
 
+    void OffShadowOption()
+    {
+        if (bOffShadowOption)
+        {
+            transform.Find("Root3D").GetComponent<MeshRenderer>().receiveShadows = false;
+            transform.Find("Root3D").GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+
+        }
+    }
+
+    void OnShadowOption()
+    {
+        if (bOnShadowOption)
+        {
+            transform.Find("Root3D").GetComponent<MeshRenderer>().receiveShadows = true;
+            transform.Find("Root3D").GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+
+        }
+    }
 }
