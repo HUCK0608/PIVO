@@ -34,7 +34,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9119311636876719146}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -239,9 +239,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51eef44123075694ea6a404f73fec21e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isSoopDirectionRight: 1
+  _isSoopDirectionRight: 0
   _detectionAreaLocalPosition: {x: 0, y: 0.5, z: 0}
-  _detectionAreaSize: {x: 20, y: 1, z: 20}
+  _detectionAreaSize: {x: 8, y: 1, z: 8}
   _moveSpeed: 9
   _rotationSpeed: 15
   _putDistance: 2
@@ -281,7 +281,7 @@ Transform:
   m_GameObject: {fileID: 9119311637458047791}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9119311637481158560}
   m_Father: {fileID: 9119311637043317072}
@@ -517,7 +517,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9119311637486905452}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.4, y: 0, z: 0}
+  m_LocalPosition: {x: -3.53, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9119311637043317072}
@@ -602,6 +602,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 89.999916
       objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: a3ba70b03f2f7634eb43adba692c51b5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f9abc3459894e0f4fb0e6fcd98f1a3c6, type: 2}
     - target: {fileID: 400040, guid: a3ba70b03f2f7634eb43adba692c51b5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -14.959089
