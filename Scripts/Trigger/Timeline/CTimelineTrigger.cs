@@ -36,6 +36,11 @@ public class CTimelineTrigger : MonoBehaviour
         _collider3D = GetComponentInChildren<Collider>();
 
         _playableDirector.gameObject.SetActive(false);
+        if (_playableDirector.transform.position != transform.position)
+        {
+            Debug.LogError("도착지점과 타임라인의 위치를 동일하게 맞춰야 합니다.");
+            _playableDirector.transform.position = transform.position;
+        }
     }
 
     /// <summary>타임라인 로직 시작</summary>
