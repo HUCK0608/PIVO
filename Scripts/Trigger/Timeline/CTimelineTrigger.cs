@@ -80,6 +80,8 @@ public class CTimelineTrigger : MonoBehaviour
         }
         else
         {
+            //화면이 완전히 암전되는 것을 기다리기 위해서 사용
+            yield return new WaitForSeconds(1);
             // 스테이지 클리어 처리
             CWorldManager.Instance.StageClear();
         }
