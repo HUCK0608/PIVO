@@ -299,11 +299,11 @@ public class Design_BombController : Design_WorldObjectController
 
     private IEnumerator PutBombEndLogic()
     {
-        yield return new WaitUntil(() => Input.GetKeyDown(InteractionKey));
-        EnableBomb();
+        CPlayerController3D corgiController3D = Corgi.Controller3D;
+
+        yield return new WaitUntil(() => Input.GetKeyDown(InteractionKey) && !corgiController3D.CurrentState.Equals(EPlayerState3D.PutObjectFalling));
 
         transform.parent = ParentBombSpawn.transform;
-        CPlayerController3D corgiController3D = Corgi.Controller3D;
         corgiController3D.ChangeState(EPlayerState3D.PutObjectEnd);
         yield return new WaitUntil(() => corgiController3D.Animator.GetCurrentAnimatorStateInfo(0).IsName("PutObjectEnd"));
 
@@ -311,11 +311,11 @@ public class Design_BombController : Design_WorldObjectController
         RaycastHit hit;
         Physics.Raycast(transform.position, Vector3.down, out hit, float.PositiveInfinity);
         Vector3 putPoint = hit.point + Vector3.up;
-        float putTime = 0.3f;
+        float putTime = 0.1f;
         float oneDivAnimationTime = 1f / putTime;
         float addTime = 0f;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         while(true)
         {
             addTime += Time.deltaTime;
@@ -327,6 +327,7 @@ public class Design_BombController : Design_WorldObjectController
             yield return null;
         }
 
+        EnableBomb();
         bAttachCorgi = false;
     }
 

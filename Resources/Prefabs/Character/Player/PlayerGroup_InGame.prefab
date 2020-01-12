@@ -691,6 +691,7 @@ MonoBehaviour:
   _holdingMaxTime: 3
   _killYVolume: -20
   _climb1Percent: 15
+  _idleVariationMinTime: 3
 --- !u!114 &1461577678640211779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,6 +808,9 @@ GameObject:
   - component: {fileID: 8201161776352170184}
   - component: {fileID: 4860535594206855014}
   - component: {fileID: 222419085435627993}
+  - component: {fileID: 3661981965195168420}
+  - component: {fileID: 2420482464861727875}
+  - component: {fileID: 2424516830009492764}
   m_Layer: 10
   m_Name: Root3D
   m_TagString: Untagged
@@ -1108,6 +1112,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 107363f76e010e1448b33bb7e2b78406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3661981965195168420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461577679210180235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84592a3f00e8cf949ac2307f92aae8fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2420482464861727875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461577679210180235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06533c0b9f4926e4187ed2f9c9990791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2424516830009492764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461577679210180235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d52b8d933b2d6b4d91fca2092a84c63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1461577679311978077
@@ -1859,10 +1899,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1461577678640211776}
     m_Modifications:
-    - target: {fileID: 1268487004153440, guid: e76a81d705355904bab679abf863eebc, type: 3}
-      propertyPath: m_Name
-      value: Effect_Character_Corgi_MoveDust
-      objectReference: {fileID: 0}
     - target: {fileID: 4808696799419968, guid: e76a81d705355904bab679abf863eebc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1906,6 +1942,10 @@ PrefabInstance:
     - target: {fileID: 4808696799419968, guid: e76a81d705355904bab679abf863eebc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1268487004153440, guid: e76a81d705355904bab679abf863eebc, type: 3}
+      propertyPath: m_Name
+      value: Effect_Character_Corgi_MoveDust
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e76a81d705355904bab679abf863eebc, type: 3}

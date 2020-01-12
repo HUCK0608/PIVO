@@ -95,6 +95,8 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
                     {
                         newBlockObject = hit.transform.parent.GetComponent<CWorldObject>();
                     }
+                    if (newBlockObject == null)
+                        Debug.Log(newBlockObject);
                     newBlockObject.ShowOnBlock();
                     _blockObjects.Add(newBlockObject);
                     _blockObjetCount++;

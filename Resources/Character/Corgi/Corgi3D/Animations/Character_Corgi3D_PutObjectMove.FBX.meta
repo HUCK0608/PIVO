@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d07c83ef583948a45b9f16b08a8173ae
+guid: afce964eb6d7cfd4cb42e4fd783f7925
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -33,15 +33,15 @@ ModelImporter:
     100054: Bip001 tail
     100056: Bone001
     100058: //RootNode
-    100060: eye_bone_L1
-    100062: eye_bone_L2
-    100064: eye_bone_R1
-    100066: eye_bone_R2
-    100068: scarf_bone1
-    100070: scarf_bone2
-    100072: scarf_bone3
-    100074: scarf_bone4
-    100076: Dummy_COM
+    100060: Dummy_COM
+    100062: eye_bone_L1
+    100064: eye_bone_L2
+    100066: eye_bone_R1
+    100068: eye_bone_R2
+    100070: scarf_bone1
+    100072: scarf_bone2
+    100074: scarf_bone3
+    100076: scarf_bone4
     400000: Bip001
     400002: Bip001 ear_L
     400004: Bip001 ear_L02
@@ -72,15 +72,15 @@ ModelImporter:
     400054: Bip001 tail
     400056: Bone001
     400058: //RootNode
-    400060: eye_bone_L1
-    400062: eye_bone_L2
-    400064: eye_bone_R1
-    400066: eye_bone_R2
-    400068: scarf_bone1
-    400070: scarf_bone2
-    400072: scarf_bone3
-    400074: scarf_bone4
-    400076: Dummy_COM
+    400060: Dummy_COM
+    400062: eye_bone_L1
+    400064: eye_bone_L2
+    400066: eye_bone_R1
+    400068: eye_bone_R2
+    400070: scarf_bone1
+    400072: scarf_bone2
+    400074: scarf_bone3
+    400076: scarf_bone4
     7400000: Character_Corgi3D_PutObjectMove
     9500000: //RootNode
   externalObjects: {}
@@ -134,21 +134,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0
-        functionName: PlayMoveAudio
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.5037362
-        functionName: PlayMoveAudio
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

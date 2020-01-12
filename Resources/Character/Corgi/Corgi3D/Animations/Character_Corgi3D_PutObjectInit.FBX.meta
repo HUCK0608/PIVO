@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c90f4dee61e4b874aa52aed4a4046db1
+guid: 5f2807b9f6808fd42bc3bbe6bbd66f7b
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -115,7 +115,7 @@ ModelImporter:
       name: Character_Corgi3D_PutObjectInit
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 19
+      lastFrame: 26
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

@@ -1,17 +1,9 @@
 ﻿using UnityEngine;
 
-public class CPlayerState3D_Idle : CPlayerState3D
+public class CPlayerState3D_Idle3 : CPlayerState3D
 {
-    private float _currentIdleTime = 0f;
-
     private void Update()
     {
-        if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.Changing) ||
-            !CPlayerManager.Instance.IsCanOperation)
-            return;
-
-        _currentIdleTime += Time.deltaTime;
-
         float vertical = Input.GetAxis(CString.Vertical);
         float horizontal = Input.GetAxis(CString.Horizontal);
 
@@ -25,21 +17,5 @@ public class CPlayerState3D_Idle : CPlayerState3D
             Controller3D.ChangeState(EPlayerState3D.Climb);
         else if (Controller3D.RigidBody.velocity.x != 0 || Controller3D.RigidBody.velocity.z != 0)
             Controller3D.ChangeState(EPlayerState3D.Move);
-        else if(_currentIdleTime >= CPlayerManager.Instance.Stat.IdleVariationMinTime)
-        {
-            int randomValue = Random.Range(0, 2);
-
-            if (randomValue.Equals(0))
-                Controller3D.ChangeState(EPlayerState3D.Idle2);
-            else
-                Controller3D.ChangeState(EPlayerState3D.Idle3);
-        }
-    }
-
-    public override void EndState()
-    {
-        base.EndState();
-
-        _currentIdleTime = 0f;
     }
 }

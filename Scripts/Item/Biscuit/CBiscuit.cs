@@ -50,6 +50,7 @@ public class CBiscuit : MonoBehaviour
 
         _isDidEat = true;
         CBiscuitManager.Instance.HaveBiscuitCount++;
+        CUIManager.Instance.SetBiscuitUI(CBiscuitManager.Instance.HaveBiscuitCount);
         gameObject.SetActive(false);
     }
 
