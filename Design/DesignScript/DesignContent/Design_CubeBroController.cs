@@ -14,8 +14,6 @@ public class Design_CubeBroController : Design_WorldObjectController
 
     Vector3 TextOriginPos;
 
-    float TargetValue;
-
 
 
     public override void BeginPlay()
@@ -40,7 +38,6 @@ public class Design_CubeBroController : Design_WorldObjectController
     {
         base.DesignChange2D();
 
-        TargetValue = -1;
         if (IsCanChange2D)
             SpawnEffect(true);
 

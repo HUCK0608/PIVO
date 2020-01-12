@@ -21,10 +21,10 @@ public class CTimelineTrigger : MonoBehaviour
 
     /// <summary>스테이지 선택씬이 아닌 타임라인이 있는 씬으로 이동할 때 체크</summary>
     [SerializeField]
-    private bool _bUseTimelineScene;
+    private bool _bUseTimelineScene = false;
     /// <summary>_bUseTimelineScene이 true일때만 사용. 이동할 씬의 이름 작성</summary>
     [SerializeField]
-    private string _TimelineSceneName;
+    private string _TimelineSceneName = "";
 
     /// <summary>타임라인 시작 지점</summary>
     [Header("Programmer can edit")]
