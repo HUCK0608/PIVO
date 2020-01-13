@@ -21,10 +21,10 @@ public class CTimelineTrigger : MonoBehaviour
 
     /// <summary>스테이지 선택씬이 아닌 타임라인이 있는 씬으로 이동할 때 체크</summary>
     [SerializeField]
-    private bool _bUseTimelineScene;
+    private bool _bUseTimelineScene = false;
     /// <summary>_bUseTimelineScene이 true일때만 사용. 이동할 씬의 이름 작성</summary>
     [SerializeField]
-    private string _TimelineSceneName;
+    private string _TimelineSceneName = "";
 
     /// <summary>타임라인 시작 지점</summary>
     [Header("Programmer can edit")]
@@ -36,6 +36,11 @@ public class CTimelineTrigger : MonoBehaviour
         _collider3D = GetComponentInChildren<Collider>();
 
         _playableDirector.gameObject.SetActive(false);
+        if (_playableDirector.transform.position != transform.position)
+        {
+            Debug.LogError("도착지점과 타임라인의 위치를 동일하게 맞춰야 합니다.");
+            _playableDirector.transform.position = transform.position;
+        }
     }
 
     /// <summary>타임라인 로직 시작</summary>
@@ -75,6 +80,8 @@ public class CTimelineTrigger : MonoBehaviour
         }
         else
         {
+            //화면이 완전히 암전되는 것을 기다리기 위해서 사용
+            yield return new WaitForSeconds(1);
             // 스테이지 클리어 처리
             CWorldManager.Instance.StageClear();
         }

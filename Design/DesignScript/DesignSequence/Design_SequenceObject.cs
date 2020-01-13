@@ -19,11 +19,10 @@ public class Design_SequenceObject : MonoBehaviour
         MoveSpeed = 0.2f;
         TimeValue = 1f;
 
-        StartCoroutine("FirstTimeSet");
+        StartCoroutine(FirstTimeSet());
         for (int i = 0; i < 13; i++)
         {
             CubeBroArray.Add(transform.Find("CubeBro_Red (" + i + ")").gameObject);
-            //CubePos.Add(CubeBroArray[i].transform.position);
             SetRandomTexture(i);
         }
 
@@ -40,7 +39,7 @@ public class Design_SequenceObject : MonoBehaviour
             if (!OneTime)
             {
                 OneTime = true;
-                StartCoroutine("Waiting");
+                StartCoroutine(Waiting());
 
                 for (int i = 0; i < 13; i++)
                 {
@@ -80,14 +79,13 @@ public class Design_SequenceObject : MonoBehaviour
         WaitSeconds = 0;
         OneTime = false;
     }
-
-    [System.Obsolete]
+     
     void SetRandomTexture(int CubeNum)
     {
-        int RandomValue = Random.RandomRange(0, 3);
+        int RandomValue = Random.Range(0, 3);
         CubeBroArray[CubeNum].GetComponent<Design_CubeBro>().ChangeTexture(RandomValue);
     }
-
+     
     void SetAnimation(int CubeNum, string State)
     {
         CubeBroArray[CubeNum].GetComponent<Design_CubeBro>().SetAnimState(State);

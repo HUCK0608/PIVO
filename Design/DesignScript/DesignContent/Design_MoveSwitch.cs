@@ -6,8 +6,11 @@ public class Design_MoveSwitch : MonoBehaviour
 {
     bool SwitchBool = false;
 
-    public GameObject[] MovingActor = new GameObject[] { };
-    public bool RepeatSwitch = false;
+    public List<GameObject> MovingActor = new List<GameObject>();
+    public bool RepeatSwitch;
+    
+    public float TargetValue;
+    public float PushDownSpeed;
 
     void OnTriggerEnter(Collider other)
     {
@@ -19,7 +22,28 @@ public class Design_MoveSwitch : MonoBehaviour
             }
 
             if (!RepeatSwitch)
+            {
                 SwitchBool = true;
+                StartCoroutine(PushDownInnerMesh());
+            }
+        }
+    }
+
+    IEnumerator PushDownInnerMesh()
+    {
+        while (true)
+        {
+            Transform InnerMesh = transform.Find("InnerMesh");
+
+            if (InnerMesh.localPosition.y > -TargetValue)
+            {
+                InnerMesh.position -= new Vector3(0, PushDownSpeed, 0);
+                yield return new WaitForFixedUpdate();
+            }
+            else
+                break;
+
+            
         }
     }
 }
