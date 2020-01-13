@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EPlayerState3D { Idle, Move, Falling, ViewChangeInit, ViewChangeIdle, Climb, Holding, Dead, PushInit, PushIdle, PushEnd, PutInit, PutIdle, PutEnd, PutObjectInit, PutObjectIdle, PutObjectMove, PutObjectEnd }
+public enum EPlayerState3D { Idle, Move, Falling, ViewChangeInit, ViewChangeIdle, Climb, Holding, Dead, PushInit, PushIdle, PushEnd, PutInit, PutIdle, PutEnd, PutObjectInit, PutObjectIdle, PutObjectMove, PutObjectEnd, PutObjectFalling, Idle2, Idle3 }
 
 public class CPlayerController3D : MonoBehaviour
 {

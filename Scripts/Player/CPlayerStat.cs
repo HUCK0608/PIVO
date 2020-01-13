@@ -56,6 +56,11 @@ public class CPlayerStat : MonoBehaviour
     /// <summary>기어오르기1 확률</summary>
     public float Climb1Percent { get { return _climb1Percent; } }
 
+    [SerializeField]
+    private float _idleVariationMinTime = 0f;
+    /// <summary>Idle 바리에이션 최소 시간</summary>
+    public float IdleVariationMinTime { get { return _idleVariationMinTime; } }
+
     private bool _isPut = false;
     /// <summary>코기가 잡혀있는지 여부</summary>
     public bool IsPut { get { return _isPut; } set { _isPut = value; } }

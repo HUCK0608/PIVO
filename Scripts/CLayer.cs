@@ -14,6 +14,9 @@ public static class CLayer
     private static int _pushTile = LayerMask.NameToLayer("PushTile");
     public static int PushTile { get { return _pushTile; } }
 
+    private static int _offBlockOnPut = LayerMask.NameToLayer("OffBlockOnPut");
+    public static int OffBlockOnPut { get { return _offBlockOnPut; } }
+
     /// <summary>1로 현재 값만큼 좌측 시프트 연산을 시행</summary>
     public static int LeftShiftToOne (this int value)
     {

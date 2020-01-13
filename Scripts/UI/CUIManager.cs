@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+public enum EPaintingType { Snow = 0, Temple };
+
 public class CUIManager : MonoBehaviour
 {
     private static CUIManager _instance = null;
@@ -26,6 +28,8 @@ public class CUIManager : MonoBehaviour
     {
         _canvas.targetDisplay = targetValue;
     }
+
+    #region InGameUI
 
     /// <summary>체력 이미지 리스트</summary>
     [SerializeField]
@@ -75,6 +79,15 @@ public class CUIManager : MonoBehaviour
         else if (!_interactionGroup.activeSelf)
             _interactionGroup.SetActive(true);
     }
+
+    [SerializeField]
+    private GameObject _holdingUIGroup = null;
+
+    public void SetHoldingUI(bool value) { _holdingUIGroup.SetActive(value); }
+
+    #endregion
+
+    #region DeadUI
 
     [SerializeField]
     private GameObject _deadGroup = null;
@@ -169,6 +182,9 @@ public class CUIManager : MonoBehaviour
         SceneManager.LoadScene("StageSelect_" + season);
     }
 
+    #endregion
+
+    #region Sound
     private AudioSource _audioSource = null;
 
     [SerializeField]
@@ -205,9 +221,113 @@ public class CUIManager : MonoBehaviour
 
         _audioSource.Play();
     }
+    #endregion
 
+    #region WallPainting
+
+    [Header("WallPainting")]
     [SerializeField]
-    private GameObject _holdingUIGroup = null;
+    private GameObject _goWallPaintingGroup = null;
 
-    public void SetHoldingUI(bool value) { _holdingUIGroup.SetActive(value); }
+    [Space(10f)]
+    // Snow
+    [SerializeField]
+    private GameObject _goSnowPaintingGroup = null;
+    [SerializeField]
+    private List<GameObject> _goArrSnowPainting = null;
+
+    [Space(10f)]
+    // Temple
+    [SerializeField]
+    private GameObject _goTemplePaintingGroup = null;
+    [SerializeField]
+    private List<GameObject> _goArrTemplePainting = null;
+
+    private bool _isOnWallPainting = false;
+    /// <summary>벽화가 켜져있는지 여부</summary>
+    public bool IsOnWallPainting { get { return _isOnWallPainting; } }
+
+    /// <summary>
+    /// 페인팅 활성화 설정
+    /// </summary>
+    /// <param name="paintingType">페인팅 타입(겨울, 신전)</param>
+    /// <param name="index">페인팅 인덱스</param>
+    /// <param name="active">활성화 여부</param>
+    public void SetActivePainting(bool active, EPaintingType paintingType = EPaintingType.Snow, int index = 0)
+    {
+        _isOnWallPainting = active;
+        index -= 1;
+
+        if (!active)
+        {
+            SetActivePaintingGroup(active);
+        }
+        else
+        {
+            ActivatePainting(paintingType, index);
+            ActivatePaintingType(paintingType);
+            SetActivePaintingGroup(true);
+        }
+    }
+
+    private void SetActivePaintingGroup(bool active)
+    {
+        _goWallPaintingGroup.SetActive(active);
+    }
+
+    private void ActivatePainting(EPaintingType paintingType, int index)
+    {
+        if(paintingType.Equals(EPaintingType.Snow))
+        {
+            for (int i = 0; i < _goArrSnowPainting.Count; i++)
+                SetActiveSnowPainting(i, false);
+
+            SetActiveSnowPainting(index, true);
+        }
+        else if(paintingType.Equals(EPaintingType.Temple))
+        {
+            for (int i = 0; i < _goArrTemplePainting.Count; i++)
+                SetActiveTemplePainting(i, false);
+
+            SetActiveTemplePainting(index, true);
+        }
+    }
+
+    private void SetActiveSnowPainting(int index, bool active)
+    {
+        _goArrSnowPainting[index].SetActive(active);
+    }
+
+    private void SetActiveTemplePainting(int index, bool active)
+    {
+        _goArrTemplePainting[index].SetActive(active);
+    }
+
+    private void ActivatePaintingType(EPaintingType paintingType)
+    {
+        SetActiveSnowPaintingGroup(false);
+        SetActiveTemplePaintingGroup(false);
+
+        if (paintingType.Equals(EPaintingType.Snow))
+            SetActiveSnowPaintingGroup(true);
+        else if (paintingType.Equals(EPaintingType.Temple))
+            SetActiveTemplePaintingGroup(true);
+    }
+
+    private void SetActiveSnowPaintingGroup(bool active)
+    {
+        _goSnowPaintingGroup.SetActive(active);
+    }
+
+    private void SetActiveTemplePaintingGroup(bool active)
+    {
+        _goTemplePaintingGroup.SetActive(active);
+    }
+
+    public void UIWallPaintingButtonClick()
+    {
+        SetActivePainting(false);
+    }
+
+    #endregion
 }

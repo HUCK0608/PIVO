@@ -20,7 +20,7 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
     {
         base.Awake();
 
-        _blockCheckIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.ViewChangeRect.LeftShiftToOne() | CLayer.BackgroundObject.LeftShiftToOne());
+        _blockCheckIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.ViewChangeRect.LeftShiftToOne() | CLayer.BackgroundObject.LeftShiftToOne() | CLayer.OffBlockOnPut.LeftShiftToOne());
 
         _blockObjects = new List<CWorldObject>();
     }
@@ -95,6 +95,8 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
                     {
                         newBlockObject = hit.transform.parent.GetComponent<CWorldObject>();
                     }
+                    if (newBlockObject == null)
+                        Debug.Log(newBlockObject);
                     newBlockObject.ShowOnBlock();
                     _blockObjects.Add(newBlockObject);
                     _blockObjetCount++;

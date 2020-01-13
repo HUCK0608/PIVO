@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CPlayerState3D_PutObjectIdle : CPlayerState3D
 {
@@ -11,7 +9,9 @@ public class CPlayerState3D_PutObjectIdle : CPlayerState3D
 
         Controller3D.Move(vertical, horizontal);
 
-        if (Controller3D.RigidBody.velocity.x != 0 || Controller3D.RigidBody.velocity.z != 0)
+        if (Controller3D.RigidBody.velocity.y < -Mathf.Epsilon)
+            Controller3D.ChangeState(EPlayerState3D.PutObjectFalling);
+        else if (Controller3D.RigidBody.velocity.x != 0 || Controller3D.RigidBody.velocity.z != 0)
             Controller3D.ChangeState(EPlayerState3D.PutObjectMove);
     }
 }
