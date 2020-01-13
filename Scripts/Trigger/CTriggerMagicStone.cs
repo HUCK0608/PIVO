@@ -12,6 +12,9 @@ public class CTriggerMagicStone : MonoBehaviour
     [SerializeField]
     private float _checkDistance = 0f;
 
+    [SerializeField]
+    private float MonoToColorSpeed = 0f;
+
     private bool _isActive = false;
     /// <summary>매직스톤 활성화 여부</summary>
     public bool IsActive { set { _isActive = value; } }
@@ -22,6 +25,35 @@ public class CTriggerMagicStone : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, _checkDistance);
     }
 #endif
+
+    public void ActiveMagicStone()
+    {
+        IsActive = true;
+        StartCoroutine(MonoToColorful());
+    }
+
+    void SetMagicStoneMat(float Value)
+    {
+        Transform parentObject = transform.Find("Root3D").Find("Models");
+        parentObject.Find("MagicStonePattern").GetComponent<MeshRenderer>().material.SetFloat("_Monotone", Value);
+        parentObject.Find("MagicStoneCube_1").GetComponent<MeshRenderer>().material.SetFloat("_Monotone", Value);
+        parentObject.Find("MagicStoneCube_2").GetComponent<MeshRenderer>().material.SetFloat("_Monotone", Value);
+        parentObject.Find("MagicStoneCube_3").GetComponent<MeshRenderer>().material.SetFloat("_Monotone", Value);
+    }
+
+    IEnumerator MonoToColorful()
+    {
+        float TargetValue = 0;
+
+        while (TargetValue < 1)
+        {
+            TargetValue += MonoToColorSpeed;
+            SetMagicStoneMat(TargetValue);
+            yield return new WaitForFixedUpdate();
+        }
+
+        SetMagicStoneMat(1);
+    }
 
     private void Update()
     {

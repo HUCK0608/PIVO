@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 888499305}
   - component: {fileID: 888499307}
   - component: {fileID: 888499306}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: InnerMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 1535020674030712769}
   - component: {fileID: 6645493100618025887}
   - component: {fileID: 3808862800379343763}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: MoveSwitch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1535020674395265643}
   - component: {fileID: 2746714499190238000}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: Root2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 1535020675028963684}
   - component: {fileID: 1535020675028963686}
   - component: {fileID: 2666828094922144261}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: Root3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -299,8 +299,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.6329117, y: 2, z: 1.6145325}
+  m_Center: {x: 0, y: 0, z: 0.009181976}
 --- !u!114 &2666828094922144261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,7 +327,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3211078075797364398}
   - component: {fileID: 4033574127974089707}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
