@@ -124,7 +124,7 @@ public class CBiscuitManager : MonoBehaviour
         string[] elementsName = null;
         string[] datas = null;
 
-        if (_currentBiscuitCount > _saveBiscuitCount)
+        if (_saveBiscuitCount.Equals(0) || _currentBiscuitCount > _saveBiscuitCount)
         {
             /* 이전에 먹었던 비스킷 개수 데이터 저장 */
             nodePath = documentName.ToString("G") + "/StageDatas/" + currentSceneName;
