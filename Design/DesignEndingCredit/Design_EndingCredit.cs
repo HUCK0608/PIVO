@@ -46,31 +46,31 @@ public class Design_EndingCredit : MonoBehaviour
 
         float WaitTerm = 1f;
 
-        StartCoroutine(ShowTextCoroutine("GameDesign : KimMyungJun"));
+        StartCoroutine(ShowTextCoroutine("GameDesign : KimMyungJun"));//KimMyungJun
         yield return new WaitUntil(() => !bShowTextCoroutine);
         yield return new WaitForSeconds(WaitTerm);
 
-        StartCoroutine(ShowTextCoroutine("GameDesign : KimHeonJu"));
+        StartCoroutine(ShowTextCoroutine("GameDesign : KimHeonJu"));//KimHeonJu
         yield return new WaitUntil(() => !bShowTextCoroutine);
         yield return new WaitForSeconds(WaitTerm);
 
-        StartCoroutine(ShowTextCoroutine("Programming : KimSangHyuck"));
+        StartCoroutine(ShowTextCoroutine("Programming : K.Huck"));//KimSangHyeok
         yield return new WaitUntil(() => !bShowTextCoroutine);
         yield return new WaitForSeconds(WaitTerm);
 
-        StartCoroutine(ShowTextCoroutine("Animation : KimDoYeon"));
+        StartCoroutine(ShowTextCoroutine("Animation : KimDoYeon"));//KimDoYeon
         yield return new WaitUntil(() => !bShowTextCoroutine);
         yield return new WaitForSeconds(WaitTerm);
 
-        StartCoroutine(ShowTextCoroutine("ConceptArt/Voxel : KimJuYoung"));
+        StartCoroutine(ShowTextCoroutine("ConceptArt/Voxel : KimJuYoung"));//KimJuYoung
         yield return new WaitUntil(() => !bShowTextCoroutine);
         yield return new WaitForSeconds(WaitTerm);
 
-        StartCoroutine(ShowTextCoroutine("UI/Pixel : HanEunHye"));
+        StartCoroutine(ShowTextCoroutine("UI/Pixel : HanEunHye"));//HanEunHye
         yield return new WaitUntil(() => !bShowTextCoroutine);
         yield return new WaitForSeconds(WaitTerm);
 
-        StartCoroutine(ShowTextCoroutine("Special Thanks : JungJongPil"));
+        StartCoroutine(ShowTextCoroutine("Special Thanks : JungJongPil"));//JungJongPil
         yield return new WaitUntil(() => !bShowTextCoroutine);
         yield return new WaitForSeconds(WaitTerm);
 
