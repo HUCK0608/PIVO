@@ -8,7 +8,10 @@ public class CPlayerState3D_Idle : CPlayerState3D
     {
         if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.Changing) ||
             !CPlayerManager.Instance.IsCanOperation)
+        {
+            Controller3D.Move(0f, 0f);
             return;
+        }
 
         _currentIdleTime += Time.deltaTime;
 

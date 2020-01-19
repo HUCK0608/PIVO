@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public enum EPaintingType { Snow = 0, Temple };
 
@@ -17,6 +18,20 @@ public class CUIManager : MonoBehaviour
         _interactionKeyText.text = CKeyManager.InteractionKey.ToString("G");
 
         _audioSource = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!_pauseGroup.activeSelf)
+                SetActivePause(true);
+            else
+                SetActivePause(false);
+        }
+
+        if (_pauseGroup.activeSelf)
+            PauseLogic();
     }
 
     /// <summary>캔버스</summary>
@@ -271,6 +286,8 @@ public class CUIManager : MonoBehaviour
     /// <param name="active">활성화 여부</param>
     public void SetActivePainting(bool active, EPaintingType paintingType = EPaintingType.Snow, int index = 0)
     {
+        CPlayerManager.Instance.IsCanOperation = !active;
+
         _isOnWallPainting = active;
         index -= 1;
 
@@ -400,6 +417,95 @@ public class CUIManager : MonoBehaviour
             CWorldManager.Instance.StageClearWaitTimeLineScene(CWorldManager.Instance.TimeLineSceneName);
         else
             CWorldManager.Instance.StageClear();
+    }
+
+    #endregion
+
+    #region Pause
+
+    [SerializeField]
+    private GameObject _pauseGroup = null;
+
+    [SerializeField]
+    private GameObject _resume = null, _resumeSelect = null;
+    [SerializeField]
+    private GameObject _exit = null, _exitSelect = null;
+
+    private int _pauseSelectMenu = 0;
+
+    public void SetActivePause(bool active)
+    {
+        _pauseGroup.SetActive(active);
+
+        CPlayerManager.Instance.IsCanOperation = !active;
+
+        if (active)
+            InitPause();
+    }
+
+    private void InitPause()
+    {
+        SetSelectMenu_Pause(0);
+    }
+
+    private void PauseLogic()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+            SetSelectMenu_Pause((_pauseSelectMenu + 1) % 2);
+
+        if (Input.GetKeyDown(CKeyManager.InteractionKey))
+            ExcuteMenu_Pause(_pauseSelectMenu);
+    }
+
+    public void SetSelectMenu_Pause(int menuIndex)
+    {
+        _pauseSelectMenu = menuIndex;
+
+        if(_pauseSelectMenu == 0)
+        {
+            SetSelectResume_Pause(true);
+            SetSelectExit_Pause(false);
+        }
+        else
+        {
+            SetSelectResume_Pause(false);
+            SetSelectExit_Pause(true);
+        }
+
+        PlayPointerEnterAudio();
+    }
+
+    private void SetSelectResume_Pause(bool active)
+    {
+        _resume.SetActive(!active);
+        _resumeSelect.SetActive(active);
+    }
+
+    private void SetSelectExit_Pause(bool active)
+    {
+        _exit.SetActive(!active);
+        _exitSelect.SetActive(active);
+    }
+
+    public void ExcuteMenu_Pause(int menuIndex)
+    {
+        if (menuIndex == 0)
+            ExcuteResume_Pause();
+        else
+            ExcuteExit_Pause();
+
+        PlayPointerEnterAudio();
+    }
+
+    private void ExcuteResume_Pause()
+    {
+        SetActivePause(false);
+    }
+
+    private void ExcuteExit_Pause()
+    {
+        string season = SceneManager.GetActiveScene().name.Split('_')[0].Equals("GrassStage") ? "Grass" : "Snow";
+        SceneManager.LoadScene("StageSelect_" + season);
     }
 
     #endregion

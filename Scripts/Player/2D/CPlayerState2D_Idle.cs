@@ -6,7 +6,11 @@ public class CPlayerState2D_Idle : CPlayerState2D
     {
         if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.Changing) ||
             !CPlayerManager.Instance.IsCanOperation)
+        {
+            Controller2D.Move(0f);
+
             return;
+        }
 
         float horizontal = Input.GetAxis(CString.Horizontal);
 

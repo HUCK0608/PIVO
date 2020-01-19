@@ -116,7 +116,7 @@ public class CSoopController2D : MonoBehaviour
 
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, -Vector3.forward, out hit, Mathf.Infinity, (-1) - CLayer.Player.LeftShiftToOne()))
+        if (Physics.Raycast(transform.position + Vector3.up, -Vector3.forward, out hit, Mathf.Infinity, (-1) - CLayer.Player.LeftShiftToOne()))
         {
             CWorldObject worldObject = hit.transform.GetComponent<CWorldObject>();
             if (worldObject == null)

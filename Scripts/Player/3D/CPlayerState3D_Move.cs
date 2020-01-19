@@ -5,7 +5,11 @@ public class CPlayerState3D_Move : CPlayerState3D
     private void Update()
     {
         if (!CPlayerManager.Instance.IsCanOperation)
+        {
+            Controller3D.ChangeState(EPlayerState3D.Idle);
+
             return;
+        }
 
         float vertical = Input.GetAxis(CString.Vertical);
         float horizontal = Input.GetAxis(CString.Horizontal);

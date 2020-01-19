@@ -35,7 +35,9 @@ public class CWallPainting : MonoBehaviour
                     }
 
                     if (Input.GetKeyDown(CKeyManager.InteractionKey))
+                    {
                         CUIManager.Instance.SetActivePainting(true, _paintingType, _paintingIndex);
+                    }
                 }
                 else if (isOnInteractionUI)
                 {
@@ -46,7 +48,9 @@ public class CWallPainting : MonoBehaviour
             else
             {
                 if (Input.GetKeyDown(CKeyManager.InteractionKey) || Input.GetKeyDown(CKeyManager.InteractionCancelKey))
+                {
                     CUIManager.Instance.SetActivePainting(false);
+                }
 
                 if (isOnInteractionUI)
                 {
