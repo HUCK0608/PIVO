@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Playables;
 
 public class TimelineScene_Ending : MonoBehaviour
@@ -12,23 +13,32 @@ public class TimelineScene_Ending : MonoBehaviour
     //DefaultFogColor = new Color(0.510f, 0.125f, 0.169f);
     //DefaultMatColor = new Color(1f, 0f, 0f);
 
-    private PlayableDirector EndingSequence;
-
-    void Start()
+    void Awake()
     {
-        EndingSequence = GetComponent<PlayableDirector>();
-
+        int TimelineEnding = PlayerPrefs.GetInt("TimelineEnding");
         InitializeColor();
-        StartCoroutine(PlaySequence());
+
+        if (TimelineEnding.Equals(1))
+            LoadSnowStageSelect();
+        else
+            StartCoroutine(PlayLevelSequence());
+    }
+    public void LoadSnowStageSelect()
+    {
+        SceneManager.LoadScene("StageSelect_Snow");
+
+        PlayerPrefs.SetInt("TimelineEnding", 1);
     }
 
-    IEnumerator PlaySequence()
+    IEnumerator PlayLevelSequence()
     {
-        float TargetDuration = Mathf.Floor((float)EndingSequence.duration);
+        PlayableDirector LevelSequence = GetComponent<PlayableDirector>();
+        float TargetDuration = Mathf.Floor((float)LevelSequence.duration);
 
-        yield return new WaitUntil(() => EndingSequence.time >= TargetDuration);
+        yield return new WaitUntil(() => LevelSequence.time >= TargetDuration);
 
         InitializeColor();
+        SceneManager.LoadScene("SnowStage_Ending");
     }
 
     void InitializeColor()

@@ -41,9 +41,10 @@ public class Design_MoveSwitch : MonoBehaviour
                 yield return new WaitForFixedUpdate();
             }
             else
+            {
+                InnerMesh.localPosition = new Vector3(InnerMesh.localPosition.x, -TargetValue, InnerMesh.localPosition.z);
                 break;
-
-            
+            }
         }
     }
 }
