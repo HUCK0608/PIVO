@@ -318,12 +318,13 @@ public class Design_BombController : Design_WorldObjectController
         float addTime = 0f;
 
         yield return new WaitForSeconds(0.3f);
-        while(true)
+        while (true)
         {
             addTime += Time.deltaTime;
             transform.position = Vector3.Lerp(startPoint, putPoint, Mathf.Clamp(oneDivAnimationTime * addTime, 0f, 1f));
 
-            if (transform.position.Equals(putPoint))
+            Debug.Log(oneDivAnimationTime * addTime);
+            if (transform.position.Equals(putPoint) || oneDivAnimationTime * addTime > 15)
                 break;
 
             yield return null;
