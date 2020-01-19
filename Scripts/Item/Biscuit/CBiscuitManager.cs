@@ -126,7 +126,7 @@ public class CBiscuitManager : MonoBehaviour
 
         if (_currentBiscuitCount > _saveBiscuitCount)
         {
-            /* 이전에 먹었던 비스킷 개수 데이터 가져오기 */
+            /* 이전에 먹었던 비스킷 개수 데이터 저장 */
             nodePath = documentName.ToString("G") + "/StageDatas/" + currentSceneName;
             elementsName = new string[] { "HaveBiscuitCount" };
             datas = new string[] { _saveBiscuitCount.ToString() };
@@ -135,7 +135,16 @@ public class CBiscuitManager : MonoBehaviour
             CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
         }
 
-        /* 비스킷 먹음 여부 데이터 가져오기 */
+        /* 별 개수 데이터 저장 */
+        nodePath = documentName.ToString("G") + "/StageDatas/" + currentSceneName;
+        elementsName = new string[] { "Stars" };
+        datas = new string[] { GetCurrentStar().ToString() };
+
+        // 데이터 쓰기
+        CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+        
+
+        /* 비스킷 먹음 여부 데이터 저장 */
         // 노드 경로 설정
         nodePath = documentName.ToString("G") + "/StageDatas/" + currentSceneName + "/BiscuitsDidEat";
 
@@ -155,5 +164,19 @@ public class CBiscuitManager : MonoBehaviour
 
         // 데이터 저장
         CDataManager.SaveCurrentXmlDocument();
+    }
+
+    /// <summary>현재 별의 개수 반환</summary>
+    public int GetCurrentStar()
+    {
+        int currentStar = 0;
+
+        for(int i = 0; i < 3; i++)
+        {
+            if (_currentBiscuitCount >= _requirements[i])
+                currentStar++;
+        }
+
+        return currentStar;
     }
 }

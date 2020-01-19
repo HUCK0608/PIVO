@@ -42,6 +42,15 @@ public class CWorldManager : MonoBehaviour
     [SerializeField]
     private bool _isUseBGM = true;
 
+    [SerializeField]
+    private bool _isUseTimelineScene = false;
+    /// <summary>스테이지 선택씬이 아닌 타임라인이 있는 씬으로 이동할 때 체크</summary>
+    public bool IsUseTimeLineScene { get { return _isUseTimelineScene; } }
+    [SerializeField]
+    private string _TimelineSceneName = string.Empty;
+    /// <summary>_bUseTimelineScene이 true일때만 사용. 이동할 씬의 이름 작성</summary>
+    public string TimeLineSceneName { get { return _TimelineSceneName; } }
+
     private void Awake()
     {
         _instance = this;

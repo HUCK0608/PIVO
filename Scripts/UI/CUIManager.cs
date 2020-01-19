@@ -31,6 +31,14 @@ public class CUIManager : MonoBehaviour
 
     #region InGameUI
 
+    [SerializeField]
+    private GameObject _inGameUI = null;
+
+    public void SetActiveInGameUI(bool active)
+    {
+        _inGameUI.SetActive(active);
+    }
+
     /// <summary>체력 이미지 리스트</summary>
     [SerializeField]
     private List<GameObject> _hpImages = null;
@@ -353,18 +361,15 @@ public class CUIManager : MonoBehaviour
         }
 
         _stageClear.SetActive(active);
+
+        gameObject.SetActive(false);
+        gameObject.SetActive(true);
     }
 
     private void SetStar()
     {
-        int[] requirement = CBiscuitManager.Instance.Requirements;
-        int currentBiscuitCount = CBiscuitManager.Instance.CurrentBiscuitCount;
-
-        for(int i = 0; i < 3; i++)
-        {
-            bool isActiveYellowStar = currentBiscuitCount >= requirement[i];
-            SetActiveYellowStar(i, isActiveYellowStar);
-        }
+        for(int i = 0; i < CBiscuitManager.Instance.GetCurrentStar(); i++)
+            SetActiveYellowStar(i, true);
     }
 
     private void SetActiveYellowStar(int index, bool active)
@@ -383,7 +388,10 @@ public class CUIManager : MonoBehaviour
 
     public void UIStageClearOkButtonClick()
     {
-        Debug.LogError("클리어 버튼 클릭");
+        if (CWorldManager.Instance.IsUseTimeLineScene)
+            CWorldManager.Instance.StageClearWaitTimeLineScene(CWorldManager.Instance.TimeLineSceneName);
+        else
+            CWorldManager.Instance.StageClear();
     }
 
     #endregion
