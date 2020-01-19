@@ -101,7 +101,8 @@ public class Design_BombController : Design_WorldObjectController
 
     void Update()
     {
-        Explosion();
+        if (CPlayerManager.Instance != null)
+            Explosion();
 
         if(IsEnabled)
         {
