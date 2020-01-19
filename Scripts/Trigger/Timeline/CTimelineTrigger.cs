@@ -59,10 +59,11 @@ public class CTimelineTrigger : MonoBehaviour
         yield return new WaitUntil(() => CPlayerManager.Instance.IsCanOperation);
         // 플레이어 비활성화
         CPlayerManager.Instance.gameObject.SetActive(false);
+        // InGameUI 비활성화
+        CUIManager.Instance.SetActiveInGameUI(false);
 
         // 타겟 디스플레이 변경
         CCameraController.Instance.SetTargetDisplay(1);
-        CUIManager.Instance.SetTargetDisplay(1);
         GlobalFog timelineGlobalFog = _playableDirector.GetComponentInChildren<GlobalFog>();
         timelineGlobalFog.height = CCameraController.Instance.GlobalFogHeight;
         timelineGlobalFog.heightDensity = CCameraController.Instance.GlobalFogHeightDensity;
@@ -74,16 +75,9 @@ public class CTimelineTrigger : MonoBehaviour
         // 타임라인이 끝날때까지 대기
         yield return new WaitUntil(() => _playableDirector.time >= _timelineEndTime);
 
-        if (_bUseTimelineScene)
-        {
-            CWorldManager.Instance.StageClearWaitTimeLineScene(_TimelineSceneName);
-        }
-        else
-        {
-            //화면이 완전히 암전되는 것을 기다리기 위해서 사용
-            yield return new WaitForSeconds(1);
-            // 스테이지 클리어 처리
-            CWorldManager.Instance.StageClear();
-        }
+        //화면이 완전히 암전되는 것을 기다리기 위해서 사용
+        yield return new WaitForSeconds(1.0f);
+        // 클리어 UI 활성화
+        CUIManager.Instance.SetActiveStageClear(true);
     }
 }
