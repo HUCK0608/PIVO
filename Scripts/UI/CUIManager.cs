@@ -30,6 +30,9 @@ public class CUIManager : MonoBehaviour
                 SetActivePause(false);
         }
 
+        if (_stageClear.activeSelf)
+            StageClearLogic();
+
         if (_pauseGroup.activeSelf)
             PauseLogic();
     }
@@ -376,6 +379,12 @@ public class CUIManager : MonoBehaviour
 
     [SerializeField]
     private Text[] _stageClearRequirementTexts = null;
+
+    private void StageClearLogic()
+    {
+        if (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey) || Input.GetKeyDown(KeyCode.Return))
+            UIStageClearOkButtonClick();
+    }
 
     public void SetActiveStageClear(bool active)
     {
