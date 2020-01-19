@@ -5,11 +5,7 @@ public class CPlayerState2D_Move : CPlayerState2D
     private void Update()
     {
         if (!CPlayerManager.Instance.IsCanOperation)
-        {
-            Controller2D.ChangeState(EPlayerState2D.Idle);
-
             return;
-        }
 
         float horizontal = Input.GetAxis(CString.Horizontal);
 

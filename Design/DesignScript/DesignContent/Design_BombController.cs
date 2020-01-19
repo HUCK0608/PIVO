@@ -103,6 +103,14 @@ public class Design_BombController : Design_WorldObjectController
     {
         Explosion();
 
+        if(IsEnabled)
+        {
+            if (bAttachCorgi)
+                CUIManager.Instance.SetActiveBombExplosionUI(false);
+            else
+                CUIManager.Instance.SetActiveBombExplosionUI(true);
+        }
+
         //if(!IsEnabled)
         //    CheckInteractionUI();
 
@@ -246,7 +254,6 @@ public class Design_BombController : Design_WorldObjectController
     IEnumerator ExplosionCoroutine()
     {
         CUIManager.Instance.SetActiveBombExplosionUI(false);
-
         Vector3 AddPosition = new Vector3(0, 0, -0.5f);
         GameObject BoomInstance = Instantiate(BoomEffect, transform.position + AddPosition, transform.rotation);
         RootObject3D.GetComponent<MeshRenderer>().enabled = false;
@@ -371,7 +378,6 @@ public class Design_BombController : Design_WorldObjectController
 
         EnableBomb();
         bAttachCorgi = false;
-        CUIManager.Instance.SetActiveBombExplosionUI(true);
     }
 
     /*
