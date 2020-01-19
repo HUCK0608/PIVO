@@ -45,7 +45,10 @@ public class CWallPainting : MonoBehaviour
             }
             else
             {
-                if(isOnInteractionUI)
+                if (Input.GetKeyDown(CKeyManager.InteractionKey) || Input.GetKeyDown(CKeyManager.InteractionCancelKey))
+                    CUIManager.Instance.SetActivePainting(false);
+
+                if (isOnInteractionUI)
                 {
                     isOnInteractionUI = false;
                     CUIManager.Instance.SetActiveInteractionUI(isOnInteractionUI);
