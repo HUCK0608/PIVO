@@ -23,6 +23,6 @@ public class Design_ConveyFinish : Design_Convey
         transform.Find("Root3D").Find("InternalPower").GetComponent<MeshRenderer>().material = OnMaterial;
 
         Power = true;
-        TargetMagicStone.IsActive = true;
+        TargetMagicStone.ActiveMagicStone();
     }
 }

@@ -303,7 +303,8 @@ public class Design_BombController : Design_WorldObjectController
 
         yield return new WaitUntil(() => Input.GetKeyDown(InteractionKey) && !corgiController3D.CurrentState.Equals(EPlayerState3D.PutObjectFalling));
 
-        transform.parent = ParentBombSpawn.transform;
+        //폭탄을 밀기타일 위에 올려놓고 밀어야해서 아래있는 타일에 어태치시킴
+        //transform.parent = ParentBombSpawn.transform;
         corgiController3D.ChangeState(EPlayerState3D.PutObjectEnd);
         yield return new WaitUntil(() => corgiController3D.Animator.GetCurrentAnimatorStateInfo(0).IsName("PutObjectEnd"));
 
@@ -311,6 +312,7 @@ public class Design_BombController : Design_WorldObjectController
         RaycastHit hit;
         Physics.Raycast(transform.position, Vector3.down, out hit, float.PositiveInfinity);
         Vector3 putPoint = hit.point + Vector3.up;
+        transform.parent = hit.transform;
         float putTime = 0.1f;
         float oneDivAnimationTime = 1f / putTime;
         float addTime = 0f;

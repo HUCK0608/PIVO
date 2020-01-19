@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7922512608131558232}
   - component: {fileID: 8048406645153934311}
   - component: {fileID: 1184036941723850296}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: 3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5827996738163746927}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: Object_Snow_SmallSnow_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
