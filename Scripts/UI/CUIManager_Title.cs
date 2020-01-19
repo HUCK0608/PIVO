@@ -64,6 +64,7 @@ public class CUIManager_Title : MonoBehaviour
 
         // 플레이어 조작 막기
         CPlayerManager.Instance.IsCanOperation = false;
+        CPlayerManager.Instance.Controller2D.IsUseGravity = false;
 
         // 메인카메라와 메인 UI의 목표 디스플레이 변경(화면에서 안보이게)
         CCameraController.Instance.SetTargetDisplay(1);
@@ -178,7 +179,6 @@ public class CUIManager_Title : MonoBehaviour
         
         CPlayerManager.Instance.Controller2D.ChangeState(EPlayerState2D.DownIdle);
         CCameraController.Instance.IsHoldingToTarget = true;
-        CPlayerManager.Instance.Controller2D.IsUseGravity = false;
         Vector3 startPosition = CPlayerManager.Instance.Controller2D.transform.position;
         startPosition.x = -46.72f;
         startPosition.y = 1f;
