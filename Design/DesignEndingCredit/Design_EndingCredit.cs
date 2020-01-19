@@ -186,7 +186,6 @@ public class Design_EndingCredit : MonoBehaviour
 
             yield return new WaitForFixedUpdate();
 
-            Debug.Log(CanvasList[1].transform.Find("TextGroup").Find("END").position.y);
             if (CanvasList[1].transform.Find("TextGroup").Find("END").position.y > CanvasList[1].transform.Find("GoalPos").position.y)
                 break;
         }
