@@ -89,6 +89,14 @@ public class CUIManager : MonoBehaviour
     }
 
     [SerializeField]
+    private GameObject _bombExplosionGroup = null;
+
+    public void SetActiveBombExplosionUI(bool value)
+    {
+        _bombExplosionGroup.SetActive(value);
+    }
+
+    [SerializeField]
     private GameObject _holdingUIGroup = null;
 
     public void SetHoldingUI(bool value) { _holdingUIGroup.SetActive(value); }

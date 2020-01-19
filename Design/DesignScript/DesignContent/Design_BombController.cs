@@ -31,6 +31,8 @@ public class Design_BombController : Design_WorldObjectController
     [HideInInspector]
     public bool bAttach = false;
 
+    private bool _isActiveInteractionUI = false;
+
 
     protected override void Awake()
     {
@@ -101,16 +103,51 @@ public class Design_BombController : Design_WorldObjectController
     {
         Explosion();
 
-        //if (bAttachCorgi)
-        //    DownBomb();
-        if (bAttach)
+        if(!IsEnabled)
+            CheckInteractionUI();
+
+        if (bAttach && !IsEnabled)
             AttachForDistance();
     }
 
-
-
-
-
+    private void CheckInteractionUI()
+    {
+        if(_isActiveInteractionUI)
+        {
+            if(CWorldManager.Instance.CurrentWorldState != EWorldState.View3D)
+            {
+                CUIManager.Instance.SetActiveInteractionUI(false);
+                _isActiveInteractionUI = false;
+            }
+            else if(Vector3.Distance(CPlayerManager.Instance.RootObject3D.transform.position, transform.position) > 2.5f)
+            {
+                CUIManager.Instance.SetActiveInteractionUI(false);
+                _isActiveInteractionUI = false;
+            }
+            else if(EPlayerState3D.Idle != CPlayerManager.Instance.Controller3D.CurrentState &&
+                    EPlayerState3D.Idle2 != CPlayerManager.Instance.Controller3D.CurrentState &&
+                    EPlayerState3D.Idle3 != CPlayerManager.Instance.Controller3D.CurrentState &&
+                    EPlayerState3D.Move != CPlayerManager.Instance.Controller3D.CurrentState)
+            {
+                CUIManager.Instance.SetActiveInteractionUI(false);
+                _isActiveInteractionUI = false;
+            }
+        }
+        else
+        {
+            if (EPlayerState3D.Idle == CPlayerManager.Instance.Controller3D.CurrentState ||
+                EPlayerState3D.Idle2 == CPlayerManager.Instance.Controller3D.CurrentState ||
+                EPlayerState3D.Idle3 == CPlayerManager.Instance.Controller3D.CurrentState ||
+                EPlayerState3D.Move == CPlayerManager.Instance.Controller3D.CurrentState)
+            {
+                if (Vector3.Distance(CPlayerManager.Instance.RootObject3D.transform.position, transform.position) <= 2.5f)
+                {
+                    CUIManager.Instance.SetActiveInteractionUI(true);
+                    _isActiveInteractionUI = true;
+                }
+            }
+        }
+    }
 
     void DownBomb()
     {
@@ -208,6 +245,8 @@ public class Design_BombController : Design_WorldObjectController
 
     IEnumerator ExplosionCoroutine()
     {
+        CUIManager.Instance.SetActiveBombExplosionUI(false);
+
         Vector3 AddPosition = new Vector3(0, 0, -0.5f);
         GameObject BoomInstance = Instantiate(BoomEffect, transform.position + AddPosition, transform.rotation);
         RootObject3D.GetComponent<MeshRenderer>().enabled = false;
@@ -332,6 +371,7 @@ public class Design_BombController : Design_WorldObjectController
 
         EnableBomb();
         bAttachCorgi = false;
+        CUIManager.Instance.SetActiveBombExplosionUI(true);
     }
 
     /*
