@@ -17,7 +17,7 @@ public class CDoor : MonoBehaviour
     [SerializeField]
     private MeshRenderer _patternMeshRenderer = null;
     /// <summary>패턴 채우기 수치</summary>
-    private float[] _patternFill = new float[] { 1.6f, 2f, 6.8f };
+    private float[] _patternFill = new float[] { 1.0f, 1.6f, 2f, 6.8f };
 
     /// <summary>문열기 속도</summary>
     [Header("Anyone can edit")]
@@ -45,7 +45,7 @@ public class CDoor : MonoBehaviour
 
         // 패턴 초기 수치설정
         if(_currentKeyCount > 1)
-            _patternMeshRenderer.material.SetFloat(CString.PatternFill, _patternFill[_currentKeyCount - 2]);
+            _patternMeshRenderer.material.SetFloat(CString.PatternFill, _patternFill[_currentKeyCount - 1]);
 
         // WU 초기화
         _cameraFocusingToDoorWU = new WaitUntil(() => Vector3.Distance(transform.position, CCameraController.Instance.transform.position) <= 1f);
@@ -72,7 +72,7 @@ public class CDoor : MonoBehaviour
     {
         // 열쇠 활성화 및 패턴 채우기
         _landingPoints[_currentKeyCount++].SetActive(true);
-        _patternMeshRenderer.material.SetFloat(CString.PatternFill, _patternFill[_currentKeyCount - 2]);
+        _patternMeshRenderer.material.SetFloat(CString.PatternFill, _patternFill[_currentKeyCount - 1]);
 
         // 문열기
         if (_currentKeyCount == 4)
@@ -98,13 +98,13 @@ public class CDoor : MonoBehaviour
         _landingPoints[_currentKeyCount++].SetActive(true);
 
         // 수치 설정
-        float goalPatternFill = _patternFill[_currentKeyCount - 2];
+        float goalPatternFill = _patternFill[_currentKeyCount - 1];
         float patternFillSpeed = (goalPatternFill - _patternMeshRenderer.material.GetFloat(CString.PatternFill)) / _patternFillTime;
 
         // 패턴채우기
         while (true)
         {
-            float nextPatternFill = Mathf.Clamp(_patternMeshRenderer.material.GetFloat(CString.PatternFill) + patternFillSpeed * Time.deltaTime, 1, goalPatternFill);
+            float nextPatternFill = Mathf.Clamp(_patternMeshRenderer.material.GetFloat(CString.PatternFill) + patternFillSpeed * Time.deltaTime, 0.91f, goalPatternFill);
             _patternMeshRenderer.material.SetFloat(CString.PatternFill, nextPatternFill);
 
             if (nextPatternFill.Equals(goalPatternFill))

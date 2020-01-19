@@ -36,7 +36,7 @@ public class CMonster : CWorldObject
     private IEnumerator Change2DLogic()
     {
         _effectCapusle.SetActive(false);
-        _effectCapusle.transform.position = RootObject2D.transform.position;
+        _effectCapusle.transform.position = RootObject2D.transform.position + Vector3.forward * -0.5f;
         _effectCapusle.SetActive(true);
 
         yield return new WaitForSeconds(0.3f);
