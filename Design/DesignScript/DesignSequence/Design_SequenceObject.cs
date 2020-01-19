@@ -73,7 +73,17 @@ public class Design_SequenceObject : MonoBehaviour
 
     IEnumerator Waiting()
     {
-        yield return new WaitForSeconds(0.24f);
+        //yield return new WaitForSeconds(0.24f);
+        float targetvalue = 0.24f;
+        float curvalue = 0;
+        while (true)
+        {
+            if (curvalue > targetvalue)
+                break;
+
+            yield return new WaitForFixedUpdate();
+            curvalue += Time.deltaTime;
+        }
 
         LoopNum++;
         WaitSeconds = 0;
@@ -95,7 +105,17 @@ public class Design_SequenceObject : MonoBehaviour
     {
         TimeValue = 4f;
         MoveSpeed = 10f;
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
+        float targetvalue = 1f;
+        float curvalue = 0;
+        while (true)
+        {
+            if (curvalue > targetvalue)
+                break;
+
+            yield return new WaitForFixedUpdate();
+            curvalue += Time.deltaTime;
+        }
         TimeValue = 1f;
         MoveSpeed = 0.2f;
     }
