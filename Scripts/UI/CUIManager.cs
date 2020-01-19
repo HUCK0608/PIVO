@@ -303,7 +303,7 @@ public class CUIManager : MonoBehaviour
             ActivatePainting(paintingType, index);
             ActivatePaintingType(paintingType);
             SetActivePaintingGroup(true);
-            CPlayerManager.Instance.Controller3D.Move(0f, 0f);
+            CPlayerManager.Instance.Controller3D.ChangeState(EPlayerState3D.Idle);
         }
     }
 
@@ -457,8 +457,8 @@ public class CUIManager : MonoBehaviour
     {
         SetSelectMenu_Pause(0);
 
-        CPlayerManager.Instance.Controller3D.Move(0f, 0f);
-        CPlayerManager.Instance.Controller2D.Move(0f);
+        CPlayerManager.Instance.Controller3D.ChangeState(EPlayerState3D.Idle);
+        CPlayerManager.Instance.Controller2D.ChangeState(EPlayerState2D.Idle);
     }
 
     private void PauseLogic()
