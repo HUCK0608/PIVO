@@ -395,6 +395,8 @@ public class CUIManager : MonoBehaviour
             SetStageClearRequirementText();
         }
 
+        SetTargetDisplay(0);
+
         _stageClear.SetActive(active);
 
         gameObject.SetActive(false);
