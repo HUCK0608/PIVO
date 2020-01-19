@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public enum EndingCreditType { None, First }
 
@@ -84,9 +85,10 @@ public class Design_EndingCredit : MonoBehaviour
             EndingLogo.color = new Color(1, 1, 1, ShowLogoValue);
             yield return new WaitForFixedUpdate();
         }
+
+        yield return new WaitForSeconds(WaitTerm);
+        FinishCredit();
     }
-
-
 
     IEnumerator ShowTextCoroutine(string TText)
     {
@@ -112,6 +114,11 @@ public class Design_EndingCredit : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         bShowTextCoroutine = false;
+    }
+
+    void FinishCredit()
+    {
+        SceneManager.LoadScene("GrassStage_Stage1");
     }
     
 }
