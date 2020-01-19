@@ -142,6 +142,12 @@ public class CBiscuitManager : MonoBehaviour
 
         // 데이터 쓰기
         CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+
+        /* 해금조건 저장 */
+        elementsName = new string[] { "RequirementStar1", "RequirementStar2", "RequirementStar3" };
+        datas = new string[] { _requirements[0].ToString(), _requirements[1].ToString(), _requirements[2].ToString() };
+
+        CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
         
 
         /* 비스킷 먹음 여부 데이터 저장 */

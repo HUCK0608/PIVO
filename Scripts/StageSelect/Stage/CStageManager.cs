@@ -18,7 +18,7 @@ public class CStageManager : MonoBehaviour
     public EXmlDocumentNames XmlDocumentName { get { return _xmlDocumentName; } }
 
     /// <summary>속성들의 이름</summary>
-    private string[] _elementsName = new string[] { "MaxBiscuitCount", "HaveBiscuitCount", "IsClear", "IsUnlock" };
+    private string[] _elementsName = new string[] { "MaxBiscuitCount", "HaveBiscuitCount", "IsClear", "IsUnlock", "Stars", "RequirementStar1", "RequirementStar2", "RequirementStar3" };
 
     private void Awake()
     {
@@ -65,7 +65,14 @@ public class CStageManager : MonoBehaviour
         // 데이터 쓰기
         for (int i = 0; i < stageAmount; i++)
         {
-            string[] datas = new string[] { _stages[i].MaxBiscuitCount.ToString(), _stages[i].HaveBiscuitCount.ToString(), _stages[i].IsClear.ToString(), _stages[i].IsUnlock.ToString() };
+            string[] datas = new string[] { _stages[i].MaxBiscuitCount.ToString(),
+                                            _stages[i].HaveBiscuitCount.ToString(),
+                                            _stages[i].IsClear.ToString(),
+                                            _stages[i].IsUnlock.ToString(),
+                                            _stages[i].Stars.ToString(),
+                                            _stages[i].Requirements[0].ToString(),
+                                            _stages[i].Requirements[1].ToString(),
+                                            _stages[i].Requirements[2].ToString() };
             CDataManager.WritingDatas(_xmlDocumentName, firstNodePath + _stages[i].GameSceneName, _elementsName, datas);
         }
 
@@ -100,6 +107,14 @@ public class CStageManager : MonoBehaviour
                     _stages[i].IsClear = datas[2].ToBoolean();
                 if (datas[3] != null)
                     _stages[i].IsUnlock = datas[3].ToBoolean();
+                if (datas[4] != null)
+                    _stages[i].Stars = int.Parse(datas[4]);
+                if (datas[5] != null)
+                    _stages[i].Requirements[0] = int.Parse(datas[5]);
+                if (datas[6] != null)
+                    _stages[i].Requirements[1] = int.Parse(datas[6]);
+                if (datas[7] != null)
+                    _stages[i].Requirements[2] = int.Parse(datas[7]);
             }
         }
     }
@@ -112,5 +127,17 @@ public class CStageManager : MonoBehaviour
             if (_stages[i].IsClear)
                 _stages[i + 1].IsUnlock = true;
         }
+    }
+
+    public int GetTotalStar()
+    {
+        int totalStar = 0;
+
+        for(int i = 0; i <_stages.Count; i++)
+        {
+            totalStar += _stages[i].Stars;
+        }
+
+        return totalStar;
     }
 }

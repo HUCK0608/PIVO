@@ -33,6 +33,16 @@ public class CStage : MonoBehaviour
     /// <summary>스테이지 잠김 여부</summary>
     public bool IsUnlock { get { return _isUnlock; } set { _isUnlock = value; } }
 
+    [SerializeField]
+    private int _stars = 0;
+    /// <summary>별 개수</summary>
+    public int Stars { get { return _stars; } set { _stars = value; } }
+
+    [SerializeField]
+    private int[] _requirements = new int[3];
+    /// <summary>별 해금 조건</summary>
+    public int[] Requirements { get { return _requirements; } set { _requirements = value; } }
+
     [Header("Programmer can edit")]
     /// <summary>주위에 연결된 스테이지들</summary>
     [SerializeField]
