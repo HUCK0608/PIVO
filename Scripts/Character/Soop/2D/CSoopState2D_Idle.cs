@@ -2,8 +2,6 @@
 
 public class CSoopState2D_Idle : CSoopState2D
 {
-    bool _isCanOperation = true;
-
     public override void InitState()
     {
         base.InitState();
@@ -11,13 +9,11 @@ public class CSoopState2D_Idle : CSoopState2D
         Vector3 newScale = Vector3.one;
         newScale.x = Controller2D.Manager.Stat.IsSoopDirectionRight ? -1 : 1;
         transform.localScale = newScale;
-
-        _isCanOperation = Controller2D.CanOperation();
     }
 
     private void Update()
     {
-        if (!_isCanOperation)
+        if (!Controller2D.CanOperation())
             return;
 
         Vector3 startPoint = Controller2D.Manager.transform.position;

@@ -103,10 +103,10 @@ public class Design_BombController : Design_WorldObjectController
     {
         Explosion();
 
-        if(!IsEnabled)
-            CheckInteractionUI();
+        //if(!IsEnabled)
+        //    CheckInteractionUI();
 
-        if (bAttach && !IsEnabled)
+        if (bAttach)
             AttachForDistance();
     }
 
