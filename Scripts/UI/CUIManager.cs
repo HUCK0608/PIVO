@@ -54,7 +54,7 @@ public class CUIManager : MonoBehaviour
     /// <param name="currentBiscuitCount">현재 비스킷 개수</param>
     public void SetBiscuitUI(int currentBiscuitCount)
     {
-        _biscuitCountText.text = "X " + currentBiscuitCount.ToString();
+        _biscuitCountText.text = string.Format("X {0}", currentBiscuitCount.ToString());
     }
 
     /// <summary>상호작용 그룹</summary>
@@ -327,6 +327,63 @@ public class CUIManager : MonoBehaviour
     public void UIWallPaintingButtonClick()
     {
         SetActivePainting(false);
+    }
+
+    #endregion
+
+    #region StageClear
+
+    [SerializeField]
+    private GameObject _stageClear = null;
+
+    [SerializeField]
+    private GameObject[] _grayStars = null;
+    [SerializeField]
+    private GameObject[] _yellowStars = null;
+
+    [SerializeField]
+    private Text[] _stageClearRequirementTexts = null;
+
+    public void SetActiveStageClear(bool active)
+    {
+        if (active)
+        {
+            SetStar();
+            SetStageClearRequirementText();
+        }
+
+        _stageClear.SetActive(active);
+    }
+
+    private void SetStar()
+    {
+        int[] requirement = CBiscuitManager.Instance.Requirements;
+        int currentBiscuitCount = CBiscuitManager.Instance.CurrentBiscuitCount;
+
+        for(int i = 0; i < 3; i++)
+        {
+            bool isActiveYellowStar = currentBiscuitCount >= requirement[i];
+            SetActiveYellowStar(i, isActiveYellowStar);
+        }
+    }
+
+    private void SetActiveYellowStar(int index, bool active)
+    {
+        _yellowStars[index].SetActive(active);
+        _grayStars[index].SetActive(!active);
+    }
+
+    private void SetStageClearRequirementText()
+    {
+        int[] requirement = CBiscuitManager.Instance.Requirements;
+
+        for(int i = 0; i < 3; i ++)
+            _stageClearRequirementTexts[i].text = string.Format("{0}", requirement[i].ToString());
+    }
+
+    public void UIStageClearOkButtonClick()
+    {
+        Debug.LogError("클리어 버튼 클릭");
     }
 
     #endregion

@@ -1,7 +1,7 @@
 ﻿Shader "BlueCube/Door/DoorPattern" {
 	Properties {
 		_MainTex2 ("Albedo (RGB)", 2D) = "white" {}
-		_PatternFill("PatternFill", Range(1,6.8))=1
+		_PatternFill("PatternFill", Range(0.91,6.8))=1
 		_Color("Color",Color) = (0.046,0.210,0.433,1)
 	}
 	SubShader {

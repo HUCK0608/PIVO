@@ -14,9 +14,9 @@ public class CSoopState2D_PutMove : CSoopState2D
         Controller2D.MoveToPoint(Controller2D.Manager.Stat.PutPoint.position);
 
         Vector3 putPoint = Controller2D.Manager.Stat.PutPoint.position;
-        putPoint.z = transform.position.z;
+        putPoint.y = transform.position.y;
 
-        if (transform.position.Equals(putPoint))
+        if (Vector2.Distance(transform.position, putPoint) <= 0.01f)
             Controller2D.ChangeState(ESoopState.PutEnd);
     }
 

@@ -21,9 +21,6 @@ public class CBiscuit : MonoBehaviour
 
     private void Awake()
     {
-        if (CBiscuitManager.Instance == null)
-            gameObject.AddComponent<CBiscuitManager>();
-
         RegisterBiscuit();
     }
 
@@ -49,8 +46,8 @@ public class CBiscuit : MonoBehaviour
         _biscuitEatEffect.SetActive(true);
 
         _isDidEat = true;
-        CBiscuitManager.Instance.HaveBiscuitCount++;
-        CUIManager.Instance.SetBiscuitUI(CBiscuitManager.Instance.HaveBiscuitCount);
+        CBiscuitManager.Instance.CurrentBiscuitCount++;
+        CUIManager.Instance.SetBiscuitUI(CBiscuitManager.Instance.CurrentBiscuitCount);
         gameObject.SetActive(false);
     }
 

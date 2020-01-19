@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class CBiscuitManager : MonoBehaviour
 {
@@ -8,17 +9,24 @@ public class CBiscuitManager : MonoBehaviour
     public static CBiscuitManager Instance { get { return _instance; } }
 
     /// <summary>비스킷 모음</summary>
-    private List<CBiscuit> _biscuits;
+    private List<CBiscuit> _biscuits = new List<CBiscuit>();
 
-    public int _haveBiscuitCount = 0;
-    /// <summary>먹은 비스킷 개수</summary>
-    public int HaveBiscuitCount { get { return _haveBiscuitCount; } set { _haveBiscuitCount = value; } }
+    private int _currentBiscuitCount = 0;
+    /// <summary>현재 비스킷 개수</summary>
+    public int CurrentBiscuitCount { get { return _currentBiscuitCount; } set { _currentBiscuitCount = value; } }
+
+    private int _saveBiscuitCount = 0;
+    /// <summary>저장된 비스킷 개수</summary>
+    public int SaveBiscuitCount { get { return _saveBiscuitCount; } set { _saveBiscuitCount = value; } }
+
+    [SerializeField]
+    private int[] _requirements = null;
+    /// <summary>별을 얻는 조건 개수</summary>
+    public int[] Requirements { get { return _requirements; } }
 
     private void Awake()
     {
         _instance = this;
-
-        _biscuits = new List<CBiscuit>();
     }
 
     private void Start()
@@ -65,7 +73,7 @@ public class CBiscuitManager : MonoBehaviour
 
         // 데이터 적용
         if (datas != null)
-            _haveBiscuitCount = int.Parse(datas[0]);
+            _saveBiscuitCount = int.Parse(datas[0]);
 
         /* 비스킷 먹음 여부 데이터 가져오기 */
         // 노드 경로 설정
@@ -112,13 +120,20 @@ public class CBiscuitManager : MonoBehaviour
         else if (scenePaths[0].Equals("SnowStage"))
             documentName = EXmlDocumentNames.SnowStageDatas;
 
-        /* 이전에 먹었던 비스킷 개수 데이터 가져오기 */
-        string nodePath = documentName.ToString("G") + "/StageDatas/" + currentSceneName;
-        string[] elementsName = new string[] { "HaveBiscuitCount" };
-        string[] datas = new string[] { _haveBiscuitCount.ToString() };
+        string nodePath = string.Empty;
+        string[] elementsName = null;
+        string[] datas = null;
 
-        // 데이터 쓰기
-        CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+        if (_currentBiscuitCount > _saveBiscuitCount)
+        {
+            /* 이전에 먹었던 비스킷 개수 데이터 가져오기 */
+            nodePath = documentName.ToString("G") + "/StageDatas/" + currentSceneName;
+            elementsName = new string[] { "HaveBiscuitCount" };
+            datas = new string[] { _saveBiscuitCount.ToString() };
+
+            // 데이터 쓰기
+            CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+        }
 
         /* 비스킷 먹음 여부 데이터 가져오기 */
         // 노드 경로 설정
