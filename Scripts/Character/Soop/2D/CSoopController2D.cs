@@ -108,6 +108,29 @@ public class CSoopController2D : MonoBehaviour
         return false;
     }
 
+
+    /// <summary>숲숲이 작동이 가능한지 여부</summary>
+    public bool CanOperation()
+    {
+        bool isCanOperation = true;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, -Vector3.forward, out hit, Mathf.Infinity, (-1) - CLayer.Player.LeftShiftToOne()))
+        {
+            CWorldObject worldObject = hit.transform.GetComponent<CWorldObject>();
+            if (worldObject == null)
+                worldObject = hit.transform.GetComponentInChildren<CWorldObject>();
+            if (worldObject == null)
+                worldObject = hit.transform.GetComponentInParent<CWorldObject>();
+
+            if (worldObject.IsCanChange2D)
+                isCanOperation = false;
+        }
+
+        return isCanOperation;
+    }
+
     /// <summary>애니메이션을 변경</summary>
     public void ChangeAnimation() { _animator.SetInteger(_animParameterPath, (int)_currentState); }
 

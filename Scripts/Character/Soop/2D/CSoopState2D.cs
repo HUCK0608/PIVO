@@ -15,5 +15,6 @@ public class CSoopState2D : CSoopState
         _controller = GetComponentInParent<CSoopController2D>();
     }
 
+
     public override void InitState() { _controller.ChangeAnimation(); }
 }
