@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5368282868416094848}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: Object_Grass_FloorObject_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 8082732692486460614}
   - component: {fileID: 3799647608768289778}
   - component: {fileID: 2983409262040394103}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: 3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,3 +135,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7dce117e5c1a764da47f059f5954cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isUse2DTexture: 0
