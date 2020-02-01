@@ -54,7 +54,7 @@ public class CBiscuit : MonoBehaviour
     /// <summary>위 아래 이동</summary>
     private IEnumerator MoveUpDown()
     {
-        Vector3 startPosition = transform.position;
+        Vector3 startPosition = transform.localPosition;
         float currentMoveY = 0f;
         bool isMoveUp = true;
 
@@ -78,7 +78,7 @@ public class CBiscuit : MonoBehaviour
                 }
             }
 
-            transform.position = startPosition + Vector3.up * currentMoveY;
+            transform.localPosition = startPosition + Vector3.up * currentMoveY;
 
             yield return null;
         }
