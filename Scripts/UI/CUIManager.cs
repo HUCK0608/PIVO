@@ -57,9 +57,9 @@ public class CUIManager : MonoBehaviour
         _inGameUI.SetActive(active);
     }
 
-    /// <summary>체력 이미지 리스트</summary>
+    /// <summary>체력 애니메이션 리스트</summary>
     [SerializeField]
-    private List<GameObject> _hpImages = null;
+    private List<Animation> _hpAnimations = null;
 
     /// <summary>
     /// 체력 UI 설정
@@ -67,7 +67,7 @@ public class CUIManager : MonoBehaviour
     /// <param name="currentHp">현재 체력</param>
     public void SetHpUI(int currentHp)
     {
-        _hpImages[currentHp].SetActive(false);
+        _hpAnimations[currentHp].Play();
     }
 
     /// <summary>비스킷 개수 텍스트</summary>

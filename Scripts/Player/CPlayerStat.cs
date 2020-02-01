@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class CPlayerStat : MonoBehaviour
 {
@@ -17,6 +19,11 @@ public class CPlayerStat : MonoBehaviour
                     CPlayerManager.Instance.Controller2D.ChangeState(EPlayerState2D.Dead);
                 else if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View3D))
                     CPlayerManager.Instance.Controller3D.ChangeState(EPlayerState3D.Dead);
+            }
+            else
+            {
+                StopCoroutine("PlayerFlickeringLogic");
+                StartCoroutine("PlayerFlickeringLogic");
             }
         }
     }
@@ -61,7 +68,42 @@ public class CPlayerStat : MonoBehaviour
     /// <summary>Idle 바리에이션 최소 시간</summary>
     public float IdleVariationMinTime { get { return _idleVariationMinTime; } }
 
+    [SerializeField]
+    private float _putEndAndChange3DDleay = 0f;
+    /// <summary>코기가 던져지고 3D로 변경될 때 딜레이</summary>
+    public float PutEndAndChange3DDelay { get { return _putEndAndChange3DDleay; } }
+
     private bool _isPut = false;
     /// <summary>코기가 잡혀있는지 여부</summary>
     public bool IsPut { get { return _isPut; } set { _isPut = value; } }
+
+    /// <summary>깜빡거림을 적용할 오브젝트 리스트</summary>
+    [SerializeField]
+    private List<GameObject> _flickerObjects = new List<GameObject>();
+
+    /// <summary>플레이어 깜빡거림</summary>
+    private IEnumerator PlayerFlickeringLogic()
+    {
+        int flickeringCount = 5;
+        float halfFlickeringDelay = 0.1f;
+
+        int currentFlickeringCount = 0;
+
+        while(true)
+        {
+            foreach (GameObject obj in _flickerObjects)
+                obj.SetActive(false);
+
+            yield return new WaitForSeconds(halfFlickeringDelay);
+
+            foreach (GameObject obj in _flickerObjects)
+                obj.SetActive(true);
+
+            currentFlickeringCount++;
+            if (currentFlickeringCount == flickeringCount)
+                break;
+
+            yield return new WaitForSeconds(halfFlickeringDelay);
+        }
+    }
 }

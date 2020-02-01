@@ -2,8 +2,8 @@
 
 public abstract class CCharacter : MonoBehaviour
 {
-    private GameObject _rootObject2D;
-    private GameObject _rootObject3D;
+    private GameObject _rootObject2D = null;
+    private GameObject _rootObject3D = null;
 
     /// <summary>최상위 2D 오브젝트</summary>
     public GameObject RootObject2D { get { return _rootObject2D; } }

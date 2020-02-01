@@ -31,6 +31,32 @@ public class CPlayerManager : CCharacter
     /// <summary>조작이 가능한지 여부</summary>
     public bool IsCanOperation { get { return _isCanOperation; }  set { _isCanOperation = value; } }
 
+    private bool _isOnSoopDetection = false;
+    /// <summary>숲숲이 탐지범위안에 있는지 여부</summary>
+    public bool IsOnSoopDetection
+    {
+        get
+        {
+            return _isOnSoopDetection;
+        }
+        set
+        {
+            if (value)
+            {
+                _detectionSoopCount++;
+                _isOnSoopDetection = true;
+            }
+            else
+            {
+                _detectionSoopCount--;
+                if (_detectionSoopCount == 0)
+                    _isOnSoopDetection = false;
+            }
+        }
+    }
+    /// <summary>현재 코기를 쫓는 숲숲이 수</summary>
+    public int _detectionSoopCount = 0;
+
     protected override void Awake()
     {
         base.Awake();

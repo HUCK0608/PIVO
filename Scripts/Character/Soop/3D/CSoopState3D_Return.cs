@@ -2,6 +2,13 @@
 
 public class CSoopState3D_Return : CSoopState3D
 {
+    public override void InitState()
+    {
+        base.InitState();
+
+        CPlayerManager.Instance.IsOnSoopDetection = false;
+    }
+
     private void Update()
     {
         Vector3 startPoint = Controller3D.Manager.transform.position;

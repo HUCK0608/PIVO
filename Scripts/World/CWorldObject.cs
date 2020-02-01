@@ -43,12 +43,14 @@ public abstract class CWorldObject : MonoBehaviour
         _blockMateiral = Resources.Load("BlockMaterialDumy") as Material;
 
         _isCanChange2D = false;
+
+        if (CWorldManager.Instance != null)
+            CWorldManager.Instance.AddWorldObject(this);
     }
 
     protected virtual void Start()
     {
-        if(CWorldManager.Instance != null)
-            CWorldManager.Instance.AddWorldObject(this);
+
     }
 
     /// <summary>2D로 시점전환</summary>

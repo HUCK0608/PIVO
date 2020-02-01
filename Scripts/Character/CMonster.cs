@@ -12,6 +12,10 @@ public class CMonster : CWorldObject
     [SerializeField]
     private GameObject _effectCapusle = null;
 
+    /// <summary>몬스터 전용 UI</summary>
+    [SerializeField]
+    private GameObject _ui = null;
+
     protected override void Awake()
     {
         base.Awake();
@@ -30,7 +34,10 @@ public class CMonster : CWorldObject
         if (IsCanChange2D)
             StartCoroutine(Change2DLogic());
         else
+        {
             RootObject3D.SetActive(false);
+            _ui.SetActive(false);
+        }
     }
 
     private IEnumerator Change2DLogic()
@@ -56,6 +63,7 @@ public class CMonster : CWorldObject
         RootObject3D.SetActive(true);
 
         IsCanChange2D = false;
+        _ui.SetActive(true);
     }
 
     public override void ShowOnBlock() { }
