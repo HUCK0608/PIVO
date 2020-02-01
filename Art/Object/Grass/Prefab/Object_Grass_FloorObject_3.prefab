@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8095287075402124115}
-  m_Layer: 13
+  m_Layer: 2
   m_Name: Object_Grass_FloorObject_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 189088549022013973}
   - component: {fileID: 2092995350819882337}
   - component: {fileID: 2314061584778770759}
-  m_Layer: 13
+  m_Layer: 2
   m_Name: 3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
