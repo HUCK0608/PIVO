@@ -14,9 +14,9 @@ public class CPlayerState3D_Move : CPlayerState3D
 
         if (Controller3D.RigidBody.velocity.y < -Mathf.Epsilon)
             Controller3D.ChangeState(EPlayerState3D.Falling);
-        else if (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey))
+        else if (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey) && !CPlayerManager.Instance.IsOnSoopDetection)
             Controller3D.ChangeState(EPlayerState3D.ViewChangeInit);
-        else if (Input.GetKeyDown(CKeyManager.ClimbKey) && Controller3D.IsCanClimb())
+        else if (Input.GetKeyDown(CKeyManager.ClimbKey) && Controller3D.IsCanClimb() && !CPlayerManager.Instance.IsOnSoopDetection)
             Controller3D.ChangeState(EPlayerState3D.Climb);
         else if (Controller3D.RigidBody.velocity.x.Equals(0f) && Controller3D.RigidBody.velocity.z.Equals(0f))
             Controller3D.ChangeState(EPlayerState3D.Idle);

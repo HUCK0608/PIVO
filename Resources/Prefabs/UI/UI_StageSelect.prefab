@@ -1370,6 +1370,10 @@ MonoBehaviour:
   - {fileID: 590095386}
   - {fileID: 401489492}
   - {fileID: 603493191}
+  _starsLine:
+  - {fileID: 1784632517}
+  - {fileID: 348633449}
+  - {fileID: 1521036000}
   _requirementsText:
   - {fileID: 713372341}
   - {fileID: 838755998}

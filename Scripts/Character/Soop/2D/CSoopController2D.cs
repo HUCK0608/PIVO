@@ -93,6 +93,8 @@ public class CSoopController2D : MonoBehaviour
         Vector2 detectionAreaPosition = _manager.Stat.DetectionAreaPosition;
         Vector3 detectionAreaHalfSize = _manager.Stat.DetectionAreaSize * 0.5f;
 
+        Debug.DrawRay(transform.position + Vector3.up, Vector3.right * (_manager.Stat.IsSoopDirectionRight ? 1 : -1) * _manager.Stat.DetectionAreaSize.x * 0.5f, Color.yellow);
+
         // x 위치 체크
         if (!(playerPosition.x >= detectionAreaPosition.x - detectionAreaHalfSize.x && playerPosition.x <= detectionAreaPosition.x + detectionAreaHalfSize.x))
             return false;
@@ -102,7 +104,10 @@ public class CSoopController2D : MonoBehaviour
             return false;
 
         // 전방에 있는지 검사
-        if (Physics2D.Raycast(transform.position + Vector3.up, Vector3.right * (_manager.Stat.IsSoopDirectionRight ? 1 : -1), _manager.Stat.DetectionAreaSize.x * 0.5f, CLayer.Player.LeftShiftToOne()))
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.up, Vector3.right * (_manager.Stat.IsSoopDirectionRight ? 1 : -1), _manager.Stat.DetectionAreaSize.x * 0.5f, CLayer.Player.LeftShiftToOne());
+
+        // 전방에 존재하지만 벽인지 검사
+        if (null != hit && hit.transform.tag.Equals("Player"))
             return true;
 
         return false;

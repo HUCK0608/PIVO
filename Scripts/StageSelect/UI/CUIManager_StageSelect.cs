@@ -23,7 +23,12 @@ public class CUIManager_StageSelect : MonoBehaviour
     private GameObject[] _stars = null;
 
     [SerializeField]
+    private GameObject[] _starsLine = null;
+
+    [SerializeField]
     private Text[] _requirementsText = null;
+
+    bool _isActiveStar = true;
 
     /// <summary>
     /// 스테이지 상태 UI 설정
@@ -33,6 +38,7 @@ public class CUIManager_StageSelect : MonoBehaviour
     {
         _currentStage = currentStage;
 
+        SetActivateStar(currentStage.IsUseStarUI);
         SetStar();
         SetTotalStarText();
         SetRequirementText();
@@ -43,19 +49,48 @@ public class CUIManager_StageSelect : MonoBehaviour
         _totalStarText.text = string.Format("x {0}", CStageManager.Instance.GetTotalStar().ToString());
     }
 
+    private void SetActivateStar(bool active)
+    {
+        for(int i = 0; i < 3; i++)
+            _starsLine[i].SetActive(active);
+
+        _isActiveStar = active;
+    }
+
     private void SetStar()
     {
+        if (!_isActiveStar)
+            return;
+
         for (int i = 0; i < 3; i++)
+        {
             _stars[i].SetActive(false);
+            _starsLine[i].SetActive(true);
+        }
 
         for (int i = 0; i < _currentStage.Stars; i++)
+        {
             _stars[i].SetActive(true);
+        }
     }
 
     private void SetRequirementText()
     {
-        for (int i = 0; i < 3; i++)
-            _requirementsText[i].text = _currentStage.Requirements[i].ToString();
+        if (_isActiveStar)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                _requirementsText[i].gameObject.SetActive(true);
+                _requirementsText[i].text = _currentStage.Requirements[i].ToString();
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                _requirementsText[i].gameObject.SetActive(false);
+            }
+        }
     }
 
     /// <summary>검은 화면 이미지</summary>

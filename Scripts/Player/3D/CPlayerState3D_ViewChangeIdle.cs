@@ -20,7 +20,7 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
     {
         base.Awake();
 
-        _blockCheckIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.ViewChangeRect.LeftShiftToOne() | CLayer.BackgroundObject.LeftShiftToOne() | CLayer.OffBlockOnPut.LeftShiftToOne());
+        _blockCheckIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.ViewChangeRect.LeftShiftToOne() | CLayer.BackgroundObject.LeftShiftToOne() | CLayer.OffBlockOnPut.LeftShiftToOne() | CLayer.IgnoreRaycast.LeftShiftToOne());
 
         _blockObjects = new List<CWorldObject>();
     }

@@ -51,6 +51,11 @@ public class CStage : MonoBehaviour
     /// <summary>메쉬 랜더러</summary>
     private MeshRenderer _meshRenderer;
 
+    /// <summary>토탈 별을 제외한 별 UI 사용 여부</summary>
+    [SerializeField]
+    private bool _isUseStarUI = true;
+    public bool IsUseStarUI { get { return _isUseStarUI; } }
+
     private void Awake()
     {
         _meshRenderer = GetComponent<MeshRenderer>();

@@ -2,6 +2,9 @@
 
 public static class CLayer
 {
+    private static int _ignoreRaycast = LayerMask.NameToLayer("Ignore Raycast");
+    public static int IgnoreRaycast { get { return _ignoreRaycast; } }
+
     private static int _viewChagneRect = LayerMask.NameToLayer("ViewChangeRect");
     public static int ViewChangeRect { get { return _viewChagneRect; } }
 

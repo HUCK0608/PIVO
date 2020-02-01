@@ -18,9 +18,9 @@ public class CPlayerState2D_Idle : CPlayerState2D
 
         if (Controller2D.RigidBody2D.velocity.y < -Mathf.Epsilon)
             Controller2D.ChangeState(EPlayerState2D.Falling);
-        else if (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey))
+        else if (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey) && !CPlayerManager.Instance.IsOnSoopDetection)
             CWorldManager.Instance.ChangeWorld();
-        else if (Input.GetKeyDown(CKeyManager.ClimbKey) && Controller2D.IsCanClimb())
+        else if (Input.GetKeyDown(CKeyManager.ClimbKey) && Controller2D.IsCanClimb() && !CPlayerManager.Instance.IsOnSoopDetection)
             Controller2D.ChangeState(EPlayerState2D.Climb);
         else if (!horizontal.Equals(0f))
             Controller2D.ChangeState(EPlayerState2D.Move);

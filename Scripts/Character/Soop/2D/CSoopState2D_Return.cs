@@ -9,6 +9,8 @@ public class CSoopState2D_Return : CSoopState2D
         Vector3 newScale = Vector3.one;
         newScale.x = Controller2D.Manager.Stat.IsSoopDirectionRight ? 1 : -1;
         transform.localScale = newScale;
+
+        CPlayerManager.Instance.IsOnSoopDetection = false;
     }
 
     private void Update()
