@@ -33,5 +33,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Color: 1
+    - _FlowSpeed: 0.2
     - _Monotone: 0
     m_Colors: []

@@ -265,7 +265,7 @@ public class Design_BombController : Design_WorldObjectController
             if (DestroyActor.GetComponentInChildren<MeshRenderer>() != null)
             {
                 var Position = DestroyActor.transform.position;
-                if (Mathf.Abs(Position.x - transform.position.x) < BoxSize / 2 - 2f)
+                if (Mathf.Abs(Position.x - transform.position.x) < BoxSize / 2 - 1f)
                 {
                     if (Position.y >= transform.position.y && Mathf.Abs(Position.y - transform.position.y) < BoxSize - 3f)
                     {

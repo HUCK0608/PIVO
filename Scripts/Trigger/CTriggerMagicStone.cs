@@ -11,9 +11,12 @@ public class CTriggerMagicStone : MonoBehaviour
     /// <summary>활성화 적용 범위</summary>
     [SerializeField]
     private float _checkDistance = 0f;
-
     [SerializeField]
     private float MonoToColorSpeed = 0f;
+    [SerializeField]
+    private float DisableFlowSpeed = 0.5f;
+    [SerializeField]
+    private float EnableFlowSpeed = 1;
 
     private bool _isActive = false;
     /// <summary>매직스톤 활성화 여부</summary>
@@ -41,6 +44,15 @@ public class CTriggerMagicStone : MonoBehaviour
         parentObject.Find("MagicStoneCube_3").GetComponent<MeshRenderer>().material.SetFloat("_Monotone", Value);
     }
 
+    void SetMagicStoneFlowSpeed(float Value)
+    {
+        Transform parentObject = transform.Find("Root3D").Find("Models");
+        parentObject.Find("MagicStonePattern").GetComponent<MeshRenderer>().material.SetFloat("_FlowSpeed", Value);
+        parentObject.Find("MagicStoneCube_1").GetComponent<MeshRenderer>().material.SetFloat("_FlowSpeed", Value);
+        parentObject.Find("MagicStoneCube_2").GetComponent<MeshRenderer>().material.SetFloat("_FlowSpeed", Value);
+        parentObject.Find("MagicStoneCube_3").GetComponent<MeshRenderer>().material.SetFloat("_FlowSpeed", Value);
+    }
+
     IEnumerator MonoToColorful()
     {
         float TargetValue = 0;
@@ -49,10 +61,18 @@ public class CTriggerMagicStone : MonoBehaviour
         {
             TargetValue += MonoToColorSpeed;
             SetMagicStoneMat(TargetValue);
+            SetMagicStoneFlowSpeed(Mathf.Lerp(DisableFlowSpeed, EnableFlowSpeed, TargetValue));
+
             yield return new WaitForFixedUpdate();
         }
 
         SetMagicStoneMat(1);
+        SetMagicStoneFlowSpeed(EnableFlowSpeed);
+    }
+
+    private void Start()
+    {
+        SetMagicStoneFlowSpeed(DisableFlowSpeed);
     }
 
     private void Update()

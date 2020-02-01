@@ -219,6 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7450555175043526668}
   - component: {fileID: 7450555175043526671}
+  - component: {fileID: 2961763699569406715}
   m_Layer: 0
   m_Name: Trigger_Timeline
   m_TagString: Untagged
@@ -258,7 +259,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playableDirector: {fileID: 0}
   _timelineEndTime: 0
+  _bUseTimelineScene: 0
+  _TimelineSceneName: 
   _startTimelinePoint: {fileID: 7450555174908735927}
+--- !u!114 &2961763699569406715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7450555175043526670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45bad670fb776bc4f96199216146132e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isUse2DTexture: 0
 --- !u!1001 &2245554929510864345
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -325,6 +341,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826436133216142573, guid: 985ea46ad00ecff459a1b5b40fbe295d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 985ea46ad00ecff459a1b5b40fbe295d, type: 3}
