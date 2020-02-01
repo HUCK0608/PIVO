@@ -158,24 +158,16 @@ public class Design_BombController : Design_WorldObjectController
         }
     }
 
-    void DownBomb()
-    {
-        if (Input.GetKeyDown(InteractionKey))
-        {
-            EnableBomb();
-            if (WorldManager.CurrentWorldState == EWorldState.View3D)
-                Actor3DClass.DownBomb();
-            else if (WorldManager.CurrentWorldState == EWorldState.View2D)
-                Actor2DClass.DownBomb();
-        }
-    }
 
     void AttachForDistance()
     {
         if (Input.GetKeyDown(InteractionKey) && bUseBomb)
         {
             if (WorldManager.CurrentWorldState == EWorldState.View3D)
+            {
+                ParentBombSpawn.RefreshDestroyActor();
                 Actor3DClass.AttachForDistance();
+            }
         }            
     }
 
@@ -247,72 +239,157 @@ public class Design_BombController : Design_WorldObjectController
 
     public void BeginExplosion()
     {
-        StartCoroutine(ExplosionCoroutine());
+        StartCoroutine(ExplosionV2());
         SetIgnitionFireEffect(false);
         DisableBomb();
     }
 
-    IEnumerator ExplosionCoroutine()
+    IEnumerator ExplosionV2()
     {
         CUIManager.Instance.SetActiveBombExplosionUI(false);
-        Vector3 AddPosition = new Vector3(0, 0, -0.5f);
-        GameObject BoomInstance = Instantiate(BoomEffect, transform.position + AddPosition, transform.rotation);
         RootObject3D.GetComponent<MeshRenderer>().enabled = false;
         IgnitionFireEffect.SetActive(false);
         bUseBomb = false;
 
-        if (WorldManager.CurrentWorldState == EWorldState.View3D)
+        GetComponent<BoxCollider>().isTrigger = true;
+        RootObject3D.GetComponent<BoxCollider>().isTrigger = true;
+        RootObject2D.GetComponent<BoxCollider2D>().isTrigger = true;
+
+        var IsDestroyActor = new List<GameObject>();
+
+        Vector3 AddPosition = new Vector3(0, 0, -0.5f);
+        GameObject BoomEffectInstance = Instantiate(BoomEffect, transform.position + AddPosition, transform.rotation);
+
+        foreach (var DestroyActor in ParentBombSpawn.destroyObject)
         {
-            RootObject3D.GetComponent<BoxCollider>().isTrigger = true;
-
-            RootObject3D.GetComponent<BoxCollider>().enabled = false;
-            RootObject3D.GetComponent<BoxCollider>().enabled = true;
-
-            RootObject3D.GetComponent<BoxCollider>().size = new Vector3(BoxSize, BoxSize - 1f, BoxSize);
-            RootObject3D.GetComponent<BoxCollider>().center = RootObject3D.GetComponent<BoxCollider>().center + new Vector3(0, BoxSize / 2 - 4f, 0);
-
-            yield return new WaitForSeconds(0.5f);
-
-            RootObject3D.GetComponent<BoxCollider>().enabled = false;
+            if (DestroyActor.GetComponentInChildren<MeshRenderer>() != null)
+            {
+                var Position = DestroyActor.transform.position;
+                if (Mathf.Abs(Position.x - transform.position.x) < BoxSize / 2 - 2f)
+                {
+                    if (Position.y >= transform.position.y && Mathf.Abs(Position.y - transform.position.y) < BoxSize - 3f)
+                    {
+                        if (WorldManager.CurrentWorldState == EWorldState.View2D)
+                        {
+                            DestroyBrokenTile(DestroyActor);
+                            IsDestroyActor.Add(DestroyActor);
+                        }
+                        else
+                        {
+                            if (Mathf.Abs(Position.z - transform.position.z) < 4)
+                            {
+                                DestroyBrokenTile(DestroyActor);
+                                IsDestroyActor.Add(DestroyActor);
+                            }
+                        }
+                    }
+                    else if (Position.y < transform.position.y && Mathf.Abs(Position.y - transform.position.y) < BoxSize - 5f)
+                    {
+                        if (WorldManager.CurrentWorldState == EWorldState.View2D)
+                        {
+                            DestroyBrokenTile(DestroyActor);
+                            IsDestroyActor.Add(DestroyActor);
+                        }
+                        else
+                        {
+                            if (Mathf.Abs(Position.z - transform.position.z) < 4)
+                            {
+                                DestroyBrokenTile(DestroyActor);
+                                IsDestroyActor.Add(DestroyActor);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        else if (WorldManager.CurrentWorldState == EWorldState.View2D)
-        {
-            RootObject2D.GetComponent<BoxCollider2D>().isTrigger = true;
+        foreach (var RemoveArray in IsDestroyActor)
+            ParentBombSpawn.destroyObject.Remove(RemoveArray);
 
-            RootObject2D.GetComponent<BoxCollider2D>().enabled = false;
-            RootObject2D.GetComponent<BoxCollider2D>().enabled = true;
-
-            RootObject2D.GetComponent<BoxCollider2D>().size = new Vector3(BoxSize, BoxSize - 1f, BoxSize);
-            RootObject2D.GetComponent<BoxCollider2D>().offset = RootObject2D.GetComponent<BoxCollider2D>().offset + new Vector2(0, BoxSize / 2 - 4f);
-
-            yield return new WaitForSeconds(0.5f);
-
-            RootObject2D.GetComponent<BoxCollider2D>().enabled = false;
-        }
-
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2.0f);
 
         transform.position = ParentBombSpawn.transform.position;
         transform.rotation = ParentBombSpawn.transform.rotation;
+        RootObject3D.GetComponent<MeshRenderer>().enabled = true;
         ParentBombSpawn.SpawnBomb();
 
-        Destroy(BoomInstance);
+        Destroy(BoomEffectInstance);
 
-        RootObject2D.GetComponent<BoxCollider2D>().size = Collider2DSize;
-        RootObject2D.GetComponent<BoxCollider2D>().offset = Collider2DOffset;
-        RootObject3D.GetComponent<BoxCollider>().size = ColliderSize;
-        RootObject3D.GetComponent<BoxCollider>().center = ColliderOffset;
-
-        RootObject3D.GetComponent<MeshRenderer>().enabled = true;
-
-        yield return new WaitUntil(() => WorldManager.CurrentWorldState != EWorldState.Changing);
-
-        if (WorldManager.CurrentWorldState == EWorldState.View3D)
-            RootObject3D.GetComponent<BoxCollider>().enabled = true;
-        else if (WorldManager.CurrentWorldState == EWorldState.View2D)
-            RootObject2D.GetComponent<BoxCollider2D>().enabled = true;
+        GetComponent<BoxCollider>().isTrigger = false;
+        RootObject3D.GetComponent<BoxCollider>().isTrigger = false;
+        RootObject2D.GetComponent<BoxCollider2D>().isTrigger = false;
     }
+
+    void DestroyBrokenTile(GameObject other)
+    {
+        if (other.GetComponentInChildren<Design_BrokenTile>())
+        {
+            if (!bUseBomb)
+                other.GetComponentInChildren<Design_BrokenTile>().DestroyBrokenTile();
+        }
+    }
+
+    //IEnumerator ExplosionCoroutine()
+    //{
+    //    CUIManager.Instance.SetActiveBombExplosionUI(false);
+    //    Vector3 AddPosition = new Vector3(0, 0, -0.5f);
+    //    GameObject BoomInstance = Instantiate(BoomEffect, transform.position + AddPosition, transform.rotation);
+    //    RootObject3D.GetComponent<MeshRenderer>().enabled = false;
+    //    IgnitionFireEffect.SetActive(false);
+    //    bUseBomb = false;
+
+    //    if (WorldManager.CurrentWorldState == EWorldState.View3D)
+    //    {
+    //        RootObject3D.GetComponent<BoxCollider>().isTrigger = true;
+
+    //        RootObject3D.GetComponent<BoxCollider>().enabled = false;
+    //        RootObject3D.GetComponent<BoxCollider>().enabled = true;
+
+    //        RootObject3D.GetComponent<BoxCollider>().size = new Vector3(BoxSize, BoxSize - 1f, BoxSize);
+    //        RootObject3D.GetComponent<BoxCollider>().center = RootObject3D.GetComponent<BoxCollider>().center + new Vector3(0, BoxSize / 2 - 4f, 0);
+
+    //        yield return new WaitForSeconds(0.5f);
+
+    //        RootObject3D.GetComponent<BoxCollider>().enabled = false;
+    //    }
+
+    //    else if (WorldManager.CurrentWorldState == EWorldState.View2D)
+    //    {
+    //        RootObject2D.GetComponent<BoxCollider2D>().isTrigger = true;
+
+    //        RootObject2D.GetComponent<BoxCollider2D>().enabled = false;
+    //        RootObject2D.GetComponent<BoxCollider2D>().enabled = true;
+
+    //        RootObject2D.GetComponent<BoxCollider2D>().size = new Vector3(BoxSize, BoxSize - 1f, BoxSize);
+    //        RootObject2D.GetComponent<BoxCollider2D>().offset = RootObject2D.GetComponent<BoxCollider2D>().offset + new Vector2(0, BoxSize / 2 - 4f);
+
+    //        yield return new WaitForSeconds(0.5f);
+
+    //        RootObject2D.GetComponent<BoxCollider2D>().enabled = false;
+    //    }
+
+    //    yield return new WaitForSeconds(1.5f);
+
+    //    transform.position = ParentBombSpawn.transform.position;
+    //    transform.rotation = ParentBombSpawn.transform.rotation;
+    //    ParentBombSpawn.SpawnBomb();
+
+    //    Destroy(BoomInstance);
+
+    //    RootObject2D.GetComponent<BoxCollider2D>().size = Collider2DSize;
+    //    RootObject2D.GetComponent<BoxCollider2D>().offset = Collider2DOffset;
+    //    RootObject3D.GetComponent<BoxCollider>().size = ColliderSize;
+    //    RootObject3D.GetComponent<BoxCollider>().center = ColliderOffset;
+
+    //    RootObject3D.GetComponent<MeshRenderer>().enabled = true;
+
+    //    yield return new WaitUntil(() => WorldManager.CurrentWorldState != EWorldState.Changing);
+
+    //    if (WorldManager.CurrentWorldState == EWorldState.View3D)
+    //        RootObject3D.GetComponent<BoxCollider>().enabled = true;
+    //    else if (WorldManager.CurrentWorldState == EWorldState.View2D)
+    //        RootObject2D.GetComponent<BoxCollider2D>().enabled = true;
+    //}
 
     private IEnumerator PutBombInitLogic()
     {
@@ -370,7 +447,6 @@ public class Design_BombController : Design_WorldObjectController
             addTime += Time.deltaTime;
             transform.position = Vector3.Lerp(startPoint, putPoint, Mathf.Clamp(oneDivAnimationTime * addTime, 0f, 1f));
 
-            Debug.Log(oneDivAnimationTime * addTime);
             if (transform.position.Equals(putPoint) || oneDivAnimationTime * addTime > 15)
                 break;
 

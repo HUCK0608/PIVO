@@ -9,6 +9,9 @@ public class Design_BombSpawn : Design_WorldObjectController
     bool bFirstTime;
     GameObject CurBomb;
     GameObject LeftDoor, RightDoor;
+    
+    [HideInInspector]
+    public List<GameObject> destroyObject = new List<GameObject>();
 
     public override void BeginPlay()
     {
@@ -20,6 +23,21 @@ public class Design_BombSpawn : Design_WorldObjectController
         RightDoor = RootObject3D.transform.Find("BombSpawnDoor_R").gameObject;
 
         SpawnBomb();
+    }
+
+    public void RefreshDestroyActor()
+    {
+        destroyObject.Clear();
+        var _DestroyObject = GameObject.Find("DestroyObject").transform;
+
+        if (_DestroyObject != null)
+        {
+            for (int i = 0; i < _DestroyObject.childCount; i++)
+                destroyObject.Add(_DestroyObject.GetChild(i).gameObject);
+        }
+        else
+            Debug.LogError("파괴가능한 오브젝트의 그룹 이름을 맞춰주어야 합니다. <DestroyObject>");
+
     }
 
     public void SpawnBomb()
