@@ -22,6 +22,9 @@ public class Design_EndingCredit : MonoBehaviour
 
     void Start()
     {
+        if (CreditType == EndingCreditType.None)
+            Debug.LogError("EndingCreditType을 설정해주어야 합니다.");
+
         for (int i = 1; i < transform.childCount; i++)
         {
             CanvasList.Add(transform.Find("Canvas_" + i.ToString()).gameObject);
@@ -179,7 +182,7 @@ public class Design_EndingCredit : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        float UpSpeed = 0.5f;
+        float UpSpeed = 0.6f;
         while (true)
         {
             TargetTextGroup.transform.position += Vector3.up * UpSpeed;

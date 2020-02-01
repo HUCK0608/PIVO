@@ -179,5 +179,54 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7173683406540633107, guid: 71eeee054137b68488921171490b0c0a,
+        type: 3}
+      propertyPath: CreditType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1454971072, guid: 71eeee054137b68488921171490b0c0a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -545
+      objectReference: {fileID: 0}
+    - target: {fileID: 2101351448, guid: 71eeee054137b68488921171490b0c0a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -621
+      objectReference: {fileID: 0}
+    - target: {fileID: 1419649359, guid: 71eeee054137b68488921171490b0c0a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -913
+      objectReference: {fileID: 0}
+    - target: {fileID: 1095217283, guid: 71eeee054137b68488921171490b0c0a, type: 3}
+      propertyPath: m_Text
+      value: 'GameDesign : KimMyungJun
+
+
+        GameDesign : KimHeonJu
+
+
+
+        Programming : K.Huck
+
+
+
+        Animation : KimDoYeon
+
+
+        ConceptArt/Voxel : KimJuYoung
+
+
+        UI/Pixel : HanEunHye
+
+
+
+        TechnicalArtist : JungJongPil'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2101351449, guid: 71eeee054137b68488921171490b0c0a, type: 3}
+      propertyPath: m_Text
+      value: 'KangMiYoung
+
+
+        LimHyoSeon'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71eeee054137b68488921171490b0c0a, type: 3}
