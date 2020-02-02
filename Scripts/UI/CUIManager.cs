@@ -21,6 +21,11 @@ public class CUIManager : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
+    private void Start()
+    {
+        LoadOptionData();
+    }
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
@@ -889,12 +894,13 @@ public class CUIManager : MonoBehaviour
         UpdateOptionUI();
 
         ApplyOption();
+
+        _isOptionInitialize = true;
     }
 
     /// <summary>옵션 메뉴 활성화</summary>
     private void SetActiveOption(bool active)
     {
-        _isOptionInitialize = false;
         _optionGroup.SetActive(active);
 
         if (active)
@@ -964,7 +970,6 @@ public class CUIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Return))
         {
             ApplyOption();
-            _isOptionInitialize = true;
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {

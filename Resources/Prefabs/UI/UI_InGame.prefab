@@ -3882,7 +3882,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: CancelOption
           m_Mode: 1
           m_Arguments:
@@ -4108,7 +4108,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: SetSelectOptionMenuBGPoint
           m_Mode: 3
           m_Arguments:
@@ -4119,7 +4119,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: ChangeWindowMode
           m_Mode: 3
           m_Arguments:
@@ -4801,7 +4801,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: SetSelectOptionMenuBGPoint
           m_Mode: 3
           m_Arguments:
@@ -4812,7 +4812,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: ChangeResolution
           m_Mode: 3
           m_Arguments:
@@ -5288,7 +5288,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: SetSelectOptionMenuBGPoint
           m_Mode: 3
           m_Arguments:
@@ -7679,7 +7679,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: SetSelectOptionMenuBGPoint
           m_Mode: 3
           m_Arguments:
@@ -7690,7 +7690,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: ChangeResolution
           m_Mode: 3
           m_Arguments:
@@ -7837,7 +7837,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: SetSelectOptionMenuBGPoint
           m_Mode: 3
           m_Arguments:
@@ -7848,7 +7848,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: ChangeWindowMode
           m_Mode: 3
           m_Arguments:
@@ -8042,7 +8042,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: ApplyOption
           m_Mode: 1
           m_Arguments:
@@ -8493,7 +8493,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: SetSelectOptionMenuBGPoint
           m_Mode: 3
           m_Arguments:
@@ -8599,7 +8599,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: SetSelectOptionMenuBGPoint
           m_Mode: 3
           m_Arguments:
@@ -9298,7 +9298,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 4330746418700720235}
           m_MethodName: SetSelectOptionMenuBGPoint
           m_Mode: 3
           m_Arguments:
@@ -11146,7 +11146,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4330746418700720235}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -11176,7 +11176,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4330746418700720235}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -11206,7 +11206,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4330746418700720235}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -11242,7 +11242,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4330746418700720235}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -11268,6 +11268,16 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[2].callback.m_TypeName
       value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
         Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DragEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48a9f1def11596c44ad610884d1671ab, type: 3}
@@ -11639,12 +11649,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
-      propertyPath: m_Delegates.Array.size
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
+      propertyPath: m_Delegates.Array.size
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
@@ -11659,18 +11669,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4330746418700720235}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 4330746418700720235}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: SetSelectOptionMenuBGPoint
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
-        type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
@@ -11684,23 +11714,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
-        type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
-        type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: ChangeBGMVolume
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
-        type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
@@ -11709,19 +11724,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
-        type: 3}
       propertyPath: m_Delegates.Array.data[1].eventID
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4330746418700720235}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -11744,6 +11754,61 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 4330746418700720235}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ChangeBGMVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 4330746418700720235}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: ChangeBGMVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
       propertyPath: m_Delegates.Array.data[1].callback.m_TypeName
       value: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI, Version=1.0.0.0,
         Culture=neutral, PublicKeyToken=null
@@ -11751,13 +11816,13 @@ PrefabInstance:
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
       propertyPath: m_Delegates.Array.data[2].eventID
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4330746418700720235}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
