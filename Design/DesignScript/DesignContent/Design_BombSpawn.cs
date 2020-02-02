@@ -28,9 +28,9 @@ public class Design_BombSpawn : Design_WorldObjectController
     public void RefreshDestroyActor()
     {
         destroyObject.Clear();
-        GameObject _destroyObejct = GameObject.Find("DestroyObejct");
+        GameObject _destroyObejct = GameObject.Find("DestroyObject");
         Transform _DestroyObject = null;
-        if(_destroyObejct != null)
+        if (_destroyObejct != null)
             _DestroyObject = _destroyObejct.transform;
 
         if (_DestroyObject != null)
