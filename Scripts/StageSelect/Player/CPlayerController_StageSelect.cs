@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class CPlayerController_StageSelect : MonoBehaviour
 {
+    private static CPlayerController_StageSelect _instance = null;
+    public static CPlayerController_StageSelect Insatnce { get { return _instance; } }
+
     /// <summary>중력 체크 지점들</summary>
     [Header("Programmer can edit")]
     [SerializeField]
@@ -47,7 +50,14 @@ public class CPlayerController_StageSelect : MonoBehaviour
     /// <summary>노드 이름</summary>
     private string _nodeName = "SelectPlayerDatas";
     /// <summary>속성들의 이름</summary>
-    private string[] _elementsName = new string[] { "CurrentStage" };
+    private string[] _elementsName = new string[] { "LastSeason", "CurrentStage" };
+
+    public bool IsCanOperation = true;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     private void Start()
     {
@@ -68,13 +78,6 @@ public class CPlayerController_StageSelect : MonoBehaviour
         StartCoroutine(IdleLogic());
     }
 
-    /* 타이틀로 가기 임시 */
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            SceneManager.LoadScene("GrassStage_Stage1");
-    }
-
     private void OnDestroy()
     {
         SavePlayerData();
@@ -83,10 +86,12 @@ public class CPlayerController_StageSelect : MonoBehaviour
     /// <summary>플레이어 데이터 저장하기</summary>
     private void SavePlayerData()
     {
+        EXmlDocumentNames selectPlayerDatasName = EXmlDocumentNames.SelectPlayerDatas;
+
         // 데이터 쓰기
-        string nodePath = CStageManager.Instance.XmlDocumentName.ToString("G") + "/" + _nodeName;
-        string[] datas = new string[] { _currentStage.GameSceneName };
-        CDataManager.WritingDatas(CStageManager.Instance.XmlDocumentName, nodePath, _elementsName, datas);
+        string nodePath = selectPlayerDatasName.ToString("G") + "/" + _nodeName;
+        string[] datas = new string[] { CStageManager.Instance.XmlDocumentName.ToString("G"), _currentStage.GameSceneName };
+        CDataManager.WritingDatas(selectPlayerDatasName, nodePath, _elementsName, datas);
 
         // 파일 저장
         CDataManager.SaveCurrentXmlDocument();
@@ -95,10 +100,12 @@ public class CPlayerController_StageSelect : MonoBehaviour
     /// <summary>플레이어 데이터 불러오기</summary>
     private void LoadPlayerDatas()
     {
-        string nodePath = CStageManager.Instance.XmlDocumentName.ToString("G") + "/" + _nodeName;
+        EXmlDocumentNames selectPlayerDatasName = EXmlDocumentNames.SelectPlayerDatas;
+
+        string nodePath = selectPlayerDatasName.ToString("G") + "/" + _nodeName;
 
         // 데이터 불러오기
-        string[] datas = CDataManager.ReadDatas(CStageManager.Instance.XmlDocumentName, nodePath, _elementsName);
+        string[] datas = CDataManager.ReadDatas(selectPlayerDatasName, nodePath, _elementsName);
 
         // 스테이지들
         List<CStage> stages = CStageManager.Instance.Stages;
@@ -112,10 +119,23 @@ public class CPlayerController_StageSelect : MonoBehaviour
         // 데이터가 존재할 경우 현재 스테이지를 데이터에서 가져옴
         else
         {
+            bool isHaveStage = false;
             for (int i = 0; i < stages.Count; i++)
             {
-                if (stages[i].GameSceneName.Equals(datas[0]))
+                if (stages[i].GameSceneName.Equals(datas[1]))
+                {
                     _currentStage = stages[i];
+                    isHaveStage = true;
+                    break;
+                }
+            }
+
+            if(!isHaveStage)
+            {
+                if (datas[1].Equals("GrassToSnowCut"))
+                    _currentStage = stages[0];
+                else if (datas[1].Equals("StageSelect_Grass"))
+                    _currentStage = stages[stages.Count - 1];
             }
         }
     }
@@ -129,7 +149,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
 
         while(true)
         {
-            if(CUIManager_StageSelect.Instance.IsFadeInOut)
+            if(CUIManager_StageSelect.Instance.IsFadeInOut || !IsCanOperation)
             {
                 yield return null;
                 continue;

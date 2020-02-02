@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CSoopState3D_Idle : CSoopState3D
 {
@@ -6,6 +7,14 @@ public class CSoopState3D_Idle : CSoopState3D
     private Transform _emoticonPoint = null;
     [SerializeField]
     private Transform _sleepEmoticon = null;
+
+    [SerializeField]
+    private SkinnedMeshRenderer _skinnedMeshRenderer = null;
+    [SerializeField]
+    private Material _sleepMaterial_Snow = null;
+    [SerializeField]
+    private Material _sleepMaterial_Grass = null;
+    private Material _defaultMaterial = null;
 
     public override void InitState()
     {
@@ -16,6 +25,17 @@ public class CSoopState3D_Idle : CSoopState3D
         _emoticonPoint.position = transform.position + new Vector3(1.4f, 2.5f);
         _sleepEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);
         _sleepEmoticon.gameObject.SetActive(true);
+
+        _defaultMaterial = _skinnedMeshRenderer.material;
+
+        string currentSceneSeason = SceneManager.GetActiveScene().name.Split('_')[0];
+        if(currentSceneSeason != null)
+        {
+            if (currentSceneSeason.Equals("GrassStage"))
+                _skinnedMeshRenderer.material = _sleepMaterial_Grass;
+            else if (currentSceneSeason.Equals("SnowStage"))
+                _skinnedMeshRenderer.material = _sleepMaterial_Snow;
+        }
     }
 
     private void Update()
@@ -35,5 +55,7 @@ public class CSoopState3D_Idle : CSoopState3D
         base.EndState();
 
         _sleepEmoticon.gameObject.SetActive(false);
+
+        _skinnedMeshRenderer.material = _defaultMaterial;
     }
 }

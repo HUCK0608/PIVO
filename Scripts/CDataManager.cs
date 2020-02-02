@@ -3,7 +3,7 @@ using System.IO;
 using System.Xml;
 using System.Collections.Generic;
 
-public enum EXmlDocumentNames { None, GrassStageDatas, SnowStageDatas, Setting }
+public enum EXmlDocumentNames { None, GrassStageDatas, SnowStageDatas, SelectPlayerDatas, Setting }
 
 public static class CDataManager
 {

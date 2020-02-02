@@ -848,6 +848,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _emoticonPoint: {fileID: 2085158458895349041}
   _sleepEmoticon: {fileID: 7181584569060357968}
+  _skinnedMeshRenderer: {fileID: 3227218957329279728}
+  _sleepMaterial_Snow: {fileID: 2100000, guid: 5d1fa447c79d64c459dd7940442ebf15, type: 2}
+  _sleepMaterial_Grass: {fileID: 2100000, guid: 304facd2b53f3b443b9bdd5cd39ac23a,
+    type: 2}
 --- !u!114 &9119311636876719142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1359,10 +1363,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 9500000, guid: 414f48f3f419228489b763f3258a26ba, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 3ba9ebbba74d4bf4ab47478b04f5b360, type: 2}
     - target: {fileID: 400000, guid: 414f48f3f419228489b763f3258a26ba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -15.000007
@@ -1375,6 +1375,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90.00001
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 414f48f3f419228489b763f3258a26ba, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3ba9ebbba74d4bf4ab47478b04f5b360, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 414f48f3f419228489b763f3258a26ba, type: 3}
 --- !u!1 &835156600032100576 stripped
@@ -1456,6 +1460,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: f9abc3459894e0f4fb0e6fcd98f1a3c6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3ba70b03f2f7634eb43adba692c51b5, type: 3}
+--- !u!137 &3227218957329279728 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 13700000, guid: a3ba70b03f2f7634eb43adba692c51b5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3227218957342974288}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3227218957342850030 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400062, guid: a3ba70b03f2f7634eb43adba692c51b5,
@@ -1559,15 +1569,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab5b785025df81b4fbb3728f57ba2ff8, type: 3}
---- !u!1 &9119133871417906352 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1097787290594770, guid: ab5b785025df81b4fbb3728f57ba2ff8,
-    type: 3}
-  m_PrefabInstance: {fileID: 9119311638022224226}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9124262557389233642 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4971898281878664, guid: ab5b785025df81b4fbb3728f57ba2ff8,
+    type: 3}
+  m_PrefabInstance: {fileID: 9119311638022224226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9119133871417906352 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1097787290594770, guid: ab5b785025df81b4fbb3728f57ba2ff8,
     type: 3}
   m_PrefabInstance: {fileID: 9119311638022224226}
   m_PrefabAsset: {fileID: 0}

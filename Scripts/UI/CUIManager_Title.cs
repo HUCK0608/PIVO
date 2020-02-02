@@ -59,6 +59,7 @@ public class CUIManager_Title : MonoBehaviour
             PlayerPrefs.SetInt("IsOnTitle", 0);
             gameObject.SetActive(false);
             _introPlayerDirector.gameObject.SetActive(false);
+            CWorldManager.Instance.PlayBGM();
             return;
         }
 
@@ -106,7 +107,10 @@ public class CUIManager_Title : MonoBehaviour
                 ChangeSelectMenu(nextSelect);
             }
             else if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Return))
+            {
                 ExcutionMainMenu(_mainCurrentSelect);
+                break;
+            }
 
             yield return null;
         }
@@ -153,10 +157,27 @@ public class CUIManager_Title : MonoBehaviour
                 _animator.SetBool("IsFadeOut", true);
                 break;
             case 1:
-                SceneManager.LoadScene("StageSelect_Grass");
+                {
+                    EXmlDocumentNames selectPlayerDatasName = EXmlDocumentNames.SelectPlayerDatas;
+
+                    string _nodeName = "SelectPlayerDatas";
+                    string[] _elementsName = new string[] { "LastSeason" };
+
+                    string nodePath = selectPlayerDatasName.ToString("G") + "/" + _nodeName;
+
+                    // 데이터 불러오기
+                    string[] datas = CDataManager.ReadDatas(selectPlayerDatasName, nodePath, _elementsName);
+
+                    if(datas == null || datas[0] == null)
+                        SceneManager.LoadScene("StageSelect_Grass");
+                    if(datas[0].Equals(EXmlDocumentNames.GrassStageDatas.ToString("G")))
+                        SceneManager.LoadScene("StageSelect_Grass");
+                    else if(datas[0].Equals(EXmlDocumentNames.SnowStageDatas.ToString("G")))
+                        SceneManager.LoadScene("StageSelect_Snow");
+                }
                 break;
             case 2:
-                StartCoroutine(OptionMenuInputLogic());
+                StartCoroutine("OptionMenuInputLogic");
                 break;
             case 3:
                 Application.Quit();
@@ -280,7 +301,7 @@ public class CUIManager_Title : MonoBehaviour
     [SerializeField]
     private Transform _selectOptionMenuBG = null;
     /// <summary>현재 옵션 선택 메뉴</summary>
-    private int _currentSelectOptionMenu = 1;
+    private int _currentSelectOptionMenu = 0;
 
     private bool _isOptionInitialize = false;
 
@@ -297,7 +318,6 @@ public class CUIManager_Title : MonoBehaviour
 
         CDataManager.WritingDatas(EXmlDocumentNames.Setting, nodePath, elementsName, datas, true);
         CDataManager.SaveCurrentXmlDocument(true);
-        _a.text = CDataManager.FileDirectoryPath;
     }
 
     /// <summary>옵션 설정 로드</summary>
@@ -338,7 +358,7 @@ public class CUIManager_Title : MonoBehaviour
     }
 
     /// <summary>옵션 메뉴 비활성화</summary>
-    private void OnDisableOtionMenu()
+    private void OnDisableOptionMenu()
     {
         _isExcutionAnything = false;
 
@@ -372,6 +392,25 @@ public class CUIManager_Title : MonoBehaviour
         UpdateOptionUI_SFX();
     }
 
+    private void ChangeOption( float addValue)
+    {
+        switch(_currentSelectOptionMenu)
+        {
+            case 0:
+                ChangeWindowMode((int)addValue);
+                break;
+            case 1:
+                ChangeResolution((int)addValue);
+                break;
+            case 2:
+                ChangeBGMVolume(addValue);
+                break;
+            case 3:
+                ChangeSFXVolume(addValue);
+                break;
+        }
+    }
+
     /// <summary>옵션 메뉴 입력 로직</summary>
     private IEnumerator OptionMenuInputLogic()
     {
@@ -380,12 +419,41 @@ public class CUIManager_Title : MonoBehaviour
         while (true)
         {
             if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape))
+            {
                 break;
+            }
+            else if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Return))
+            {
+                ApplyOption();
+            }
+
+            if(Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectOptionMenu - 1, 0, 3));
+            }
+            else if(Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectOptionMenu + 1, 0, 3));
+            }
+            else if (_currentSelectOptionMenu == 0 || _currentSelectOptionMenu == 1)
+            {
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                    ChangeOption(-1f);
+                else if (Input.GetKeyDown(KeyCode.RightArrow))
+                    ChangeOption(1f);
+            }
+            else if (_currentSelectOptionMenu == 2 || _currentSelectOptionMenu == 3)
+            {
+                if (Input.GetKey(KeyCode.LeftArrow))
+                    ChangeOption(-0.01f);
+                else if (Input.GetKey(KeyCode.RightArrow))
+                    ChangeOption(0.01f);
+            }
 
             yield return null;
         }
 
-        OnDisableOtionMenu();
+        CancelOption();
     }
 
     /// <summary>옵션 적용</summary>
@@ -435,7 +503,7 @@ public class CUIManager_Title : MonoBehaviour
 
         UpdateOptionUI();
 
-        OnDisableOtionMenu();
+        OnDisableOptionMenu();
     }
 
     /// <summary>윈도우 모드 설정 취소</summary>
@@ -568,6 +636,6 @@ public class CUIManager_Title : MonoBehaviour
     public void ChangeBGMVolume() { _selectBGMNormalizedValue = _BGMScroll.NormalizedValue; }
     /// <summary>SFX 볼륨 설정</summary>
     public void ChangeSFXVolume() { _selectSFXNormalizedValue = _SFXScroll.NormalizedValue; }
-
-    public Text _a;
+    public void ChangeBGMVolume(float addValue) { _selectBGMNormalizedValue = Mathf.Clamp(_selectBGMNormalizedValue + addValue, 0f, 1f); _BGMScroll.SetScroll(_selectBGMNormalizedValue); }
+    public void ChangeSFXVolume(float addValue) { _selectSFXNormalizedValue = Mathf.Clamp(_selectSFXNormalizedValue + addValue, 0f, 1f); _SFXScroll.SetScroll(_selectSFXNormalizedValue); }
 }

@@ -54,6 +54,9 @@ public class CCameraController : MonoBehaviour
     /// <summary>마지막 2D 위치로 이동하는지 여부</summary>
     private bool _isMoveLast2DPosition = false;
 
+    [SerializeField]
+    private BlurOptimized _blurOptimized = null;
+
     private void Awake()
     {
         _instance = this;
@@ -148,5 +151,10 @@ public class CCameraController : MonoBehaviour
     {
         _mainCamera.targetDisplay = targetValue;
         _skyBoxCamera.targetDisplay = targetValue;
+    }
+
+    public void SetActivateBlur(bool active)
+    {
+        _blurOptimized.enabled = active;
     }
 }

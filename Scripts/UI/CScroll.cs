@@ -17,7 +17,7 @@ public class CScroll : MonoBehaviour
 
     private float _normalizedValue = 1f;
     /// <summary>정규화 값</summary>
-    public float NormalizedValue { get { return _normalizedValue; } }
+    public float NormalizedValue { get { return _normalizedValue; } set { _normalizedValue = value; } }
 
     public void SetScroll(float normalizedValue)
     {

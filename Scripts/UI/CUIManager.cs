@@ -24,6 +24,17 @@ public class CUIManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
+            if(_returnToTitleGroup.activeSelf)
+            {
+                SetActiveReturnToTitle(false);
+                return;
+            }
+            else if(_restartGroup.activeSelf)
+            {
+                SetActiveRestart(false);
+                return;
+            }
+
             if (!_pauseGroup.activeSelf)
                 SetActivePause(true);
             else
@@ -35,6 +46,12 @@ public class CUIManager : MonoBehaviour
 
         if (_pauseGroup.activeSelf)
             PauseLogic();
+
+        if (_returnToTitleGroup.activeSelf)
+            ReturnToTitleLogic();
+
+        if (_restartGroup.activeSelf)
+            RestartLogic();
     }
 
     /// <summary>캔버스</summary>
@@ -441,15 +458,27 @@ public class CUIManager : MonoBehaviour
     [SerializeField]
     private GameObject _resume = null, _resumeSelect = null;
     [SerializeField]
+    private GameObject _restart = null, _restartSelect = null;
+    [SerializeField]
+    private GameObject _options = null, _optionsSelect = null;
+    [SerializeField]
     private GameObject _exit = null, _exitSelect = null;
 
     private int _pauseSelectMenu = 0;
 
-    public void SetActivePause(bool active)
+    private bool _isInitPause = false;
+
+    public void SetActivePause(bool active, bool isSetPlayerOperation = true)
     {
+        _isInitPause = false;
         _pauseGroup.SetActive(active);
 
-        CPlayerManager.Instance.IsCanOperation = !active;
+        if (active)
+            PlayerCanOperationFalse();
+        else if(isSetPlayerOperation)
+            Invoke("PlayerCanOperationTrue", Time.deltaTime);
+
+        CCameraController.Instance.SetActivateBlur(active);
 
         if (active)
             InitPause();
@@ -465,26 +494,40 @@ public class CUIManager : MonoBehaviour
 
     private void PauseLogic()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
-            SetSelectMenu_Pause((_pauseSelectMenu + 1) % 2);
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+            SetSelectMenu_Pause(Mathf.Clamp(_pauseSelectMenu - 1, 0, 3));
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+            SetSelectMenu_Pause(Mathf.Clamp(_pauseSelectMenu + 1, 0, 3));
 
-        if (Input.GetKeyDown(CKeyManager.InteractionKey))
+        if (_isInitPause && (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey) || Input.GetKeyDown(KeyCode.Return)))
             ExcuteMenu_Pause(_pauseSelectMenu);
+        else if (!_isInitPause)
+            _isInitPause = true;
     }
 
     public void SetSelectMenu_Pause(int menuIndex)
     {
         _pauseSelectMenu = menuIndex;
 
-        if(_pauseSelectMenu == 0)
+        SetSelectResume_Pause(false);
+        SetSelectRestart_Pause(false);
+        SetSelectOptions_Pause(false);
+        SetSelectExit_Pause(false);
+
+        switch (_pauseSelectMenu)
         {
-            SetSelectResume_Pause(true);
-            SetSelectExit_Pause(false);
-        }
-        else
-        {
-            SetSelectResume_Pause(false);
-            SetSelectExit_Pause(true);
+            case 0:
+                SetSelectResume_Pause(true);
+                break;
+            case 1:
+                SetSelectRestart_Pause(true);
+                break;
+            case 2:
+                SetSelectOptions_Pause(true);
+                break;
+            case 3:
+                SetSelectExit_Pause(true);
+                break;
         }
 
         PlayPointerEnterAudio();
@@ -496,6 +539,18 @@ public class CUIManager : MonoBehaviour
         _resumeSelect.SetActive(active);
     }
 
+    private void SetSelectRestart_Pause(bool active)
+    {
+        _restart.SetActive(!active);
+        _restartSelect.SetActive(active);
+    }
+
+    private void SetSelectOptions_Pause(bool active)
+    {
+        _options.SetActive(!active);
+        _optionsSelect.SetActive(active);
+    }
+
     private void SetSelectExit_Pause(bool active)
     {
         _exit.SetActive(!active);
@@ -504,10 +559,21 @@ public class CUIManager : MonoBehaviour
 
     public void ExcuteMenu_Pause(int menuIndex)
     {
-        if (menuIndex == 0)
-            ExcuteResume_Pause();
-        else
-            ExcuteExit_Pause();
+        switch (menuIndex)
+        {
+            case 0:
+                ExcuteResume_Pause();
+                break;
+            case 1:
+                ExcuteRestart_Pause();
+                break;
+            case 2:
+                ExcuteOption_Pause();
+                break;
+            case 3:
+                ExcuteExit_Pause();
+                break;
+        }
 
         PlayPointerEnterAudio();
     }
@@ -517,11 +583,235 @@ public class CUIManager : MonoBehaviour
         SetActivePause(false);
     }
 
+    private void ExcuteRestart_Pause()
+    {
+        SetActivePause(false, false);
+        SetActiveRestart(true);
+    }
+
+    private void ExcuteOption_Pause()
+    {
+
+    }
+
     private void ExcuteExit_Pause()
+    {
+        SetActivePause(false , false);
+        SetActiveReturnToTitle(true);
+    }
+
+    #endregion
+
+    #region ReturnToTitle
+
+    [SerializeField]
+    private GameObject _returnToTitleGroup = null;
+
+    [SerializeField]
+    private GameObject _yes_ReturnToTitle = null, _yesSelect_ReturnToTitle = null;
+    [SerializeField]
+    private GameObject _no_ReturnToTitle = null, _noSelect_ReturnToTitle = null;
+
+    private int _returnToTitleSelectMenu = 0;
+
+    private bool _isInitReturnToTitle = false;
+
+    public void SetActiveReturnToTitle(bool active)
+    {
+        _isInitReturnToTitle = false;
+        _returnToTitleGroup.SetActive(active);
+
+        if (active)
+            PlayerCanOperationFalse();
+        else
+            Invoke("PlayerCanOperationTrue", Time.deltaTime);
+
+        CCameraController.Instance.SetActivateBlur(active);
+
+        if (active)
+            InitReturnToTitle();
+    }
+
+    private void InitReturnToTitle()
+    {
+        SetSelectMenu_ReturnToTitle(0);
+
+        CPlayerManager.Instance.Controller3D.ChangeState(EPlayerState3D.Idle);
+        CPlayerManager.Instance.Controller2D.ChangeState(EPlayerState2D.Idle);
+    }
+
+    private void ReturnToTitleLogic()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+            SetSelectMenu_ReturnToTitle((_returnToTitleSelectMenu + 1) % 2);
+
+        if (_isInitReturnToTitle && (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey) || Input.GetKeyDown(KeyCode.Return)))
+            ExcuteMenu_ReturnToTitle(_returnToTitleSelectMenu);
+        else if (!_isInitReturnToTitle)
+            _isInitReturnToTitle = true;
+    }
+
+    public void SetSelectMenu_ReturnToTitle(int menuIndex)
+    {
+        _returnToTitleSelectMenu = menuIndex;
+
+        if (_returnToTitleSelectMenu == 0)
+        {
+            SetSelectYes_ReturnToTitle(true);
+            SetSelectNo_ReturnToTitle(false);
+        }
+        else
+        {
+            SetSelectYes_ReturnToTitle(false);
+            SetSelectNo_ReturnToTitle(true);
+        }
+
+        PlayPointerEnterAudio();
+    }
+
+    private void SetSelectYes_ReturnToTitle(bool active)
+    {
+        _yes_ReturnToTitle.SetActive(!active);
+        _yesSelect_ReturnToTitle.SetActive(active);
+    }
+
+    private void SetSelectNo_ReturnToTitle(bool active)
+    {
+        _no_ReturnToTitle.SetActive(!active);
+        _noSelect_ReturnToTitle.SetActive(active);
+    }
+
+    public void ExcuteMenu_ReturnToTitle(int menuIndex)
+    {
+        if (menuIndex == 0)
+            ExcuteYes_ReturnToTitle();
+        else
+            ExcuteNo_ReturnToTitle();
+
+        PlayPointerEnterAudio();
+    }
+
+    private void ExcuteYes_ReturnToTitle()
     {
         string season = SceneManager.GetActiveScene().name.Split('_')[0].Equals("GrassStage") ? "Grass" : "Snow";
         SceneManager.LoadScene("StageSelect_" + season);
     }
 
+    private void ExcuteNo_ReturnToTitle()
+    {
+        SetActiveReturnToTitle(false);
+    }
+
     #endregion
+
+    #region Restart
+
+    [SerializeField]
+    private GameObject _restartGroup = null;
+
+    [SerializeField]
+    private GameObject _yes_Restart = null, _yesSelect_Restart = null;
+    [SerializeField]
+    private GameObject _no_Restart = null, _noSelect_Restart = null;
+
+    private int _RestartSelectMenu = 0;
+
+    private bool _isInitRestart = false;
+
+    public void SetActiveRestart(bool active)
+    {
+        _isInitRestart = false;
+        _restartGroup.SetActive(active);
+
+        if (active)
+            PlayerCanOperationFalse();
+        else
+            Invoke("PlayerCanOperationTrue", Time.deltaTime);
+
+        CCameraController.Instance.SetActivateBlur(active);
+
+        if (active)
+            InitRestart();
+    }
+
+    private void InitRestart()
+    {
+        SetSelectMenu_Restart(0);
+
+        CPlayerManager.Instance.Controller3D.ChangeState(EPlayerState3D.Idle);
+        CPlayerManager.Instance.Controller2D.ChangeState(EPlayerState2D.Idle);
+    }
+
+    private void RestartLogic()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+            SetSelectMenu_Restart((_RestartSelectMenu + 1) % 2);
+
+        if (_isInitRestart && (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey) || Input.GetKeyDown(KeyCode.Return)))
+            ExcuteMenu_Restart(_RestartSelectMenu);
+        else if (!_isInitRestart)
+            _isInitRestart = true;
+    }
+
+    public void SetSelectMenu_Restart(int menuIndex)
+    {
+        _RestartSelectMenu = menuIndex;
+
+        if (_RestartSelectMenu == 0)
+        {
+            SetSelectYes_Restart(true);
+            SetSelectNo_Restart(false);
+        }
+        else
+        {
+            SetSelectYes_Restart(false);
+            SetSelectNo_Restart(true);
+        }
+
+        PlayPointerEnterAudio();
+    }
+
+    private void SetSelectYes_Restart(bool active)
+    {
+        _yes_Restart.SetActive(!active);
+        _yesSelect_Restart.SetActive(active);
+    }
+
+    private void SetSelectNo_Restart(bool active)
+    {
+        _no_Restart.SetActive(!active);
+        _noSelect_Restart.SetActive(active);
+    }
+
+    public void ExcuteMenu_Restart(int menuIndex)
+    {
+        if (menuIndex == 0)
+            ExcuteYes_Restart();
+        else
+            ExcuteNo_Restart();
+
+        PlayPointerEnterAudio();
+    }
+
+    private void ExcuteYes_Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void ExcuteNo_Restart()
+    {
+        SetActiveRestart(false);
+    }
+
+    #endregion
+
+    private void PlayerCanOperationFalse()
+    {
+        CPlayerManager.Instance.IsCanOperation = false;
+    }
+
+    private void PlayerCanOperationTrue()
+    {
+        CPlayerManager.Instance.IsCanOperation = true;
+    }
 }

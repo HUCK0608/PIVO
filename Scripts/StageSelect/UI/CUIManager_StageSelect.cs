@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class CUIManager_StageSelect : MonoBehaviour
 {
@@ -51,8 +52,15 @@ public class CUIManager_StageSelect : MonoBehaviour
 
     private void SetActivateStar(bool active)
     {
-        for(int i = 0; i < 3; i++)
-            _starsLine[i].SetActive(active);
+        if (!active)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                _starsLine[i].SetActive(active);
+                _stars[i].SetActive(active);
+                _requirementsText[i].gameObject.SetActive(active);
+            }
+        }
 
         _isActiveStar = active;
     }
@@ -76,20 +84,13 @@ public class CUIManager_StageSelect : MonoBehaviour
 
     private void SetRequirementText()
     {
-        if (_isActiveStar)
+        if (!_isActiveStar)
+            return;
+
+        for (int i = 0; i < 3; i++)
         {
-            for (int i = 0; i < 3; i++)
-            {
-                _requirementsText[i].gameObject.SetActive(true);
-                _requirementsText[i].text = _currentStage.Requirements[i].ToString();
-            }
-        }
-        else
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                _requirementsText[i].gameObject.SetActive(false);
-            }
+            _requirementsText[i].gameObject.SetActive(true);
+            _requirementsText[i].text = _currentStage.Requirements[i].ToString();
         }
     }
 
@@ -136,5 +137,116 @@ public class CUIManager_StageSelect : MonoBehaviour
         }
 
         _isFadeInOrOut = false;
+    }
+
+    #region ReturnToTitle
+
+    [SerializeField]
+    private GameObject _returnToTitleGroup = null;
+    [SerializeField]
+    private GameObject _yes = null, _yesSelect = null;
+    [SerializeField]
+    private GameObject _no = null, _noSelect = null;
+
+    private int _currentSelectMenu_ReturnToTitle = 0;
+
+    private bool _isExcutionAnything = false;
+
+    public void SetActivateReturnToTitle(bool active)
+    {
+        _returnToTitleGroup.SetActive(active);
+        CCameraController_StageSelect.Instance.SetActivateBlur(active);
+
+        if (active)
+        {
+            SetSelectMenu_ReturnToTitle(0);
+            PlayerCanOperationOff();
+        }
+        else
+            Invoke("PlayerCanOperationOn", Time.deltaTime);
+    }
+
+    public void SetSelectMenu_ReturnToTitle(int selectMenu)
+    {
+        _currentSelectMenu_ReturnToTitle = selectMenu;
+
+        if (_currentSelectMenu_ReturnToTitle == 0)
+        {
+            SetActivateYes_ReturnToTitle(true);
+            SetActivateNo_ReturnToTitle(false);
+        }
+        else
+        {
+            SetActivateYes_ReturnToTitle(false);
+            SetActivateNo_ReturnToTitle(true);
+        }
+    }
+
+    private void Update()
+    {
+        if (!CUIManager_StageSelect.Instance.IsFadeInOut)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) && !_returnToTitleGroup.activeSelf)
+                SetActivateReturnToTitle(true);
+            else if ((Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape)) && _returnToTitleGroup.activeSelf)
+                SetActivateReturnToTitle(false);
+
+            if (_returnToTitleGroup.activeSelf)
+                ReturnToTitleLogic();
+        }
+    }
+
+    private void ReturnToTitleLogic()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+            SetSelectMenu_ReturnToTitle((_currentSelectMenu_ReturnToTitle + 1) % 2);
+        else if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Return))
+            ExcuteSelectMenu_ReturnToTitle(_currentSelectMenu_ReturnToTitle);
+    }
+
+    private void SetActivateYes_ReturnToTitle(bool active)
+    {
+        _yesSelect.SetActive(active);
+        _yes.SetActive(!active);
+    }
+
+    private void SetActivateNo_ReturnToTitle(bool active)
+    {
+        _noSelect.SetActive(active);
+        _no.SetActive(!active);
+    }
+
+    public void ExcuteSelectMenu_ReturnToTitle(int selectMenu)
+    {
+        if (_isExcutionAnything)
+            return;
+
+        if (selectMenu == 0)
+            ExcuteYes_ReturnToTitle();
+        else
+            ExcuteNo_ReturnToTitle();
+    }
+
+    private void ExcuteYes_ReturnToTitle()
+    {
+        SceneManager.LoadScene("GrassStage_Stage1");
+        _isExcutionAnything = true;
+    }
+
+    private void ExcuteNo_ReturnToTitle()
+    {
+        SetActivateReturnToTitle(false);
+    }
+
+    #endregion
+
+    public void PlayerCanOperationOff()
+    {
+        CPlayerController_StageSelect.Insatnce.IsCanOperation = false;
+    }
+
+    public void PlayerCanOperationOn()
+    {
+        CPlayerController_StageSelect.Insatnce.IsCanOperation = true;
     }
 }

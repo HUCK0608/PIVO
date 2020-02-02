@@ -99,7 +99,7 @@ public class CStage : MonoBehaviour
             return;
 
         // Perfect clear
-        if (_haveBiscuitCount.Equals(_maxBiscuitCount))
+        if (_stars.Equals(3))
             _meshRenderer.material.SetFloat("_IsPerfectClear", 1f);
         // Clear
         else if (_isClear)
