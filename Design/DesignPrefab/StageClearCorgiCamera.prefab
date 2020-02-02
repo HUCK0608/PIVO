@@ -66,7 +66,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5183632179274424639}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.01, z: -3}
+  m_LocalPosition: {x: 0, y: 2.92, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5183632178754504075}
@@ -98,7 +98,7 @@ Camera:
   far clip plane: 4
   field of view: 60
   orthographic: 1
-  orthographic size: 0.7
+  orthographic size: 0.8849991
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -886,18 +886,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5183632178754504075}
     m_Modifications:
-    - target: {fileID: 100060, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
-      propertyPath: m_Name
-      value: Character_Corgi3D
-      objectReference: {fileID: 0}
-    - target: {fileID: 100078, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 13700000, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 9ea89606859bcce4eafe9bb0da113e83, type: 2}
     - target: {fileID: 400060, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -942,6 +930,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100060, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
+      propertyPath: m_Name
+      value: Character_Corgi3D
+      objectReference: {fileID: 0}
+    - target: {fileID: 100078, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700000, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9ea89606859bcce4eafe9bb0da113e83, type: 2}
     - target: {fileID: 2300000, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
