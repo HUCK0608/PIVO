@@ -21,7 +21,7 @@
 		}
 
         CGPROGRAM
-        #pragma surface surf ModifyShadow vertex:vert
+        #pragma surface surf Lambert vertex:vert
         #pragma target 3.0
 
         sampler2D _MainTex3D;
@@ -68,7 +68,8 @@
 		{
 			half4 Final;
 
-			half NdotL = max(0, dot(s.Normal, lightDir));
+			float NdotL = saturate(dot(s.Normal, lightDir));
+			//half NdotL = max(0, dot(s.Normal, lightDir));
 			half ShadowRange = NdotL * atten;
 			half3 ShadowColor = MaskB * _ShadowColor;
 			half3 ShadowColor2 = MaskG * _ShadowColor2;
@@ -85,5 +86,5 @@
 		}
         ENDCG
     }
-    FallBack "Diffuse"
+    FallBack "Mobile/VertexLit"
 }
