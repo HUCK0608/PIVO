@@ -155,6 +155,7 @@ public class CUIManager_Title : MonoBehaviour
         {
             case 0:
                 _animator.SetBool("IsFadeOut", true);
+                PlayerPrefs.DeleteAll();
                 break;
             case 1:
                 {
