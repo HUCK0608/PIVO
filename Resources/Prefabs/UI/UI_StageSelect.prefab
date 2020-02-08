@@ -739,7 +739,7 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
-  m_size: 3
+  m_size: 2
   glintEffect: 0
   glintVertex: 0
   glintWidth: 0
