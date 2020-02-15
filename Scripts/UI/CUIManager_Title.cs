@@ -22,6 +22,9 @@ public class CUIManager_Title : MonoBehaviour
     [SerializeField]
     private Image _loadGameImage = null;
 
+    [SerializeField]
+    private AudioSource TitleAudio = null;
+
     /// <summary>현재 선택하고 있는 메인 메뉴</summary>
     private int _mainCurrentSelect = 0;
     /// <summary>최대 메뉴 개수</summary>
@@ -50,6 +53,10 @@ public class CUIManager_Title : MonoBehaviour
 
     private void Start()
     {
+        //타이틀 사운드 재생
+        TitleAudio.Play();
+        TitleAudio.loop = true;
+
         // 0 : true, 1 : false
         int isOnTitle = PlayerPrefs.GetInt("IsOnTitle");
 
@@ -213,6 +220,7 @@ public class CUIManager_Title : MonoBehaviour
         CUIManager.Instance.SetTargetDisplay(0);
         CPlayerManager.Instance.IsCanOperation = true;
 
+        TitleAudio.Stop();
         CWorldManager.Instance.PlayBGM();
         CDataManager.IsSaveData = true;
 

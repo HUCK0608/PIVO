@@ -184,4 +184,10 @@ public class CBiscuitManager : MonoBehaviour
 
         return currentStar;
     }
+
+    /// <summary> 현재 비스킷 개수를 반환 </summary>
+    public int GetCurrentBiscuitCount()
+    {
+        return _currentBiscuitCount;
+    }
 }

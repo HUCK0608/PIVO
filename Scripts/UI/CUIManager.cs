@@ -427,6 +427,14 @@ public class CUIManager : MonoBehaviour
     private GameObject[] _yellowStars = null;
 
     [SerializeField]
+    private GameObject[] _grayLine = null;
+    [SerializeField]
+    private GameObject[] _yellowLine = null;
+
+    [SerializeField]
+    private Text biscuitCount = null;
+
+    [SerializeField]
     private Text[] _stageClearRequirementTexts = null;
 
     private void StageClearLogic()
@@ -453,7 +461,9 @@ public class CUIManager : MonoBehaviour
 
     private void SetStar()
     {
-        for(int i = 0; i < CBiscuitManager.Instance.GetCurrentStar(); i++)
+        biscuitCount.text = "x " + CBiscuitManager.Instance.GetCurrentBiscuitCount().ToString();
+
+        for (int i = 0; i < CBiscuitManager.Instance.GetCurrentStar(); i++)
             SetActiveYellowStar(i, true);
     }
 
@@ -461,6 +471,17 @@ public class CUIManager : MonoBehaviour
     {
         _yellowStars[index].SetActive(active);
         _grayStars[index].SetActive(!active);
+
+        if (index > 1)
+        {
+            _grayLine[index-1].SetActive(active);
+            _yellowLine[index-1].SetActive(active);
+        }
+        else
+        {
+            _grayLine[index].SetActive(true);
+            _yellowLine[index].SetActive(false);
+        }
     }
 
     private void SetStageClearRequirementText()
