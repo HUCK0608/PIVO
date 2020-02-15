@@ -420,6 +420,8 @@ public class CUIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject _stageClear = null;
+    [SerializeField]
+    private Design_ClearCorgiCamera _ClearCorgiCamera = null;
 
     [SerializeField]
     private GameObject[] _grayStars = null;
@@ -457,6 +459,7 @@ public class CUIManager : MonoBehaviour
 
         gameObject.SetActive(false);
         gameObject.SetActive(true);
+        _ClearCorgiCamera.SetFinishAnim();
     }
 
     private void SetStar()
@@ -472,15 +475,10 @@ public class CUIManager : MonoBehaviour
         _yellowStars[index].SetActive(active);
         _grayStars[index].SetActive(!active);
 
-        if (index > 1)
+        if (index > 0)
         {
-            _grayLine[index-1].SetActive(active);
+            _grayLine[index-1].SetActive(!active);
             _yellowLine[index-1].SetActive(active);
-        }
-        else
-        {
-            _grayLine[index].SetActive(true);
-            _yellowLine[index].SetActive(false);
         }
     }
 

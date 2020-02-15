@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5183632178754504075}
+  - component: {fileID: 2135747423455459030}
   m_Layer: 0
   m_Name: StageClearCorgiCamera
   m_TagString: Untagged
@@ -41,6 +42,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2135747423455459030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5183632178754504069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42775d1fddabf944aaeecfeefab6e628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CorgiAnimator: {fileID: 7260307590652129641}
 --- !u!1 &5183632179274424639
 GameObject:
   m_ObjectHideFlags: 0
@@ -953,16 +967,22 @@ PrefabInstance:
     - target: {fileID: 9500000, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 6e104171ad7e08c40bb4950319d81210, type: 2}
+      objectReference: {fileID: 9100000, guid: 5980bd441260fec4caa7ba11fbfd62e6, type: 2}
     - target: {fileID: 9500000, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
       propertyPath: m_Avatar
       value: 
-      objectReference: {fileID: 9000000, guid: d17b86e3f4b9bc440a022bec930aba01, type: 3}
+      objectReference: {fileID: 9000000, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 826edf537fa7f8b47bd0d348676bbb64, type: 3}
 --- !u!4 &7260307590644670133 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400060, guid: 826edf537fa7f8b47bd0d348676bbb64,
+    type: 3}
+  m_PrefabInstance: {fileID: 7260307590644794377}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7260307590652129641 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: 826edf537fa7f8b47bd0d348676bbb64,
     type: 3}
   m_PrefabInstance: {fileID: 7260307590644794377}
   m_PrefabAsset: {fileID: 0}
