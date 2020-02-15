@@ -75,17 +75,13 @@ public class CUIManager : MonoBehaviour
 
         if (_stageClear.activeSelf)
             StageClearLogic();
-
-        if (_pauseGroup.activeSelf)
+        else if (_pauseGroup.activeSelf)
             PauseLogic();
-
-        if (_returnToTitleGroup.activeSelf)
+        else if (_returnToTitleGroup.activeSelf)
             ReturnToTitleLogic();
-
-        if (_restartGroup.activeSelf)
+        else if (_restartGroup.activeSelf)
             RestartLogic();
-
-        if (_optionGroup.activeSelf)
+        else if (_optionGroup.activeSelf)
             OptionLogic();
     }
 
@@ -930,6 +926,17 @@ public class CUIManager : MonoBehaviour
 
         _currentSelectMenu_OptionMenu = selectMenuValue;
 
+        if (3 >= _currentSelectMenu_OptionMenu)
+        {
+            _selectOptionMenuBG.gameObject.SetActive(true);
+        }
+        else
+        {
+            PlayPointerUpAudio();
+            _selectOptionMenuBG.gameObject.SetActive(false);
+            return;
+        }
+
         Vector3 temp = Vector3.up * 70f;
         _selectOptionMenuBG.localPosition = -temp * _currentSelectMenu_OptionMenu + temp + Vector3.right * -65f;
 
@@ -969,15 +976,37 @@ public class CUIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Return))
         {
-            ApplyOption();
+            if (_currentSelectMenu_OptionMenu == 4)
+            {
+                CancelOption();
+            }
+            else
+            {
+                ApplyOption();
+            }
+        }
+        else if (_currentSelectMenu_OptionMenu == 4 || _currentSelectMenu_OptionMenu == 5)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                _currentSelectMenu_OptionMenu = Mathf.Clamp(_currentSelectMenu_OptionMenu - 1, 4, 5);
+                PlayPointerUpAudio();
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                _currentSelectMenu_OptionMenu = Mathf.Clamp(_currentSelectMenu_OptionMenu + 1, 4, 5);
+                PlayPointerUpAudio();
+            }
+            else if (Input.GetKeyDown(KeyCode.UpArrow))
+                SetSelectOptionMenuBGPoint(3);
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectMenu_OptionMenu - 1, 0, 3));
+            SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectMenu_OptionMenu - 1, 0, 5));
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectMenu_OptionMenu + 1, 0, 3));
+            SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectMenu_OptionMenu + 1, 0, 5));
         }
         else if (_currentSelectMenu_OptionMenu == 0 || _currentSelectMenu_OptionMenu == 1)
         {
@@ -1000,11 +1029,11 @@ public class CUIManager : MonoBehaviour
     {
         ApplyOption_WindowModeWithResolution();
         ApplyOption_Sound();
+        PlayPointerEnterAudio();
 
         if (_isOptionInitialize)
         {
             SaveOptionData();
-            PlayPointerEnterAudio();
         }
     }
 
@@ -1041,6 +1070,8 @@ public class CUIManager : MonoBehaviour
         CancelSound();
 
         UpdateOptionUI();
+
+        PlayPointerEnterAudio();
 
         SetActiveOption(false);
     }
@@ -1119,7 +1150,7 @@ public class CUIManager : MonoBehaviour
     /// <param name="addValue">추가 값</param>
     public void ChangeResolution(int addValue)
     {
-        _selectResolution += addValue;
+        _selectResolution -= addValue;
 
         if (_selectResolution.Equals(-1))
             _selectResolution = _resolution1.Count - 1;

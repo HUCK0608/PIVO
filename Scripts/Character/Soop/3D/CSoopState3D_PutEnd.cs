@@ -7,6 +7,7 @@ public class CSoopState3D_PutEnd : CSoopState3D
         base.InitState();
 
         CPlayerManager.Instance.Controller3D.ChangeState(EPlayerState3D.PutEnd);
+        CPlayerManager.Instance.RemoveDetectionSoop(Controller3D.Manager.gameObject);
     }
 
     private void Update()

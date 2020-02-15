@@ -126,29 +126,28 @@ public class CBiscuitManager : MonoBehaviour
 
         if (_saveBiscuitCount.Equals(0) || _currentBiscuitCount > _saveBiscuitCount)
         {
-            /* 이전에 먹었던 비스킷 개수 데이터 저장 */
+            /* 현재 먹은 비스킷 개수로 최신화 */
             nodePath = documentName.ToString("G") + "/StageDatas/" + currentSceneName;
             elementsName = new string[] { "HaveBiscuitCount" };
-            datas = new string[] { _saveBiscuitCount.ToString() };
+            datas = new string[] { _currentBiscuitCount.ToString() };
 
             // 데이터 쓰기
             CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+
+            /* 별 개수 데이터 저장 */
+            nodePath = documentName.ToString("G") + "/StageDatas/" + currentSceneName;
+            elementsName = new string[] { "Stars" };
+            datas = new string[] { GetCurrentStar().ToString() };
+
+            // 데이터 쓰기
+            CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+
+            /* 해금조건 저장 */
+            elementsName = new string[] { "RequirementStar1", "RequirementStar2", "RequirementStar3" };
+            datas = new string[] { _requirements[0].ToString(), _requirements[1].ToString(), _requirements[2].ToString() };
+
+            CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
         }
-
-        /* 별 개수 데이터 저장 */
-        nodePath = documentName.ToString("G") + "/StageDatas/" + currentSceneName;
-        elementsName = new string[] { "Stars" };
-        datas = new string[] { GetCurrentStar().ToString() };
-
-        // 데이터 쓰기
-        CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
-
-        /* 해금조건 저장 */
-        elementsName = new string[] { "RequirementStar1", "RequirementStar2", "RequirementStar3" };
-        datas = new string[] { _requirements[0].ToString(), _requirements[1].ToString(), _requirements[2].ToString() };
-
-        CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
-        
 
         /* 비스킷 먹음 여부 데이터 저장 */
         // 노드 경로 설정

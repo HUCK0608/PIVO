@@ -6,7 +6,7 @@ public class CSoopState3D_Return : CSoopState3D
     {
         base.InitState();
 
-        CPlayerManager.Instance.IsOnSoopDetection = false;
+        CPlayerManager.Instance.RemoveDetectionSoop(Controller3D.Manager.gameObject);
     }
 
     private void Update()

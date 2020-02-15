@@ -35,6 +35,8 @@ public class CSoopController3D : MonoBehaviour
     {
         if(!_currentState.Equals(ESoopState.Dead))
             ChangeState(ESoopState.Idle);
+
+        _animator.Play("Idle", 0, UnityEngine.Random.Range(0f, 1f));
     }
 
     /// <summary>상태 초기화</summary>

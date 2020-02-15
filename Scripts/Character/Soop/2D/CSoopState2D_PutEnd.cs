@@ -7,6 +7,7 @@ public class CSoopState2D_PutEnd : CSoopState2D
         base.InitState();
 
         CPlayerManager.Instance.Controller2D.ChangeState(EPlayerState2D.PutEnd);
+        CPlayerManager.Instance.RemoveDetectionSoop(Controller2D.Manager.gameObject);
     }
 
     private void Update()

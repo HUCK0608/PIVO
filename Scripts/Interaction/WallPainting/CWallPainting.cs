@@ -47,7 +47,7 @@ public class CWallPainting : MonoBehaviour
             }
             else
             {
-                if (Input.GetKeyDown(CKeyManager.InteractionKey) || Input.GetKeyDown(CKeyManager.InteractionCancelKey))
+                if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(CKeyManager.InteractionKey) || Input.GetKeyDown(CKeyManager.InteractionCancelKey))
                 {
                     CUIManager.Instance.SetActivePainting(false);
                 }

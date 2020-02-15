@@ -22,12 +22,12 @@ public class CSoopState2D_Idle : CSoopState2D
 
     private void Update()
     {
+        _sleepEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);
+
         if (!Controller2D.CanOperation())
             return;
 
         Vector3 startPoint = Controller2D.Manager.transform.position;
-
-        _sleepEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);
 
         if (Controller2D.IsDetectionPlayer())
             Controller2D.ChangeState(ESoopState.Surprise);

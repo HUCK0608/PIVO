@@ -10,7 +10,7 @@ public class CSoopState2D_Surprise : CSoopState2D
         newScale.x = Controller2D.Manager.Stat.IsSoopDirectionRight ? -1 : 1;
         transform.localScale = newScale;
 
-        CPlayerManager.Instance.IsOnSoopDetection = true;
+        CPlayerManager.Instance.RegisterDetectionSoop(Controller2D.Manager.gameObject);
     }
 
     private void Update()

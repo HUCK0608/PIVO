@@ -4638,8 +4638,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -820, y: -55}
-  m_SizeDelta: {x: 247, y: 75}
+  m_AnchoredPosition: {x: -820, y: -75.5}
+  m_SizeDelta: {x: 226, y: 34}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &5580981981385089234
 CanvasRenderer:
@@ -11002,11 +11002,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8530741706296898079}
     m_Modifications:
-    - target: {fileID: 3989945245866032444, guid: 48a9f1def11596c44ad610884d1671ab,
-        type: 3}
-      propertyPath: m_Name
-      value: Scroll
-      objectReference: {fileID: 0}
     - target: {fileID: 8546268072221544954, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
       propertyPath: _minLocalX
@@ -11121,6 +11116,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989945245866032444, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Name
+      value: Scroll
       objectReference: {fileID: 0}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
@@ -11452,11 +11452,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4330746418700720232}
     m_Modifications:
-    - target: {fileID: 5183632178754504069, guid: c920d5ba121886240bca64c2dd433c19,
-        type: 3}
-      propertyPath: m_Name
-      value: StageClearCorgiCamera
-      objectReference: {fileID: 0}
     - target: {fileID: 5183632178754504075, guid: c920d5ba121886240bca64c2dd433c19,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11512,6 +11507,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5183632178754504069, guid: c920d5ba121886240bca64c2dd433c19,
+        type: 3}
+      propertyPath: m_Name
+      value: StageClearCorgiCamera
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c920d5ba121886240bca64c2dd433c19, type: 3}
 --- !u!4 &2231678484795597079 stripped
@@ -11527,11 +11527,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6027045279134550944}
     m_Modifications:
-    - target: {fileID: 3989945245866032444, guid: 48a9f1def11596c44ad610884d1671ab,
-        type: 3}
-      propertyPath: m_Name
-      value: Scroll
-      objectReference: {fileID: 0}
     - target: {fileID: 8546268072221544954, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}
       propertyPath: _minLocalX
@@ -11646,6 +11641,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989945245866032444, guid: 48a9f1def11596c44ad610884d1671ab,
+        type: 3}
+      propertyPath: m_Name
+      value: Scroll
       objectReference: {fileID: 0}
     - target: {fileID: 1928000750078611903, guid: 48a9f1def11596c44ad610884d1671ab,
         type: 3}

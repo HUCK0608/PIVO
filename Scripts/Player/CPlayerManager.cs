@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class CPlayerManager : CCharacter
 {
@@ -31,31 +32,30 @@ public class CPlayerManager : CCharacter
     /// <summary>조작이 가능한지 여부</summary>
     public bool IsCanOperation { get { return _isCanOperation; }  set { _isCanOperation = value; } }
 
+    /// <summary>탐지 숲숲이 리스트</summary>
+    private List<GameObject> _detectionSoopList = new List<GameObject>();
+
+    /// <summary>탐지 숲숲이 등록</summary>
+    public void RegisterDetectionSoop(GameObject detectionSoop)
+    {
+        if (true == _detectionSoopList.Contains(detectionSoop))
+            return;
+
+        _detectionSoopList.Add(detectionSoop);
+    }
+
+    /// <summary>탐지 숲숲이 해제</summary>
+    public void RemoveDetectionSoop(GameObject detectionSoop)
+    {
+        if (false == _detectionSoopList.Contains(detectionSoop))
+            return;
+
+        _detectionSoopList.Remove(detectionSoop);
+    }
+
     private bool _isOnSoopDetection = false;
     /// <summary>숲숲이 탐지범위안에 있는지 여부</summary>
-    public bool IsOnSoopDetection
-    {
-        get
-        {
-            return _isOnSoopDetection;
-        }
-        set
-        {
-            if (value)
-            {
-                _detectionSoopCount++;
-                _isOnSoopDetection = true;
-            }
-            else
-            {
-                _detectionSoopCount--;
-                if (_detectionSoopCount == 0)
-                    _isOnSoopDetection = false;
-            }
-        }
-    }
-    /// <summary>현재 코기를 쫓는 숲숲이 수</summary>
-    public int _detectionSoopCount = 0;
+    public bool IsOnSoopDetection { get { return _detectionSoopList.Count == 0 ? false : true; } }
 
     protected override void Awake()
     {

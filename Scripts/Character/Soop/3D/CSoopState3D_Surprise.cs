@@ -12,7 +12,7 @@ public class CSoopState3D_Surprise : CSoopState3D
         Controller3D.LookDirection((CPlayerManager.Instance.RootObject3D.transform.position - transform.position).normalized);
         _surpriseObject.SetActive(true);
 
-        CPlayerManager.Instance.IsOnSoopDetection = true;
+        CPlayerManager.Instance.RegisterDetectionSoop(Controller3D.Manager.gameObject);
     }
 
     private void Update()
@@ -26,7 +26,7 @@ public class CSoopState3D_Surprise : CSoopState3D
             else
             {
                 Controller3D.ChangeState(ESoopState.Idle);
-                CPlayerManager.Instance.IsOnSoopDetection = false;
+                CPlayerManager.Instance.RemoveDetectionSoop(Controller3D.Manager.gameObject);
             }
         }
     }
