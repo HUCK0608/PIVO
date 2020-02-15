@@ -17,6 +17,7 @@ public class CSoopState2D_Dead : CSoopState2D
         _stunEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);
         _stunEmoticon.gameObject.SetActive(true);
 
+        CPlayerManager.Instance.RemoveDetectionSoop(Controller2D.Manager.gameObject);
     }
     private void Update()
     {

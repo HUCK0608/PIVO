@@ -64,7 +64,7 @@ public class CPlayerController3D : MonoBehaviour
         _rigidBody = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
 
-        _playerIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.BackgroundObject.LeftShiftToOne());
+        _playerIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.BackgroundObject.LeftShiftToOne() | CLayer.IgnoreRaycast.LeftShiftToOne());
 
         InitStates();
     }

@@ -18,6 +18,8 @@ public class CSoopState3D_Dead : CSoopState3D
         _emoticonPoint.position = transform.position + new Vector3(1.4f, 2.5f);
         _stunEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);
         _stunEmoticon.gameObject.SetActive(true);
+
+        CPlayerManager.Instance.RemoveDetectionSoop(Controller3D.Manager.gameObject);
     }
 
     private void Update()

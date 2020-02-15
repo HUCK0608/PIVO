@@ -51,7 +51,7 @@ public class CPlayerController2D : MonoBehaviour
         _rigidBody2D = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
 
-        _playerIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.BackgroundObject.LeftShiftToOne());
+        _playerIgnoreLayerMask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.BackgroundObject.LeftShiftToOne() | CLayer.IgnoreRaycast.LeftShiftToOne());
 
         InitStates();
     }
