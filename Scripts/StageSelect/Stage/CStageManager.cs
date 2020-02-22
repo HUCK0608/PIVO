@@ -101,14 +101,27 @@ public class CStageManager : MonoBehaviour
             {
                 if (datas[0] != null)
                     _stages[i].MaxBiscuitCount = int.Parse(datas[0]);
+
                 if (datas[1] != null)
                     _stages[i].HaveBiscuitCount = int.Parse(datas[1]);
+                else
+                    _stages[i].HaveBiscuitCount = 0;
+
                 if (datas[2] != null)
                     _stages[i].IsClear = datas[2].ToBoolean();
+                else
+                    _stages[i].IsClear = false;
+
                 if (datas[3] != null)
                     _stages[i].IsUnlock = datas[3].ToBoolean();
+                else
+                    _stages[i].IsClear = false;
+
                 if (datas[4] != null)
                     _stages[i].Stars = int.Parse(datas[4]);
+                else
+                    _stages[i].Stars = 0;
+
                 if (datas[5] != null)
                     _stages[i].Requirements[0] = int.Parse(datas[5]);
                 if (datas[6] != null)
