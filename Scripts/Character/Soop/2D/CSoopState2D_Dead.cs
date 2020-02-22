@@ -12,15 +12,28 @@ public class CSoopState2D_Dead : CSoopState2D
     public override void InitState()
     {
         base.InitState();
-
-        _emoticonPoint.position = transform.position + new Vector3(1.4f, 2.5f);
-        _stunEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);
-        _stunEmoticon.gameObject.SetActive(true);
-
+        
         CPlayerManager.Instance.RemoveDetectionSoop(Controller2D.Manager.gameObject);
     }
     private void Update()
     {
+        if(CUIManager.Instance.IsOnStageClearUI)
+        {
+            if (_stunEmoticon.gameObject.activeSelf)
+                _stunEmoticon.gameObject.SetActive(false);
+        }
+        else
+        {
+            if (!_stunEmoticon.gameObject.activeSelf)
+                _stunEmoticon.gameObject.SetActive(true);
+        }
+
+        if (_stunEmoticon.gameObject.activeSelf)
+        {
+            _emoticonPoint.position = transform.position + new Vector3(1.4f, 2.5f);
+            _stunEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);
+        }
+
         AnimatorStateInfo currentAnimtorStateInfo = Controller2D.Animator.GetCurrentAnimatorStateInfo(0);
         if (!currentAnimtorStateInfo.IsName("Dead"))
             Controller2D.ChangeAnimation();

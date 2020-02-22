@@ -34,11 +34,6 @@ public class CBiscuitManager : MonoBehaviour
         LoadDatas();
     }
 
-    private void OnDestroy()
-    {
-        SaveDatas();
-    }
-
     /// <summary>
     /// 비스킷 등록
     /// </summary>
@@ -84,7 +79,7 @@ public class CBiscuitManager : MonoBehaviour
         elementsName = new string[biscuitCount];
 
         // 속성 배열 설정
-        for(int i = 0; i < biscuitCount; i++)
+        for (int i = 0; i < biscuitCount; i++)
             elementsName[i] = "Biscuit_" + _biscuits[i].Number.ToString();
 
         // 데이터 읽기
@@ -106,7 +101,7 @@ public class CBiscuitManager : MonoBehaviour
     }
 
     /// <summary>데이터 저장하기</summary>
-    private void SaveDatas()
+    public void SaveDatas()
     {
         int biscuitCount = _biscuits.Count;
 
@@ -176,18 +171,12 @@ public class CBiscuitManager : MonoBehaviour
     {
         int currentStar = 0;
 
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             if (_currentBiscuitCount >= _requirements[i])
                 currentStar++;
         }
 
         return currentStar;
-    }
-
-    /// <summary> 현재 비스킷 개수를 반환 </summary>
-    public int GetCurrentBiscuitCount()
-    {
-        return _currentBiscuitCount;
     }
 }

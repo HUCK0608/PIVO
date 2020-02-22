@@ -40,6 +40,17 @@ public class CSoopState3D_Idle : CSoopState3D
 
     private void Update()
     {
+        if (CUIManager.Instance.IsOnStageClearUI)
+        {
+            if (_sleepEmoticon.gameObject.activeSelf)
+                _sleepEmoticon.gameObject.SetActive(false);
+        }
+        else
+        {
+            if (!_sleepEmoticon.gameObject.activeSelf)
+                _sleepEmoticon.gameObject.SetActive(true);
+        }
+
         Vector3 startPoint = Controller3D.Manager.transform.position;
 
         _sleepEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);

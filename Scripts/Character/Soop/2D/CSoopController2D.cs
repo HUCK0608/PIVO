@@ -107,7 +107,7 @@ public class CSoopController2D : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.up, Vector3.right * (_manager.Stat.IsSoopDirectionRight ? 1 : -1), _manager.Stat.DetectionAreaSize.x * 0.5f, CLayer.Player.LeftShiftToOne());
 
         // 전방에 존재하지만 벽인지 검사
-        if (null != hit && hit.transform.tag.Equals("Player"))
+        if (null != hit.transform && hit.transform.tag.Equals("Player"))
             return true;
 
         return false;

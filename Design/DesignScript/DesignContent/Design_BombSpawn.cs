@@ -39,7 +39,7 @@ public class Design_BombSpawn : Design_WorldObjectController
                 destroyObject.Add(_DestroyObject.GetChild(i).gameObject);
         }
         else
-            Debug.LogError("파괴가능한 오브젝트의 그룹 이름을 맞춰주어야 합니다. <DestroyObject>");
+            Debug.Log("파괴가능한 오브젝트의 그룹 이름을 맞춰주어야 합니다. <DestroyObject>");
 
     }
 

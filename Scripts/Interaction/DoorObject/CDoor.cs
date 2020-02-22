@@ -60,10 +60,10 @@ public class CDoor : MonoBehaviour
     {
         if (!_isPatternFill)
         {
-            if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View2D))
-                StartCoroutine(GetKey2DLogic());
-            else if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View3D))
+            if (CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View3D))
                 StartCoroutine(GetKey3DLogic());
+            else
+                StartCoroutine(GetKey2DLogic());
         }
     }
 

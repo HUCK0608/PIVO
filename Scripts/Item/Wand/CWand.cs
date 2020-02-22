@@ -46,6 +46,7 @@ public class CWand : MonoBehaviour
         yield return new WaitUntil(() => Intro2PlayerDirector.time >= TargetDuration);
         CPlayerManager.Instance.IsCanOperation = true;
         CPlayerManager.Instance.Controller2D.IsUseGravity = true;
+        CUIManager.Instance.IsCanOperation = true;
         Guide3DMove.SetActive(true);
 
         gameObject.SetActive(false);

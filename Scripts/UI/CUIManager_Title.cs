@@ -22,9 +22,6 @@ public class CUIManager_Title : MonoBehaviour
     [SerializeField]
     private Image _loadGameImage = null;
 
-    [SerializeField]
-    private AudioSource TitleAudio = null;
-
     /// <summary>현재 선택하고 있는 메인 메뉴</summary>
     private int _mainCurrentSelect = 0;
     /// <summary>최대 메뉴 개수</summary>
@@ -53,10 +50,6 @@ public class CUIManager_Title : MonoBehaviour
 
     private void Start()
     {
-        //타이틀 사운드 재생
-        TitleAudio.Play();
-        TitleAudio.loop = true;
-
         // 0 : true, 1 : false
         int isOnTitle = PlayerPrefs.GetInt("IsOnTitle");
 
@@ -86,6 +79,8 @@ public class CUIManager_Title : MonoBehaviour
 
         LoadOptionData();
         _isOptionInitialize = true;
+
+        CUIManager.Instance.IsCanOperation = false;
     }
 
     /// <summary>메뉴 선택 로직</summary>
@@ -95,7 +90,7 @@ public class CUIManager_Title : MonoBehaviour
 
         ChangeSelectMenu(_mainCurrentSelect);
 
-        while(!_isExcutionAnything)
+        while (!_isExcutionAnything)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
@@ -164,6 +159,7 @@ public class CUIManager_Title : MonoBehaviour
         {
             case 0:
                 _animator.SetBool("IsFadeOut", true);
+                CDataManager.DeleteAllDatas();
                 PlayerPrefs.DeleteAll();
                 break;
             case 1:
@@ -178,11 +174,11 @@ public class CUIManager_Title : MonoBehaviour
                     // 데이터 불러오기
                     string[] datas = CDataManager.ReadDatas(selectPlayerDatasName, nodePath, _elementsName);
 
-                    if(datas == null || datas[0] == null)
+                    if (datas == null || datas[0] == null)
                         SceneManager.LoadScene("StageSelect_Grass");
-                    if(datas[0].Equals(EXmlDocumentNames.GrassStageDatas.ToString("G")))
+                    if (datas[0].Equals(EXmlDocumentNames.GrassStageDatas.ToString("G")))
                         SceneManager.LoadScene("StageSelect_Grass");
-                    else if(datas[0].Equals(EXmlDocumentNames.SnowStageDatas.ToString("G")))
+                    else if (datas[0].Equals(EXmlDocumentNames.SnowStageDatas.ToString("G")))
                         SceneManager.LoadScene("StageSelect_Snow");
                 }
                 break;
@@ -194,7 +190,7 @@ public class CUIManager_Title : MonoBehaviour
                 break;
         }
     }
-    
+
     /// <summary>인트로 타임라인 시작</summary>
     public void StartIntroTimeline()
     {
@@ -207,7 +203,7 @@ public class CUIManager_Title : MonoBehaviour
     private IEnumerator IntroTimelineEndCheck()
     {
         yield return new WaitUntil(() => _introPlayerDirector.time >= 35f);
-        
+
         CPlayerManager.Instance.Controller2D.ChangeState(EPlayerState2D.DownIdle);
         CCameraController.Instance.IsHoldingToTarget = true;
         Vector3 startPosition = CPlayerManager.Instance.Controller2D.transform.position;
@@ -220,7 +216,6 @@ public class CUIManager_Title : MonoBehaviour
         CUIManager.Instance.SetTargetDisplay(0);
         CPlayerManager.Instance.IsCanOperation = true;
 
-        TitleAudio.Stop();
         CWorldManager.Instance.PlayBGM();
         CDataManager.IsSaveData = true;
 
@@ -388,7 +383,7 @@ public class CUIManager_Title : MonoBehaviour
 
         _currentSelectOptionMenu = selectMenuValue;
 
-        if(3 >= _currentSelectOptionMenu)
+        if (3 >= _currentSelectOptionMenu)
         {
             _selectOptionMenuBG.gameObject.SetActive(true);
         }
@@ -414,9 +409,9 @@ public class CUIManager_Title : MonoBehaviour
         UpdateOptionUI_SFX();
     }
 
-    private void ChangeOption( float addValue)
+    private void ChangeOption(float addValue)
     {
-        switch(_currentSelectOptionMenu)
+        switch (_currentSelectOptionMenu)
         {
             case 0:
                 ChangeWindowMode((int)addValue);
@@ -471,11 +466,11 @@ public class CUIManager_Title : MonoBehaviour
                 else if (Input.GetKeyDown(KeyCode.UpArrow))
                     SetSelectOptionMenuBGPoint(3);
             }
-            else if(Input.GetKeyDown(KeyCode.UpArrow))
+            else if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectOptionMenu - 1, 0, 5));
             }
-            else if(Input.GetKeyDown(KeyCode.DownArrow))
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectOptionMenu + 1, 0, 5));
             }
@@ -626,7 +621,7 @@ public class CUIManager_Title : MonoBehaviour
     /// <param name="addValue">추가 값</param>
     public void ChangeResolution(int addValue)
     {
-        _selectResolution += addValue;
+        _selectResolution -= addValue;
 
         if (_selectResolution.Equals(-1))
             _selectResolution = _resolution1.Count - 1;

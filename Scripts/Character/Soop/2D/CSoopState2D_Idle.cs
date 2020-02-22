@@ -14,18 +14,30 @@ public class CSoopState2D_Idle : CSoopState2D
         Vector3 newScale = Vector3.one;
         newScale.x = Controller2D.Manager.Stat.IsSoopDirectionRight ? -1 : 1;
         transform.localScale = newScale;
-
-        _emoticonPoint.position = transform.position + new Vector3(1.4f, 2.5f);
-        _sleepEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);
+        
         _sleepEmoticon.gameObject.SetActive(true);
     }
 
     private void Update()
     {
-        _sleepEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);
+        if (!Controller2D.CanOperation() || CUIManager.Instance.IsOnStageClearUI)
+        {
+            if(_sleepEmoticon.gameObject.activeSelf)
+                _sleepEmoticon.gameObject.SetActive(false);
 
-        if (!Controller2D.CanOperation())
             return;
+        }
+        else
+        {
+            if(!_sleepEmoticon.gameObject.activeSelf)
+                _sleepEmoticon.gameObject.SetActive(true);
+        }
+
+        if (_sleepEmoticon.gameObject.activeSelf)
+        {
+            _emoticonPoint.position = transform.position + new Vector3(1.4f, 2.5f);
+            _sleepEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);
+        }
 
         Vector3 startPoint = Controller2D.Manager.transform.position;
 

@@ -21,7 +21,7 @@ public class CWallPainting : MonoBehaviour
 
         while(_isPlayerOnTrigger && CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View3D))
         {
-            if (!CUIManager.Instance.IsOnWallPainting)
+            if (!CUIManager.Instance.IsOnWallPaintingUI)
             {
                 if (CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.Idle) || 
                     CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.Move) ||
@@ -34,7 +34,7 @@ public class CWallPainting : MonoBehaviour
                         CUIManager.Instance.SetActiveInteractionUI(isOnInteractionUI);
                     }
 
-                    if (Input.GetKeyDown(CKeyManager.InteractionKey))
+                    if (CPlayerManager.Instance.IsCanOperation && Input.GetKeyDown(CKeyManager.InteractionKey))
                     {
                         CUIManager.Instance.SetActivePainting(true, _paintingType, _paintingIndex);
                     }

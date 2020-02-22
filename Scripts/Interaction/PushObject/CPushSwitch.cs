@@ -47,7 +47,7 @@ public class CPushSwitch : MonoBehaviour
         while (true)
         {
             // 상호작용 키를 눌렀을 때 상호작용 로직으로 넘어가고 UI 끄기
-            if(Input.GetKeyDown(CKeyManager.InteractionKey) && !isPreviousePlayerStateChangeView && !CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.PushEnd))
+            if(Input.GetKeyDown(CKeyManager.InteractionKey) && CPlayerManager.Instance.IsCanOperation && !isPreviousePlayerStateChangeView && !CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.PushEnd))
             {
                 CUIManager.Instance.SetActiveInteractionUI(false);
                 StartCoroutine(InteractionSwitchLogic());
@@ -112,7 +112,7 @@ public class CPushSwitch : MonoBehaviour
             }
 
             // 상호작용 취소 키를 눌렀을 때 수행
-            if (Input.GetKeyDown(CKeyManager.InteractionCancelKey))
+            if (Input.GetKeyDown(CKeyManager.InteractionCancelKey) && CPlayerManager.Instance.IsCanOperation)
             {
                 // 플레이어로 타겟을 변경 후 카메라 고정
                 CCameraController.Instance.Target = CPlayerManager.Instance.Controller3D.transform;
@@ -130,14 +130,17 @@ public class CPushSwitch : MonoBehaviour
             }
             else
             {
-                if (Input.GetKey(KeyCode.UpArrow))
-                    _pushBox.MoveBox(Vector3.forward + Vector3.right);
-                else if (Input.GetKey(KeyCode.RightArrow))
-                    _pushBox.MoveBox(Vector3.back + Vector3.right);
-                else if (Input.GetKey(KeyCode.DownArrow))
-                    _pushBox.MoveBox(Vector3.back + Vector3.left);
-                else if (Input.GetKey(KeyCode.LeftArrow))
-                    _pushBox.MoveBox(Vector3.forward + Vector3.left);
+                if (CPlayerManager.Instance.IsCanOperation)
+                {
+                    if (Input.GetKey(KeyCode.UpArrow))
+                        _pushBox.MoveBox(Vector3.forward + Vector3.right);
+                    else if (Input.GetKey(KeyCode.RightArrow))
+                        _pushBox.MoveBox(Vector3.back + Vector3.right);
+                    else if (Input.GetKey(KeyCode.DownArrow))
+                        _pushBox.MoveBox(Vector3.back + Vector3.left);
+                    else if (Input.GetKey(KeyCode.LeftArrow))
+                        _pushBox.MoveBox(Vector3.forward + Vector3.left);
+                }
             }
 
             yield return null;

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml;
 using System.Collections.Generic;
+using System;
 
 public enum EXmlDocumentNames { None, GrassStageDatas, SnowStageDatas, SelectPlayerDatas, Setting }
 
@@ -191,5 +192,19 @@ public static class CDataManager
             return;
 
         _xmlDocuments[_currentXmlDocumentName].Save(_fileDirectoryPath + _currentXmlDocumentName.ToString("G") + ".xml");
+    }
+
+    /// <summary>모든 저장정보 삭제</summary>
+    public static void DeleteAllDatas()
+    {
+        EXmlDocumentNames[] xmlDocumentNameList = (EXmlDocumentNames[])Enum.GetValues(typeof(EXmlDocumentNames));
+
+        foreach (EXmlDocumentNames xmlDocumentName in xmlDocumentNameList)
+        {
+            FileInfo fileInfo = new FileInfo(_fileDirectoryPath + xmlDocumentName.ToString("G") + ".xml");
+
+            if (fileInfo.Exists)
+                fileInfo.Delete();
+        }
     }
 }

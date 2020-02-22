@@ -53,7 +53,6 @@ public class CPlayerManager : CCharacter
         _detectionSoopList.Remove(detectionSoop);
     }
 
-    private bool _isOnSoopDetection = false;
     /// <summary>숲숲이 탐지범위안에 있는지 여부</summary>
     public bool IsOnSoopDetection { get { return _detectionSoopList.Count == 0 ? false : true; } }
 

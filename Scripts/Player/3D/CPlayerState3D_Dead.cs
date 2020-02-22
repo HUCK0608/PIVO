@@ -7,6 +7,7 @@ public class CPlayerState3D_Dead : CPlayerState3D
         base.InitState();
 
         CUIManager.Instance.ActiveDeadUI();
+        CPlayerManager.Instance.IsCanOperation = false;
     }
 
     private void Update()

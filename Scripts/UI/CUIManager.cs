@@ -6,11 +6,15 @@ using System.Collections;
 using UnityEngine.Audio;
 
 public enum EPaintingType { Snow = 0, Temple };
+public enum eTutorialType { Move2D, Move3D, Climb, ViewChange }
 
 public class CUIManager : MonoBehaviour
 {
     private static CUIManager _instance = null;
     public static CUIManager Instance { get { return _instance; } }
+
+    private bool _isCanOperation = true;
+    public bool IsCanOperation { set { _isCanOperation = value; } }
 
     private void Awake()
     {
@@ -28,30 +32,7 @@ public class CUIManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            if(_returnToTitleGroup.activeSelf)
-            {
-                SetActiveReturnToTitle(false);
-                return;
-            }
-            else if(_restartGroup.activeSelf)
-            {
-                SetActiveRestart(false);
-                return;
-            }
-            else if(_optionGroup.activeSelf)
-            {
-                CancelOption();
-                return;
-            }
-
-            if (!_pauseGroup.activeSelf)
-                SetActivePause(true);
-            else
-                SetActivePause(false);
-        }
-        else if(Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (_returnToTitleGroup.activeSelf)
             {
@@ -69,7 +50,30 @@ public class CUIManager : MonoBehaviour
                 return;
             }
 
-            if(_pauseGroup.activeSelf)
+            if (!_pauseGroup.activeSelf)
+                SetActivePause(true);
+            else
+                SetActivePause(false);
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (_returnToTitleGroup.activeSelf)
+            {
+                SetActiveReturnToTitle(false);
+                return;
+            }
+            else if (_restartGroup.activeSelf)
+            {
+                SetActiveRestart(false);
+                return;
+            }
+            else if (_optionGroup.activeSelf)
+            {
+                CancelOption();
+                return;
+            }
+
+            if (_pauseGroup.activeSelf)
                 SetActivePause(false);
         }
 
@@ -99,15 +103,27 @@ public class CUIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject _inGameUI = null;
+    private bool _isOnInGameUI = true;
 
     public void SetActiveInGameUI(bool active)
     {
         _inGameUI.SetActive(active);
+        _isOnInGameUI = active;
     }
 
+    [SerializeField]
+    private GameObject _hpGroup = null;
     /// <summary>체력 애니메이션 리스트</summary>
     [SerializeField]
     private List<Animation> _hpAnimations = null;
+
+    private bool _isOnHpUI = true;
+
+    private void SetActiveHpUI(bool active)
+    {
+        _isOnHpUI = active;
+        _hpGroup.SetActive(active);
+    }
 
     /// <summary>
     /// 체력 UI 설정
@@ -118,9 +134,19 @@ public class CUIManager : MonoBehaviour
         _hpAnimations[currentHp].Play();
     }
 
+    [SerializeField]
+    private GameObject _biscuitGroup = null;
     /// <summary>비스킷 개수 텍스트</summary>
     [SerializeField]
     private Text _biscuitCountText = null;
+
+    bool _isOnBiscuitUI = true;
+
+    private void SetActiveBiscuitUI(bool active)
+    {
+        _isOnBiscuitUI = active;
+        _biscuitGroup.SetActive(active);
+    }
 
     /// <summary>
     /// 비스킷 UI 설정
@@ -136,6 +162,7 @@ public class CUIManager : MonoBehaviour
     private GameObject _interactionGroup = null;
     /// <summary>사용 수</summary>
     private int _useCount = 0;
+    private bool _isOnInteractionUI = false;
 
     /// <summary>상호작용 키 텍스트</summary>
     [SerializeField]
@@ -149,23 +176,168 @@ public class CUIManager : MonoBehaviour
             _useCount = 0;
 
         if (_useCount.Equals(0))
-            _interactionGroup.SetActive(false);
+            _isOnInteractionUI = false;
         else if (!_interactionGroup.activeSelf)
-            _interactionGroup.SetActive(true);
+            _isOnInteractionUI = true;
+
+        // 조건
+        if (true == _isOnInteractionUI)
+        {
+            if (true == _isOnDeadUI) return;
+            if (true == _isOnHoldingUI) return;
+            if (true == _isOnOptionUI) return;
+            if (true == _isOnPauseUI) return;
+            if (true == _isOnRestartUI) return;
+            if (true == _isOnReturnToTitleUI) return;
+            if (true == _isOnStageClearUI) return;
+            if (true == _isOnWallPaintingUI) return;
+        }
+
+        _interactionGroup.SetActive(_isOnInteractionUI);
+    }
+
+    private void SetForceActiveInteractionUI(bool value)
+    {
+        if (true == value && true == _isOnInteractionUI)
+            _interactionGroup.SetActive(value);
+        else if (false == value)
+            _interactionGroup.SetActive(value);
     }
 
     [SerializeField]
     private GameObject _bombExplosionGroup = null;
+    private bool _isOnBombExplosionUI = false;
 
     public void SetActiveBombExplosionUI(bool value)
     {
+        _isOnBombExplosionUI = value;
+
+        if (true == _isOnBombExplosionUI)
+        {
+            if (true == _isOnDeadUI) return;
+            if (true == _isOnHoldingUI) return;
+            if (true == _isOnOptionUI) return;
+            if (true == _isOnPauseUI) return;
+            if (true == _isOnRestartUI) return;
+            if (true == _isOnReturnToTitleUI) return;
+            if (true == _isOnStageClearUI) return;
+            if (true == _isOnWallPaintingUI) return;
+        }
+
         _bombExplosionGroup.SetActive(value);
     }
 
-    [SerializeField]
-    private GameObject _holdingUIGroup = null;
+    private void SetForceActiveBombExplosionUI(bool value)
+    {
+        if (true == value && true == _isOnBombExplosionUI)
+            _bombExplosionGroup.SetActive(value);
+        else if (false == value)
+            _bombExplosionGroup.SetActive(value);
+    }
 
-    public void SetHoldingUI(bool value) { _holdingUIGroup.SetActive(value); }
+    [SerializeField]
+    private GameObject _holdingGroup = null;
+    private bool _isOnHoldingUI = false;
+
+    public void SetActiveHoldingUI(bool value)
+    {
+        _isOnHoldingUI = value;
+
+        if (true == _isOnHoldingUI)
+        {
+            if (true == _isOnDeadUI) return;
+            if (true == _isOnOptionUI) return;
+            if (true == _isOnPauseUI) return;
+            if (true == _isOnRestartUI) return;
+            if (true == _isOnReturnToTitleUI) return;
+            if (true == _isOnStageClearUI) return;
+            if (true == _isOnWallPaintingUI) return;
+        }
+
+        _holdingGroup.SetActive(value);
+    }
+
+    private void SetForceActiveHoldingUI(bool value)
+    {
+        if (true == value && true == _isOnHoldingUI)
+            _holdingGroup.SetActive(value);
+        else if (false == value)
+            _holdingGroup.SetActive(value);
+    }
+
+    #endregion
+
+    #region Tutorial
+
+    [SerializeField]
+    private GameObject _move2DTutorialGroup = null;
+    [SerializeField]
+    private GameObject _move3DTutorialGroup = null;
+    [SerializeField]
+    private GameObject _climbTutorialGroup = null;
+    [SerializeField]
+    private GameObject _viewChangeTutorialGroup = null;
+
+    private bool _isOnMove2DTutorialUI = false;
+    private bool _isOnMove3DTutorialUI = false;
+    private bool _isOnClimbTutorialUI = false;
+    private bool _isOnViewChangeTutorialUI = false;
+
+    public void SetActiveMove2DTutorialUI(bool value)
+    {
+        _isOnMove2DTutorialUI = value;
+        _move2DTutorialGroup.SetActive(value);
+    }
+
+    private void SetForceActiveMove2DTutorialUI(bool value)
+    {
+        if (true == value && true == _isOnMove2DTutorialUI)
+            _move2DTutorialGroup.SetActive(true);
+        else if (false == value)
+            _move2DTutorialGroup.SetActive(false);
+    }
+
+    public void SetActiveMove3DTutorialUI(bool value)
+    {
+        _isOnMove3DTutorialUI = value;
+        _move3DTutorialGroup.SetActive(value);
+    }
+
+    private void SetForceActiveMove3DTutorialUI(bool value)
+    {
+        if (true == value && true == _isOnMove3DTutorialUI)
+            _move3DTutorialGroup.SetActive(true);
+        else if (false == value)
+            _move3DTutorialGroup.SetActive(false);
+    }
+
+    public void SetActiveClimbTutorialUI(bool value)
+    {
+        _isOnClimbTutorialUI = value;
+        _climbTutorialGroup.SetActive(value);
+    }
+
+    private void SetForceActiveClimbTutorialUI(bool value)
+    {
+        if (true == value && true == _isOnClimbTutorialUI)
+            _climbTutorialGroup.SetActive(true);
+        else if (false == value)
+            _climbTutorialGroup.SetActive(false);
+    }
+
+    public void SetActiveViewChangeTutorialUI(bool value)
+    {
+        _isOnViewChangeTutorialUI = value;
+        _viewChangeTutorialGroup.SetActive(value);
+    }
+
+    private void SetForceActiveViewChangeTutorialUI(bool value)
+    {
+        if (true == value && true == _isOnViewChangeTutorialUI)
+            _viewChangeTutorialGroup.SetActive(value);
+        else if (false == value)
+            _viewChangeTutorialGroup.SetActive(value);
+    }
 
     #endregion
 
@@ -185,9 +357,27 @@ public class CUIManager : MonoBehaviour
 
     private bool _isSelectRetry = true;
     private bool _isEndDeadUI = false;
+    private bool _isOnDeadUI = false;
 
     public void ActiveDeadUI()
     {
+        if (true == _isOnStageClearUI) return;
+
+        _isOnDeadUI = true;
+
+        SetForceActiveInteractionUI(false);
+        SetForceActiveBombExplosionUI(false);
+        SetForceActiveHoldingUI(false);
+        SetForceActiveMove2DTutorialUI(false);
+        SetForceActiveMove3DTutorialUI(false);
+        SetForceActiveClimbTutorialUI(false);
+        SetForceActiveViewChangeTutorialUI(false);
+        SetActiveWallPaintingUI(false);
+        SetActivePause(false, false);
+        SetActiveReturnToTitle(false);
+        SetActiveRestart(false);
+        CancelOption();
+
         _deadGroup.SetActive(true);
     }
 
@@ -325,9 +515,9 @@ public class CUIManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> _goArrTemplePainting = null;
 
-    private bool _isOnWallPainting = false;
+    private bool _isOnWallPaintingUI = false;
     /// <summary>벽화가 켜져있는지 여부</summary>
-    public bool IsOnWallPainting { get { return _isOnWallPainting; } }
+    public bool IsOnWallPaintingUI { get { return _isOnWallPaintingUI; } }
 
     /// <summary>
     /// 페인팅 활성화 설정
@@ -337,39 +527,64 @@ public class CUIManager : MonoBehaviour
     /// <param name="active">활성화 여부</param>
     public void SetActivePainting(bool active, EPaintingType paintingType = EPaintingType.Snow, int index = 0)
     {
+        if (true == active)
+        {
+            if (true == _isOnDeadUI) return;
+            if (true == _isOnStageClearUI) return;
+            if (true == _isOnPauseUI) return;
+            if (true == _isOnReturnToTitleUI) return;
+            if (true == _isOnRestartUI) return;
+            if (true == _isOnOptionUI) return;
+
+            SetActiveHpUI(false);
+            SetActiveBiscuitUI(false);
+            SetForceActiveInteractionUI(false);
+            SetForceActiveBombExplosionUI(false);
+            SetForceActiveHoldingUI(false);
+        }
+        else
+        {
+            SetActiveHpUI(true);
+            SetActiveBiscuitUI(true);
+            SetForceActiveInteractionUI(true);
+            SetForceActiveBombExplosionUI(true);
+            SetForceActiveHoldingUI(true);
+        }
+
         CPlayerManager.Instance.IsCanOperation = !active;
 
-        _isOnWallPainting = active;
         index -= 1;
 
         if (!active)
         {
-            SetActivePaintingGroup(active);
+            SetActiveWallPaintingUI(active);
         }
         else
         {
             ActivatePainting(paintingType, index);
             ActivatePaintingType(paintingType);
-            SetActivePaintingGroup(true);
+            SetActiveWallPaintingUI(true);
             CPlayerManager.Instance.Controller3D.ChangeState(EPlayerState3D.Idle);
         }
     }
 
-    private void SetActivePaintingGroup(bool active)
+    private void SetActiveWallPaintingUI(bool active)
     {
+        _isOnWallPaintingUI = active;
+        CCameraController.Instance.SetActivateBlur(active);
         _goWallPaintingGroup.SetActive(active);
     }
 
     private void ActivatePainting(EPaintingType paintingType, int index)
     {
-        if(paintingType.Equals(EPaintingType.Snow))
+        if (paintingType.Equals(EPaintingType.Snow))
         {
             for (int i = 0; i < _goArrSnowPainting.Count; i++)
                 SetActiveSnowPainting(i, false);
 
             SetActiveSnowPainting(index, true);
         }
-        else if(paintingType.Equals(EPaintingType.Temple))
+        else if (paintingType.Equals(EPaintingType.Temple))
         {
             for (int i = 0; i < _goArrTemplePainting.Count; i++)
                 SetActiveTemplePainting(i, false);
@@ -420,8 +635,6 @@ public class CUIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject _stageClear = null;
-    [SerializeField]
-    private Design_ClearCorgiCamera _ClearCorgiCamera = null;
 
     [SerializeField]
     private GameObject[] _grayStars = null;
@@ -429,15 +642,10 @@ public class CUIManager : MonoBehaviour
     private GameObject[] _yellowStars = null;
 
     [SerializeField]
-    private GameObject[] _grayLine = null;
-    [SerializeField]
-    private GameObject[] _yellowLine = null;
-
-    [SerializeField]
-    private Text biscuitCount = null;
-
-    [SerializeField]
     private Text[] _stageClearRequirementTexts = null;
+
+    private bool _isOnStageClearUI = false;
+    public bool IsOnStageClearUI { get { return _isOnStageClearUI; } }
 
     private void StageClearLogic()
     {
@@ -447,6 +655,22 @@ public class CUIManager : MonoBehaviour
 
     public void SetActiveStageClear(bool active)
     {
+        if (true == active)
+        {
+            SetActiveHpUI(false);
+            SetActiveBiscuitUI(false);
+            SetForceActiveInteractionUI(false);
+            SetForceActiveBombExplosionUI(false);
+            SetForceActiveHoldingUI(false);
+            SetActiveWallPaintingUI(false);
+            SetActivePause(false, false);
+            SetActiveReturnToTitle(false);
+            SetActiveRestart(false);
+            CancelOption();
+        }
+
+        _isOnStageClearUI = active;
+
         if (active)
         {
             SetStar();
@@ -459,13 +683,10 @@ public class CUIManager : MonoBehaviour
 
         gameObject.SetActive(false);
         gameObject.SetActive(true);
-        _ClearCorgiCamera.SetFinishAnim();
     }
 
     private void SetStar()
     {
-        biscuitCount.text = "x " + CBiscuitManager.Instance.GetCurrentBiscuitCount().ToString();
-
         for (int i = 0; i < CBiscuitManager.Instance.GetCurrentStar(); i++)
             SetActiveYellowStar(i, true);
     }
@@ -474,19 +695,13 @@ public class CUIManager : MonoBehaviour
     {
         _yellowStars[index].SetActive(active);
         _grayStars[index].SetActive(!active);
-
-        if (index > 0)
-        {
-            _grayLine[index-1].SetActive(!active);
-            _yellowLine[index-1].SetActive(active);
-        }
     }
 
     private void SetStageClearRequirementText()
     {
         int[] requirement = CBiscuitManager.Instance.Requirements;
 
-        for(int i = 0; i < 3; i ++)
+        for (int i = 0; i < 3; i++)
             _stageClearRequirementTexts[i].text = string.Format("{0}", requirement[i].ToString());
     }
 
@@ -495,7 +710,10 @@ public class CUIManager : MonoBehaviour
         if (CWorldManager.Instance.IsUseTimeLineScene)
             CWorldManager.Instance.StageClearWaitTimeLineScene(CWorldManager.Instance.TimeLineSceneName);
         else
+        {
+            CBiscuitManager.Instance.SaveDatas();
             CWorldManager.Instance.StageClear();
+        }
     }
 
     #endregion
@@ -517,16 +735,50 @@ public class CUIManager : MonoBehaviour
     private int _pauseSelectMenu = 0;
 
     private bool _isInitPause = false;
+    private bool _isOnPauseUI = false;
 
     public void SetActivePause(bool active, bool isSetPlayerOperation = true)
     {
+        if (true == active)
+        {
+            if (false == _isCanOperation) return;
+            if (true == _isOnDeadUI) return;
+            if (true == _isOnStageClearUI) return;
+
+            Time.timeScale = 0;
+            SetActiveHpUI(false);
+            SetActiveBiscuitUI(false);
+            SetForceActiveInteractionUI(false);
+            SetForceActiveBombExplosionUI(false);
+            SetForceActiveHoldingUI(false);
+            SetForceActiveMove2DTutorialUI(false);
+            SetForceActiveMove3DTutorialUI(false);
+            SetForceActiveClimbTutorialUI(false);
+            SetForceActiveViewChangeTutorialUI(false);
+            SetActiveWallPaintingUI(false);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            SetActiveHpUI(true);
+            SetActiveBiscuitUI(true);
+            SetForceActiveInteractionUI(true);
+            SetForceActiveBombExplosionUI(true);
+            SetForceActiveHoldingUI(true);
+            SetForceActiveMove2DTutorialUI(true);
+            SetForceActiveMove3DTutorialUI(true);
+            SetForceActiveClimbTutorialUI(true);
+            SetForceActiveViewChangeTutorialUI(true);
+        }
+
         _isInitPause = false;
+        _isOnPauseUI = active;
         _pauseGroup.SetActive(active);
 
-        if (active)
+        if (active && isSetPlayerOperation)
             PlayerCanOperationFalse();
-        else if(isSetPlayerOperation)
-            Invoke("PlayerCanOperationTrue", Time.deltaTime);
+        else if (!active && isSetPlayerOperation)
+            Invoke("PlayerCanOperationTrue", 0.05f);
 
         CCameraController.Instance.SetActivateBlur(active);
 
@@ -647,7 +899,7 @@ public class CUIManager : MonoBehaviour
 
     private void ExcuteExit_Pause()
     {
-        SetActivePause(false , false);
+        SetActivePause(false, false);
         SetActiveReturnToTitle(true);
     }
 
@@ -666,16 +918,49 @@ public class CUIManager : MonoBehaviour
     private int _returnToTitleSelectMenu = 0;
 
     private bool _isInitReturnToTitle = false;
+    private bool _isOnReturnToTitleUI = false;
 
     public void SetActiveReturnToTitle(bool active)
     {
+        if (true == active)
+        {
+            if (true == _isOnDeadUI) return;
+            if (true == _isOnStageClearUI) return;
+
+            Time.timeScale = 0;
+            SetActiveHpUI(false);
+            SetActiveBiscuitUI(false);
+            SetForceActiveInteractionUI(false);
+            SetForceActiveBombExplosionUI(false);
+            SetForceActiveHoldingUI(false);
+            SetForceActiveMove2DTutorialUI(false);
+            SetForceActiveMove3DTutorialUI(false);
+            SetForceActiveClimbTutorialUI(false);
+            SetForceActiveViewChangeTutorialUI(false);
+            SetActiveWallPaintingUI(false);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            SetActiveHpUI(true);
+            SetActiveBiscuitUI(true);
+            SetForceActiveInteractionUI(true);
+            SetForceActiveBombExplosionUI(true);
+            SetForceActiveHoldingUI(true);
+            SetForceActiveMove2DTutorialUI(true);
+            SetForceActiveMove3DTutorialUI(true);
+            SetForceActiveClimbTutorialUI(true);
+            SetForceActiveViewChangeTutorialUI(true);
+        }
+
         _isInitReturnToTitle = false;
+        _isOnReturnToTitleUI = active;
         _returnToTitleGroup.SetActive(active);
 
         if (active)
             PlayerCanOperationFalse();
         else
-            Invoke("PlayerCanOperationTrue", Time.deltaTime);
+            Invoke("PlayerCanOperationTrue", 0.05f);
 
         CCameraController.Instance.SetActivateBlur(active);
 
@@ -768,16 +1053,49 @@ public class CUIManager : MonoBehaviour
     private int _RestartSelectMenu = 0;
 
     private bool _isInitRestart = false;
+    private bool _isOnRestartUI = false;
 
     public void SetActiveRestart(bool active)
     {
+        if (true == active)
+        {
+            if (true == _isOnDeadUI) return;
+            if (true == _isOnStageClearUI) return;
+
+            Time.timeScale = 0;
+            SetActiveHpUI(false);
+            SetActiveBiscuitUI(false);
+            SetForceActiveInteractionUI(false);
+            SetForceActiveBombExplosionUI(false);
+            SetForceActiveHoldingUI(false);
+            SetForceActiveMove2DTutorialUI(false);
+            SetForceActiveMove3DTutorialUI(false);
+            SetForceActiveClimbTutorialUI(false);
+            SetForceActiveViewChangeTutorialUI(false);
+            SetActiveWallPaintingUI(false);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            SetActiveHpUI(true);
+            SetActiveBiscuitUI(true);
+            SetForceActiveInteractionUI(true);
+            SetForceActiveBombExplosionUI(true);
+            SetForceActiveHoldingUI(true);
+            SetForceActiveMove2DTutorialUI(true);
+            SetForceActiveMove3DTutorialUI(true);
+            SetForceActiveClimbTutorialUI(true);
+            SetForceActiveViewChangeTutorialUI(true);
+        }
+
         _isInitRestart = false;
+        _isOnRestartUI = active;
         _restartGroup.SetActive(active);
 
         if (active)
             PlayerCanOperationFalse();
         else
-            Invoke("PlayerCanOperationTrue", Time.deltaTime);
+            Invoke("PlayerCanOperationTrue", 0.05f);
 
         CCameraController.Instance.SetActivateBlur(active);
 
@@ -868,7 +1186,14 @@ public class CUIManager : MonoBehaviour
     /// <summary>현재 옵션 선택 메뉴</summary>
     private int _currentSelectMenu_OptionMenu = 0;
 
+    [SerializeField]
+    private GameObject _applyInactive_OptionMenu = null, _applyActive_OptionMenu = null, _applyActiveSelect_OptionMenu = null;
+    [SerializeField]
+    private GameObject _cancel_OptionMenu = null, _cancelSelect_OptionMenu = null;
+
     private bool _isOptionInitialize = false;
+    private bool _isChangeOption = false;
+    private bool _isOnOptionUI = false;
 
     /// <summary>옵션 설정 저장</summary>
     private void SaveOptionData()
@@ -916,12 +1241,47 @@ public class CUIManager : MonoBehaviour
     /// <summary>옵션 메뉴 활성화</summary>
     private void SetActiveOption(bool active)
     {
+        if (true == active)
+        {
+            if (true == _isOnDeadUI) return;
+            if (true == _isOnStageClearUI) return;
+
+            Time.timeScale = 0;
+            SetActiveHpUI(false);
+            SetActiveBiscuitUI(false);
+            SetForceActiveInteractionUI(false);
+            SetForceActiveBombExplosionUI(false);
+            SetForceActiveHoldingUI(false);
+            SetForceActiveMove2DTutorialUI(false);
+            SetForceActiveMove3DTutorialUI(false);
+            SetForceActiveClimbTutorialUI(false);
+            SetForceActiveViewChangeTutorialUI(false);
+            SetActiveWallPaintingUI(false);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            SetActiveHpUI(true);
+            SetActiveBiscuitUI(true);
+            SetForceActiveInteractionUI(true);
+            SetForceActiveBombExplosionUI(true);
+            SetForceActiveHoldingUI(true);
+            SetForceActiveMove2DTutorialUI(true);
+            SetForceActiveMove3DTutorialUI(true);
+            SetForceActiveClimbTutorialUI(true);
+            SetForceActiveViewChangeTutorialUI(true);
+        }
+
+        _isOnOptionUI = false;
         _optionGroup.SetActive(active);
 
         if (active)
+        {
             PlayerCanOperationFalse();
+            InitButtonOptionMenu();
+        }
         else
-            Invoke("PlayerCanOperationTrue", Time.deltaTime);
+            Invoke("PlayerCanOperationTrue", 0.05f);
 
         CCameraController.Instance.SetActivateBlur(active);
 
@@ -943,23 +1303,83 @@ public class CUIManager : MonoBehaviour
         if (_currentSelectMenu_OptionMenu.Equals(selectMenuValue))
             return;
 
+
         _currentSelectMenu_OptionMenu = selectMenuValue;
+
+        // 바꾼게 없을 경우 Apply로 오면 Cancel로 넘김
+        if(false == _isChangeOption && 5 == selectMenuValue)
+        {
+            _currentSelectMenu_OptionMenu = 4;
+        }
 
         if (3 >= _currentSelectMenu_OptionMenu)
         {
+            InitButtonOptionMenu();
             _selectOptionMenuBG.gameObject.SetActive(true);
+            Vector3 temp = Vector3.up * 70f;
+            _selectOptionMenuBG.localPosition = -temp * _currentSelectMenu_OptionMenu + temp + Vector3.right * -65f;
         }
         else
         {
-            PlayPointerUpAudio();
             _selectOptionMenuBG.gameObject.SetActive(false);
-            return;
+            SetSelectButtonOptionMenu(_currentSelectMenu_OptionMenu);
         }
 
-        Vector3 temp = Vector3.up * 70f;
-        _selectOptionMenuBG.localPosition = -temp * _currentSelectMenu_OptionMenu + temp + Vector3.right * -65f;
+        PlayPointerUpAudio();
+    }
+
+    public void InitButtonOptionMenu()
+    {
+        _applyInactive_OptionMenu.SetActive(false);
+        _applyActive_OptionMenu.SetActive(false);
+        _applyActiveSelect_OptionMenu.SetActive(false);
+        _cancel_OptionMenu.SetActive(false);
+        _cancelSelect_OptionMenu.SetActive(false);
+
+        if(_isChangeOption)
+            _applyActive_OptionMenu.SetActive(true);
+        else
+            _applyInactive_OptionMenu.SetActive(true);
+
+        _cancel_OptionMenu.SetActive(true);
+    }
+
+    public void SetSelectButtonOptionMenu(int selectMenuValue)
+    {
+        if(4 == selectMenuValue)
+        {
+            if (_isChangeOption)
+            {
+                _applyActive_OptionMenu.SetActive(true);
+                _applyActiveSelect_OptionMenu.SetActive(false);
+            }
+            _cancel_OptionMenu.SetActive(false);
+            _cancelSelect_OptionMenu.SetActive(true);
+        }
+        else if(5 == selectMenuValue)
+        {
+            _applyActive_OptionMenu.SetActive(false);
+            _applyActiveSelect_OptionMenu.SetActive(true);
+            _cancel_OptionMenu.SetActive(true);
+            _cancelSelect_OptionMenu.SetActive(false);
+        }
 
         PlayPointerUpAudio();
+    }
+
+    private void SetActiveApplyButtonOptionMenu(bool value)
+    {
+        if (_isChangeOption == value)
+            return;
+
+        _isChangeOption = value;
+
+        _applyInactive_OptionMenu.SetActive(false);
+        _applyActive_OptionMenu.SetActive(false);
+        _applyActiveSelect_OptionMenu.SetActive(false);
+
+        _applyActive_OptionMenu.SetActive(_isChangeOption);
+        _applyInactive_OptionMenu.SetActive(!_isChangeOption);
     }
 
     /// <summary>옵션 업데이트</summary>
@@ -999,6 +1419,11 @@ public class CUIManager : MonoBehaviour
             {
                 CancelOption();
             }
+            else if(_currentSelectMenu_OptionMenu == 5)
+            {
+                ApplyOption();
+                SetSelectOptionMenuBGPoint(4);
+            }
             else
             {
                 ApplyOption();
@@ -1008,13 +1433,11 @@ public class CUIManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                _currentSelectMenu_OptionMenu = Mathf.Clamp(_currentSelectMenu_OptionMenu - 1, 4, 5);
-                PlayPointerUpAudio();
+                SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectMenu_OptionMenu - 1, true == _isChangeOption ? 4 : 5, 5));
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                _currentSelectMenu_OptionMenu = Mathf.Clamp(_currentSelectMenu_OptionMenu + 1, 4, 5);
-                PlayPointerUpAudio();
+                SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectMenu_OptionMenu + 1, true == _isChangeOption ? 4 : 5, 5));
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow))
                 SetSelectOptionMenuBGPoint(3);
@@ -1054,6 +1477,8 @@ public class CUIManager : MonoBehaviour
         {
             SaveOptionData();
         }
+
+        SetActiveApplyButtonOptionMenu(false);
     }
 
     /// <summary>윈도우 모드 및 해상도 변경</summary>
@@ -1092,6 +1517,7 @@ public class CUIManager : MonoBehaviour
 
         PlayPointerEnterAudio();
 
+        SetActiveApplyButtonOptionMenu(false);
         SetActiveOption(false);
     }
 
@@ -1137,6 +1563,7 @@ public class CUIManager : MonoBehaviour
         UpdateOptionUI_WindowMode();
 
         PlayPointerUpAudio();
+        SetActiveApplyButtonOptionMenu(true);
     }
 
     /// <summary>윈도우 모드 UI 업데이트</summary>
@@ -1179,6 +1606,7 @@ public class CUIManager : MonoBehaviour
         UpdateOptionUI_Resolution();
 
         PlayPointerUpAudio();
+        SetActiveApplyButtonOptionMenu(true);
     }
 
     /// <summary>해상도 UI 업데이트</summary>
@@ -1222,13 +1650,15 @@ public class CUIManager : MonoBehaviour
     private void UpdateOptionUI_SFX() { _SFXScroll.SetScroll(_currentSFXNormalizedValue); }
 
     /// <summary>BGM 볼륨 설정</summary>
-    public void ChangeBGMVolume() { _selectBGMNormalizedValue = _BGMScroll.NormalizedValue; }
+    public void ChangeBGMVolume() { _selectBGMNormalizedValue = _BGMScroll.NormalizedValue; SetActiveApplyButtonOptionMenu(true); }
     /// <summary>SFX 볼륨 설정</summary>
-    public void ChangeSFXVolume() { _selectSFXNormalizedValue = _SFXScroll.NormalizedValue; }
-    public void ChangeBGMVolume(float addValue) { _selectBGMNormalizedValue = Mathf.Clamp(_selectBGMNormalizedValue + addValue, 0f, 1f); _BGMScroll.SetScroll(_selectBGMNormalizedValue); }
-    public void ChangeSFXVolume(float addValue) { _selectSFXNormalizedValue = Mathf.Clamp(_selectSFXNormalizedValue + addValue, 0f, 1f); _SFXScroll.SetScroll(_selectSFXNormalizedValue); }
+    public void ChangeSFXVolume() { _selectSFXNormalizedValue = _SFXScroll.NormalizedValue; SetActiveApplyButtonOptionMenu(true); }
+    public void ChangeBGMVolume(float addValue) { _selectBGMNormalizedValue = Mathf.Clamp(_selectBGMNormalizedValue + addValue, 0f, 1f); _BGMScroll.SetScroll(_selectBGMNormalizedValue); SetActiveApplyButtonOptionMenu(true); }
+    public void ChangeSFXVolume(float addValue) { _selectSFXNormalizedValue = Mathf.Clamp(_selectSFXNormalizedValue + addValue, 0f, 1f); _SFXScroll.SetScroll(_selectSFXNormalizedValue); SetActiveApplyButtonOptionMenu(true); }
 
     #endregion
+
+    #region Util
 
     private void PlayerCanOperationFalse()
     {
@@ -1239,4 +1669,6 @@ public class CUIManager : MonoBehaviour
     {
         CPlayerManager.Instance.IsCanOperation = true;
     }
+
+    #endregion
 }

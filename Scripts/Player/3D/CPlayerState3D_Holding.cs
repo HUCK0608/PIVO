@@ -12,7 +12,7 @@ public class CPlayerState3D_Holding : CPlayerState3D
     {
         base.InitState();
 
-        CUIManager.Instance.SetHoldingUI(true);
+        CUIManager.Instance.SetActiveHoldingUI(true);
         Controller3D.IsUseGravity = false;
 
         _holdingAddTime = 0f;
@@ -43,7 +43,7 @@ public class CPlayerState3D_Holding : CPlayerState3D
 
     public override void EndState()
     {
-        CUIManager.Instance.SetHoldingUI(false);
+        CUIManager.Instance.SetActiveHoldingUI(false);
         Controller3D.IsUseGravity = true;
     }
 }

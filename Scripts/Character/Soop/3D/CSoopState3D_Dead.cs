@@ -24,7 +24,19 @@ public class CSoopState3D_Dead : CSoopState3D
 
     private void Update()
     {
-        _stunEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);
+        if (CUIManager.Instance.IsOnStageClearUI)
+        {
+            if (_stunEmoticon.gameObject.activeSelf)
+                _stunEmoticon.gameObject.SetActive(false);
+        }
+        else
+        {
+            if (!_stunEmoticon.gameObject.activeSelf)
+                _stunEmoticon.gameObject.SetActive(true);
+        }
+
+        if(_stunEmoticon.gameObject.activeSelf)
+            _stunEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);
 
         AnimatorStateInfo currentAnimtorStateInfo = Controller3D.Animator.GetCurrentAnimatorStateInfo(0);
         if (!currentAnimtorStateInfo.IsName("Dead"))
