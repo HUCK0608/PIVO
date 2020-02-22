@@ -115,7 +115,7 @@ public class CStageManager : MonoBehaviour
                 if (datas[3] != null)
                     _stages[i].IsUnlock = datas[3].ToBoolean();
                 else
-                    _stages[i].IsClear = false;
+                    _stages[i].IsUnlock = false;
 
                 if (datas[4] != null)
                     _stages[i].Stars = int.Parse(datas[4]);

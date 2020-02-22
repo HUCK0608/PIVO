@@ -208,8 +208,8 @@ public class CWorldManager : MonoBehaviour
 
         // 저장에 필요한 변수 설정
         string nodePath = documentName.ToString("G") + "/StageDatas/" + currentSceneName;
-        string[] elementsName = new string[] { "IsClear" };
-        string[] datas = new string[] { "True" };
+        string[] elementsName = new string[] { "IsClear", "IsUnlock" };
+        string[] datas = new string[] { "True", "True" };
 
         // 데이터 쓰기
         CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
