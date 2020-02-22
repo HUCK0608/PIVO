@@ -1987,6 +1987,7 @@ MonoBehaviour:
   - {fileID: 713372341}
   - {fileID: 838755998}
   - {fileID: 1551287462}
+  _stageText: {fileID: 34163200444098618}
   _blackBG: {fileID: 368650162583881650}
   _blackBGIncreaseValue: 0.5
   _returnToTitleGroup: {fileID: 4071705108937738609}

@@ -29,6 +29,9 @@ public class CUIManager_StageSelect : MonoBehaviour
     [SerializeField]
     private Text[] _requirementsText = null;
 
+    [SerializeField]
+    private Text _stageText = null;
+
     bool _isActiveStar = true;
 
     /// <summary>
@@ -43,6 +46,7 @@ public class CUIManager_StageSelect : MonoBehaviour
         SetStar();
         SetTotalStarText();
         SetRequirementText();
+        SetStageText();
     }
 
     private void SetTotalStarText()
@@ -92,6 +96,11 @@ public class CUIManager_StageSelect : MonoBehaviour
             _requirementsText[i].gameObject.SetActive(true);
             _requirementsText[i].text = _currentStage.Requirements[i].ToString();
         }
+    }
+
+    private void SetStageText()
+    {
+        _stageText.text = _currentStage.StageNameForUI;
     }
 
     /// <summary>검은 화면 이미지</summary>

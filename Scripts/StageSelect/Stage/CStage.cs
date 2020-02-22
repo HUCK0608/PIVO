@@ -11,6 +11,11 @@ public class CStage : MonoBehaviour
     public string GameSceneName { get { return _gameSceneName; } }
 
     [SerializeField]
+    private string _stageNameForUI = null;
+    /// <summary>UI에 나오는 스테이지 이름</summary>
+    public string StageNameForUI { get { return _stageNameForUI; } }
+
+    [SerializeField]
     private int _maxBiscuitCount = 0;
     /// <summary>최대 비스킷 개수</summary>
     public int MaxBiscuitCount { get { return _maxBiscuitCount; } set { _maxBiscuitCount = value; } }
