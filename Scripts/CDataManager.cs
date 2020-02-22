@@ -198,6 +198,8 @@ public static class CDataManager
     public static void DeleteAllInGameData()
     {
         SaveCurrentXmlDocument(true);
+        _xmlDocuments.Clear();
+        _currentXmlDocumentName = EXmlDocumentNames.None;
 
         EXmlDocumentNames[] xmlDocumentNameList = (EXmlDocumentNames[])Enum.GetValues(typeof(EXmlDocumentNames));
 
