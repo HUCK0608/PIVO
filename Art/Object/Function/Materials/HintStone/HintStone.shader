@@ -35,7 +35,7 @@
 		
 
 			float4 c = tex2D (_MainTex, IN.uv_MainTex);
-			float4 WH = tex2D (_MainTex3, float2(IN.uv_MainTex.x+DI, IN.uv_MainTex.y+DI-_Time.y*0.2* _FlowSpeed));
+			float4 WH = tex2D (_MainTex3, float2(IN.uv_MainTex.x+DI, IN.uv_MainTex.y+DI-_Time.y*0.2));
 
 			//0일때 흑백, 1일때 파랑
 			o.Emission = lerp((lerp(c.rgb, c.rgb+WH*0.7, WH.a).r + lerp(c.rgb, c.rgb + WH * 0.7, WH.a).g + lerp(c.rgb, c.rgb + WH * 0.7, WH.a).b ) / 12 , lerp(c.rgb, c.rgb + WH * 0.7, WH.a), _Monotone);
