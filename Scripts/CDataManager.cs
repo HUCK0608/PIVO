@@ -4,7 +4,7 @@ using System.Xml;
 using System.Collections.Generic;
 using System;
 
-public enum EXmlDocumentNames { None, GrassStageDatas, SnowStageDatas, SelectPlayerDatas, Setting }
+public enum EXmlDocumentNames { None = 0, InGameDataOrigin = 1, GrassStageDatas, SnowStageDatas, SelectPlayerDatas, InGameDataDest, Setting }
 
 public static class CDataManager
 {
@@ -194,14 +194,16 @@ public static class CDataManager
         _xmlDocuments[_currentXmlDocumentName].Save(_fileDirectoryPath + _currentXmlDocumentName.ToString("G") + ".xml");
     }
 
-    /// <summary>모든 저장정보 삭제</summary>
-    public static void DeleteAllDatas()
+    /// <summary>세팅을 제외한 모든 인게임 저장정보 삭제</summary>
+    public static void DeleteAllInGameData()
     {
+        SaveCurrentXmlDocument(true);
+
         EXmlDocumentNames[] xmlDocumentNameList = (EXmlDocumentNames[])Enum.GetValues(typeof(EXmlDocumentNames));
 
-        foreach (EXmlDocumentNames xmlDocumentName in xmlDocumentNameList)
+        for(int i = (int)EXmlDocumentNames.InGameDataOrigin + 1; i < (int)EXmlDocumentNames.InGameDataDest; i++)
         {
-            FileInfo fileInfo = new FileInfo(_fileDirectoryPath + xmlDocumentName.ToString("G") + ".xml");
+            FileInfo fileInfo = new FileInfo(_fileDirectoryPath + xmlDocumentNameList[i].ToString("G") + ".xml");
 
             if (fileInfo.Exists)
                 fileInfo.Delete();

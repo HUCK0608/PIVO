@@ -159,7 +159,7 @@ public class CUIManager_Title : MonoBehaviour
         {
             case 0:
                 _animator.SetBool("IsFadeOut", true);
-                CDataManager.DeleteAllDatas();
+                CDataManager.DeleteAllInGameData();
                 PlayerPrefs.DeleteAll();
                 break;
             case 1:
