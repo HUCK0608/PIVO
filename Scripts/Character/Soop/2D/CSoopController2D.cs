@@ -89,6 +89,9 @@ public class CSoopController2D : MonoBehaviour
     /// <summary>플레이어가 탐지되었는지 여부</summary>
     public bool IsDetectionPlayer()
     {
+        if (CPlayerManager.Instance.Controller2D.CurrentState.Equals(EPlayerState2D.Climb))
+            return false;
+
         Vector2 playerPosition = CPlayerManager.Instance.RootObject2D.transform.position;
         Vector2 detectionAreaPosition = _manager.Stat.DetectionAreaPosition;
         Vector3 detectionAreaHalfSize = _manager.Stat.DetectionAreaSize * 0.5f;
