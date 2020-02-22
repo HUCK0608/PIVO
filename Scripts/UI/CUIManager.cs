@@ -1303,7 +1303,6 @@ public class CUIManager : MonoBehaviour
         if (_currentSelectMenu_OptionMenu.Equals(selectMenuValue))
             return;
 
-
         _currentSelectMenu_OptionMenu = selectMenuValue;
 
         // 바꾼게 없을 경우 Apply로 오면 Cancel로 넘김

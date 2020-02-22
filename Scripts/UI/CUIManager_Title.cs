@@ -75,7 +75,7 @@ public class CUIManager_Title : MonoBehaviour
         CWorldManager.Instance.AllObjectsCanChange2D();
         CWorldManager.Instance.ChangeWorld();
 
-        StartCoroutine(MainMenuInputLogic());
+        StartCoroutine("MainMenuInputLogic");
 
         LoadOptionData();
         _isOptionInitialize = true;
@@ -184,6 +184,7 @@ public class CUIManager_Title : MonoBehaviour
                 break;
             case 2:
                 StartCoroutine("OptionMenuInputLogic");
+                StopCoroutine("MainMenuInputLogic");
                 break;
             case 3:
                 Application.Quit();
@@ -307,9 +308,15 @@ public class CUIManager_Title : MonoBehaviour
     [SerializeField]
     private Transform _selectOptionMenuBG = null;
     /// <summary>현재 옵션 선택 메뉴</summary>
-    private int _currentSelectOptionMenu = 0;
+    private int _currentSelectMenu_OptionMenu = 0;
+
+    [SerializeField]
+    private GameObject _applyInactive_OptionMenu = null, _applyActive_OptionMenu = null, _applyActiveSelect_OptionMenu = null;
+    [SerializeField]
+    private GameObject _cancel_OptionMenu = null, _cancelSelect_OptionMenu = null;
 
     private bool _isOptionInitialize = false;
+    private bool _isChangeOption = false;
 
     /// <summary>옵션 설정 저장</summary>
     private void SaveOptionData()
@@ -361,6 +368,7 @@ public class CUIManager_Title : MonoBehaviour
 
         // 선택 메뉴 초기화(맨 위)
         SetSelectOptionMenuBGPoint(0);
+        InitButtonOptionMenu();
     }
 
     /// <summary>옵션 메뉴 비활성화</summary>
@@ -371,33 +379,92 @@ public class CUIManager_Title : MonoBehaviour
         SetActiveMainMenu(true);
         SetActiveOptionMenu(false);
 
-        StartCoroutine(MainMenuInputLogic());
+        StartCoroutine("MainMenuInputLogic");
         StopCoroutine("OptionMenuInputLogic");
     }
 
     /// <summary>선택 옵션 메뉴 BG 위치 설정</summary>
     public void SetSelectOptionMenuBGPoint(int selectMenuValue)
     {
-        if (_currentSelectOptionMenu.Equals(selectMenuValue))
+        if (_currentSelectMenu_OptionMenu.Equals(selectMenuValue))
             return;
 
-        _currentSelectOptionMenu = selectMenuValue;
+        _currentSelectMenu_OptionMenu = selectMenuValue;
 
-        if (3 >= _currentSelectOptionMenu)
+        // 바꾼게 없을 경우 Apply로 오면 Cancel로 넘김
+        if (false == _isChangeOption && 5 == selectMenuValue)
         {
+            _currentSelectMenu_OptionMenu = 4;
+        }
+
+        if (3 >= _currentSelectMenu_OptionMenu)
+        {
+            InitButtonOptionMenu();
             _selectOptionMenuBG.gameObject.SetActive(true);
+            Vector3 temp = Vector3.up * 70f;
+            _selectOptionMenuBG.localPosition = -temp * _currentSelectMenu_OptionMenu + temp + Vector3.right * -65f;
         }
         else
         {
-            PlayPointerUpAudio();
             _selectOptionMenuBG.gameObject.SetActive(false);
-            return;
+            SetSelectButtonOptionMenu(_currentSelectMenu_OptionMenu);
         }
 
-        Vector3 temp = Vector3.up * 70f;
-        _selectOptionMenuBG.localPosition = -temp * _currentSelectOptionMenu + temp + Vector3.right * -65f;
+        PlayPointerUpAudio();
+    }
+
+    public void InitButtonOptionMenu()
+    {
+        _applyInactive_OptionMenu.SetActive(false);
+        _applyActive_OptionMenu.SetActive(false);
+        _applyActiveSelect_OptionMenu.SetActive(false);
+        _cancel_OptionMenu.SetActive(false);
+        _cancelSelect_OptionMenu.SetActive(false);
+
+        if (_isChangeOption)
+            _applyActive_OptionMenu.SetActive(true);
+        else
+            _applyInactive_OptionMenu.SetActive(true);
+
+        _cancel_OptionMenu.SetActive(true);
+    }
+
+    public void SetSelectButtonOptionMenu(int selectMenuValue)
+    {
+        if (4 == selectMenuValue)
+        {
+            if (_isChangeOption)
+            {
+                _applyActive_OptionMenu.SetActive(true);
+                _applyActiveSelect_OptionMenu.SetActive(false);
+            }
+            _cancel_OptionMenu.SetActive(false);
+            _cancelSelect_OptionMenu.SetActive(true);
+        }
+        else if (5 == selectMenuValue)
+        {
+            _applyActive_OptionMenu.SetActive(false);
+            _applyActiveSelect_OptionMenu.SetActive(true);
+            _cancel_OptionMenu.SetActive(true);
+            _cancelSelect_OptionMenu.SetActive(false);
+        }
 
         PlayPointerUpAudio();
+    }
+
+    private void SetActiveApplyButtonOptionMenu(bool value)
+    {
+        if (_isChangeOption == value)
+            return;
+
+        _isChangeOption = value;
+
+        _applyInactive_OptionMenu.SetActive(false);
+        _applyActive_OptionMenu.SetActive(false);
+        _applyActiveSelect_OptionMenu.SetActive(false);
+
+        _applyActive_OptionMenu.SetActive(_isChangeOption);
+        _applyInactive_OptionMenu.SetActive(!_isChangeOption);
     }
 
     /// <summary>옵션 업데이트</summary>
@@ -411,7 +478,7 @@ public class CUIManager_Title : MonoBehaviour
 
     private void ChangeOption(float addValue)
     {
-        switch (_currentSelectOptionMenu)
+        switch (_currentSelectMenu_OptionMenu)
         {
             case 0:
                 ChangeWindowMode((int)addValue);
@@ -441,9 +508,14 @@ public class CUIManager_Title : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Return))
             {
-                if (_currentSelectOptionMenu == 4)
+                if (_currentSelectMenu_OptionMenu == 4)
                 {
-                    break;
+                    CancelOption();
+                }
+                else if(_currentSelectMenu_OptionMenu == 5)
+                {
+                    ApplyOption();
+                    SetSelectOptionMenuBGPoint(4);
                 }
                 else
                 {
@@ -451,37 +523,35 @@ public class CUIManager_Title : MonoBehaviour
                 }
             }
 
-            if (_currentSelectOptionMenu == 4 || _currentSelectOptionMenu == 5)
+            if (_currentSelectMenu_OptionMenu == 4 || _currentSelectMenu_OptionMenu == 5)
             {
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    _currentSelectOptionMenu = Mathf.Clamp(_currentSelectOptionMenu - 1, 4, 5);
-                    PlayPointerUpAudio();
+                    SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectMenu_OptionMenu - 1, 4, 5));
                 }
                 else if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    _currentSelectOptionMenu = Mathf.Clamp(_currentSelectOptionMenu + 1, 4, 5);
-                    PlayPointerUpAudio();
+                    SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectMenu_OptionMenu + 1, 4, 5));
                 }
                 else if (Input.GetKeyDown(KeyCode.UpArrow))
                     SetSelectOptionMenuBGPoint(3);
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectOptionMenu - 1, 0, 5));
+                SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectMenu_OptionMenu - 1, 0, 5));
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectOptionMenu + 1, 0, 5));
+                SetSelectOptionMenuBGPoint(Mathf.Clamp(_currentSelectMenu_OptionMenu + 1, 0, 5));
             }
-            else if (_currentSelectOptionMenu == 0 || _currentSelectOptionMenu == 1)
+            else if (_currentSelectMenu_OptionMenu == 0 || _currentSelectMenu_OptionMenu == 1)
             {
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                     ChangeOption(-1f);
                 else if (Input.GetKeyDown(KeyCode.RightArrow))
                     ChangeOption(1f);
             }
-            else if (_currentSelectOptionMenu == 2 || _currentSelectOptionMenu == 3)
+            else if (_currentSelectMenu_OptionMenu == 2 || _currentSelectMenu_OptionMenu == 3)
             {
                 if (Input.GetKey(KeyCode.LeftArrow))
                     ChangeOption(-0.01f);
@@ -506,6 +576,8 @@ public class CUIManager_Title : MonoBehaviour
         {
             SaveOptionData();
         }
+
+        SetActiveApplyButtonOptionMenu(false);
     }
 
     /// <summary>윈도우 모드 및 해상도 변경</summary>
@@ -544,6 +616,7 @@ public class CUIManager_Title : MonoBehaviour
 
         PlayPointerEnterAudio();
 
+        SetActiveApplyButtonOptionMenu(false);
         OnDisableOptionMenu();
     }
 
@@ -589,6 +662,7 @@ public class CUIManager_Title : MonoBehaviour
         UpdateOptionUI_WindowMode();
 
         PlayPointerUpAudio();
+        SetActiveApplyButtonOptionMenu(true);
     }
 
     /// <summary>윈도우 모드 UI 업데이트</summary>
@@ -631,6 +705,7 @@ public class CUIManager_Title : MonoBehaviour
         UpdateOptionUI_Resolution();
 
         PlayPointerUpAudio();
+        SetActiveApplyButtonOptionMenu(true);
     }
 
     /// <summary>해상도 UI 업데이트</summary>
@@ -674,9 +749,9 @@ public class CUIManager_Title : MonoBehaviour
     private void UpdateOptionUI_SFX() { _SFXScroll.SetScroll(_currentSFXNormalizedValue); }
 
     /// <summary>BGM 볼륨 설정</summary>
-    public void ChangeBGMVolume() { _selectBGMNormalizedValue = _BGMScroll.NormalizedValue; }
+    public void ChangeBGMVolume() { _selectBGMNormalizedValue = _BGMScroll.NormalizedValue; SetActiveApplyButtonOptionMenu(true); }
     /// <summary>SFX 볼륨 설정</summary>
-    public void ChangeSFXVolume() { _selectSFXNormalizedValue = _SFXScroll.NormalizedValue; }
-    public void ChangeBGMVolume(float addValue) { _selectBGMNormalizedValue = Mathf.Clamp(_selectBGMNormalizedValue + addValue, 0f, 1f); _BGMScroll.SetScroll(_selectBGMNormalizedValue); }
-    public void ChangeSFXVolume(float addValue) { _selectSFXNormalizedValue = Mathf.Clamp(_selectSFXNormalizedValue + addValue, 0f, 1f); _SFXScroll.SetScroll(_selectSFXNormalizedValue); }
+    public void ChangeSFXVolume() { _selectSFXNormalizedValue = _SFXScroll.NormalizedValue; SetActiveApplyButtonOptionMenu(true); }
+    public void ChangeBGMVolume(float addValue) { _selectBGMNormalizedValue = Mathf.Clamp(_selectBGMNormalizedValue + addValue, 0f, 1f); _BGMScroll.SetScroll(_selectBGMNormalizedValue); SetActiveApplyButtonOptionMenu(true); }
+    public void ChangeSFXVolume(float addValue) { _selectSFXNormalizedValue = Mathf.Clamp(_selectSFXNormalizedValue + addValue, 0f, 1f); _SFXScroll.SetScroll(_selectSFXNormalizedValue); SetActiveApplyButtonOptionMenu(true); }
 }
