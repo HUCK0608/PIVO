@@ -644,6 +644,17 @@ public class CUIManager : MonoBehaviour
     [SerializeField]
     private Text[] _stageClearRequirementTexts = null;
 
+    [SerializeField]
+    private Design_ClearCorgiCamera _clearCorgiCam = null;
+
+    [SerializeField]
+    private Text _curBiscuitWhenFinished = null;
+
+    [SerializeField]
+    private GameObject[] _grayLines = null;
+    [SerializeField]
+    private GameObject[] _yellowLines = null;
+
     private bool _isOnStageClearUI = false;
     public bool IsOnStageClearUI { get { return _isOnStageClearUI; } }
 
@@ -674,7 +685,9 @@ public class CUIManager : MonoBehaviour
         if (active)
         {
             SetStar();
+            SetStarLine();
             SetStageClearRequirementText();
+            SetCurBiscuitCountText();
         }
 
         SetTargetDisplay(0);
@@ -683,6 +696,8 @@ public class CUIManager : MonoBehaviour
 
         gameObject.SetActive(false);
         gameObject.SetActive(true);
+
+        _clearCorgiCam.SetFinishAnim();
     }
 
     private void SetStar()
@@ -695,6 +710,29 @@ public class CUIManager : MonoBehaviour
     {
         _yellowStars[index].SetActive(active);
         _grayStars[index].SetActive(!active);
+    }
+
+    private void SetStarLine()
+    {
+        foreach (var v in _yellowLines)
+            v.SetActive(false);
+
+        foreach (var v in _grayLines)
+            v.SetActive(true);
+
+        for (int i = 0; i < CBiscuitManager.Instance.GetCurrentStar(); i++)
+        {
+            if (i > 0)
+            {
+                _yellowLines[i-1].SetActive(true);
+                _grayLines[i-1].SetActive(false);
+            }
+        }
+    }
+
+    private void SetCurBiscuitCountText()
+    {
+        _curBiscuitWhenFinished.text = "x " + CBiscuitManager.Instance.CurrentBiscuitCount;
     }
 
     private void SetStageClearRequirementText()
