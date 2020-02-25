@@ -255,9 +255,24 @@ public class CWorldManager : MonoBehaviour
     /// <summary>BGM 재생</summary>
     public void PlayBGM()
     {
-        _audioSource.Play();
-
+        StartCoroutine(FadeUpPlayBGM());
         StartCoroutine(BGMLogic());
+    }
+
+    private IEnumerator FadeUpPlayBGM()
+    {
+        var FadeSpeed = 1f;
+
+        _audioSource.Play();
+        _audioSource.volume = 0f;
+
+        while (_audioSource.volume < 1)
+        {
+            yield return new WaitForFixedUpdate();
+            _audioSource.volume += Time.deltaTime * FadeSpeed;
+        }
+
+        _audioSource.volume = 1f;
     }
 
     private IEnumerator BGMLogic()

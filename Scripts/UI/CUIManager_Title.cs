@@ -22,6 +22,9 @@ public class CUIManager_Title : MonoBehaviour
     [SerializeField]
     private Image _loadGameImage = null;
 
+    [SerializeField]
+    private AudioSource _TitleBGM = null;
+
     /// <summary>현재 선택하고 있는 메인 메뉴</summary>
     private int _mainCurrentSelect = 0;
     /// <summary>최대 메뉴 개수</summary>
@@ -32,6 +35,9 @@ public class CUIManager_Title : MonoBehaviour
 
     /// <summary>데이터가 존재하는지 여부</summary>
     private bool _isHaveData = true;
+
+    /// <summary>타이틀 BGM이 끝나는지 확인용 </summary>
+    private bool _waitTitleBGM = false;
 
     private void Awake()
     {
@@ -62,6 +68,8 @@ public class CUIManager_Title : MonoBehaviour
             CWorldManager.Instance.PlayBGM();
             return;
         }
+
+        _TitleBGM.Play();
 
         // 플레이어 조작 막기
         CPlayerManager.Instance.IsCanOperation = false;
@@ -203,6 +211,9 @@ public class CUIManager_Title : MonoBehaviour
     /// <summary>인트로 타임라인 끝남 체크</summary>
     private IEnumerator IntroTimelineEndCheck()
     {
+        yield return new WaitUntil(() => _introPlayerDirector.time >= 34f);        
+        StartCoroutine(FadeOutTitleBGM());
+
         yield return new WaitUntil(() => _introPlayerDirector.time >= 35f);
 
         CPlayerManager.Instance.Controller2D.ChangeState(EPlayerState2D.DownIdle);
@@ -216,11 +227,30 @@ public class CUIManager_Title : MonoBehaviour
         CCameraController.Instance.SetTargetDisplay(0);
         CUIManager.Instance.SetTargetDisplay(0);
         CPlayerManager.Instance.IsCanOperation = true;
-
+        
         CWorldManager.Instance.PlayBGM();
         CDataManager.IsSaveData = true;
 
+        yield return new WaitUntil(() => _waitTitleBGM);
+
         gameObject.SetActive(false);
+    }
+
+    private IEnumerator FadeOutTitleBGM()
+    {
+        var FadeSpeed = 0.9f;
+        _waitTitleBGM = false;
+
+        while (_TitleBGM.volume > 0)
+        {
+            yield return new WaitForFixedUpdate();
+            _TitleBGM.volume -= Time.deltaTime * FadeSpeed;
+        }
+
+        _TitleBGM.volume = 0f;
+        _TitleBGM.Stop();
+
+        _waitTitleBGM = true;
     }
 
     ///// <summary>모든 스테이지 잠금해제</summary>
