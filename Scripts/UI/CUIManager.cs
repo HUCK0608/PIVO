@@ -1068,6 +1068,7 @@ public class CUIManager : MonoBehaviour
     {
         string season = SceneManager.GetActiveScene().name.Split('_')[0].Equals("GrassStage") ? "Grass" : "Snow";
         SceneManager.LoadScene("StageSelect_" + season);
+        Time.timeScale = 1f;
     }
 
     private void ExcuteNo_ReturnToTitle()
