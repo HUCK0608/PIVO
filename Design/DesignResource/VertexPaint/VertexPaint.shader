@@ -21,7 +21,8 @@
 		}
 
         CGPROGRAM
-        #pragma surface surf Lambert vertex:vert
+        //#pragma surface surf Lambert vertex:vert
+		#pragma surface surf _ModifyShadow vertex:vert
         #pragma target 3.0
 
         sampler2D _MainTex3D;
@@ -64,15 +65,15 @@
             o.Alpha = lerp(Tex3.a, Tex2.a, _IsUse2DTexture);
         }
 
-		half4 LightingModifyShadow(SurfaceOutput s, half3 lightDir, half atten)
+		float4 Lighting_ModifyShadow(SurfaceOutput s, float3 lightDir, float3 viewDir, float atten)
 		{
-			half4 Final;
+			float4 Final;
 
 			float NdotL = saturate(dot(s.Normal, lightDir));
 			//half NdotL = max(0, dot(s.Normal, lightDir));
-			half ShadowRange = NdotL * atten;
-			half3 ShadowColor = MaskB * _ShadowColor;
-			half3 ShadowColor2 = MaskG * _ShadowColor2;
+			float ShadowRange = NdotL * atten;
+			float3 ShadowColor = MaskB * _ShadowColor;
+			float3 ShadowColor2 = MaskG * _ShadowColor2;
 			
 			Final.rgb = lerp(
 				(s.Albedo * _LightColor0 * ShadowRange) + ShadowColor + ShadowColor2,
