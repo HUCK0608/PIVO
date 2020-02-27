@@ -656,7 +656,6 @@ public class CUIManager : MonoBehaviour
     private GameObject[] _yellowLines = null;
 
     private bool _isOnStageClearUI = false;
-    public bool IsOnStageClearUI { get { return _isOnStageClearUI; } }
 
     private void StageClearLogic()
     {
