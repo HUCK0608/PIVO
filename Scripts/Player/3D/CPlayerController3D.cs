@@ -33,7 +33,7 @@ public class CPlayerController3D : MonoBehaviour
     [SerializeField]
     private Transform[] _groundCheckPoints = null;
     /// <summary>지면 확인 지점 개수</summary>
-    private int _groundCheckPointCount = 4;
+    private int _groundCheckPointCount = 5;
 
     /// <summary>기어오를 지점을 탐지하는 지점</summary>
     [SerializeField]

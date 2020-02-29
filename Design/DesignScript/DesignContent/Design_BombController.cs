@@ -112,8 +112,8 @@ public class Design_BombController : Design_WorldObjectController
                 CUIManager.Instance.SetActiveBombExplosionUI(true);
         }
 
-        //if(!IsEnabled)
-        //    CheckInteractionUI();
+        //if (!IsEnabled)
+        CheckInteractionUI();
 
         if (bAttach)
             AttachForDistance();
