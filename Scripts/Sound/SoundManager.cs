@@ -5,7 +5,19 @@ using UnityEngine.Audio;
 using System;
 
 public enum EBGMType { None, };
-public enum ESFXType { None, ViewChange_Cast, ViewChange_ChangStart, ViewChange_Block };
+public enum ESFXType { None,
+                       Corgi_Climb, Corgi_PutEnd,
+                       Soop_Move_0, Soop_Move_1, Soop_PutEnd_0, Soop_PutEnd_1,
+                       ViewChange_Cast, ViewChange_ChangStart, ViewChange_Block,
+                       BombFire_0, Boom_0, Boom_1, Boom_2, Boom_3, Boom_4, Boom_5,
+                       BrokenTile_0, BrokenTile_1,
+                       MagicStone_Activate, MagicStone_Idle,
+                       Pipe_1,
+                       StageClear_0, StageClear_1, StageClear_2,
+                       TileButton_0, TileButton_1, TileButton_2,
+
+
+};
 
 public class SoundManager : MonoBehaviour
 {
@@ -91,6 +103,7 @@ public class SoundManager : MonoBehaviour
             if (null == audioClip)
                 continue;
 
+            Debug.Log(audioClip);
             _SFXClipDic.Add(enumValue, audioClip);
         }
     }
@@ -156,7 +169,7 @@ public class SoundManager : MonoBehaviour
     #region Play
 
     /// <summary>외부에서 Stop 할 수 있도록 AudioSource를 반환 (다만 해당 매니저를 통해 Stop 할 것!) </summary>
-    public AudioSource PlayBGM(EBGMType bgmType, bool useLoop)
+    public AudioSource PlayBGM(EBGMType bgmType, bool useLoop, float delay = 0f)
     {
         if (false == _isInitialize)
             return null;
@@ -166,29 +179,17 @@ public class SoundManager : MonoBehaviour
         audioSource.Stop();
         audioSource.clip = _BGMClipDic[bgmType];
         audioSource.loop = useLoop;
-        audioSource.Play();
+
+        if (delay.Equals(0f))
+            audioSource.Play();
+        else
+            audioSource.PlayDelayed(delay);
 
         return audioSource;
     }
 
     /// <summary>외부에서 Stop 할 수 있도록 AudioSource를 반환 (다만 해당 매니저를 통해 Stop 할 것!) </summary>
-    public AudioSource PlayBGM(EBGMType bgmType, bool useLoop, float delay)
-    {
-        if (false == _isInitialize)
-            return null;
-
-        AudioSource audioSource = GetCanPlaySFXAudioSource();
-
-        audioSource.Stop();
-        audioSource.clip = _BGMClipDic[bgmType];
-        audioSource.loop = useLoop;
-        audioSource.PlayDelayed(delay);
-
-        return audioSource;
-    }
-
-    /// <summary>외부에서 Stop 할 수 있도록 AudioSource를 반환 (다만 해당 매니저를 통해 Stop 할 것!) </summary>
-    public AudioSource PlaySFX(ESFXType sfxType, bool useLoop)
+    public AudioSource PlaySFX(ESFXType sfxType, bool useLoop, float delay = 0f)
     {
         if (false == _isInitialize)
             return null;
@@ -198,23 +199,11 @@ public class SoundManager : MonoBehaviour
         audioSource.Stop();
         audioSource.clip = _SFXClipDic[sfxType];
         audioSource.loop = useLoop;
-        audioSource.Play();
 
-        return audioSource;
-    }
-
-    /// <summary>외부에서 Stop 할 수 있도록 AudioSource를 반환 (다만 해당 매니저를 통해 Stop 할 것!) </summary>
-    public AudioSource PlaySFX(ESFXType sfxType, bool useLoop, float delay)
-    {
-        if (false == _isInitialize)
-            return null;
-
-        AudioSource audioSource = GetCanPlaySFXAudioSource();
-
-        audioSource.Stop();
-        audioSource.clip = _SFXClipDic[sfxType];
-        audioSource.loop = useLoop;
-        audioSource.PlayDelayed(delay);
+        if (delay.Equals(0f))
+            audioSource.Play();
+        else
+            audioSource.PlayDelayed(delay);
 
         return audioSource;
     }
