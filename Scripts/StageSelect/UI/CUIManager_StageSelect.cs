@@ -62,7 +62,8 @@ public class CUIManager_StageSelect : MonoBehaviour
             {
                 _starsLine[i].SetActive(active);
                 _stars[i].SetActive(active);
-                _requirementsText[i].gameObject.SetActive(active);
+                if (i > 0)
+                    _requirementsText[i].gameObject.SetActive(active);
             }
         }
 
@@ -93,7 +94,9 @@ public class CUIManager_StageSelect : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            _requirementsText[i].gameObject.SetActive(true);
+            if (i > 0)
+                _requirementsText[i].gameObject.SetActive(true);
+
             _requirementsText[i].text = _currentStage.Requirements[i].ToString();
         }
     }
