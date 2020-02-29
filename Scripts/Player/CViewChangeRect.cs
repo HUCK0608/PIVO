@@ -216,7 +216,6 @@ public class CViewChangeRect : MonoBehaviour
 
         _maxScale = defaultMaxScale;
         
-        Debug.Log(CPlayerManager.Instance.LastGroundPosition.z);
         if (transform.position.z < CPlayerManager.Instance.LastGroundPosition.z
             && Mathf.Abs(transform.position.z - CPlayerManager.Instance.LastGroundPosition.z) < 2f)
         {
