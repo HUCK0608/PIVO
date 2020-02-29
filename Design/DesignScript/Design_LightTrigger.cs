@@ -13,6 +13,9 @@ public class Design_LightTrigger : CWorldObject
 
     protected override void Awake()
     {
+        if (CWorldManager.Instance != null)
+            CWorldManager.Instance.AddWorldObject(this);
+
         PointLight = GetComponentInChildren<Light>();
         DefaultIntensity = PointLight.intensity;
         SetLight(false);
