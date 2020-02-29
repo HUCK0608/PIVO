@@ -15,6 +15,7 @@ public class Design_EndingCredit : MonoBehaviour
 
     [SerializeField]
     private EndingCreditType CreditType = EndingCreditType.None;
+    private AudioSource endingBGM;
 
     float ShowLogoValue = 0;
     float ShowTextValue = 0;
@@ -22,6 +23,8 @@ public class Design_EndingCredit : MonoBehaviour
 
     void Start()
     {
+        endingBGM = GetComponent<AudioSource>();
+
         if (CreditType == EndingCreditType.None)
             Debug.LogError("EndingCreditType을 설정해주어야 합니다.");
 
@@ -195,6 +198,8 @@ public class Design_EndingCredit : MonoBehaviour
 
         while (ShowLogoValue > 0)
         {
+            if (endingBGM != null)
+                endingBGM.volume -= Time.deltaTime * 0.5f;
             ShowLogoValue -= 0.01f;
             EndingLogo.color = new Color(1, 1, 1, ShowLogoValue);
             yield return new WaitForFixedUpdate();
