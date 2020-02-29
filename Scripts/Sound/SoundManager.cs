@@ -103,7 +103,6 @@ public class SoundManager : MonoBehaviour
             if (null == audioClip)
                 continue;
 
-            Debug.Log(audioClip);
             _SFXClipDic.Add(enumValue, audioClip);
         }
     }
@@ -168,7 +167,7 @@ public class SoundManager : MonoBehaviour
 
     #region Play
 
-    /// <summary>외부에서 Stop 할 수 있도록 AudioSource를 반환 (다만 해당 매니저를 통해 Stop 할 것!) </summary>
+    /// <summary>외부에서 Stop 할 수 있도록 AudioSource를 반환</summary>
     public AudioSource PlayBGM(EBGMType bgmType, bool useLoop, float delay = 0f)
     {
         if (false == _isInitialize)
@@ -188,7 +187,7 @@ public class SoundManager : MonoBehaviour
         return audioSource;
     }
 
-    /// <summary>외부에서 Stop 할 수 있도록 AudioSource를 반환 (다만 해당 매니저를 통해 Stop 할 것!) </summary>
+    /// <summary>외부에서 Stop 할 수 있도록 AudioSource를 반환</summary>
     public AudioSource PlaySFX(ESFXType sfxType, bool useLoop, float delay = 0f)
     {
         if (false == _isInitialize)

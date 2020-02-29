@@ -252,6 +252,22 @@ public class CUIManager : MonoBehaviour
             if (true == _isOnReturnToTitleUI) return;
             if (true == _isOnStageClearUI) return;
             if (true == _isOnWallPaintingUI) return;
+
+            SetForceActiveInteractionUI(false);
+            SetForceActiveBombExplosionUI(false);
+            SetForceActiveMove2DTutorialUI(false);
+            SetForceActiveMove3DTutorialUI(false);
+            SetForceActiveClimbTutorialUI(false);
+            SetForceActiveViewChangeTutorialUI(false);
+        }
+        else
+        {
+            SetForceActiveInteractionUI(true);
+            SetForceActiveBombExplosionUI(true);
+            SetForceActiveMove2DTutorialUI(true);
+            SetForceActiveMove3DTutorialUI(true);
+            SetForceActiveClimbTutorialUI(true);
+            SetForceActiveViewChangeTutorialUI(true);
         }
 
         _holdingGroup.SetActive(value);
