@@ -96,6 +96,7 @@ public class CUIManager_Title : MonoBehaviour
     {
         yield return null;
 
+        _isExcutionAnything = false;
         ChangeSelectMenu(_mainCurrentSelect);
 
         while (!_isExcutionAnything)
@@ -166,10 +167,20 @@ public class CUIManager_Title : MonoBehaviour
         switch (selectMenu)
         {
             case 0:
-                _animator.SetBool("IsFadeOut", true);
-                CDataManager.DeleteAllInGameData();
-                PlayerPrefs.DeleteAll();
-                break;
+                {
+                    if (true == CDataManager.IsHaveGameData())
+                    {
+                        SetActiveMainMenu(false);
+                        SetActiveNewGame(true);
+                    }
+                    else
+                    {
+                        _animator.SetBool("IsFadeOut", true);
+                        CDataManager.DeleteAllInGameData();
+                        PlayerPrefs.DeleteAll();
+                    }
+                    break;
+                }
             case 1:
                 {
                     EXmlDocumentNames selectPlayerDatasName = EXmlDocumentNames.SelectPlayerDatas;
@@ -784,4 +795,108 @@ public class CUIManager_Title : MonoBehaviour
     public void ChangeSFXVolume() { _selectSFXNormalizedValue = _SFXScroll.NormalizedValue; SetActiveApplyButtonOptionMenu(true); }
     public void ChangeBGMVolume(float addValue) { _selectBGMNormalizedValue = Mathf.Clamp(_selectBGMNormalizedValue + addValue, 0f, 1f); _BGMScroll.SetScroll(_selectBGMNormalizedValue); SetActiveApplyButtonOptionMenu(true); }
     public void ChangeSFXVolume(float addValue) { _selectSFXNormalizedValue = Mathf.Clamp(_selectSFXNormalizedValue + addValue, 0f, 1f); _SFXScroll.SetScroll(_selectSFXNormalizedValue); SetActiveApplyButtonOptionMenu(true); }
+
+    #region NewGame
+
+    [SerializeField]
+    private GameObject _newGameGroup = null;
+
+    [SerializeField]
+    private GameObject _newGame = null, _newGameSelect = null;
+    [SerializeField]
+    private GameObject _back = null, _backSelect = null;
+
+    private int _currentSelectMenu_NewGame = 0;
+    private bool _isExcute_NewGame = false;
+
+    public void SetActiveNewGame(bool active)
+    {
+        _newGameGroup.SetActive(active);
+
+        if (true == active)
+        {
+            InitNewGame();
+            StartCoroutine(NewGameMenuInputLogic());
+        }
+    }
+
+    private void InitNewGame()
+    {
+        _isExcute_NewGame = false;
+        SetSelectMenu_NewGame(0);
+    }
+
+    private IEnumerator NewGameMenuInputLogic()
+    {
+        yield return null;
+
+        while (false == _isExcute_NewGame)
+        {
+            if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape))
+            {
+                SetActiveNewGame(false);
+                break;
+            }
+            else if(Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Return))
+            {
+                ExcuteSelectMenu_NewGame(_currentSelectMenu_NewGame);
+                break;
+            }
+            else if(Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                SetSelectMenu_NewGame(Mathf.Clamp(_currentSelectMenu_NewGame - 1, 0, 1));
+            }
+            else if(Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                SetSelectMenu_NewGame(Mathf.Clamp(_currentSelectMenu_NewGame + 1, 0, 1));
+            }
+
+            yield return null;
+        }
+
+        yield return null;
+        SetActiveMainMenu(true);
+    }
+
+    public void SetSelectMenu_NewGame(int selectMenu)
+    {
+        _currentSelectMenu_NewGame = selectMenu;
+
+        SetSelectNewGame(_currentSelectMenu_NewGame == 0);
+        SetSelectBack(_currentSelectMenu_NewGame == 1);
+    }
+
+    private void SetSelectNewGame(bool active)
+    {
+        _newGameSelect.SetActive(active);
+        _newGame.SetActive(!active);
+    }
+
+    private void SetSelectBack(bool active)
+    {
+        _backSelect.SetActive(active);
+        _back.SetActive(!active);
+    }
+
+    public void ExcuteSelectMenu_NewGame(int selectMenu)
+    {
+        _isExcute_NewGame = true;
+        SetActiveNewGame(false);
+
+        switch (selectMenu)
+        {
+            case 0:
+                _animator.SetBool("IsFadeOut", true);
+                CDataManager.DeleteAllInGameData();
+                PlayerPrefs.DeleteAll();
+                break;
+            case 1:
+                StartCoroutine("MainMenuInputLogic");
+                break;
+            default:
+                break;
+        }
+    }
+
+    #endregion
 }

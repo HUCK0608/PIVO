@@ -11,6 +11,7 @@ public class CPlayerState3D_PutEnd : CPlayerState3D
         base.InitState();
 
         _bIsHit = false;
+        Controller3D.RigidBody.isKinematic = false;
     }
 
     private void Update()

@@ -40,7 +40,7 @@ public class CSoopState3D_Idle : CSoopState3D
 
     private void Update()
     {
-        if (CUIManager.Instance.IsOnStageClearUI)
+        if (false == CSoopManager._isCanUseEmoticon)
         {
             if (_sleepEmoticon.gameObject.activeSelf)
                 _sleepEmoticon.gameObject.SetActive(false);

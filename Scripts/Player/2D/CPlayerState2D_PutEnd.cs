@@ -11,6 +11,7 @@ public class CPlayerState2D_PutEnd : CPlayerState2D
 
         _currentStateTime = 0f;
         _bIsHit = false;
+        Controller2D.RigidBody2D.isKinematic = false;
     }
 
     private void Update()

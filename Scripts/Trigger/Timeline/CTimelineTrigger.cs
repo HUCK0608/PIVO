@@ -68,6 +68,8 @@ public class CTimelineTrigger : MonoBehaviour
         timelineGlobalFog.height = CCameraController.Instance.GlobalFogHeight;
         timelineGlobalFog.heightDensity = CCameraController.Instance.GlobalFogHeightDensity;
 
+        CSoopManager._isCanUseEmoticon = false;
+
         // 타임라인 활성화
         _playableDirector.gameObject.SetActive(true);
         // 타임라인 시작

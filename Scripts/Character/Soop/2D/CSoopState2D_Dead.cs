@@ -17,7 +17,7 @@ public class CSoopState2D_Dead : CSoopState2D
     }
     private void Update()
     {
-        if(CUIManager.Instance.IsOnStageClearUI)
+        if(false == CSoopManager._isCanUseEmoticon)
         {
             if (_stunEmoticon.gameObject.activeSelf)
                 _stunEmoticon.gameObject.SetActive(false);

@@ -252,6 +252,22 @@ public class CUIManager : MonoBehaviour
             if (true == _isOnReturnToTitleUI) return;
             if (true == _isOnStageClearUI) return;
             if (true == _isOnWallPaintingUI) return;
+
+            SetForceActiveInteractionUI(false);
+            SetForceActiveBombExplosionUI(false);
+            SetForceActiveMove2DTutorialUI(false);
+            SetForceActiveMove3DTutorialUI(false);
+            SetForceActiveClimbTutorialUI(false);
+            SetForceActiveViewChangeTutorialUI(false);
+        }
+        else
+        {
+            SetForceActiveInteractionUI(true);
+            SetForceActiveBombExplosionUI(true);
+            SetForceActiveMove2DTutorialUI(true);
+            SetForceActiveMove3DTutorialUI(true);
+            SetForceActiveClimbTutorialUI(true);
+            SetForceActiveViewChangeTutorialUI(true);
         }
 
         _holdingGroup.SetActive(value);
@@ -656,7 +672,6 @@ public class CUIManager : MonoBehaviour
     private GameObject[] _yellowLines = null;
 
     private bool _isOnStageClearUI = false;
-    public bool IsOnStageClearUI { get { return _isOnStageClearUI; } }
 
     private void StageClearLogic()
     {
@@ -1069,6 +1084,7 @@ public class CUIManager : MonoBehaviour
     {
         string season = SceneManager.GetActiveScene().name.Split('_')[0].Equals("GrassStage") ? "Grass" : "Snow";
         SceneManager.LoadScene("StageSelect_" + season);
+        Time.timeScale = 1f;
     }
 
     private void ExcuteNo_ReturnToTitle()

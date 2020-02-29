@@ -20,7 +20,7 @@ public class CSoopState2D_Idle : CSoopState2D
 
     private void Update()
     {
-        if (!Controller2D.CanOperation() || CUIManager.Instance.IsOnStageClearUI)
+        if (!Controller2D.CanOperation() || false == CSoopManager._isCanUseEmoticon)
         {
             if(_sleepEmoticon.gameObject.activeSelf)
                 _sleepEmoticon.gameObject.SetActive(false);

@@ -7,6 +7,7 @@ public class CPlayerState2D_PutInit : CPlayerState2D
         base.InitState();
 
         Controller2D.RigidBody2D.velocity = Vector2.zero;
+        Controller2D.RigidBody2D.isKinematic = true;
     }
 
     private void Update()

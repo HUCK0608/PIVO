@@ -19,8 +19,11 @@ public class CSoopManager : MonoBehaviour
     /// <summary>숲숲이 3D 컨트롤러</summary>
     public CSoopController3D Controller3D { get { return _controller3D; } }
 
+    public static bool _isCanUseEmoticon = true;
+
     private void Awake()
     {
+        _isCanUseEmoticon = true;
         _stat = GetComponent<CSoopStat>();
     }
     

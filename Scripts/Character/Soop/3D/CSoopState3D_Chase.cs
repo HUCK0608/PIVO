@@ -18,7 +18,7 @@ public class CSoopState3D_Chase : CSoopState3D
 
     private void Update()
     {
-        if (CUIManager.Instance.IsOnStageClearUI)
+        if (false == CSoopManager._isCanUseEmoticon)
         {
             if (_angryEmoticon.gameObject.activeSelf)
                 _angryEmoticon.gameObject.SetActive(false);

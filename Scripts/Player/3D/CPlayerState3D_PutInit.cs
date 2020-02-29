@@ -9,6 +9,7 @@ public class CPlayerState3D_PutInit : CPlayerState3D
         base.InitState();
 
         Controller3D.RigidBody.velocity = Vector3.zero;
+        Controller3D.RigidBody.isKinematic = true;
     }
 
     private void Update()
