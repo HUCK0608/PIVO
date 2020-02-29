@@ -84,5 +84,5 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadowColor: {r: 0.4433962, g: 0.2237896, b: 0.2237896, a: 1}
-    - _ShadowColor2: {r: 0.21698111, g: 0.08002534, b: 0.07266821, a: 1}
+    - _ShadowColor: {r: 0.22745098, g: 0, b: 0.069523916, a: 1}
+    - _ShadowColor2: {r: 0.2735849, g: 0, b: 0.04748435, a: 1}
