@@ -112,8 +112,8 @@ public class Design_BombController : Design_WorldObjectController
                 CUIManager.Instance.SetActiveBombExplosionUI(true);
         }
 
-        //if(!IsEnabled)
-        //    CheckInteractionUI();
+        //if (!IsEnabled)
+        CheckInteractionUI();
 
         if (bAttach)
             AttachForDistance();
@@ -435,8 +435,22 @@ public class Design_BombController : Design_WorldObjectController
         Vector3 startPoint = transform.position;
         RaycastHit hit;
         Physics.Raycast(transform.position, Vector3.down, out hit, float.PositiveInfinity);
-        Vector3 putPoint = hit.point + Vector3.up;
-        transform.parent = hit.transform;
+
+        Vector3 putPoint = transform.position;
+        bool isFall = false;
+
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, float.PositiveInfinity))
+        {
+            putPoint = hit.point + Vector3.up;
+            transform.parent = hit.transform;
+        }
+        else
+        {
+            putPoint = transform.position + (Vector3.down * 4f);
+            transform.parent = null;
+            isFall = true;
+        }
+
         float putTime = 0.1f;
         float oneDivAnimationTime = 1f / putTime;
         float addTime = 0f;
@@ -453,8 +467,12 @@ public class Design_BombController : Design_WorldObjectController
             yield return null;
         }
 
-        EnableBomb();
         bAttachCorgi = false;
+
+        if (isFall)
+            BeginExplosion();
+        else
+            EnableBomb();
     }
 
     /*

@@ -38,9 +38,11 @@ public class CViewChangeRect : MonoBehaviour
     // 코루틴 관련 변수
     private Coroutine _increaseScaleXYCoroutine = null;
     private Coroutine _increaseScaleZCoroutine = null;
+    private Vector3 defaultMaxScale = Vector3.zero;
 
     private void Awake()
     {
+        defaultMaxScale = _maxScale;
         _projector.enabled = true;
 
         gameObject.SetActive(false);
@@ -212,7 +214,15 @@ public class CViewChangeRect : MonoBehaviour
         bool isFirstInput = false;
         bool isKeepInputIncreaseKey = false, isKeepInputDecreaseKey = false;
 
-        while(_isOnIncreaseScaleZ)
+        _maxScale = defaultMaxScale;
+        
+        if (transform.position.z < CPlayerManager.Instance.LastGroundPosition.z
+            && Mathf.Abs(transform.position.z - CPlayerManager.Instance.LastGroundPosition.z) < 2f)
+        {
+            _maxScale += new Vector3(0, 0, 1.5f);
+        }
+
+        while (_isOnIncreaseScaleZ)
         {
             // 크기 증가 키 입력 관리
             if (Input.GetKeyDown(CKeyManager.ViewRectScaleAdjustKey1) || Input.GetKeyDown(CKeyManager.AnotherViewRectScaleAdjustKey1))
@@ -271,7 +281,7 @@ public class CViewChangeRect : MonoBehaviour
                 else if (isKeepInputDecreaseKey)
                     temp -= 2f;
             }
-
+                        
             // 제한된 범위 판별
             if (temp >= -_maxScale.z && temp <= _maxScale.z)
                 _destinationScaleZ = temp;

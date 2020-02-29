@@ -132,8 +132,11 @@ public class CSoopController2D : MonoBehaviour
             if (worldObject == null)
                 worldObject = hit.transform.GetComponentInParent<CWorldObject>();
 
-            if (worldObject.IsCanChange2D)
-                isCanOperation = false;
+            if (worldObject != null)
+            {
+                if (worldObject.IsCanChange2D)
+                    isCanOperation = false;
+            }
         }
 
         return isCanOperation;
