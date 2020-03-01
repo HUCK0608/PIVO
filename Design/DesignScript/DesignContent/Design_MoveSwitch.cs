@@ -12,6 +12,9 @@ public class Design_MoveSwitch : MonoBehaviour
     public float TargetValue;
     public float PushDownSpeed;
 
+    [SerializeField]
+    private SoundRandomPlayer_SFX _buttonSoundRandomPlayer = null;
+
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 10 && MovingActor[0] && !SwitchBool)
@@ -24,6 +27,7 @@ public class Design_MoveSwitch : MonoBehaviour
             if (!RepeatSwitch)
             {
                 SwitchBool = true;
+                _buttonSoundRandomPlayer.Play();
                 StartCoroutine(PushDownInnerMesh());
             }
         }
