@@ -11,6 +11,8 @@ public class CPlayerState2D_Climb : CPlayerState2D
 
         Controller2D.Move(Vector2.zero);
         transform.position = Controller2D.ClimbInfo.origin;
+
+        SoundManager.Instance.PlaySFX(ESFXType.Corgi_Climb);
     }
 
     private void Update()

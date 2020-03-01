@@ -21,6 +21,8 @@ public class CPlayerState3D_Climb : CPlayerState3D
         Controller3D.Animator.SetInteger(_sClimb, Controller3D.ClimbInfo.aniNumber);
 
         CCameraController.Instance.Target = _cameraTarget[Controller3D.ClimbInfo.aniNumber];
+
+        SoundManager.Instance.PlaySFX(ESFXType.Corgi_Climb);
     }
 
     private void Update()

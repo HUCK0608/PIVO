@@ -198,6 +198,7 @@ GameObject:
   - component: {fileID: 6422224947817121950}
   - component: {fileID: 6422224947817121946}
   - component: {fileID: 5612310529249137498}
+  - component: {fileID: 5058606392968492931}
   m_Layer: 9
   m_Name: BrokenTile
   m_TagString: Untagged
@@ -248,3 +249,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isUse2DTexture: 0
   NoMeshRenderer: 0
+  _brokenSoundRandomPlayer: {fileID: 5058606392968492931}
+--- !u!114 &5058606392968492931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6422224947817122017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e5c518e80903540aecd159739859cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundDataList:
+  - SFXType: 17
+    Delay: 0
+    MinPercent: 1
+    MaxPercent: 50
+  - SFXType: 18
+    Delay: 0
+    MinPercent: 51
+    MaxPercent: 100
+  _useLoop: 0
