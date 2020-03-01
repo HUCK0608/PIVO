@@ -52,6 +52,8 @@ public class CUIManager_Title : MonoBehaviour
             _loadGameImage.color = Color.black;
             CDataManager.IsSaveData = false;
         }
+
+        InitVersion();
     }
 
     private void Start()
@@ -899,4 +901,12 @@ public class CUIManager_Title : MonoBehaviour
     }
 
     #endregion
+
+    [SerializeField]
+    private Text _versionText = null;
+
+    private void InitVersion()
+    {
+        _versionText.text = string.Format("Ver {0}", Application.version);
+    }
 }
