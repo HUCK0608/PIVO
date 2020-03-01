@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 544235812547343790}
   - component: {fileID: 1178247696367236540}
   - component: {fileID: 1754579011536596230}
+  - component: {fileID: 1256079323495921739}
   m_Layer: 11
   m_Name: Bomb
   m_TagString: Untagged
@@ -57,6 +58,7 @@ MonoBehaviour:
   bUseBomb: 0
   IsEnabled: 0
   bAttach: 0
+  _boomSoundRandomPlayer: {fileID: 1256079323495921739}
 --- !u!65 &1754579011536596230
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -70,6 +72,44 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1.5, z: 1.5}
   m_Center: {x: 0, y: -0.2, z: 0}
+--- !u!114 &1256079323495921739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544235812547343789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05e5c518e80903540aecd159739859cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundDataList:
+  - SFXType: 11
+    Delay: 0
+    MinPercent: 1
+    MaxPercent: 16
+  - SFXType: 12
+    Delay: 0
+    MinPercent: 17
+    MaxPercent: 32
+  - SFXType: 13
+    Delay: 0
+    MinPercent: 33
+    MaxPercent: 48
+  - SFXType: 14
+    Delay: 0
+    MinPercent: 49
+    MaxPercent: 64
+  - SFXType: 15
+    Delay: 0
+    MinPercent: 65
+    MaxPercent: 80
+  - SFXType: 16
+    Delay: 0
+    MinPercent: 81
+    MaxPercent: 100
+  _useLoop: 0
 --- !u!1 &2217642562183859300
 GameObject:
   m_ObjectHideFlags: 0

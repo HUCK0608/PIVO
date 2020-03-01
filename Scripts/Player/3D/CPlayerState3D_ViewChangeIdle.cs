@@ -51,10 +51,12 @@ public class CPlayerState3D_ViewChangeIdle : CPlayerState3D
                 CWorldManager.Instance.ChangeWorld();
                 CPlayerManager.Instance.Effect.ViewChangeCapsuleEffect_ActiveEnable();
                 Controller3D.ChangeState(EPlayerState3D.Idle);
+                SoundManager.Instance.PlaySFX(ESFXType.ViewChange_ChangStart);
             }
             else
             {
                 CCameraController.Instance.OnCamerShaking();
+                SoundManager.Instance.PlaySFX(ESFXType.ViewChange_Block);
             }
         }
     }

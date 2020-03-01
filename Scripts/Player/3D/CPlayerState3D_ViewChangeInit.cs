@@ -9,6 +9,8 @@ public class CPlayerState3D_ViewChangeInit : CPlayerState3D
         Controller3D.Move(Vector3.zero);
 
         Controller3D.ViewChangeRect.StartViewChangeRectLogic();
+
+        SoundManager.Instance.PlaySFX(ESFXType.ViewChange_Cast);
     }
 
     private void Update()

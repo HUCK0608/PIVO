@@ -33,6 +33,9 @@ public class Design_BombController : Design_WorldObjectController
 
     private bool _isActiveInteractionUI = false;
 
+    [SerializeField]
+    private SoundRandomPlayer_SFX _boomSoundRandomPlayer = null;
+    private AudioSource _bombFireAudioSource = null;
 
     protected override void Awake()
     {
@@ -186,6 +189,9 @@ public class Design_BombController : Design_WorldObjectController
     {
         IsEnabled = true;
         SetIgnitionFireEffect(true);
+
+        if (null == _bombFireAudioSource)
+            _bombFireAudioSource = SoundManager.Instance.PlaySFX(ESFXType.BombFire_0, true);
     }
 
     public void DisableBomb()
@@ -239,6 +245,13 @@ public class Design_BombController : Design_WorldObjectController
 
     public void BeginExplosion()
     {
+        if(null != _bombFireAudioSource)
+        {
+            SoundManager.Instance.Stop(_bombFireAudioSource);
+            _bombFireAudioSource = null;
+            _boomSoundRandomPlayer.Play();
+        }
+
         StartCoroutine(ExplosionV2());
         SetIgnitionFireEffect(false);
         DisableBomb();

@@ -168,7 +168,7 @@ public class SoundManager : MonoBehaviour
     #region Play
 
     /// <summary>외부에서 Stop 할 수 있도록 AudioSource를 반환</summary>
-    public AudioSource PlayBGM(EBGMType bgmType, bool useLoop, float delay = 0f)
+    public AudioSource PlayBGM(EBGMType bgmType, bool useLoop = false, float delay = 0f)
     {
         if (false == _isInitialize)
             return null;
@@ -188,7 +188,7 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>외부에서 Stop 할 수 있도록 AudioSource를 반환</summary>
-    public AudioSource PlaySFX(ESFXType sfxType, bool useLoop, float delay = 0f)
+    public AudioSource PlaySFX(ESFXType sfxType, bool useLoop = false, float delay = 0f)
     {
         if (false == _isInitialize)
             return null;
