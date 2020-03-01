@@ -715,10 +715,20 @@ public class CUIManager : MonoBehaviour
         _clearCorgiCam.SetFinishAnim();
     }
 
+
+
     private void SetStar()
     {
-        for (int i = 0; i < CBiscuitManager.Instance.GetCurrentStar(); i++)
+        int currentStar = CBiscuitManager.Instance.GetCurrentStar();
+        for (int i = 0; i < currentStar; i++)
             SetActiveYellowStar(i, true);
+
+        if (1 == currentStar)
+            SoundManager.Instance.PlaySFX(ESFXType.StageClear_0);
+        else if(2 == currentStar)
+            SoundManager.Instance.PlaySFX(ESFXType.StageClear_1);
+        else if(3 == currentStar)
+            SoundManager.Instance.PlaySFX(ESFXType.StageClear_2);
     }
 
     private void SetActiveYellowStar(int index, bool active)
