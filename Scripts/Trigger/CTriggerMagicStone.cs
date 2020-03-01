@@ -22,6 +22,8 @@ public class CTriggerMagicStone : MonoBehaviour
     /// <summary>매직스톤 활성화 여부</summary>
     public bool IsActive { set { _isActive = value; } }
 
+    private AudioSource _idleSoundAudioSource = null;
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
@@ -32,6 +34,8 @@ public class CTriggerMagicStone : MonoBehaviour
     public void ActiveMagicStone()
     {
         IsActive = true;
+        SoundManager.Instance.PlaySFX(ESFXType.MagicStone_Activate);
+        _idleSoundAudioSource = SoundManager.Instance.PlaySFX(ESFXType.MagicStone_Idle, true);
         StartCoroutine(MonoToColorful());
     }
 
@@ -100,6 +104,32 @@ public class CTriggerMagicStone : MonoBehaviour
 
                 if(!CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.Changing))
                     soopManager.ActivateDead(false);
+            }
+
+            // Sound 겹침 방지
+            if(CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View3D))
+            {
+                if(null != _idleSoundAudioSource && Vector3.Distance(CPlayerManager.Instance.Controller3D.transform.position, transform.position) > 15f)
+                {
+                    SoundManager.Instance.Stop(_idleSoundAudioSource);
+                    _idleSoundAudioSource = null;
+                }
+                else if (null == _idleSoundAudioSource && Vector3.Distance(CPlayerManager.Instance.Controller3D.transform.position, transform.position) <= 15f)
+                {
+                    _idleSoundAudioSource = SoundManager.Instance.PlaySFX(ESFXType.MagicStone_Idle, true);
+                }
+            }
+            else if(CWorldManager.Instance.CurrentWorldState.Equals(EWorldState.View2D))
+            {
+                if (null != _idleSoundAudioSource && Vector2.Distance(CPlayerManager.Instance.Controller2D.transform.position, transform.position) > 15f)
+                {
+                    SoundManager.Instance.Stop(_idleSoundAudioSource);
+                    _idleSoundAudioSource = null;
+                }
+                else if (null == _idleSoundAudioSource && Vector2.Distance(CPlayerManager.Instance.Controller2D.transform.position, transform.position) <= 15f)
+                {
+                    _idleSoundAudioSource = SoundManager.Instance.PlaySFX(ESFXType.MagicStone_Idle, true);
+                }
             }
         }
         else
