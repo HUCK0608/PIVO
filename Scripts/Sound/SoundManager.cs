@@ -170,7 +170,7 @@ public class SoundManager : MonoBehaviour
     /// <summary>외부에서 Stop 할 수 있도록 AudioSource를 반환</summary>
     public AudioSource PlayBGM(EBGMType bgmType, bool useLoop = false, float delay = 0f)
     {
-        if (false == _isInitialize)
+        if (false == _isInitialize || EBGMType.None == bgmType)
             return null;
 
         AudioSource audioSource = GetCanPlaySFXAudioSource();
@@ -190,7 +190,7 @@ public class SoundManager : MonoBehaviour
     /// <summary>외부에서 Stop 할 수 있도록 AudioSource를 반환</summary>
     public AudioSource PlaySFX(ESFXType sfxType, bool useLoop = false, float delay = 0f)
     {
-        if (false == _isInitialize)
+        if (false == _isInitialize || ESFXType.None == sfxType)
             return null;
 
         AudioSource audioSource = GetCanPlaySFXAudioSource();
