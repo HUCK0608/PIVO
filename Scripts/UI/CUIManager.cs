@@ -1209,7 +1209,10 @@ public class CUIManager : MonoBehaviour
     public void ExcuteMenu_Restart(int menuIndex)
     {
         if (menuIndex == 0)
+        {
             ExcuteYes_Restart();
+            Time.timeScale = 1f;
+        }
         else
             ExcuteNo_Restart();
 
