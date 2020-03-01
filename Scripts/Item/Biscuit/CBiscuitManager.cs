@@ -85,10 +85,9 @@ public class CBiscuitManager : MonoBehaviour
         // 데이터 읽기
         datas = CDataManager.ReadDatas(documentName, nodePath, elementsName);
 
-        // 데이터가 없다면 저장 후 리턴
+        // 데이터가 없다면 리턴
         if (datas == null)
         {
-            SaveDatas();
             return;
         }
 

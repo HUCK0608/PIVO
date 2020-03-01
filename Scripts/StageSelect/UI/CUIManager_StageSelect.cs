@@ -94,9 +94,7 @@ public class CUIManager_StageSelect : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            if (i > 0)
-                _requirementsText[i].gameObject.SetActive(true);
-
+            _requirementsText[i].gameObject.SetActive(true);
             _requirementsText[i].text = _currentStage.Requirements[i].ToString();
         }
     }

@@ -837,10 +837,15 @@ public class CUIManager_Title : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape))
             {
                 SetActiveNewGame(false);
+                PlayPointerUpAudio();
+                yield return null;
+                SetActiveMainMenu(true);
+                StartCoroutine("MainMenuInputLogic");
                 break;
             }
             else if(Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Return))
             {
+                yield return null;
                 ExcuteSelectMenu_NewGame(_currentSelectMenu_NewGame);
                 break;
             }
@@ -855,9 +860,6 @@ public class CUIManager_Title : MonoBehaviour
 
             yield return null;
         }
-
-        yield return null;
-        SetActiveMainMenu(true);
     }
 
     public void SetSelectMenu_NewGame(int selectMenu)
@@ -866,6 +868,8 @@ public class CUIManager_Title : MonoBehaviour
 
         SetSelectNewGame(_currentSelectMenu_NewGame == 0);
         SetSelectBack(_currentSelectMenu_NewGame == 1);
+
+        PlayPointerEnterAudio();
     }
 
     private void SetSelectNewGame(bool active)
@@ -884,6 +888,7 @@ public class CUIManager_Title : MonoBehaviour
     {
         _isExcute_NewGame = true;
         SetActiveNewGame(false);
+        PlayPointerUpAudio();
 
         switch (selectMenu)
         {
@@ -893,6 +898,7 @@ public class CUIManager_Title : MonoBehaviour
                 PlayerPrefs.DeleteAll();
                 break;
             case 1:
+                SetActiveMainMenu(true);
                 StartCoroutine("MainMenuInputLogic");
                 break;
             default:
