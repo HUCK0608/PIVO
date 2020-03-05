@@ -1022,7 +1022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51eef44123075694ea6a404f73fec21e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isSoopDirectionRight: 1
+  _isSoopDirectionRight: 0
   _detectionAreaLocalPosition: {x: 0, y: 0.5, z: 0}
   _detectionAreaSize: {x: 25, y: 1, z: 25}
   _moveSpeed: 9
