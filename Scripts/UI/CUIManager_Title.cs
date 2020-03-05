@@ -72,6 +72,7 @@ public class CUIManager_Title : MonoBehaviour
         }
 
         _TitleBGM.Play();
+        _TitleBGM.loop = true;
 
         // 플레이어 조작 막기
         CPlayerManager.Instance.IsCanOperation = false;

@@ -77,7 +77,7 @@
 			
 			Final.rgb = lerp(
 				(s.Albedo * _LightColor0 * ShadowRange) + ShadowColor + ShadowColor2,
-				s.Albedo,
+				s.Albedo * NdotL * _LightColor0 * atten,
 				_IsUse2DTexture
 			);
 
