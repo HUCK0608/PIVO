@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 232803639763792880}
   - component: {fileID: 6436526745586347754}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Root2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 2357719549953028661}
   - component: {fileID: 6295827349860304477}
   - component: {fileID: 5849576216157138585}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Root3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 7186672001907506397}
   - component: {fileID: 3893497608158495721}
   - component: {fileID: 391317488880068498}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,15 +208,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338f0e471429e564583db939e2ec8dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WorldManager: {fileID: 0}
-  Actor3D: {fileID: 0}
-  Actor2D: {fileID: 0}
-  bState3D: 0
-  bState2D: 0
-  OutViewRect: 0
-  bChanging: 0
-  bShow: 0
+  _isUse2DTexture: 0
+  NoMeshRenderer: 0
   Power: 0
+  ConveyState: 
 --- !u!114 &391317488880068498
 MonoBehaviour:
   m_ObjectHideFlags: 0

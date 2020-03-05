@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 419486008286780495}
   - component: {fileID: 4549747109498844621}
   - component: {fileID: 6939628426464733035}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Root3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 4838476775414095578}
   - component: {fileID: 412450446815405324}
   - component: {fileID: 4444305357739549932}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Switch_Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,15 +137,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8f823aa4e2dfca40ad04a33d73a6862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WorldManager: {fileID: 0}
-  Actor3D: {fileID: 0}
-  Actor2D: {fileID: 0}
-  bState3D: 0
-  bState2D: 0
-  OutViewRect: 0
-  bChanging: 0
-  bShow: 0
+  _isUse2DTexture: 0
+  NoMeshRenderer: 0
   Power: 0
+  ConveyState: 
 --- !u!65 &4444305357739549932
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -169,7 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 188774730915025307}
   - component: {fileID: 4472390752637576171}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Root2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
