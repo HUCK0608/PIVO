@@ -8,7 +8,7 @@ public enum EBGMType { None, };
 public enum ESFXType { None,
                        Corgi_Climb, Corgi_PutEnd,
                        Soop_Move_0, Soop_Move_1, Soop_PutEnd_0, Soop_PutEnd_1,
-                       ViewChange_Cast, ViewChange_ChangStart, ViewChange_Block,
+                       ViewChange_Cast, ViewChange_ChangStart, ViewChange_ChangeEnd, ViewChange_Block,
                        BombFire_0, Boom_0, Boom_1, Boom_2, Boom_3, Boom_4, Boom_5,
                        BrokenTile_0, BrokenTile_1,
                        MagicStone_Activate, MagicStone_Idle,

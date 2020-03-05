@@ -15,6 +15,7 @@ public class CPlayerState2D_Move : CPlayerState2D
             Controller2D.ChangeState(EPlayerState2D.Falling);
         else if (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey) && !CPlayerManager.Instance.IsOnSoopDetection)
         {
+            SoundManager.Instance.PlaySFX(ESFXType.ViewChange_ChangeEnd);
             CWorldManager.Instance.ChangeWorld();
             Controller2D.ChangeState(EPlayerState2D.Idle);
         }
