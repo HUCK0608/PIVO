@@ -175,6 +175,7 @@ public class CUIManager_Title : MonoBehaviour
                     {
                         SetActiveMainMenu(false);
                         SetActiveNewGame(true);
+                        CBiscuitManager.Instance.ResetSaveData();
                     }
                     else
                     {

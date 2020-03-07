@@ -178,4 +178,12 @@ public class CBiscuitManager : MonoBehaviour
 
         return currentStar;
     }
+
+    public void ResetSaveData()
+    {
+        _saveBiscuitCount = 0;
+
+        for (int i = 0; i < _biscuits.Count; i++)
+            _biscuits[i].IsDidEat = false;
+    }
 }
