@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 544235812547343790}
   - component: {fileID: 1178247696367236540}
-  - component: {fileID: 1754579011536596230}
   - component: {fileID: 1256079323495921739}
+  - component: {fileID: 8075032119410199267}
   m_Layer: 11
   m_Name: Bomb
   m_TagString: Untagged
@@ -58,20 +58,10 @@ MonoBehaviour:
   bUseBomb: 0
   IsEnabled: 0
   bAttach: 0
+  IsEndLogic: 0
   _boomSoundRandomPlayer: {fileID: 1256079323495921739}
---- !u!65 &1754579011536596230
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544235812547343789}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.5, z: 1.5}
-  m_Center: {x: 0, y: -0.2, z: 0}
+  _rigidbody: {fileID: 8075032119410199267}
+  _collider3D: {fileID: 623664969269233143}
 --- !u!114 &1256079323495921739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +100,22 @@ MonoBehaviour:
     MinPercent: 81
     MaxPercent: 100
   _useLoop: 0
+--- !u!54 &8075032119410199267
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544235812547343789}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &2217642562183859300
 GameObject:
   m_ObjectHideFlags: 0

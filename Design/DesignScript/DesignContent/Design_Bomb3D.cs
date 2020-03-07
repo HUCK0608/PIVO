@@ -5,10 +5,9 @@ using UnityEngine;
 public class Design_Bomb3D : MonoBehaviour
 {
     [HideInInspector]
-    public Design_BombController Controller;
+    public Design_BombController Controller = null;
 
-    GameObject Corgi;
-    
+    GameObject Corgi = null;
 
     public void BeginPlay()
     {
@@ -44,6 +43,5 @@ public class Design_Bomb3D : MonoBehaviour
                 Controller.AttachCorgi();
         }
     }
-    
 
 }
