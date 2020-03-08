@@ -175,13 +175,13 @@ public class CUIManager_Title : MonoBehaviour
                     {
                         SetActiveMainMenu(false);
                         SetActiveNewGame(true);
-                        CBiscuitManager.Instance.ResetSaveData();
                     }
                     else
                     {
                         _animator.SetBool("IsFadeOut", true);
                         CDataManager.DeleteAllInGameData();
                         PlayerPrefs.DeleteAll();
+                        CBiscuitManager.Instance.ResetSaveData();
                     }
                     break;
                 }
@@ -898,6 +898,7 @@ public class CUIManager_Title : MonoBehaviour
                 _animator.SetBool("IsFadeOut", true);
                 CDataManager.DeleteAllInGameData();
                 PlayerPrefs.DeleteAll();
+                CBiscuitManager.Instance.ResetSaveData();
                 break;
             case 1:
                 SetActiveMainMenu(true);

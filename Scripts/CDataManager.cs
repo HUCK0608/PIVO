@@ -4,7 +4,7 @@ using System.Xml;
 using System.Collections.Generic;
 using System;
 
-public enum EXmlDocumentNames { None = 0, InGameDataOrigin = 1, GrassStageDatas, SnowStageDatas, SelectPlayerDatas, InGameDataDest, Setting }
+public enum EXmlDocumentNames { None = 0, InGameDataOrigin = 1, CommonDatas, GrassStageDatas, SnowStageDatas, SelectPlayerDatas, InGameDataDest, Setting }
 
 public static class CDataManager
 {

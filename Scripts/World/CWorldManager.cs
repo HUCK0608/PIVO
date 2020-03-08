@@ -189,6 +189,40 @@ public class CWorldManager : MonoBehaviour
     /// <summary>스테이지 클리어</summary>
     public void StageClear()
     {
+        StartCoroutine(Test());
+        //string currentSceneName = SceneManager.GetActiveScene().name;
+        //string[] scenePaths = currentSceneName.Split('_');     // 0 : Season, 1 : Stage_x
+        //string stageSelectScenePath = null;
+
+        //// 파일 이름 지정
+        //EXmlDocumentNames documentName = EXmlDocumentNames.None;
+        //if (scenePaths[0].Equals("GrassStage"))
+        //{
+        //    documentName = EXmlDocumentNames.GrassStageDatas;
+        //    stageSelectScenePath = "StageSelect_Grass";
+        //}
+        //else if (scenePaths[0].Equals("SnowStage"))
+        //{
+        //    documentName = EXmlDocumentNames.SnowStageDatas;
+        //    stageSelectScenePath = "StageSelect_Snow";
+        //}
+
+        //// 저장에 필요한 변수 설정
+        //string nodePath = documentName.ToString("G") + "/StageDatas/" + currentSceneName;
+        //string[] elementsName = new string[] { "IsClear", "IsUnlock" };
+        //string[] datas = new string[] { "True", "True" };
+
+        //// 데이터 쓰기
+        //CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
+        //// 데이터 저장
+        //CDataManager.SaveCurrentXmlDocument();
+
+        //// 스테이지 선택씬 로드
+        //SceneManager.LoadScene(stageSelectScenePath);
+    }
+
+    private IEnumerator Test()
+    {
         string currentSceneName = SceneManager.GetActiveScene().name;
         string[] scenePaths = currentSceneName.Split('_');     // 0 : Season, 1 : Stage_x
         string stageSelectScenePath = null;
@@ -215,6 +249,8 @@ public class CWorldManager : MonoBehaviour
         CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
         // 데이터 저장
         CDataManager.SaveCurrentXmlDocument();
+
+        yield return new WaitForSeconds(3f);
 
         // 스테이지 선택씬 로드
         SceneManager.LoadScene(stageSelectScenePath);
