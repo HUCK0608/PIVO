@@ -51,7 +51,7 @@ public class CUIManager_StageSelect : MonoBehaviour
 
     private void SetTotalStarText()
     {
-        _totalStarText.text = string.Format("x {0}", CStageManager.Instance.GetTotalStar().ToString());
+        _totalStarText.text = string.Format("x {0}", CStageManager.Instance.TotalStar);
     }
 
     private void SetActivateStar(bool active)

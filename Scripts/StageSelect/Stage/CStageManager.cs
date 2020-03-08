@@ -20,6 +20,11 @@ public class CStageManager : MonoBehaviour
     /// <summary>속성들의 이름</summary>
     private string[] _elementsName = new string[] { "MaxBiscuitCount", "HaveBiscuitCount", "IsClear", "IsUnlock", "Stars", "RequirementStar1", "RequirementStar2", "RequirementStar3" };
 
+    private int _currentSeasonTotalStar = 0;
+
+    private int _totalStar = 0;
+    public int TotalStar { get { return _totalStar; } }
+
     private void Awake()
     {
         _instance = this;
@@ -62,10 +67,11 @@ public class CStageManager : MonoBehaviour
 
         string firstNodePath = _xmlDocumentName.ToString("G") + "/StageDatas/";
 
+        string[] datas = null;
         // 데이터 쓰기
         for (int i = 0; i < stageAmount; i++)
         {
-            string[] datas = new string[] { _stages[i].MaxBiscuitCount.ToString(),
+            datas = new string[] { _stages[i].MaxBiscuitCount.ToString(),
                                             _stages[i].HaveBiscuitCount.ToString(),
                                             _stages[i].IsClear.ToString(),
                                             _stages[i].IsUnlock.ToString(),
@@ -77,6 +83,14 @@ public class CStageManager : MonoBehaviour
         }
 
         // 파일 저장
+        CDataManager.SaveCurrentXmlDocument();
+
+        EXmlDocumentNames commonDataName = EXmlDocumentNames.CommonDatas;
+        firstNodePath = commonDataName.ToString("G") + "/StageDatas";
+        string[] elementsName = new string[] { _xmlDocumentName.ToString("G") + "TotalStar" };
+        datas = new string[] { _currentSeasonTotalStar.ToString() };
+
+        CDataManager.WritingDatas(commonDataName, firstNodePath, elementsName, datas);
         CDataManager.SaveCurrentXmlDocument();
     }
 
@@ -90,11 +104,12 @@ public class CStageManager : MonoBehaviour
         int stageAmount = _stages.Count;
 
         string firstNodePath = _xmlDocumentName.ToString("G") + "/StageDatas/";
+        string[] datas = null;
 
         // 데이터 불러오기
         for (int i = 0; i < stageAmount; i++)
         {
-            string[] datas = CDataManager.ReadDatas(_xmlDocumentName, firstNodePath + _stages[i].GameSceneName, _elementsName);
+            datas = CDataManager.ReadDatas(_xmlDocumentName, firstNodePath + _stages[i].GameSceneName, _elementsName);
 
             // 반환받은 데이터가 있을 경우에만 데이터를 가져옴
             if (datas != null)
@@ -118,7 +133,10 @@ public class CStageManager : MonoBehaviour
                     _stages[i].IsUnlock = false;
 
                 if (datas[4] != null)
+                {
                     _stages[i].Stars = int.Parse(datas[4]);
+                    _currentSeasonTotalStar += _stages[i].Stars;
+                }
                 else
                     _stages[i].Stars = 0;
 
@@ -130,6 +148,25 @@ public class CStageManager : MonoBehaviour
                     _stages[i].Requirements[2] = int.Parse(datas[7]);
             }
         }
+
+        _totalStar = _currentSeasonTotalStar;
+
+        EXmlDocumentNames commonDataName = EXmlDocumentNames.CommonDatas;
+        firstNodePath = commonDataName.ToString("G") + "/StageDatas";
+        string[] elementsName = null;
+
+        if(_xmlDocumentName.Equals(EXmlDocumentNames.GrassStageDatas))
+            elementsName = new string[] { EXmlDocumentNames.SnowStageDatas.ToString("G") + "TotalStar" };
+        else if(_xmlDocumentName.Equals(EXmlDocumentNames.SnowStageDatas))
+            elementsName = new string[] { EXmlDocumentNames.GrassStageDatas.ToString("G") + "TotalStar" };
+
+        datas = CDataManager.ReadDatas(commonDataName, firstNodePath, elementsName);
+
+        if (datas != null)
+        {
+            if (datas[0] != null)
+                _totalStar += int.Parse(datas[0]);
+        }
     }
 
     /// <summary>잠금 초기화</summary>
@@ -140,17 +177,5 @@ public class CStageManager : MonoBehaviour
             if (_stages[i].IsClear)
                 _stages[i + 1].IsUnlock = true;
         }
-    }
-
-    public int GetTotalStar()
-    {
-        int totalStar = 0;
-
-        for(int i = 0; i <_stages.Count; i++)
-        {
-            totalStar += _stages[i].Stars;
-        }
-
-        return totalStar;
     }
 }

@@ -26,12 +26,19 @@ public class Design_BombController : Design_WorldObjectController
     public bool IsEnabled = false;
     [HideInInspector]
     public bool bAttach = false;
+    [HideInInspector]
+    public bool IsEndLogic = false;
 
     private bool _isActiveInteractionUI = false;
 
     [SerializeField]
     private SoundRandomPlayer_SFX _boomSoundRandomPlayer = null;
     private AudioSource _bombFireAudioSource = null;
+
+    [SerializeField]
+    private Rigidbody _rigidbody = null;
+    [SerializeField]
+    private Collider _collider3D = null;
 
     protected override void Awake()
     {
@@ -198,20 +205,25 @@ public class Design_BombController : Design_WorldObjectController
     void Explosion()
     {
         bool bCondition = false;
-        if (WorldManager.CurrentWorldState == EWorldState.View3D)
+        EPlayerState3D currentPlayerState3D = CPlayerManager.Instance.Controller3D.CurrentState;
+        EPlayerState2D currentPlayerState2D = CPlayerManager.Instance.Controller2D.CurrentState;
+        if (WorldManager.CurrentWorldState == EWorldState.View3D && (currentPlayerState3D.Equals(EPlayerState3D.Idle) || 
+                                                                     currentPlayerState3D.Equals(EPlayerState3D.Idle2) || 
+                                                                     currentPlayerState3D.Equals(EPlayerState3D.Idle3) || 
+                                                                     currentPlayerState3D.Equals(EPlayerState3D.Move)))
         {
             Vector3 Corgi3DPos = CPlayerManager.Instance.RootObject3D.transform.position;
                 bCondition = true;
         }
-        else if(WorldManager.CurrentWorldState == EWorldState.View2D)
+        else if(WorldManager.CurrentWorldState == EWorldState.View2D && (currentPlayerState2D.Equals(EPlayerState2D.Idle) || 
+                                                                         currentPlayerState2D.Equals(EPlayerState2D.Move)))
         {
             Vector3 Corgi2DPos = CPlayerManager.Instance.RootObject2D.transform.position;
             if (IsCanChange2D)
                 bCondition = true;
         }
 
-        if (Input.GetKeyDown(ExplosionKey) && bCondition && bUseBomb && IsEnabled
-            && !CPlayerManager.Instance.GetComponentInChildren<CPlayerState3D_Holding>().enabled)
+        if (Input.GetKeyDown(ExplosionKey) && bCondition && bUseBomb && IsEnabled)
         {
             if (this.transform.parent != null)
             {
@@ -250,7 +262,6 @@ public class Design_BombController : Design_WorldObjectController
         IgnitionFireEffect.SetActive(false);
         bUseBomb = false;
 
-        GetComponent<BoxCollider>().isTrigger = true;
         RootObject3D.GetComponent<BoxCollider>().isTrigger = true;
         RootObject2D.GetComponent<BoxCollider2D>().isTrigger = true;
 
@@ -314,7 +325,6 @@ public class Design_BombController : Design_WorldObjectController
 
         Destroy(BoomEffectInstance);
 
-        GetComponent<BoxCollider>().isTrigger = false;
         RootObject3D.GetComponent<BoxCollider>().isTrigger = false;
         RootObject2D.GetComponent<BoxCollider2D>().isTrigger = false;
     }
@@ -352,17 +362,43 @@ public class Design_BombController : Design_WorldObjectController
             yield return null;
         }
 
-        transform.parent = corgiController3D.transform;
         yield return new WaitUntil(() => corgiController3D.Animator.GetCurrentAnimatorStateInfo(0).IsName("PutObjectIdle"));
+
+        StartCoroutine(PutBombIdleLogic());
+    }
+
+    private IEnumerator PutBombIdleLogic()
+    {
+        CPlayerController3D corgiController3D = Corgi.Controller3D;
+
+        _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+
+        while(true)
+        {
+            Vector3 putPoint = corgiController3D.transform.position + Vector3.up * 4f + corgiController3D.transform.forward * 2f;
+            Vector3 direction = (putPoint - transform.position).normalized;
+
+            if (Vector3.Distance(putPoint, transform.position) >= 0.3f)
+                _rigidbody.velocity = direction * 8f;
+            else
+                _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity + direction * 0.03f, 0.5f);
+
+            if (Input.GetKeyDown(InteractionKey) && !corgiController3D.CurrentState.Equals(EPlayerState3D.PutObjectFalling))
+                break;
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 
         StartCoroutine(PutBombEndLogic());
     }
 
     private IEnumerator PutBombEndLogic()
     {
-        CPlayerController3D corgiController3D = Corgi.Controller3D;
+        IsEndLogic = true;
 
-        yield return new WaitUntil(() => Input.GetKeyDown(InteractionKey) && !corgiController3D.CurrentState.Equals(EPlayerState3D.PutObjectFalling));
+        CPlayerController3D corgiController3D = Corgi.Controller3D;
 
         //폭탄을 밀기타일 위에 올려놓고 밀어야해서 아래있는 타일에 어태치시킴
         //transform.parent = ParentBombSpawn.transform;
@@ -371,12 +407,12 @@ public class Design_BombController : Design_WorldObjectController
 
         Vector3 startPoint = transform.position;
         RaycastHit hit;
-        Physics.Raycast(transform.position, Vector3.down, out hit, float.PositiveInfinity);
 
         Vector3 putPoint = transform.position;
+        int ignoreLayermask = (-1) - (CLayer.Player.LeftShiftToOne() | CLayer.BackgroundObject.LeftShiftToOne());
         bool isFall = false;
 
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, float.PositiveInfinity))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, float.PositiveInfinity, ignoreLayermask))
         {
             putPoint = hit.point + Vector3.up;
             transform.parent = hit.transform;
@@ -405,10 +441,29 @@ public class Design_BombController : Design_WorldObjectController
         }
 
         bAttachCorgi = false;
+        IsEndLogic = false;
 
         if (isFall)
             BeginExplosion();
         else
             EnableBomb();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (true == IsEndLogic && collision.gameObject.layer.Equals(CLayer.Player))
+        {
+            _collider3D.isTrigger = true;
+        }
+    }
+
+    protected override void OnTriggerExit(Collider other)
+    {
+        base.OnTriggerExit(other);
+
+        if (false == IsEndLogic && other.gameObject.layer.Equals(CLayer.Player))
+        {
+            _collider3D.isTrigger = false;
+        }
     }
 }
