@@ -13,7 +13,7 @@ public class CWand : MonoBehaviour
     {
         Intro2PlayerDirector.gameObject.SetActive(false);
 
-        if (PlayerPrefs.GetInt("IsOnTitle").Equals(1))
+        if (!CUIManager_Title._isUseTitle)
             gameObject.SetActive(false);
     }
 

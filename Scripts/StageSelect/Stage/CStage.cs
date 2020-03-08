@@ -69,8 +69,7 @@ public class CStage : MonoBehaviour
     /// <summary>스테이지 시작</summary>
     public void StartStage()
     {
-        if (_gameSceneName.Equals("GrassStage_Stage1"))
-            PlayerPrefs.SetInt("IsOnTitle", 1);
+        CUIManager_Title._isUseTitle = false;
 
         CUIManager_StageSelect.Instance.StartFadeOut();
 
@@ -82,6 +81,7 @@ public class CStage : MonoBehaviour
     {
         yield return new WaitUntil(() => !CUIManager_StageSelect.Instance.IsFadeInOut);
 
+        CUIManager_StageSelect.Instance.SetActiveLoading(true);
         SceneManager.LoadScene(_gameSceneName);
     }
 

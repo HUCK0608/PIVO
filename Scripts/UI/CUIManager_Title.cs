@@ -39,6 +39,8 @@ public class CUIManager_Title : MonoBehaviour
     /// <summary>타이틀 BGM이 끝나는지 확인용 </summary>
     private bool _waitTitleBGM = false;
 
+    public static bool _isUseTitle = true;
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -58,11 +60,8 @@ public class CUIManager_Title : MonoBehaviour
 
     private void Start()
     {
-        // 0 : true, 1 : false
-        int isOnTitle = PlayerPrefs.GetInt("IsOnTitle");
-
         // 타이틀을 보여주지 않을 경우 비활성화
-        if (isOnTitle.Equals(1))
+        if (!_isUseTitle)
         {
             PlayerPrefs.SetInt("IsOnTitle", 0);
             gameObject.SetActive(false);
@@ -187,22 +186,28 @@ public class CUIManager_Title : MonoBehaviour
                 }
             case 1:
                 {
-                    EXmlDocumentNames selectPlayerDatasName = EXmlDocumentNames.SelectPlayerDatas;
+                    System.Action callback = delegate ()
+                    {
+                        SetActiveLoading(true);
+                        EXmlDocumentNames selectPlayerDatasName = EXmlDocumentNames.SelectPlayerDatas;
 
-                    string _nodeName = "SelectPlayerDatas";
-                    string[] _elementsName = new string[] { "LastSeason" };
+                        string _nodeName = "SelectPlayerDatas";
+                        string[] _elementsName = new string[] { "LastSeason" };
 
-                    string nodePath = selectPlayerDatasName.ToString("G") + "/" + _nodeName;
+                        string nodePath = selectPlayerDatasName.ToString("G") + "/" + _nodeName;
 
-                    // 데이터 불러오기
-                    string[] datas = CDataManager.ReadDatas(selectPlayerDatasName, nodePath, _elementsName);
+                        // 데이터 불러오기
+                        string[] datas = CDataManager.ReadDatas(selectPlayerDatasName, nodePath, _elementsName);
 
-                    if (datas == null || datas[0] == null)
-                        SceneManager.LoadScene("StageSelect_Grass");
-                    if (datas[0].Equals(EXmlDocumentNames.GrassStageDatas.ToString("G")))
-                        SceneManager.LoadScene("StageSelect_Grass");
-                    else if (datas[0].Equals(EXmlDocumentNames.SnowStageDatas.ToString("G")))
-                        SceneManager.LoadScene("StageSelect_Snow");
+                        if (datas == null || datas[0] == null)
+                            SceneManager.LoadScene("StageSelect_Grass");
+                        if (datas[0].Equals(EXmlDocumentNames.GrassStageDatas.ToString("G")))
+                            SceneManager.LoadScene("StageSelect_Grass");
+                        else if (datas[0].Equals(EXmlDocumentNames.SnowStageDatas.ToString("G")))
+                            SceneManager.LoadScene("StageSelect_Snow");
+                    };
+
+                    StartFadeOut(callback);
                 }
                 break;
             case 2:
@@ -917,5 +922,63 @@ public class CUIManager_Title : MonoBehaviour
     private void InitVersion()
     {
         _versionText.text = string.Format("Ver {0}", Application.version);
+    }
+
+    /// <summary>검은 화면 이미지</summary>
+    [SerializeField]
+    private Image _blackBG = null;
+    /// <summary>검은 화면 알파에 더해질 수치</summary>
+    [SerializeField]
+    private float _blackBGIncreaseValue = 0f;
+
+    private bool _isFadeInOrOut = false;
+    /// <summary>페이드 인 또는 아웃이 실행중인지 여부</summary>
+    public bool IsFadeInOut { get { return _isFadeInOrOut; } }
+
+    /// <summary>점점 밝아지며 화면이 보임</summary>
+    public void StartFadeIn(System.Action callback = null)
+    {
+        if (!_isFadeInOrOut)
+            StartCoroutine(BlackBGIncreaseAlphaLogic(-_blackBGIncreaseValue, 1f, 0f, callback));
+    }
+
+    /// <summary>점점 어두워지며 화면이 안보임</summary>
+    public void StartFadeOut(System.Action callback = null)
+    {
+        if (!_isFadeInOrOut)
+            StartCoroutine(BlackBGIncreaseAlphaLogic(_blackBGIncreaseValue, 0f, 1f, callback));
+    }
+
+    /// <summary>검은 화면 값 증가(목표값까지)</summary>
+    private IEnumerator BlackBGIncreaseAlphaLogic(float value, float startAlpha, float finalAlpha, System.Action callback = null)
+    {
+        _isFadeInOrOut = true;
+        _blackBG.gameObject.SetActive(true);
+
+        // 시작값 설정
+        Color currentColor = Color.black;
+        currentColor.a = startAlpha;
+        _blackBG.color = currentColor;
+
+        while (!currentColor.a.Equals(finalAlpha))
+        {
+            currentColor.a = Mathf.Clamp01(currentColor.a + value * Time.deltaTime);
+            _blackBG.color = currentColor;
+
+            yield return null;
+        }
+
+        if (null != callback)
+            callback();
+
+        _isFadeInOrOut = false;
+    }
+
+    [SerializeField]
+    private GameObject _loading = null;
+
+    public void SetActiveLoading(bool value)
+    {
+        _loading.SetActive(value);
     }
 }

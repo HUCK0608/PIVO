@@ -119,19 +119,19 @@ public class CUIManager_StageSelect : MonoBehaviour
     public bool IsFadeInOut { get { return _isFadeInOrOut; } }
 
     /// <summary>점점 밝아지며 화면이 보임</summary>
-    public void StartFadeIn()
+    public void StartFadeIn(System.Action callback = null)
     {
-        StartCoroutine(BlackBGIncreaseAlphaLogic(-_blackBGIncreaseValue, 1f, 0f));
+        StartCoroutine(BlackBGIncreaseAlphaLogic(-_blackBGIncreaseValue, 1f, 0f, callback));
     }
 
     /// <summary>점점 어두워지며 화면이 안보임</summary>
-    public void StartFadeOut()
+    public void StartFadeOut(System.Action callback = null)
     {
-        StartCoroutine(BlackBGIncreaseAlphaLogic(_blackBGIncreaseValue, 0f, 1f));
+        StartCoroutine(BlackBGIncreaseAlphaLogic(_blackBGIncreaseValue, 0f, 1f, callback));
     }
 
     /// <summary>검은 화면 값 증가(목표값까지)</summary>
-    private IEnumerator BlackBGIncreaseAlphaLogic(float value, float startAlpha, float finalAlpha)
+    private IEnumerator BlackBGIncreaseAlphaLogic(float value, float startAlpha, float finalAlpha, System.Action callback = null)
     {
         _isFadeInOrOut = true;
         _blackBG.gameObject.SetActive(true);
@@ -149,7 +149,18 @@ public class CUIManager_StageSelect : MonoBehaviour
             yield return null;
         }
 
+        if (callback != null)
+            callback();
+
         _isFadeInOrOut = false;
+    }
+
+    [SerializeField]
+    private GameObject _loading = null;
+
+    public void SetActiveLoading(bool value)
+    {
+        _loading.SetActive(value);
     }
 
     #region ReturnToTitle
@@ -234,6 +245,8 @@ public class CUIManager_StageSelect : MonoBehaviour
         if (_isExcutionAnything)
             return;
 
+        _isExcutionAnything = true;
+
         if (selectMenu == 0)
             ExcuteYes_ReturnToTitle();
         else
@@ -242,12 +255,19 @@ public class CUIManager_StageSelect : MonoBehaviour
 
     private void ExcuteYes_ReturnToTitle()
     {
-        SceneManager.LoadScene("GrassStage_Stage1");
-        _isExcutionAnything = true;
+        System.Action callback = delegate ()
+        {
+            CUIManager_Title._isUseTitle = true;
+            SetActiveLoading(true);
+            SceneManager.LoadScene("GrassStage_Stage1");
+        };
+
+        StartFadeOut(callback);
     }
 
     private void ExcuteNo_ReturnToTitle()
     {
+        _isExcutionAnything = false;
         SetActivateReturnToTitle(false);
     }
 

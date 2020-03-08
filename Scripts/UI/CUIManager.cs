@@ -28,10 +28,19 @@ public class CUIManager : MonoBehaviour
     private void Start()
     {
         LoadOptionData();
+
+        if (!CUIManager_Title._isUseTitle)
+        {
+            PlayerCanOperationFalse();
+            StartFadeIn(PlayerCanOperationTrue);
+        }
     }
 
     private void Update()
     {
+        if(_isFadeInOrOut)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (_returnToTitleGroup.activeSelf)
@@ -453,7 +462,14 @@ public class CUIManager : MonoBehaviour
 
         PlayPointerUpAudio();
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        System.Action callback = delegate ()
+        {
+            SetActiveLoading(true);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        };
+
+        CUIManager_Title._isUseTitle = false;
+        StartFadeOut(callback);
     }
 
     /// <summary>스테이지 선택 클릭 이벤트</summary>
@@ -466,8 +482,14 @@ public class CUIManager : MonoBehaviour
 
         PlayPointerUpAudio();
 
-        string season = SceneManager.GetActiveScene().name.Split('_')[0].Equals("GrassStage") ? "Grass" : "Snow";
-        SceneManager.LoadScene("StageSelect_" + season);
+        System.Action callback = delegate ()
+        {
+            SetActiveLoading(true);
+            string season = SceneManager.GetActiveScene().name.Split('_')[0].Equals("GrassStage") ? "Grass" : "Snow";
+            SceneManager.LoadScene("StageSelect_" + season);
+        };
+
+        StartFadeOut(callback);
     }
 
     #endregion
@@ -771,9 +793,13 @@ public class CUIManager : MonoBehaviour
     public void UIStageClearOkButtonClick()
     {
         if (CWorldManager.Instance.IsUseTimeLineScene)
+        {
+            SetActiveLoading(true);
             CWorldManager.Instance.StageClearWaitTimeLineScene(CWorldManager.Instance.TimeLineSceneName);
+        }
         else
         {
+            SetActiveLoading(true);
             CBiscuitManager.Instance.SaveDatas();
             CWorldManager.Instance.StageClear();
         }
@@ -1092,9 +1118,15 @@ public class CUIManager : MonoBehaviour
 
     private void ExcuteYes_ReturnToTitle()
     {
-        string season = SceneManager.GetActiveScene().name.Split('_')[0].Equals("GrassStage") ? "Grass" : "Snow";
-        SceneManager.LoadScene("StageSelect_" + season);
+        System.Action callback = delegate ()
+        {
+            SetActiveLoading(true);
+            string season = SceneManager.GetActiveScene().name.Split('_')[0].Equals("GrassStage") ? "Grass" : "Snow";
+            SceneManager.LoadScene("StageSelect_" + season);
+        };
+
         Time.timeScale = 1f;
+        StartFadeOut(callback);
     }
 
     private void ExcuteNo_ReturnToTitle()
@@ -1118,6 +1150,7 @@ public class CUIManager : MonoBehaviour
 
     private bool _isInitRestart = false;
     private bool _isOnRestartUI = false;
+    private bool _isExcuteEnd_Restart = false;
 
     public void SetActiveRestart(bool active)
     {
@@ -1218,10 +1251,15 @@ public class CUIManager : MonoBehaviour
 
     public void ExcuteMenu_Restart(int menuIndex)
     {
+        if (_isExcuteEnd_Restart)
+            return;
+            
+        _isExcuteEnd_Restart = true;
+
         if (menuIndex == 0)
         {
-            ExcuteYes_Restart();
             Time.timeScale = 1f;
+            ExcuteYes_Restart();
         }
         else
             ExcuteNo_Restart();
@@ -1231,11 +1269,19 @@ public class CUIManager : MonoBehaviour
 
     private void ExcuteYes_Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        System.Action callback = delegate ()
+        {
+            CUIManager_Title._isUseTitle = false;
+            SetActiveLoading(true);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        };
+
+        StartFadeOut(callback);
     }
 
     private void ExcuteNo_Restart()
     {
+        _isExcuteEnd_Restart = false;
         SetActiveRestart(false);
     }
 
@@ -1721,6 +1767,75 @@ public class CUIManager : MonoBehaviour
     public void ChangeSFXVolume() { _selectSFXNormalizedValue = _SFXScroll.NormalizedValue; SetActiveApplyButtonOptionMenu(true); }
     public void ChangeBGMVolume(float addValue) { _selectBGMNormalizedValue = Mathf.Clamp(_selectBGMNormalizedValue + addValue, 0f, 1f); _BGMScroll.SetScroll(_selectBGMNormalizedValue); SetActiveApplyButtonOptionMenu(true); }
     public void ChangeSFXVolume(float addValue) { _selectSFXNormalizedValue = Mathf.Clamp(_selectSFXNormalizedValue + addValue, 0f, 1f); _SFXScroll.SetScroll(_selectSFXNormalizedValue); SetActiveApplyButtonOptionMenu(true); }
+
+    #endregion
+
+    #region Fade
+
+    /// <summary>검은 화면 이미지</summary>
+    [SerializeField]
+    private Image _blackBG = null;
+    /// <summary>검은 화면 알파에 더해질 수치</summary>
+    [SerializeField]
+    private float _blackBGIncreaseValue = 0f;
+
+    private bool _isFadeInOrOut = false;
+    /// <summary>페이드 인 또는 아웃이 실행중인지 여부</summary>
+    public bool IsFadeInOut { get { return _isFadeInOrOut; } }
+
+    /// <summary>점점 밝아지며 화면이 보임</summary>
+    public void StartFadeIn(System.Action callback = null)
+    {
+        if(!_isFadeInOrOut)
+            StartCoroutine(BlackBGIncreaseAlphaLogic(-_blackBGIncreaseValue, 1f, 0f, callback));
+    }
+
+    /// <summary>점점 어두워지며 화면이 안보임</summary>
+    public void StartFadeOut(System.Action callback = null)
+    {
+        if(!_isFadeInOrOut)
+            StartCoroutine(BlackBGIncreaseAlphaLogic(_blackBGIncreaseValue, 0f, 1f, callback));
+    }
+
+    /// <summary>검은 화면 값 증가(목표값까지)</summary>
+    private IEnumerator BlackBGIncreaseAlphaLogic(float value, float startAlpha, float finalAlpha, System.Action callback = null)
+    {
+        _isFadeInOrOut = true;
+        _blackBG.gameObject.SetActive(true);
+
+        // 시작값 설정
+        Color currentColor = Color.black;
+        currentColor.a = startAlpha;
+        _blackBG.color = currentColor;
+
+        while (!currentColor.a.Equals(finalAlpha))
+        {
+            currentColor.a = Mathf.Clamp01(currentColor.a + value * Time.deltaTime);
+            _blackBG.color = currentColor;
+
+            yield return null;
+        }
+
+        if (null != callback)
+            callback();
+
+        _isFadeInOrOut = false;
+    }
+
+    #endregion
+
+    #region Loading
+
+    [SerializeField]
+    private GameObject _loaindg = null;
+
+    private bool _isOnLoadingUI = false;
+
+    public void SetActiveLoading(bool _bActive)
+    {
+        _isOnLoadingUI = _bActive;
+        _loaindg.SetActive(_bActive);
+    }
 
     #endregion
 
