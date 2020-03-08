@@ -22,7 +22,10 @@ public class CPlayerState3D_Climb : CPlayerState3D
 
         CCameraController.Instance.Target = _cameraTarget[Controller3D.ClimbInfo.aniNumber];
 
-        SoundManager.Instance.PlaySFX(ESFXType.Corgi_Climb);
+        if(Controller3D.ClimbInfo.aniNumber.Equals(0))
+            SoundManager.Instance.PlaySFX(ESFXType.Corgi_Climb, false, 0.2f);
+        else
+            SoundManager.Instance.PlaySFX(ESFXType.Corgi_Climb, false, 0.6f);
     }
 
     private void Update()
