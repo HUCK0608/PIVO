@@ -55,8 +55,21 @@ public class CTimelineTrigger : MonoBehaviour
     {
         // 타임라인 시작 지점으로 자동 이동
         CPlayerManager.Instance.StartAutoMove(_startTimelinePoint.position);
-        // 자동 이동이 끝날때까지 대기
-        yield return new WaitUntil(() => CPlayerManager.Instance.IsCanOperation);
+
+        // 강제 진행 체크
+        float addTime = 0f;
+        while(true)
+        {
+            addTime += Time.deltaTime;
+
+            if(addTime >= 3f)
+            {
+                break;
+            }
+
+            yield return null;
+        }
+
         // 플레이어 비활성화
         CPlayerManager.Instance.gameObject.SetActive(false);
         // InGameUI 비활성화

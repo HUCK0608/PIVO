@@ -18,7 +18,7 @@ public class Design_RandomTileManager : MonoBehaviour
 
     void Start()
     {
-        MoveSpeed = 0.8f;//0.8f
+        MoveSpeed = 100f;//0.8f
         RandomRange = 5f;//5f
         WaitTileTime = 0.15f;//0.15f
 
@@ -52,7 +52,7 @@ public class Design_RandomTileManager : MonoBehaviour
                 if (Value.transform.position.y < TargetPosY)
                 {
                     Vector3 TargetPos = new Vector3(ValuePos.x, TargetPosY, ValuePos.z);
-                    Value.transform.position = Vector3.MoveTowards(ValuePos, TargetPos, MoveSpeed);
+                    Value.transform.position = Vector3.MoveTowards(ValuePos, TargetPos, MoveSpeed * Time.deltaTime);
                 }                    
             }
         }
