@@ -231,6 +231,7 @@ public class CUIManager : MonoBehaviour
             if (true == _isOnReturnToTitleUI) return;
             if (true == _isOnStageClearUI) return;
             if (true == _isOnWallPaintingUI) return;
+            if (true == _isOnMove3DTutorialUI) return;
         }
 
         _bombExplosionGroup.SetActive(value);
@@ -324,6 +325,24 @@ public class CUIManager : MonoBehaviour
 
     public void SetActiveMove3DTutorialUI(bool value)
     {
+        _isOnMove3DTutorialUI = value;
+
+        if(true == _isOnMove3DTutorialUI)
+        {
+            if (_isOnWallPaintingUI) return;
+            if (_isOnPauseUI) return;
+            if (_isOnRestartUI) return;
+            if (_isOnOptionUI) return;
+            if (_isOnReturnToTitleUI) return;
+            if (_isOnDeadUI) return;
+
+            SetForceActiveBombExplosionUI(false);
+        }
+        else
+        {
+            SetForceActiveBombExplosionUI(true);
+        }
+
         _isOnMove3DTutorialUI = value;
         _move3DTutorialGroup.SetActive(value);
     }
@@ -464,6 +483,7 @@ public class CUIManager : MonoBehaviour
 
         System.Action callback = delegate ()
         {
+            SoundManager.Instance.StopAll();
             SetActiveLoading(true);
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         };
@@ -484,6 +504,7 @@ public class CUIManager : MonoBehaviour
 
         System.Action callback = delegate ()
         {
+            SoundManager.Instance.StopAll();
             SetActiveLoading(true);
             string season = SceneManager.GetActiveScene().name.Split('_')[0].Equals("GrassStage") ? "Grass" : "Snow";
             SceneManager.LoadScene("StageSelect_" + season);
@@ -794,11 +815,13 @@ public class CUIManager : MonoBehaviour
     {
         if (CWorldManager.Instance.IsUseTimeLineScene)
         {
+            SoundManager.Instance.StopAll();
             SetActiveLoading(true);
             CWorldManager.Instance.StageClearWaitTimeLineScene(CWorldManager.Instance.TimeLineSceneName);
         }
         else
         {
+            SoundManager.Instance.StopAll();
             SetActiveLoading(true);
             CBiscuitManager.Instance.SaveDatas();
             CWorldManager.Instance.StageClear();
@@ -1120,6 +1143,7 @@ public class CUIManager : MonoBehaviour
     {
         System.Action callback = delegate ()
         {
+            SoundManager.Instance.StopAll();
             SetActiveLoading(true);
             string season = SceneManager.GetActiveScene().name.Split('_')[0].Equals("GrassStage") ? "Grass" : "Snow";
             SceneManager.LoadScene("StageSelect_" + season);
@@ -1271,6 +1295,7 @@ public class CUIManager : MonoBehaviour
     {
         System.Action callback = delegate ()
         {
+            SoundManager.Instance.StopAll();
             CUIManager_Title._isUseTitle = false;
             SetActiveLoading(true);
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);

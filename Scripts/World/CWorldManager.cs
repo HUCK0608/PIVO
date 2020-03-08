@@ -216,6 +216,7 @@ public class CWorldManager : MonoBehaviour
         // 데이터 저장
         CDataManager.SaveCurrentXmlDocument();
 
+        SoundManager.Instance.StopAll();
         // 스테이지 선택씬 로드
         SceneManager.LoadScene(stageSelectScenePath);
     }
