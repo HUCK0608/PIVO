@@ -12,11 +12,13 @@ public class CSoopSoundController : MonoBehaviour
 
     public void PlayPutEndSound()
     {
-        _putEndSoundRandomPlayer.Play();
+        if (null != _putEndSoundRandomPlayer)
+            _putEndSoundRandomPlayer.Play();
     }
 
     public void PlayMoveSound()
     {
-        _moveSoundRandomPlayer.Play();
+        if (null != _moveSoundRandomPlayer)
+            _moveSoundRandomPlayer.Play();
     }
 }
