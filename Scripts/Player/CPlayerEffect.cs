@@ -44,7 +44,7 @@ public class CPlayerEffect : MonoBehaviour
     /// <summary>시점전환 캡슐 이펙트 활성화
     public void ViewChangeCapsuleEffect_ActiveEnable()
     {
-        _viewChangeCapsuleEffect.transform.position = CPlayerManager.Instance.RootObject3D.transform.position;
+        _viewChangeCapsuleEffect.transform.position = CPlayerManager.Instance.RootObject3D.transform.position + Vector3.back * 0.2f;
         _viewChangeCapsuleEffect.SetActive(false);
         _viewChangeCapsuleEffect.SetActive(true);
     }

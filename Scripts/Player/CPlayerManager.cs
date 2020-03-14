@@ -92,15 +92,17 @@ public class CPlayerManager : CCharacter
     }
 
     /// <summary>자동 이동 시작</summary>
-    public void StartAutoMove(Vector3 target) { StartCoroutine(AutoMoveLogic(target)); }
+    public void StartAutoMove(Vector3 target, float forceMoveCheckTime = 0f) { StartCoroutine(AutoMoveLogic(target, forceMoveCheckTime)); }
 
     /// <summary>자동이동 로직</summary>
-    private IEnumerator AutoMoveLogic(Vector3 target)
+    private IEnumerator AutoMoveLogic(Vector3 target, float forceMoveCheckTime = 0f)
     {
         _isCanOperation = false;
 
         _controller2D.ChangeState(EPlayerState2D.Move);
         _controller3D.ChangeState(EPlayerState3D.Move);
+
+        float addTime = 0f;
 
         while (true)
         {
@@ -116,6 +118,15 @@ public class CPlayerManager : CCharacter
             target.y = RootObject3D.transform.position.y;
 
             if (Vector3.Distance(RootObject3D.transform.position, target) <= 0.3f)
+            {
+                RootObject2D.transform.position = target;
+                RootObject3D.transform.position = target;
+
+                break;
+            }
+
+            addTime += Time.deltaTime;
+            if (0 != forceMoveCheckTime && addTime >= forceMoveCheckTime)
             {
                 RootObject2D.transform.position = target;
                 RootObject3D.transform.position = target;

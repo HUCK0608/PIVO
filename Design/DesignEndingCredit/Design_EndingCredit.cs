@@ -76,6 +76,7 @@ public class Design_EndingCredit : MonoBehaviour
     }
     void FinishCredit()
     {
+        CUIManager_Title._isUseTitle = true;
         SceneManager.LoadScene("GrassStage_Stage1");
     }
 
