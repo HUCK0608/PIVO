@@ -1636,8 +1636,8 @@ public class CUIManager : MonoBehaviour
         _currentSFXNormalizedValue = _selectSFXNormalizedValue;
 
         string volume = "Volume";
-        _BGMAudioMixer.SetFloat(volume, 80f * _currentBGMNormalizedValue - 80f);
-        _SFXAudioMixer.SetFloat(volume, 80f * _currentSFXNormalizedValue - 80f);
+        _BGMAudioMixer.SetFloat(volume, (_currentBGMNormalizedValue - 1) * 40f);
+        _SFXAudioMixer.SetFloat(volume, (_currentSFXNormalizedValue - 1) * 40f);
     }
 
     /// <summary>옵션 적용 취소</summary>
