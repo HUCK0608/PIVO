@@ -160,7 +160,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
             else
                 _animator.SetBool("IsFalling", false);
 
-            if (Input.GetKeyDown(CKeyManager.StartStageKey))
+            if (Input.GetKeyDown(CKeyManager.StartStageKey) || Input.GetKeyDown(KeyCode.Return))
             {
                 SavePlayerData();
                 _currentStage.StartStage();
