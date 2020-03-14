@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Temple_VertexPaint_3
-  m_Shader: {fileID: 4800000, guid: 42c11b79b911fd64c86f0558620af7b9, type: 3}
+  m_Shader: {fileID: 4800000, guid: 3c8c6fa7996ec0d44acc3a0ede60f1b9, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
