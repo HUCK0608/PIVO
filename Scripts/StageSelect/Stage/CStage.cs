@@ -48,6 +48,9 @@ public class CStage : MonoBehaviour
     /// <summary>별 해금 조건</summary>
     public int[] Requirements { get { return _requirements; } set { _requirements = value; } }
 
+    [SerializeField]
+    private bool isFinalStage = false;
+
     [Header("Programmer can edit")]
     /// <summary>주위에 연결된 스테이지들</summary>
     [SerializeField]
@@ -69,6 +72,30 @@ public class CStage : MonoBehaviour
     /// <summary>스테이지 시작</summary>
     public void StartStage()
     {
+        if (isFinalStage)
+        {
+            int ShowEnterTemple = PlayerPrefs.GetInt("ShowEnterTemple");
+
+            if (ShowEnterTemple.Equals(0))
+            {
+                PlayerPrefs.SetInt("ShowEnterTemple", 1);
+                CUIManager_Title._isUseTitle = false;
+                CUIManager_StageSelect.Instance.StartFadeOut();
+                StartCoroutine(WaitFadeOut_FinalStage());
+            }
+            else
+            {
+                EnterScene();
+            }
+        }
+        else
+        {
+            EnterScene();
+        }
+    }
+
+    private void EnterScene()
+    {
         CUIManager_Title._isUseTitle = false;
 
         CUIManager_StageSelect.Instance.StartFadeOut();
@@ -83,6 +110,14 @@ public class CStage : MonoBehaviour
 
         CUIManager_StageSelect.Instance.SetActiveLoading(true);
         SceneManager.LoadScene(_gameSceneName);
+    }
+
+    private IEnumerator WaitFadeOut_FinalStage()
+    {
+        yield return new WaitUntil(() => !CUIManager_StageSelect.Instance.IsFadeInOut);
+
+        CUIManager_StageSelect.Instance.SetActiveLoading(true);
+        SceneManager.LoadScene("SnowStage_Stage8Enter");
     }
 
     /// <summary>해당 방향에 스테이지가 있는지 검사(스테이지가 없을 경우 null을 반환)</summary>
