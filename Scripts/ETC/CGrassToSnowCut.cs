@@ -7,6 +7,7 @@ public class CGrassToSnowCut : MonoBehaviour
 {
     private void Awake()
     {
+        PlayerPrefs.DeleteAll();
         // 0 : True, 1 : False
         int ShowGrassToSnowCut = PlayerPrefs.GetInt("ShowGrassToSnowCut");
 
