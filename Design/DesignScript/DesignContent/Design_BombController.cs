@@ -17,6 +17,7 @@ public class Design_BombController : Design_WorldObjectController
     Design_Bomb2D Actor2DClass;
 
     float BoxSize;
+    bool isShowing;
 
     [HideInInspector]
     public bool bAttachCorgi;
@@ -62,6 +63,7 @@ public class Design_BombController : Design_WorldObjectController
         Corgi = CPlayerManager.Instance;
 
         BoxSize = 8f;
+        isShowing = true;
     }
 
     public override void DesignChange2D()
@@ -90,12 +92,19 @@ public class Design_BombController : Design_WorldObjectController
     {
         if (bUseBomb)
             base.Change3D();
+
+        isShowing = true;
     }
 
     public override void Change2D()
     {
         if (bUseBomb)
             base.Change2D();
+
+        if (IsCanChange2D)
+            isShowing = true;
+        else
+            isShowing = false;
     }
 
     void Update()
@@ -108,10 +117,15 @@ public class Design_BombController : Design_WorldObjectController
             if (bAttachCorgi)
                 CUIManager.Instance.SetActiveBombExplosionUI(false);
             else
-                CUIManager.Instance.SetActiveBombExplosionUI(true);
+            {
+                if (!isShowing)
+                    CUIManager.Instance.SetActiveBombExplosionUI(false);
+                else
+                    CUIManager.Instance.SetActiveBombExplosionUI(true);
+            }
         }
 
-        if (bUseBomb&& CWorldManager.Instance.CurrentWorldState == EWorldState.View3D)                  
+        if (CWorldManager.Instance.CurrentWorldState == EWorldState.View3D)
             CheckInteractionUI();
 
         if (bAttach)
@@ -120,38 +134,46 @@ public class Design_BombController : Design_WorldObjectController
 
     private void CheckInteractionUI()
     {
-        if(_isActiveInteractionUI)
+        if (!bUseBomb)
         {
-            if(CWorldManager.Instance.CurrentWorldState != EWorldState.View3D)
-            {
-                CUIManager.Instance.SetActiveInteractionUI(false);
-                _isActiveInteractionUI = false;
-            }
-            else if(Vector3.Distance(CPlayerManager.Instance.RootObject3D.transform.position, transform.position) > 2.5f)
-            {
-                CUIManager.Instance.SetActiveInteractionUI(false);
-                _isActiveInteractionUI = false;
-            }
-            else if(EPlayerState3D.Idle != CPlayerManager.Instance.Controller3D.CurrentState &&
-                    EPlayerState3D.Idle2 != CPlayerManager.Instance.Controller3D.CurrentState &&
-                    EPlayerState3D.Idle3 != CPlayerManager.Instance.Controller3D.CurrentState &&
-                    EPlayerState3D.Move != CPlayerManager.Instance.Controller3D.CurrentState)
-            {
-                CUIManager.Instance.SetActiveInteractionUI(false);
-                _isActiveInteractionUI = false;
-            }
+            CUIManager.Instance.SetActiveInteractionUI(false);
+            _isActiveInteractionUI = false;
         }
         else
         {
-            if (EPlayerState3D.Idle == CPlayerManager.Instance.Controller3D.CurrentState ||
+            if (_isActiveInteractionUI)
+            {
+                if (CWorldManager.Instance.CurrentWorldState != EWorldState.View3D)
+                {
+                    CUIManager.Instance.SetActiveInteractionUI(false);
+                    _isActiveInteractionUI = false;
+                }
+                else if (Vector3.Distance(CPlayerManager.Instance.RootObject3D.transform.position, transform.position) > 2.5f)
+                {
+                    CUIManager.Instance.SetActiveInteractionUI(false);
+                    _isActiveInteractionUI = false;
+                }
+                else if (EPlayerState3D.Idle != CPlayerManager.Instance.Controller3D.CurrentState &&
+                        EPlayerState3D.Idle2 != CPlayerManager.Instance.Controller3D.CurrentState &&
+                        EPlayerState3D.Idle3 != CPlayerManager.Instance.Controller3D.CurrentState &&
+                        EPlayerState3D.Move != CPlayerManager.Instance.Controller3D.CurrentState)
+                {
+                    CUIManager.Instance.SetActiveInteractionUI(false);
+                    _isActiveInteractionUI = false;
+                }
+            }
+            else
+            {
+                if (EPlayerState3D.Idle == CPlayerManager.Instance.Controller3D.CurrentState ||
                 EPlayerState3D.Idle2 == CPlayerManager.Instance.Controller3D.CurrentState ||
                 EPlayerState3D.Idle3 == CPlayerManager.Instance.Controller3D.CurrentState ||
                 EPlayerState3D.Move == CPlayerManager.Instance.Controller3D.CurrentState)
-            {
-                if (Vector3.Distance(CPlayerManager.Instance.RootObject3D.transform.position, transform.position) <= 2.5f)
                 {
-                    CUIManager.Instance.SetActiveInteractionUI(true);
-                    _isActiveInteractionUI = true;
+                    if (Vector3.Distance(CPlayerManager.Instance.RootObject3D.transform.position, transform.position) <= 2.5f)
+                    {
+                        CUIManager.Instance.SetActiveInteractionUI(true);
+                        _isActiveInteractionUI = true;
+                    }
                 }
             }
         }
@@ -230,18 +252,18 @@ public class Design_BombController : Design_WorldObjectController
                 if (this.transform.parent.gameObject != CPlayerManager.Instance.RootObject3D && this.transform.parent.gameObject != CPlayerManager.Instance.RootObject2D)
                 {
                     this.transform.parent = null;
-                    BeginExplosion();
+                    BeginExplosion(true);
                 }
             }
             else
             {
                 if (WorldManager.CurrentWorldState == EWorldState.View2D)
-                    BeginExplosion();
+                    BeginExplosion(true);
             }
         }
     }
 
-    public void BeginExplosion()
+    public void BeginExplosion(bool isBoom)
     {
         if(null != _bombFireAudioSource)
         {
@@ -250,12 +272,12 @@ public class Design_BombController : Design_WorldObjectController
             _boomSoundRandomPlayer.Play();
         }
 
-        StartCoroutine(ExplosionV2());
+        StartCoroutine(ExplosionV2(isBoom));
         SetIgnitionFireEffect(false);
         DisableBomb();
     }
 
-    IEnumerator ExplosionV2()
+    IEnumerator ExplosionV2(bool isBoom)
     {
         CUIManager.Instance.SetActiveBombExplosionUI(false);
         RootObject3D.GetComponent<MeshRenderer>().enabled = false;
@@ -281,14 +303,14 @@ public class Design_BombController : Design_WorldObjectController
                     {
                         if (WorldManager.CurrentWorldState == EWorldState.View2D)
                         {
-                            DestroyBrokenTile(DestroyActor);
+                            DestroyBrokenTile(DestroyActor, isBoom);
                             IsDestroyActor.Add(DestroyActor);
                         }
                         else
                         {
                             if (Mathf.Abs(Position.z - transform.position.z) < 4)
                             {
-                                DestroyBrokenTile(DestroyActor);
+                                DestroyBrokenTile(DestroyActor, isBoom);
                                 IsDestroyActor.Add(DestroyActor);
                             }
                         }
@@ -297,14 +319,14 @@ public class Design_BombController : Design_WorldObjectController
                     {
                         if (WorldManager.CurrentWorldState == EWorldState.View2D)
                         {
-                            DestroyBrokenTile(DestroyActor);
+                            DestroyBrokenTile(DestroyActor, isBoom);
                             IsDestroyActor.Add(DestroyActor);
                         }
                         else
                         {
                             if (Mathf.Abs(Position.z - transform.position.z) < 4)
                             {
-                                DestroyBrokenTile(DestroyActor);
+                                DestroyBrokenTile(DestroyActor, isBoom);
                                 IsDestroyActor.Add(DestroyActor);
                             }
                         }
@@ -329,11 +351,11 @@ public class Design_BombController : Design_WorldObjectController
         RootObject2D.GetComponent<BoxCollider2D>().isTrigger = false;
     }
 
-    void DestroyBrokenTile(GameObject other)
+    void DestroyBrokenTile(GameObject other, bool isBoom)
     {
         if (other.GetComponentInChildren<Design_BrokenTile>())
         {
-            if (!bUseBomb)
+            if (!bUseBomb && isBoom)
                 other.GetComponentInChildren<Design_BrokenTile>().DestroyBrokenTile();
         }
     }
@@ -444,7 +466,7 @@ public class Design_BombController : Design_WorldObjectController
         IsEndLogic = false;
 
         if (isFall)
-            BeginExplosion();
+            BeginExplosion(false);
         else
             EnableBomb();
     }
