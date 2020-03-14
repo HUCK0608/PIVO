@@ -1845,6 +1845,8 @@ public class CUIManager : MonoBehaviour
             callback();
 
         _isFadeInOrOut = false;
+
+        _blackBG.gameObject.SetActive(false);
     }
 
     #endregion

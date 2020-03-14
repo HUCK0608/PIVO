@@ -47,6 +47,8 @@ public class CWand : MonoBehaviour
         CPlayerManager.Instance.IsCanOperation = true;
         CPlayerManager.Instance.Controller2D.IsUseGravity = true;
         CUIManager.Instance.IsCanOperation = true;
+        CUIManager.Instance.gameObject.SetActive(false);
+        CUIManager.Instance.gameObject.SetActive(true);
         Guide3DMove.SetActive(true);
 
         gameObject.SetActive(false);

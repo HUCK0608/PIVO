@@ -53,6 +53,9 @@ public class CTimelineTrigger : MonoBehaviour
     /// <summary>타임라인 종료 체크</summary>
     private IEnumerator TimelineLogic()
     {
+        // UI 작동 금지
+        CUIManager.Instance.IsCanOperation = false;
+
         // 타임라인 시작 지점으로 자동 이동
         CPlayerManager.Instance.StartAutoMove(_startTimelinePoint.position);
 
