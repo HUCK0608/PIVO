@@ -901,9 +901,6 @@ public class CUIManager : MonoBehaviour
     private void InitPause()
     {
         SetSelectMenu_Pause(0);
-
-        CPlayerManager.Instance.Controller3D.ChangeState(EPlayerState3D.Idle);
-        CPlayerManager.Instance.Controller2D.ChangeState(EPlayerState2D.Idle);
     }
 
     private void PauseLogic()
