@@ -177,6 +177,8 @@ public class Design_EndingCredit : MonoBehaviour
 
     IEnumerator EndingCreditCoroutine_2()
     {
+        CanvasList[1].transform.Find("loading").gameObject.SetActive(false);
+
         yield return new WaitForSeconds(1);
 
         while (ShowLogoValue < 1)
@@ -205,6 +207,13 @@ public class Design_EndingCredit : MonoBehaviour
             EndingLogo.color = new Color(1, 1, 1, ShowLogoValue);
             yield return new WaitForFixedUpdate();
         }
+
+        yield return new WaitForSeconds(0.5f);
+        
+        CanvasList[1].transform.Find("loading").gameObject.SetActive(true);
+        
+        yield return new WaitForSeconds(0.5f);
+
 
         FinishCredit();
     }
