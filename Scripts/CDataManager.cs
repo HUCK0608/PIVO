@@ -25,11 +25,22 @@ public static class CDataManager
     /// <summary>
     /// 데이터 파일이 존재하는지 여부
     /// </summary>
-    /// <param name="file">파일 이름</param>
     /// <returns></returns>
     public static bool IsHaveGameData()
     {
         FileInfo fileInfo = new FileInfo(_fileDirectoryPath + EXmlDocumentNames.GrassStageDatas.ToString("G") + ".xml");
+
+        return fileInfo.Exists;
+    }
+
+    /// <summary>
+    /// 데이터 파일이 존재하는지 여부
+    /// </summary>
+    /// <param name="_file">파일 이름</param>
+    /// <returns></returns>
+    public static bool IsHaveGameData(EXmlDocumentNames _file)
+    {
+        FileInfo fileInfo = new FileInfo(_fileDirectoryPath + _file.ToString("G") + ".xml");
 
         return fileInfo.Exists;
     }

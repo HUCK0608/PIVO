@@ -55,6 +55,11 @@ public class CUIManager_Title : MonoBehaviour
             CDataManager.IsSaveData = false;
         }
 
+        if(!CDataManager.IsHaveGameData(EXmlDocumentNames.Setting))
+        {
+            Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+        }
+
         InitVersion();
     }
 
@@ -386,14 +391,14 @@ public class CUIManager_Title : MonoBehaviour
     /// <summary>옵션 설정 로드</summary>
     private void LoadOptionData()
     {
+        if (!CDataManager.IsHaveGameData(EXmlDocumentNames.Setting))
+            return;
+
         EXmlDocumentNames documentName = EXmlDocumentNames.Setting;
         string nodePath = documentName.ToString("G");
         string[] elementsName = new string[] { "WindowMode", "Resolution", "BGM", "SFX" };
 
         string[] datas = CDataManager.ReadDatas(documentName, nodePath, elementsName);
-
-        if (datas == null)
-            return;
 
         _currentWindowMode = (EWindowMode)int.Parse(datas[0]);
         _selectWindowMode = _currentWindowMode;
