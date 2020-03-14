@@ -299,7 +299,7 @@ public class Design_BombController : Design_WorldObjectController
                 var Position = DestroyActor.transform.position;
                 if (Mathf.Abs(Position.x - transform.position.x) < BoxSize / 2)
                 {
-                    if (Position.y >= transform.position.y && Mathf.Abs(Position.y - transform.position.y) < BoxSize - 3f)
+                    if (Position.y >= transform.position.y && Mathf.Abs(Position.y - transform.position.y) < BoxSize - 4f)
                     {
                         if (WorldManager.CurrentWorldState == EWorldState.View2D)
                         {
