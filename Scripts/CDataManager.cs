@@ -222,4 +222,14 @@ public static class CDataManager
                 fileInfo.Delete();
         }
     }
+
+    public static void DeleteLogFile()
+    {
+        FileInfo fileinfo = new FileInfo(_fileDirectoryPath + "output_log.txt");
+
+        if (fileinfo.Exists)
+        {
+            fileinfo.Delete();
+        }
+    }
 }

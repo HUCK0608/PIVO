@@ -28,6 +28,7 @@ public class CUIManager : MonoBehaviour
     private void Start()
     {
         LoadOptionData();
+        _isOptionInitialize = true;
 
         if (!CUIManager_Title._isUseTitle)
         {
@@ -817,6 +818,7 @@ public class CUIManager : MonoBehaviour
         {
             SoundManager.Instance.StopAll();
             SetActiveLoading(true);
+            CBiscuitManager.Instance.SaveDatas();
             CWorldManager.Instance.StageClearWaitTimeLineScene(CWorldManager.Instance.TimeLineSceneName);
         }
         else
@@ -1014,7 +1016,7 @@ public class CUIManager : MonoBehaviour
 
     #endregion
 
-    #region ReturnToTitle
+    #region StageSelect
 
     [SerializeField]
     private GameObject _returnToTitleGroup = null;
@@ -1080,9 +1082,6 @@ public class CUIManager : MonoBehaviour
     private void InitReturnToTitle()
     {
         SetSelectMenu_ReturnToTitle(0);
-
-        CPlayerManager.Instance.Controller3D.ChangeState(EPlayerState3D.Idle);
-        CPlayerManager.Instance.Controller2D.ChangeState(EPlayerState2D.Idle);
     }
 
     private void ReturnToTitleLogic()
@@ -1224,9 +1223,6 @@ public class CUIManager : MonoBehaviour
     private void InitRestart()
     {
         SetSelectMenu_Restart(0);
-
-        CPlayerManager.Instance.Controller3D.ChangeState(EPlayerState3D.Idle);
-        CPlayerManager.Instance.Controller2D.ChangeState(EPlayerState2D.Idle);
     }
 
     private void RestartLogic()
@@ -1348,14 +1344,17 @@ public class CUIManager : MonoBehaviour
     /// <summary>옵션 설정 로드</summary>
     private void LoadOptionData()
     {
+        if (!CDataManager.IsHaveGameData(EXmlDocumentNames.Setting))
+        {
+            UpdateOptionUI();
+            return;
+        }
+
         EXmlDocumentNames documentName = EXmlDocumentNames.Setting;
         string nodePath = documentName.ToString("G");
         string[] elementsName = new string[] { "WindowMode", "Resolution", "BGM", "SFX" };
 
         string[] datas = CDataManager.ReadDatas(documentName, nodePath, elementsName);
-
-        if (datas == null)
-            return;
 
         _currentWindowMode = (EWindowMode)int.Parse(datas[0]);
         _selectWindowMode = _currentWindowMode;
@@ -1369,8 +1368,6 @@ public class CUIManager : MonoBehaviour
         UpdateOptionUI();
 
         ApplyOption();
-
-        _isOptionInitialize = true;
     }
 
     /// <summary>옵션 메뉴 활성화</summary>
@@ -1671,11 +1668,11 @@ public class CUIManager : MonoBehaviour
 
     ///////////////////////////////////////// Window Mode
     /// <summary>윈도우 모드 Enum</summary>
-    private enum EWindowMode { FullScreen = 0, FullScreenWindow = 1, Windowed };
+    private enum EWindowMode { FullScreenWindow = 0, FullScreen = 1, Windowed };
     /// <summary>현재 윈도우 모드</summary>
-    private EWindowMode _currentWindowMode = EWindowMode.FullScreen;
+    private EWindowMode _currentWindowMode = EWindowMode.FullScreenWindow;
     /// <summary>선택 윈도우 모드</summary>
-    private EWindowMode _selectWindowMode = EWindowMode.FullScreen;
+    private EWindowMode _selectWindowMode = EWindowMode.FullScreenWindow;
 
     /// <summary>윈도우 모드 값 텍스트</summary>
     [SerializeField]
@@ -1843,7 +1840,8 @@ public class CUIManager : MonoBehaviour
 
         _isFadeInOrOut = false;
 
-        _blackBG.gameObject.SetActive(false);
+        if(finalAlpha.Equals(0f))
+            _blackBG.gameObject.SetActive(false);
     }
 
     #endregion

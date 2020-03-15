@@ -64,6 +64,8 @@ public class CStage : MonoBehaviour
     private bool _isUseStarUI = true;
     public bool IsUseStarUI { get { return _isUseStarUI; } }
 
+    private bool _isOnStageStart = false;
+
     private void Awake()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
@@ -72,6 +74,11 @@ public class CStage : MonoBehaviour
     /// <summary>스테이지 시작</summary>
     public void StartStage()
     {
+        if (_isOnStageStart)
+            return;
+
+        _isOnStageStart = true;
+
         if (isFinalStage)
         {
             int ShowEnterTemple = PlayerPrefs.GetInt("ShowEnterTemple");
