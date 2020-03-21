@@ -46,8 +46,13 @@ public class CPushSwitch : MonoBehaviour
 
         while (true)
         {
+            bool isCanInteraction = (CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.Idle) ||
+                                     CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.Idle2) ||
+                                     CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.Idle3) ||
+                                     CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.Move));
+
             // 상호작용 키를 눌렀을 때 상호작용 로직으로 넘어가고 UI 끄기
-            if(Input.GetKeyDown(CKeyManager.InteractionKey) && CPlayerManager.Instance.IsCanOperation && !isPreviousePlayerStateChangeView && !CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.PushEnd))
+            if (Input.GetKeyDown(CKeyManager.InteractionKey) && CPlayerManager.Instance.IsCanOperation && !isPreviousePlayerStateChangeView && !CPlayerManager.Instance.Controller3D.CurrentState.Equals(EPlayerState3D.PushEnd) && isCanInteraction)
             {
                 CUIManager.Instance.SetActiveInteractionUI(false);
                 StartCoroutine(InteractionSwitchLogic());
@@ -60,13 +65,13 @@ public class CPushSwitch : MonoBehaviour
                 break;
             }
             // UI 끄기
-            else if(isOnUi && isPreviousePlayerStateChangeView)
+            else if(isOnUi && (isPreviousePlayerStateChangeView || !isCanInteraction))
             {
                 CUIManager.Instance.SetActiveInteractionUI(false);
                 isOnUi = false;
             }
             // UI 켜기
-            else if(!isOnUi && !isPreviousePlayerStateChangeView)
+            else if(!isOnUi && !isPreviousePlayerStateChangeView && isCanInteraction)
             {
                 CUIManager.Instance.SetActiveInteractionUI(true);
                 isOnUi = true;
