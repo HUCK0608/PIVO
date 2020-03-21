@@ -37,6 +37,14 @@ public class CSoopController2D : MonoBehaviour
             ChangeState(ESoopState.Idle);
     }
 
+    private void OnEnable()
+    {
+        if (CurrentState.Equals(ESoopState.Idle))
+        {
+            _animator.Play("Idle", 0, UnityEngine.Random.Range(0f, 1f));
+        }
+    }
+
     /// <summary>상태 초기화</summary>
     private void InitStates()
     {
