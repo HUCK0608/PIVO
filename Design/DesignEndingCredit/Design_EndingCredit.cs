@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public enum EndingCreditType { None, First, Second }
 
@@ -12,6 +13,9 @@ public class Design_EndingCredit : MonoBehaviour
     private Text TargetText = null;
     private GameObject TargetTextGroup = null;
     private List<GameObject> CanvasList = new List<GameObject>();
+
+    private VideoPlayer DanceVideo = null;
+    private Transform DanceRenderTexture = null;
 
     [SerializeField]
     private EndingCreditType CreditType = EndingCreditType.None;
@@ -37,7 +41,7 @@ public class Design_EndingCredit : MonoBehaviour
         {
             SetCanvasList(1);
             EndingLogo = transform.Find("Canvas_1").Find("LogoImage").GetComponent<RawImage>();
-            TargetText = transform.Find("Canvas_2").Find("Text").GetComponent<Text>();
+            TargetText = transform.Find("Canvas_1").Find("Text").GetComponent<Text>();
 
             EndingLogo.color = new Color(1, 1, 1, 0);
             TargetText.color = new Color(1, 1, 1, 0);
@@ -52,7 +56,11 @@ public class Design_EndingCredit : MonoBehaviour
 
             EndingLogo.color = new Color(1, 1, 1, 0);
 
+            DanceVideo = transform.Find("Canvas_2").transform.Find("DanceVideo").GetComponent<VideoPlayer>();
+            DanceRenderTexture = transform.Find("Canvas_2").transform.Find("DanceRenderTexture");
+
             StartCoroutine(EndingCreditCoroutine_2());
+
         }
     }
 
@@ -88,7 +96,7 @@ public class Design_EndingCredit : MonoBehaviour
 
 
     //-------------------------
-    //CreditCoroutine
+    //CreditCoroutine_1
     //-------------------------
 
     IEnumerator EndingCreditCoroutine_1()
@@ -175,9 +183,19 @@ public class Design_EndingCredit : MonoBehaviour
         bShowTextCoroutine = false;
     }
 
+
+
+
+
+
+    //-------------------------
+    //CreditCoroutine_2
+    //-------------------------
+
     IEnumerator EndingCreditCoroutine_2()
     {
         CanvasList[1].transform.Find("loading").gameObject.SetActive(false);
+        DanceRenderTexture.GetComponent<RawImage>().color = new Color(1, 1, 1, 0);
 
         yield return new WaitForSeconds(1);
 
@@ -188,7 +206,20 @@ public class Design_EndingCredit : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        float UpSpeed = 0.6f;
+        float UpSpeed = 0.0006f * Screen.height;
+
+        float curTime = Time.time;
+        float snapShotTime = Time.time;
+        float showValue = 0;
+        float hideValue = 1;
+        var defaultColorValue = DanceRenderTexture.GetComponent<RawImage>().color;
+
+        float waitBeginVideo = 14f;
+        float fadeOutVideo = 14f;
+
+        float loopTime = fadeOutVideo / Time.deltaTime;
+        int loopCount = 0;
+        
         while (true)
         {
             TargetTextGroup.transform.position += Vector3.up * UpSpeed;
@@ -197,6 +228,26 @@ public class Design_EndingCredit : MonoBehaviour
 
             if (CanvasList[1].transform.Find("TextGroup").Find("END").position.y > CanvasList[1].transform.Find("GoalPos").position.y)
                 break;
+
+            curTime += Time.deltaTime;
+            if (snapShotTime + waitBeginVideo < curTime && !DanceVideo.isPlaying)
+            {
+                DanceVideo.Play();
+            }
+            else if (snapShotTime + waitBeginVideo + 4f < curTime && showValue < 1)
+            {
+                showValue = Mathf.Clamp(showValue + (Time.deltaTime * 0.15f), 0, 1);
+                DanceRenderTexture.GetComponent<RawImage>().color = new Color(defaultColorValue.r, defaultColorValue.g, defaultColorValue.b, showValue);
+            }
+            else if (showValue == 1 && hideValue > 0)
+            {
+                if (DanceVideo.length - fadeOutVideo - 1f < DanceVideo.time)
+                {
+                    loopCount++;
+                    hideValue = Mathf.Clamp(hideValue - (1/loopTime), 0, 1);
+                    DanceRenderTexture.GetComponent<RawImage>().color = new Color(defaultColorValue.r, defaultColorValue.g, defaultColorValue.b, hideValue);
+                }
+            }
         }
 
         while (ShowLogoValue > 0)
