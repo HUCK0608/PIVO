@@ -47,8 +47,6 @@ public class CUIManager_Title : MonoBehaviour
         _maxMenuCount = _defaultMenu.Length;
         _audioSource = GetComponent<AudioSource>();
 
-        CDataManager.DeleteLogFile();
-
         if (!CDataManager.IsHaveGameData())
         {
             _isHaveData = false;
