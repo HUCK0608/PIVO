@@ -5,18 +5,20 @@ using UnityEngine.Audio;
 using System;
 
 public enum EBGMType { None, };
-public enum ESFXType { None,
-                       Corgi_Climb, Corgi_PutEnd,
-                       Soop_Move_0, Soop_Move_1, Soop_PutEnd_0, Soop_PutEnd_1,
-                       ViewChange_Cast, ViewChange_ChangStart, ViewChange_ChangeEnd, ViewChange_Block,
-                       BombFire_0, Boom_0, Boom_1, Boom_2, Boom_3, Boom_4, Boom_5,
-                       BrokenTile_0, BrokenTile_1,
-                       MagicStone_Activate, MagicStone_Idle,
-                       Pipe_1,
-                       StageClear_0, StageClear_1, StageClear_2,
-                       TileButton_0, TileButton_1, TileButton_2,
-
-
+public enum ESFXType 
+{ 
+                        None,
+                        Corgi_Climb, Corgi_PutEnd,
+                        Soop_Move_0, Soop_Move_1, Soop_PutEnd_0, Soop_PutEnd_1,
+                        ViewChange_Cast, ViewChange_ChangStart, ViewChange_ChangeEnd, ViewChange_Block,
+                        BombFire_0, Boom_0, Boom_1, Boom_2, Boom_3, Boom_4, Boom_5,
+                        BrokenTile_0, BrokenTile_1,
+                        MagicStone_Activate, MagicStone_Idle,
+                        Pipe_1,
+                        StageClear_0, StageClear_1, StageClear_2,
+                        TileButton_0, TileButton_1, TileButton_2,
+                        UI_MouseEnter_1, UI_MouseEnter_2, UI_MouseEnter_3, UI_MouseEnter_4, UI_MouseEnter_5,
+                        UI_MouseClick_1, UI_MouseClick_2, UI_MouseClick_3,
 };
 
 public class SoundManager : MonoBehaviour

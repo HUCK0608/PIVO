@@ -21,8 +21,6 @@ public class CUIManager : MonoBehaviour
         _instance = this;
 
         _interactionKeyText.text = CKeyManager.InteractionKey.ToString("G");
-
-        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -47,44 +45,56 @@ public class CUIManager : MonoBehaviour
             if (_returnToTitleGroup.activeSelf)
             {
                 SetActiveReturnToTitle(false);
+                _mouseClickPlayer.Play();
                 return;
             }
             else if (_restartGroup.activeSelf)
             {
                 SetActiveRestart(false);
+                _mouseClickPlayer.Play();
                 return;
             }
             else if (_optionGroup.activeSelf)
             {
                 CancelOption();
+                _mouseClickPlayer.Play();
                 return;
             }
 
             if (!_pauseGroup.activeSelf)
                 SetActivePause(true);
             else
+            {
                 SetActivePause(false);
+                _mouseClickPlayer.Play();
+            }
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
             if (_returnToTitleGroup.activeSelf)
             {
                 SetActiveReturnToTitle(false);
+                _mouseClickPlayer.Play();
                 return;
             }
             else if (_restartGroup.activeSelf)
             {
                 SetActiveRestart(false);
+                _mouseClickPlayer.Play();
                 return;
             }
             else if (_optionGroup.activeSelf)
             {
                 CancelOption();
+                _mouseClickPlayer.Play();
                 return;
             }
 
             if (_pauseGroup.activeSelf)
+            {
                 SetActivePause(false);
+                _mouseClickPlayer.Play();
+            }
         }
 
         if (_stageClear.activeSelf)
@@ -455,7 +465,7 @@ public class CUIManager : MonoBehaviour
     {
         _isSelectRetry = true;
 
-        PlayPointerEnterAudio();
+        _mouseEnterPlayer.Play();
 
         _retryImage.sprite = _glowRetrySprite;
         _stageSelectImage.sprite = _defaultStageSelectSprite;
@@ -466,7 +476,7 @@ public class CUIManager : MonoBehaviour
     {
         _isSelectRetry = false;
 
-        PlayPointerEnterAudio();
+        _mouseEnterPlayer.Play();
 
         _retryImage.sprite = _defaultRetrySprite;
         _stageSelectImage.sprite = _glowStageSelectSprite;
@@ -480,7 +490,7 @@ public class CUIManager : MonoBehaviour
 
         _isEndDeadUI = true;
 
-        PlayPointerUpAudio();
+        _mouseClickPlayer.Play();
 
         System.Action callback = delegate ()
         {
@@ -501,7 +511,7 @@ public class CUIManager : MonoBehaviour
 
         _isEndDeadUI = true;
 
-        PlayPointerUpAudio();
+        _mouseClickPlayer.Play();
 
         System.Action callback = delegate ()
         {
@@ -517,42 +527,10 @@ public class CUIManager : MonoBehaviour
     #endregion
 
     #region Sound
-    private AudioSource _audioSource = null;
-
     [SerializeField]
-    private AudioClip[] _pointerEnterAudioClips = null, _pointerUpAudioClips = null;
-
-    public void PlayPointerEnterAudio()
-    {
-        int randomValue = Random.Range(1, 101);
-
-        if (randomValue <= 20)
-            _audioSource.clip = _pointerEnterAudioClips[0];
-        else if (randomValue <= 40)
-            _audioSource.clip = _pointerEnterAudioClips[1];
-        else if (randomValue <= 60)
-            _audioSource.clip = _pointerEnterAudioClips[2];
-        else if (randomValue <= 80)
-            _audioSource.clip = _pointerEnterAudioClips[3];
-        else
-            _audioSource.clip = _pointerEnterAudioClips[4];
-
-        _audioSource.Play();
-    }
-
-    public void PlayPointerUpAudio()
-    {
-        int randomValue = Random.Range(1, 100);
-
-        if (randomValue <= 33)
-            _audioSource.clip = _pointerUpAudioClips[0];
-        else if (randomValue <= 66)
-            _audioSource.clip = _pointerUpAudioClips[1];
-        else
-            _audioSource.clip = _pointerUpAudioClips[2];
-
-        _audioSource.Play();
-    }
+    private SoundRandomPlayer_SFX _mouseEnterPlayer = null;
+    [SerializeField]
+    private SoundRandomPlayer_SFX _mouseClickPlayer = null;
     #endregion
 
     #region WallPainting
@@ -686,6 +664,7 @@ public class CUIManager : MonoBehaviour
 
     public void UIWallPaintingButtonClick()
     {
+        _mouseClickPlayer.Play();
         SetActivePainting(false);
     }
 
@@ -717,9 +696,11 @@ public class CUIManager : MonoBehaviour
 
     private bool _isOnStageClearUI = false;
 
+    private bool _isExcuteStageClear = false;
+
     private void StageClearLogic()
     {
-        if (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey) || Input.GetKeyDown(KeyCode.Return))
+        if (!_isExcuteStageClear && (Input.GetKeyDown(CKeyManager.ViewChangeExecutionKey) || Input.GetKeyDown(KeyCode.Return)))
             UIStageClearOkButtonClick();
     }
 
@@ -814,6 +795,9 @@ public class CUIManager : MonoBehaviour
 
     public void UIStageClearOkButtonClick()
     {
+        _mouseClickPlayer.Play();
+        _isExcuteStageClear = true;
+
         if (CWorldManager.Instance.IsUseTimeLineScene)
         {
             SoundManager.Instance.StopAll();
@@ -943,7 +927,7 @@ public class CUIManager : MonoBehaviour
                 break;
         }
 
-        PlayPointerEnterAudio();
+        _mouseEnterPlayer.Play();
     }
 
     private void SetSelectResume_Pause(bool active)
@@ -988,7 +972,7 @@ public class CUIManager : MonoBehaviour
                 break;
         }
 
-        PlayPointerEnterAudio();
+        _mouseClickPlayer.Play();
     }
 
     private void ExcuteResume_Pause()
@@ -1110,7 +1094,7 @@ public class CUIManager : MonoBehaviour
             SetSelectNo_ReturnToTitle(true);
         }
 
-        PlayPointerEnterAudio();
+        _mouseEnterPlayer.Play();
     }
 
     private void SetSelectYes_ReturnToTitle(bool active)
@@ -1132,7 +1116,7 @@ public class CUIManager : MonoBehaviour
         else
             ExcuteNo_ReturnToTitle();
 
-        PlayPointerEnterAudio();
+        _mouseClickPlayer.Play();
     }
 
     private void ExcuteYes_ReturnToTitle()
@@ -1251,7 +1235,7 @@ public class CUIManager : MonoBehaviour
             SetSelectNo_Restart(true);
         }
 
-        PlayPointerEnterAudio();
+        _mouseEnterPlayer.Play();
     }
 
     private void SetSelectYes_Restart(bool active)
@@ -1281,7 +1265,7 @@ public class CUIManager : MonoBehaviour
         else
             ExcuteNo_Restart();
 
-        PlayPointerEnterAudio();
+        _mouseClickPlayer.Play();
     }
 
     private void ExcuteYes_Restart()
@@ -1456,7 +1440,7 @@ public class CUIManager : MonoBehaviour
             SetSelectButtonOptionMenu(_currentSelectMenu_OptionMenu);
         }
 
-        PlayPointerUpAudio();
+        _mouseEnterPlayer.Play();
     }
 
     public void InitButtonOptionMenu()
@@ -1495,7 +1479,7 @@ public class CUIManager : MonoBehaviour
             _cancelSelect_OptionMenu.SetActive(false);
         }
 
-        PlayPointerUpAudio();
+        _mouseEnterPlayer.Play();
     }
 
     private void SetActiveApplyButtonOptionMenu(bool value)
@@ -1602,7 +1586,8 @@ public class CUIManager : MonoBehaviour
     {
         ApplyOption_WindowModeWithResolution();
         ApplyOption_Sound();
-        PlayPointerEnterAudio();
+
+        _mouseClickPlayer.Play();
 
         if (_isOptionInitialize)
         {
@@ -1646,7 +1631,7 @@ public class CUIManager : MonoBehaviour
 
         UpdateOptionUI();
 
-        PlayPointerEnterAudio();
+        _mouseClickPlayer.Play();
 
         SetActiveApplyButtonOptionMenu(false);
         SetActiveOption(false);
@@ -1693,7 +1678,7 @@ public class CUIManager : MonoBehaviour
 
         UpdateOptionUI_WindowMode();
 
-        PlayPointerUpAudio();
+        _mouseEnterPlayer.Play();
         SetActiveApplyButtonOptionMenu(true);
     }
 
@@ -1736,7 +1721,7 @@ public class CUIManager : MonoBehaviour
 
         UpdateOptionUI_Resolution();
 
-        PlayPointerUpAudio();
+        _mouseEnterPlayer.Play();
         SetActiveApplyButtonOptionMenu(true);
     }
 
