@@ -186,10 +186,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1095217283, guid: 71eeee054137b68488921171490b0c0a, type: 3}
       propertyPath: m_Text
-      value: 'GameDesign : KimMyungJun
+      value: 'GameDesign : KimMyungJun (@Gyeongommong)
 
 
-        GameDesign : KimHeonJu
+        GameDesign : KimHeonJu (@roulerf_)
 
 
 
