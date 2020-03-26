@@ -185,6 +185,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
                 if(nextStage.IsUnlock)
                     break;
             }
+            Debug.Log("IdleFinal");
 
             yield return null;
         }
@@ -193,7 +194,6 @@ public class CPlayerController_StageSelect : MonoBehaviour
 
         // UI 변경
         CUIManager_StageSelect.Instance.SetStageStatUI(_currentStage);
-
         StartCoroutine(MoveLogic());
     }
 
@@ -214,6 +214,8 @@ public class CPlayerController_StageSelect : MonoBehaviour
 
         while(true)
         {
+            addTime += Time.deltaTime;
+
             if(addTime >= 5f)
             {
                 _rigidbody.velocity = Vector3.zero;
@@ -240,7 +242,6 @@ public class CPlayerController_StageSelect : MonoBehaviour
             if (transform.position.Equals(destination))
                 break;
 
-            addTime += Time.deltaTime;
 
             yield return null;
         }
@@ -255,6 +256,8 @@ public class CPlayerController_StageSelect : MonoBehaviour
     /// <summary>기어오르기 로직</summary>
     private IEnumerator ClimbLogic(RaycastHit hit)
     {
+        Vector3 stagePoint = _currentStage.transform.position;
+
         // 애니메이션 랜덤 재생
         int randAni = Random.Range(0f, 100f) <= _stat.Climb1Percent ? 0 : 1;
 
@@ -274,8 +277,19 @@ public class CPlayerController_StageSelect : MonoBehaviour
         transform.position = origin;
         transform.rotation = Quaternion.LookRotation(-hit.normal);
 
+        float addTime = 0f;
+        bool isError = false;
+
         while(true)
         {
+            addTime += Time.deltaTime;
+            if(addTime >= 5f)
+            {
+                transform.position = stagePoint;
+                isError = true;
+                break;
+            }
+
             _camera.position = _climbCameraPoints[randAni].position;
             _globalFog.height = _camera.position.y + _startGlobalFogHeight;
 
@@ -289,7 +303,8 @@ public class CPlayerController_StageSelect : MonoBehaviour
             yield return null;
         }
 
-        transform.position = destination;
+        if(!isError)
+            transform.position = destination;
 
         _animator.SetInteger("Climb", -1);
     }
