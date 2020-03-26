@@ -185,7 +185,6 @@ public class CPlayerController_StageSelect : MonoBehaviour
                 if(nextStage.IsUnlock)
                     break;
             }
-            Debug.Log("IdleFinal");
 
             yield return null;
         }
