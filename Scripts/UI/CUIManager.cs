@@ -1349,7 +1349,7 @@ public class CUIManager : MonoBehaviour
 
         UpdateOptionUI();
 
-        ApplyOption();
+        ApplyOption_Sound();
     }
 
     /// <summary>옵션 메뉴 활성화</summary>
@@ -1598,6 +1598,9 @@ public class CUIManager : MonoBehaviour
     /// <summary>윈도우 모드 및 해상도 변경</summary>
     private void ApplyOption_WindowModeWithResolution()
     {
+        if (!IsChangeWindowModeOrResolution())
+            return;
+
         _currentWindowMode = _selectWindowMode;
         _currentResolution = _selectResolution;
 
@@ -1607,6 +1610,11 @@ public class CUIManager : MonoBehaviour
             Screen.SetResolution(_resolution1[_currentResolution], _resolution2[_currentResolution], FullScreenMode.FullScreenWindow);
         else
             Screen.SetResolution(_resolution1[_currentResolution], _resolution2[_currentResolution], FullScreenMode.Windowed);
+    }
+
+    private bool IsChangeWindowModeOrResolution()
+    {
+        return (_currentWindowMode != _selectWindowMode) || (_currentResolution != _selectResolution);
     }
 
     /// <summary>사운드 적용</summary>

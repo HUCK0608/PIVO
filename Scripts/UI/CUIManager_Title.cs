@@ -40,6 +40,7 @@ public class CUIManager_Title : MonoBehaviour
     private bool _waitTitleBGM = false;
 
     public static bool _isUseTitle = true;
+    private static bool _isInitOption = false;
 
     private void Awake()
     {
@@ -53,12 +54,7 @@ public class CUIManager_Title : MonoBehaviour
             _loadGameImage.color = Color.black;
             CDataManager.CanSave = false;
         }
-
-        if(!CDataManager.IsHaveGameData(EXmlDocumentNames.Setting))
-        {
-            Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
-        }
-
+        
         InitVersion();
     }
 
@@ -90,9 +86,24 @@ public class CUIManager_Title : MonoBehaviour
         CWorldManager.Instance.ChangeWorld();
 
         StartCoroutine("MainMenuInputLogic");
-
+        
         LoadOptionData();
-        _isOptionInitialize = true;
+
+        if (!_isInitOption)
+        {
+            if (!CDataManager.IsHaveGameData(EXmlDocumentNames.Setting))
+            {
+                Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
+            }
+            else
+            {
+                ApplyOption_WindowModeWithResolution(true);
+            }
+
+            _isInitOption = true;
+        }
+
+        ApplyOption_Sound();
 
         CUIManager.Instance.IsCanOperation = false;
     }
@@ -369,7 +380,6 @@ public class CUIManager_Title : MonoBehaviour
     [SerializeField]
     private GameObject _cancel_OptionMenu = null, _cancelSelect_OptionMenu = null;
 
-    private bool _isOptionInitialize = false;
     private bool _isChangeOption = false;
 
     /// <summary>옵션 설정 저장</summary>
@@ -412,8 +422,6 @@ public class CUIManager_Title : MonoBehaviour
         _selectSFXNormalizedValue = _currentSFXNormalizedValue;
 
         UpdateOptionUI();
-
-        //ApplyOption_Sound();
     }
 
     /// <summary>옵션 메뉴 활성화</summary>
@@ -629,20 +637,18 @@ public class CUIManager_Title : MonoBehaviour
     {
         ApplyOption_WindowModeWithResolution();
         ApplyOption_Sound();
-        PlayPointerEnterAudio();
 
-        if (_isOptionInitialize)
-        {
-            SaveOptionData();
-        }
+        PlayPointerUpAudio();
+
+        SaveOptionData();
 
         SetActiveApplyButtonOptionMenu(false);
     }
 
     /// <summary>윈도우 모드 및 해상도 변경</summary>
-    private void ApplyOption_WindowModeWithResolution()
+    private void ApplyOption_WindowModeWithResolution(bool _isForce = false)
     {
-        if (!IsChangeWindowModeOrResolution())
+        if (!_isForce && !IsChangeWindowModeOrResolution())
             return;
 
         _currentWindowMode = _selectWindowMode;

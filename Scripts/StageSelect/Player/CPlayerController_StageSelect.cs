@@ -143,22 +143,28 @@ public class CPlayerController_StageSelect : MonoBehaviour
     /// <summary>대기 로직</summary>
     private IEnumerator IdleLogic()
     {
+        Vector3 destination = _currentStage.transform.position;
+
         transform.eulerAngles = _idleEulerRotation;
+
+        _animator.SetBool("IsFalling", false);
 
         CStage nextStage = null;
 
         while(true)
         {
+            if(!transform.position.Equals(destination))
+            {
+                transform.position = destination;
+            }
+
+            _camera.position = transform.position;
+
             if(CUIManager_StageSelect.Instance.IsFadeInOut || !IsCanOperation)
             {
                 yield return null;
                 continue;
             }
-
-            if (ApplyGravity())
-                _animator.SetBool("IsFalling", true);
-            else
-                _animator.SetBool("IsFalling", false);
 
             if (Input.GetKeyDown(CKeyManager.StartStageKey) || Input.GetKeyDown(KeyCode.Return))
             {
@@ -212,6 +218,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
             {
                 _rigidbody.velocity = Vector3.zero;
                 transform.position = destination;
+                break;
             }
 
             destination.y = transform.position.y;
@@ -237,6 +244,8 @@ public class CPlayerController_StageSelect : MonoBehaviour
 
             yield return null;
         }
+
+        _rigidbody.velocity = Vector3.zero;
 
         _animator.SetBool("IsMove", false);
 
@@ -292,7 +301,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
 
         for(int i = 0; i < 4; i++)
         {
-            if(Physics.Raycast(_gravityCheckPoints[i].position, Vector3.down, 0.15f))
+            if(Physics.Raycast(_gravityCheckPoints[i].position, Vector3.down, 0.5f))
             {
                 isApplyGravity = false;
                 break;
@@ -303,7 +312,7 @@ public class CPlayerController_StageSelect : MonoBehaviour
         if (isApplyGravity)
         {
             Vector3 newVelocity = Vector3.zero;
-            newVelocity.y = _rigidbody.velocity.y + _stat.Gravity;
+            newVelocity.y = _rigidbody.velocity.y + _stat.Gravity * Time.deltaTime;
             _rigidbody.velocity = newVelocity;
         }
         else
