@@ -89,8 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000000, guid: ef70404da5bad744ea152bd225007141,
-    type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
@@ -5947,6 +5946,46 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
+        type: 3}
+      propertyPath: m_BounceIntensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.9820982
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.8349056
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
+        type: 3}
+      propertyPath: m_Shadows.m_NormalBias
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
+        type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
+        type: 3}
+      propertyPath: m_Shadows.m_Bias
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 3402104626711283906, guid: d66c1074d84512b4385ec2399159b8c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6001,46 +6040,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90.328
-      objectReference: {fileID: 0}
-    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
-        type: 3}
-      propertyPath: m_Intensity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
-        type: 3}
-      propertyPath: m_BounceIntensity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.9820982
-      objectReference: {fileID: 0}
-    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.8349056
-      objectReference: {fileID: 0}
-    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
-        type: 3}
-      propertyPath: m_Shadows.m_NormalBias
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
-        type: 3}
-      propertyPath: m_Shadows.m_Type
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3402104626711283917, guid: d66c1074d84512b4385ec2399159b8c9,
-        type: 3}
-      propertyPath: m_Shadows.m_Bias
-      value: 0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d66c1074d84512b4385ec2399159b8c9, type: 3}
