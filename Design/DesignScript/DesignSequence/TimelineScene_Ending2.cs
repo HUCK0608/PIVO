@@ -9,7 +9,7 @@ public class TimelineScene_Ending2 : MonoBehaviour
 
     void Awake()
     {
-        int TimelineEnding2 = PlayerPrefs.GetInt("TimelineEnding2");
+        int TimelineEnding2 = PlayerPrefs.GetInt("TimelineEnding2", 0);
 
         if (TimelineEnding2.Equals(1))
             LoadSnowStageSelect();
@@ -30,9 +30,8 @@ public class TimelineScene_Ending2 : MonoBehaviour
 
     public void LoadSnowStageSelect()
     {
-        SceneManager.LoadScene("StageSelect_Snow");
-
         PlayerPrefs.SetInt("TimelineEnding2", 1);
+        SceneManager.LoadScene("StageSelect_Snow");
     }
 
     IEnumerator PlayLevelSequence()

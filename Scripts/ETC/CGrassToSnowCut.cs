@@ -7,9 +7,8 @@ public class CGrassToSnowCut : MonoBehaviour
 {
     private void Awake()
     {
-        PlayerPrefs.DeleteAll();
         // 0 : True, 1 : False
-        int ShowGrassToSnowCut = PlayerPrefs.GetInt("ShowGrassToSnowCut");
+        int ShowGrassToSnowCut = PlayerPrefs.GetInt("ShowGrassToSnowCut", 0);
 
         if (ShowGrassToSnowCut.Equals(1))
             LoadSnowStageSelect();
@@ -20,9 +19,8 @@ public class CGrassToSnowCut : MonoBehaviour
 
     public void LoadSnowStageSelect()
     {
-        SceneManager.LoadScene("StageSelect_Snow");
-
         PlayerPrefs.SetInt("ShowGrassToSnowCut", 1);
+        SceneManager.LoadScene("StageSelect_Snow");
     }
 
     IEnumerator PlayLevelSequence()

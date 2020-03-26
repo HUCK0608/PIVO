@@ -15,7 +15,7 @@ public class TimelineScene_Ending : MonoBehaviour
 
     void Awake()
     {
-        int TimelineEnding = PlayerPrefs.GetInt("TimelineEnding");
+        int TimelineEnding = PlayerPrefs.GetInt("TimelineEnding", 0);
         InitializeColor();
 
         if (TimelineEnding.Equals(1))
@@ -25,9 +25,8 @@ public class TimelineScene_Ending : MonoBehaviour
     }
     public void LoadSnowStageSelect()
     {
-        SceneManager.LoadScene("StageSelect_Snow");
-
         PlayerPrefs.SetInt("TimelineEnding", 1);
+        SceneManager.LoadScene("StageSelect_Snow");
     }
 
     IEnumerator PlayLevelSequence()
