@@ -203,9 +203,17 @@ public class CPlayerController_StageSelect : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(direction.normalized);
 
         _animator.SetBool("IsMove", true);
-        
+
+        float addTime = 0f;
+
         while(true)
         {
+            if(addTime >= 5f)
+            {
+                _rigidbody.velocity = Vector3.zero;
+                transform.position = destination;
+            }
+
             destination.y = transform.position.y;
             transform.position = Vector3.MoveTowards(transform.position, destination, _stat.MoveSpeed * Time.deltaTime);
             _camera.position = transform.position;
@@ -217,11 +225,15 @@ public class CPlayerController_StageSelect : MonoBehaviour
                 _animator.SetBool("IsFalling", false);
 
             RaycastHit hit;
-            if (Physics.Raycast(_climbCheckPoint.position, transform.forward, out hit, 0.5f))
+            if (Physics.Raycast(_climbCheckPoint.position, transform.forward, out hit, 1f))
+            {
                 yield return StartCoroutine(ClimbLogic(hit));
+            }
 
             if (transform.position.Equals(destination))
                 break;
+
+            addTime += Time.deltaTime;
 
             yield return null;
         }
