@@ -8,18 +8,17 @@ public class TimelineScene_4To5Cut : MonoBehaviour
 {
     void Awake()
     {
-        int Show4To5Cut = PlayerPrefs.GetInt("Show4To5Cut");
+        int Show4To5Cut = PlayerPrefs.GetInt("Show4To5Cut" , 0);
 
         if (Show4To5Cut.Equals(1))
             LoadSnowStageSelect();
-        else
+        else if(Show4To5Cut.Equals(0))
             StartCoroutine(PlayLevelSequence());
     }
     public void LoadSnowStageSelect()
     {
-        SceneManager.LoadScene("StageSelect_Snow");
-
         PlayerPrefs.SetInt("Show4To5Cut", 1);
+        SceneManager.LoadScene("StageSelect_Snow");
     }
 
     IEnumerator PlayLevelSequence()
