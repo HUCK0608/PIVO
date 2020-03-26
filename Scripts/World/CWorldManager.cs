@@ -186,24 +186,20 @@ public class CWorldManager : MonoBehaviour
             _worldObjects[i].IsCanChange2D = true;
     }
 
-    /// <summary>스테이지 클리어</summary>
-    public void StageClear()
+    public void SaveDatas()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
         string[] scenePaths = currentSceneName.Split('_');     // 0 : Season, 1 : Stage_x
-        string stageSelectScenePath = null;
 
         // 파일 이름 지정
         EXmlDocumentNames documentName = EXmlDocumentNames.None;
         if (scenePaths[0].Equals("GrassStage"))
         {
             documentName = EXmlDocumentNames.GrassStageDatas;
-            stageSelectScenePath = "StageSelect_Grass";
         }
         else if (scenePaths[0].Equals("SnowStage"))
         {
             documentName = EXmlDocumentNames.SnowStageDatas;
-            stageSelectScenePath = "StageSelect_Snow";
         }
 
         // 저장에 필요한 변수 설정
@@ -215,7 +211,26 @@ public class CWorldManager : MonoBehaviour
         CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
         // 데이터 저장
         CDataManager.SaveCurrentXmlDocument();
+    }
 
+    /// <summary>스테이지 클리어</summary>
+    public void StageClear()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        string[] scenePaths = currentSceneName.Split('_');     // 0 : Season, 1 : Stage_x
+        string stageSelectScenePath = null;
+
+        // 파일 이름 지정
+        if (scenePaths[0].Equals("GrassStage"))
+        {
+            stageSelectScenePath = "StageSelect_Grass";
+        }
+        else if (scenePaths[0].Equals("SnowStage"))
+        {
+            stageSelectScenePath = "StageSelect_Snow";
+        }
+
+        // 사운드 정지
         SoundManager.Instance.StopAll();
         // 스테이지 선택씬 로드
         SceneManager.LoadScene(stageSelectScenePath);
@@ -224,30 +239,8 @@ public class CWorldManager : MonoBehaviour
     /// <summary>스테이지 클리어 후 타임라인이 들어있는 씬을 플레이하기 위해서 추가</summary>
     public void StageClearWaitTimeLineScene(string TimeLineSceneName)
     {
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        string[] scenePaths = currentSceneName.Split('_');     // 0 : Season, 1 : Stage_x
-
-        // 파일 이름 지정
-        EXmlDocumentNames documentName = EXmlDocumentNames.None;
-        if (scenePaths[0].Equals("GrassStage"))
-        {
-            documentName = EXmlDocumentNames.GrassStageDatas;
-        }
-        else if (scenePaths[0].Equals("SnowStage"))
-        {
-            documentName = EXmlDocumentNames.SnowStageDatas;
-        }
-
-        // 저장에 필요한 변수 설정
-        string nodePath = documentName.ToString("G") + "/StageDatas/" + currentSceneName;
-        string[] elementsName = new string[] { "IsClear" };
-        string[] datas = new string[] { "True" };
-
-        // 데이터 쓰기
-        CDataManager.WritingDatas(documentName, nodePath, elementsName, datas);
-        // 데이터 저장
-        CDataManager.SaveCurrentXmlDocument();
-
+        // 사운드 정지
+        SoundManager.Instance.StopAll();
         // 타임라인을 실행할 씬 틀기
         SceneManager.LoadScene(TimeLineSceneName);
     }

@@ -51,7 +51,7 @@ public class CUIManager_Title : MonoBehaviour
         {
             _isHaveData = false;
             _loadGameImage.color = Color.black;
-            CDataManager.IsSaveData = false;
+            CDataManager.CanSave = false;
         }
 
         if(!CDataManager.IsHaveGameData(EXmlDocumentNames.Setting))
@@ -253,7 +253,7 @@ public class CUIManager_Title : MonoBehaviour
         CPlayerManager.Instance.IsCanOperation = true;
         
         CWorldManager.Instance.PlayBGM();
-        CDataManager.IsSaveData = true;
+        CDataManager.CanSave = true;
 
         yield return new WaitUntil(() => _waitTitleBGM);
 

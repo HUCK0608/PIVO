@@ -717,7 +717,7 @@ public class CUIManager : MonoBehaviour
             SetActivePause(false, false);
             SetActiveReturnToTitle(false);
             SetActiveRestart(false);
-            CancelOption();
+            CancelOption(false);
         }
 
         _isOnStageClearUI = active;
@@ -802,14 +802,12 @@ public class CUIManager : MonoBehaviour
         {
             SoundManager.Instance.StopAll();
             SetActiveLoading(true);
-            CBiscuitManager.Instance.SaveDatas();
             CWorldManager.Instance.StageClearWaitTimeLineScene(CWorldManager.Instance.TimeLineSceneName);
         }
         else
         {
             SoundManager.Instance.StopAll();
             SetActiveLoading(true);
-            CBiscuitManager.Instance.SaveDatas();
             CWorldManager.Instance.StageClear();
         }
     }
@@ -1623,7 +1621,7 @@ public class CUIManager : MonoBehaviour
     }
 
     /// <summary>옵션 적용 취소</summary>
-    public void CancelOption()
+    public void CancelOption(bool _bUseSound = true)
     {
         CancelWindowMode();
         CancelResolution();
@@ -1631,7 +1629,8 @@ public class CUIManager : MonoBehaviour
 
         UpdateOptionUI();
 
-        _mouseClickPlayer.Play();
+        if(_bUseSound)
+            _mouseClickPlayer.Play();
 
         SetActiveApplyButtonOptionMenu(false);
         SetActiveOption(false);

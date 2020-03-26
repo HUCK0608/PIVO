@@ -77,11 +77,14 @@ public class CTimelineTrigger : MonoBehaviour
         _playableDirector.gameObject.SetActive(true);
         // 타임라인 시작
         _playableDirector.Play();
-        // 타임라인이 끝날때까지 대기
-        yield return new WaitUntil(() => _playableDirector.time >= _timelineEndTime);
 
-        //화면이 완전히 암전되는 것을 기다리기 위해서 사용
-        yield return new WaitForSeconds(1.0f);
+        CWorldManager.Instance.SaveDatas();
+        CBiscuitManager.Instance.SaveDatas();
+
+        yield return null;
+        // 타임라인이 끝날때까지 대기
+        yield return new WaitUntil(() => _playableDirector.state != PlayState.Playing);
+
         // 클리어 UI 활성화
         CUIManager.Instance.SetActiveStageClear(true);
     }
