@@ -6,7 +6,7 @@
 		_MainTex2("2D_Texture", 2D) = "white" {}
 		[Toggle]_IsUse2DTexture("IsUse2DTexture", float) = 0
 		_Amount ("흔들리는 정도", Range(0,1)) = 0.1
-		_Range("버텍스컬러 범위", Range(0,1)) = 0.5
+		_Range("버텍스컬러 범위", Range(0,1)) = 0
 
 	}
 		SubShader
@@ -25,15 +25,18 @@
         {
             float2 uv_MainTex;
 			float2 uv_MainTex2;
+			float4 vertex:POSITION;
 			float4 color : COLOR;
 		};
 
 		float _Amount;
 		float _Range;
 		float _IsUse2DTexture;
+		
 
 		void vert(inout appdata_full v)
 		{
+
 			v.color.rgb = 0;
 			v.color.r += v.vertex.y + _Range;
 
