@@ -43,22 +43,22 @@ public class CSoopStat : MonoBehaviour
     public Transform PutPoint { get { return _putPoint; } }
 
 #if UNITY_EDITOR
-    //private void OnDrawGizmos()
-    //{
-    //    // 탐지범위 그리기
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireCube(DetectionAreaPosition, _detectionAreaSize);
-    //}
+    private void OnDrawGizmos()
+    {
+        // 탐지범위 그리기
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(DetectionAreaPosition, _detectionAreaSize);
+    }
 
-    //private void Update()
-    //{
-    //    if (!Application.isPlaying)
-    //    {
-    //        int directionToInt = _isSoopDirectionRight ? 1 : -1;
+    private void Update()
+    {
+        if (!Application.isPlaying)
+        {
+            int directionToInt = _isSoopDirectionRight ? 1 : -1;
 
-    //        transform.Find("Root3D").localEulerAngles = new Vector3(0f, 90f * directionToInt, 0f);
-    //        transform.Find("Root2D").localScale = new Vector3(-1f * directionToInt, 1f, 1f);
-    //    }
-    //}
+            transform.Find("Root3D").localEulerAngles = new Vector3(0f, 90f * directionToInt, 0f);
+            transform.Find("Root2D").localScale = new Vector3(-1f * directionToInt, 1f, 1f);
+        }
+    }
 #endif
 }
