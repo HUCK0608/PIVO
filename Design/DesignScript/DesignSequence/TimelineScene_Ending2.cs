@@ -25,7 +25,8 @@ public class TimelineScene_Ending2 : MonoBehaviour
         CWorldManager.Instance.ChangeWorld();
 
         CCameraController.Instance.gameObject.SetActive(false);
-        CUIManager.Instance.transform.Find("Static").gameObject.SetActive(false);
+        if (CUIManager.Instance != null)
+            CUIManager.Instance.transform.Find("Static").gameObject.SetActive(false);
     }
 
     public void LoadSnowStageSelect()

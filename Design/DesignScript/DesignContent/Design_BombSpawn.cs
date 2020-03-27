@@ -85,7 +85,7 @@ public class Design_BombSpawn : Design_WorldObjectController
     IEnumerator RiseBomb()
     {
         CurBomb.transform.position = transform.position;
-        float TargetPositionY = transform.position.y + 2f;
+        float TargetPositionY = transform.position.y + 1.8f;
         float TargetLeftDoorX = transform.position.x - 1.2f;
         float TargetDefaultLeftDoorX = LeftDoor.transform.position.x;
         float TargetDefaultRightDoorX = RightDoor.transform.position.x;
