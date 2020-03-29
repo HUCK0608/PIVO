@@ -37,6 +37,7 @@ public class TimelineScene_Ending : MonoBehaviour
         yield return new WaitUntil(() => LevelSequence.time >= TargetDuration);
 
         InitializeColor();
+        PlayerPrefs.SetInt("TimelineEnding", 1);
         SceneManager.LoadScene("SnowStage_Ending");
     }
 
