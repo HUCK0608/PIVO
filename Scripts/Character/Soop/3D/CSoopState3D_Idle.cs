@@ -20,8 +20,6 @@ public class CSoopState3D_Idle : CSoopState3D
     {
         base.InitState();
 
-        Controller3D.LookDirection(Controller3D.Manager.Stat.IsSoopDirectionRight ? Vector3.right : Vector3.left);
-
         _emoticonPoint.position = transform.position + new Vector3(1.4f, 2.5f);
         _sleepEmoticon.position = Camera.main.WorldToScreenPoint(_emoticonPoint.position);
         _sleepEmoticon.gameObject.SetActive(true);
@@ -40,6 +38,8 @@ public class CSoopState3D_Idle : CSoopState3D
 
     private void Update()
     {
+        Controller3D.LookDirection(Controller3D.Manager.Stat.IsSoopDirectionRight ? Vector3.right : Vector3.left);
+
         if (false == CSoopManager._isCanUseEmoticon)
         {
             if (_sleepEmoticon.gameObject.activeSelf)
