@@ -64,8 +64,9 @@ public class Design_MovingActor : CWorldObject
     {
         TargetNum = 0;
         SwitchOn = false;
-        MoveSpeed = MoveSpeed * 0.1f;
+        MoveSpeed = MoveSpeed * 6f;
         DefaultWait = 0.2f;
+
     }
 
 
@@ -96,11 +97,11 @@ public class Design_MovingActor : CWorldObject
             }
 
             if (transform.position != FirstTarget)
-                transform.position = Vector3.MoveTowards(transform.position, FirstTarget, MoveSpeed);
+                transform.position = Vector3.MoveTowards(transform.position, FirstTarget, MoveSpeed * Time.deltaTime);
             else if (transform.position != SecondTarget)
-                transform.position = Vector3.MoveTowards(transform.position, SecondTarget, MoveSpeed);
+                transform.position = Vector3.MoveTowards(transform.position, SecondTarget, MoveSpeed * Time.deltaTime);
             else if (transform.position != MovePosArray[TargetNum])
-                transform.position = Vector3.MoveTowards(transform.position, MovePosArray[TargetNum], MoveSpeed);
+                transform.position = Vector3.MoveTowards(transform.position, MovePosArray[TargetNum], MoveSpeed * Time.deltaTime);
             else
                 SwitchOn = false;
 

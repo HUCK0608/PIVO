@@ -18,7 +18,7 @@ public class Design_RandomTileManager : MonoBehaviour
 
     void Start()
     {
-        MoveSpeed = 100f;//0.8f
+        MoveSpeed = 60f;//100f;//0.8f
         RandomRange = 5f;//5f
         WaitTileTime = 0.15f;//0.15f
 
