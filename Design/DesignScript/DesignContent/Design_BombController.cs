@@ -141,6 +141,9 @@ public class Design_BombController : Design_WorldObjectController
         }
         else
         {
+            Vector3 B2PNormal = (transform.position - CPlayerManager.Instance.RootObject3D.transform.position).normalized;
+            Vector3 CompareForward = CPlayerManager.Instance.RootObject3D.transform.forward - B2PNormal;
+            float CompareAngle = Mathf.Abs(CompareForward.x + CompareForward.z);
             if (_isActiveInteractionUI)
             {
                 if (CWorldManager.Instance.CurrentWorldState != EWorldState.View3D)
@@ -161,6 +164,11 @@ public class Design_BombController : Design_WorldObjectController
                     CUIManager.Instance.SetActiveInteractionUI(false);
                     _isActiveInteractionUI = false;
                 }
+                else if (0.6f <= CompareAngle)
+                {
+                    CUIManager.Instance.SetActiveInteractionUI(false);
+                    _isActiveInteractionUI = false;
+                }
             }
             else
             {
@@ -171,8 +179,11 @@ public class Design_BombController : Design_WorldObjectController
                 {
                     if (Vector3.Distance(CPlayerManager.Instance.RootObject3D.transform.position, transform.position) <= 2.5f)
                     {
-                        CUIManager.Instance.SetActiveInteractionUI(true);
-                        _isActiveInteractionUI = true;
+                        if (0.6f > CompareAngle)
+                        {
+                            CUIManager.Instance.SetActiveInteractionUI(true);
+                            _isActiveInteractionUI = true;
+                        }
                     }
                 }
             }
