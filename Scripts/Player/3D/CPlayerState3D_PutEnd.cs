@@ -22,6 +22,8 @@ public class CPlayerState3D_PutEnd : CPlayerState3D
         {
             CPlayerManager.Instance.Stat.Hp -= 1;
             _bIsHit = true;
+
+            CSteamAchievementManager.Instance.UpdateAchievment(CSteamAchievementManager.eSteamAchievementType.CORGI_DAMAGE_SOOP);
         }
 
         if (currentAnimatorStateInfo.IsName("PutEnd") && currentAnimatorStateInfo.normalizedTime >= 1f)

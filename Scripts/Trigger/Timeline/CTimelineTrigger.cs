@@ -81,6 +81,8 @@ public class CTimelineTrigger : MonoBehaviour
         CWorldManager.Instance.SaveDatas();
         CBiscuitManager.Instance.SaveDatas();
 
+        CSteamAchievementManager.Instance.UpdateAchievment(CSteamAchievementManager.eSteamAchievementType.STAGE_CLEAR_WINTER_8);
+
         yield return null;
         // 타임라인이 끝날때까지 대기
         yield return new WaitUntil(() => _playableDirector.state != PlayState.Playing);

@@ -67,8 +67,6 @@ public class SoundManager : MonoBehaviour
 
         _instance = this;
         _isInitialize = true;
-
-        DontDestroyOnLoad(this.gameObject);
     }
 
     private void InitBGM()

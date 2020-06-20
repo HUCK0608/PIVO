@@ -268,6 +268,8 @@ public class CUIManager_Title : MonoBehaviour
 
         yield return new WaitUntil(() => _waitTitleBGM);
 
+        CSteamAchievementManager.Instance.UpdateAchievment(CSteamAchievementManager.eSteamAchievementType.STAGE_START_SPRING_1);
+
         gameObject.SetActive(false);
     }
 

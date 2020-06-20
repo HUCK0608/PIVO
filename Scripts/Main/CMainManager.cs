@@ -15,6 +15,17 @@ public class CMainManager : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(CoProgress());
+    }
+
+    private IEnumerator CoProgress()
+    {
+        yield return new WaitForSeconds(1f);
+
+        CSteamAchievementManager.Instance.Initialize();
+
+        yield return new WaitForSeconds(1f);
+
         SceneManager.LoadScene("GrassStage_Stage1");
     }
 }

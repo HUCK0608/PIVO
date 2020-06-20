@@ -2,6 +2,13 @@
 
 public class CPlayerState3D_Idle3 : CPlayerState3D
 {
+    public override void InitState()
+    {
+        base.InitState();
+
+        CIdleSpecialCountManager.CountUp();
+    }
+
     private void Update()
     {
         float vertical = Input.GetAxis(CString.Vertical);

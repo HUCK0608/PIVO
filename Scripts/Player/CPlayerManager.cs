@@ -35,6 +35,8 @@ public class CPlayerManager : CCharacter
     /// <summary>탐지 숲숲이 리스트</summary>
     private List<GameObject> _detectionSoopList = new List<GameObject>();
 
+    private bool m_bInitialize = false;
+
     /// <summary>탐지 숲숲이 등록</summary>
     public void RegisterDetectionSoop(GameObject detectionSoop)
     {
@@ -71,6 +73,8 @@ public class CPlayerManager : CCharacter
     private void Start()
     {
         Change3D();
+
+        m_bInitialize = true;
     }
 
     public override void Change2D()
@@ -85,7 +89,7 @@ public class CPlayerManager : CCharacter
         base.Change3D();
 
         // 땅이아니면 Holding 상태로 변경
-        if (!Controller3D.IsGrounded())
+        if (true == m_bInitialize && !Controller3D.IsGrounded())
             Controller3D.ChangeState(EPlayerState3D.Holding);
 
         _effect.MoveDustEffect_ChangeState(EWorldState.View3D);

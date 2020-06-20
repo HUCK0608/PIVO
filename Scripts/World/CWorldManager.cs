@@ -70,6 +70,22 @@ public class CWorldManager : MonoBehaviour
     {
         if(_isUseBGM)
             PlayBGM();
+
+        InitSteamAchievement();
+    }
+
+    private void InitSteamAchievement()
+    {
+        Scene activeScene = SceneManager.GetActiveScene();
+
+        if(activeScene.name == "SnowStage_Stage1")
+        {
+            CSteamAchievementManager.Instance.UpdateAchievment(CSteamAchievementManager.eSteamAchievementType.STAGE_START_WINTER_1);
+        }
+        if (activeScene.name == "SnowStage_Stage8")
+        {
+            CSteamAchievementManager.Instance.UpdateAchievment(CSteamAchievementManager.eSteamAchievementType.STAGE_START_WINTER_8);
+        }
     }
 
     /// <summary>월드 오브젝트 등록</summary>

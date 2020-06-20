@@ -16,6 +16,8 @@ public class CPlayerState3D_Holding : CPlayerState3D
         Controller3D.IsUseGravity = false;
 
         _holdingAddTime = 0f;
+
+        CSteamAchievementManager.Instance.UpdateAchievment(CSteamAchievementManager.eSteamAchievementType.CORGI_HOLDING);
     }
 
     private void Update()
@@ -38,6 +40,8 @@ public class CPlayerState3D_Holding : CPlayerState3D
             _viewChangeCapsuleEffect.SetActive(true);
             Controller3D.ChangeState(EPlayerState3D.Idle);
             CCameraController.Instance.MoveLast2DPosition();
+
+            CSteamAchievementManager.Instance.UpdateAchievment(CSteamAchievementManager.eSteamAchievementType.CORGI_HOLDING_CHANGE);
         }
     }
 

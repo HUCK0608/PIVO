@@ -76,7 +76,7 @@ public class SteamManager : MonoBehaviour
 		}
 
 		// We want our SteamManager Instance to persist across scenes.
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
 
 		if (!Packsize.Test())
 		{

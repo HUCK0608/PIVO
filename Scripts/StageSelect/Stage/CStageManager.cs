@@ -32,6 +32,9 @@ public class CStageManager : MonoBehaviour
         InitStages();
         LoadStageDatas();
         InitUnlock();
+        SaveStageDatas();
+
+        CSteamAchievementManager.Instance.UpdateAchievment(CSteamAchievementManager.eSteamAchievementType.ALL_STAGE_PERFECTCLEAR);
     }
 
     private void Start()
