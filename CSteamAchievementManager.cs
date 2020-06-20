@@ -236,27 +236,27 @@ public class CSteamAchievementManager : MonoBehaviour
     }
 
 
-    // For Cheat
-#if UNITY_EDITOR
-    private void Update()
-    { 
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            ClearAllAchievement();
-        }
-    }
+//    // For Cheat
+//#if UNITY_EDITOR
+//    private void Update()
+//    { 
+//        if(Input.GetKeyDown(KeyCode.A))
+//        {
+//            ClearAllAchievement();
+//        }
+//    }
 
-    private void ClearAllAchievement()
-    {
-        m_dicTable.Clear();
+//    private void ClearAllAchievement()
+//    {
+//        m_dicTable.Clear();
 
-        eSteamAchievementType[] arrSteamAchievementType = (eSteamAchievementType[])System.Enum.GetValues(typeof(eSteamAchievementType));
+//        eSteamAchievementType[] arrSteamAchievementType = (eSteamAchievementType[])System.Enum.GetValues(typeof(eSteamAchievementType));
 
-        foreach (eSteamAchievementType eSteamAchievementType in arrSteamAchievementType)
-        {
-            SteamUserStats.ClearAchievement(eSteamAchievementType.ToString());
-            SteamUserStats.StoreStats();
-        }
-    }
-#endif
+//        foreach (eSteamAchievementType eSteamAchievementType in arrSteamAchievementType)
+//        {
+//            SteamUserStats.ClearAchievement(eSteamAchievementType.ToString());
+//            SteamUserStats.StoreStats();
+//        }
+//    }
+//#endif
 }
